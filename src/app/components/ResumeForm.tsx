@@ -65,7 +65,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onUpdate)} className="space-y-6">
+    <form onSubmit={handleSubmit(onUpdate)} className="space-y-6 max-w-7xl mx-auto">
       <Card className="bg-gradient-to-r from-blue-100 to-indigo-100">
         <CardHeader>
           <CardTitle className="text-2xl text-blue-800">Personal Information</CardTitle>
