@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { PlusCircle, Trash2, Upload } from "lucide-react"
+import { PlusCircle, Trash2 } from "lucide-react"
 
 type ResumeFormProps = {
   onUpdate: (data: ResumeData) => void
