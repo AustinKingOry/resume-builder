@@ -67,7 +67,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     doc.setFont("helvetica", "normal")
     doc.setFontSize(14)
     doc.setTextColor(100, 100, 100)
-    const title = "PROFESSIONAL RESUME"
+    const title = data.personalInfo?.title?.toUpperCase() || "PROFESSIONAL RESUME"
     const titleWidth = doc.getTextWidth(title)
     doc.text(title, (pageWidth - titleWidth) / 2, yPos)
     yPos += 10
@@ -157,7 +157,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       doc.text(edu.school, leftColX, yPos)
       yPos += 5
       doc.setFont("helvetica", "italic")
-      doc.text(edu.date, leftColX, yPos)
+      doc.text((edu.startDate + " - "+edu.endDate), leftColX, yPos)
       yPos += 10
     })
 
@@ -215,9 +215,9 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       doc.text(exp.title, rightColX, yPos)
 
       // Date aligned to the right
-      const dateWidth = doc.getTextWidth(exp.date)
+      const dateWidth = doc.getTextWidth(exp.startDate + " - " + exp.endDate)
       doc.setFont("helvetica", "italic")
-      doc.text(exp.date, pageWidth - margin - dateWidth, yPos)
+      doc.text((exp.startDate + " - " + exp.endDate), pageWidth - margin - dateWidth, yPos)
       yPos += 5
 
       // Company
@@ -289,7 +289,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
               alt={data.personalInfo?.name || "Profile"}
               width={100}
               height={100}
-              className="rounded-full"
+              className="rounded-full flex-shrink-0"
               unoptimized
             />
           )}
@@ -341,7 +341,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                 <h4 className="font-semibold text-blue-600">
                   {exp.title || "Job Title"} at {exp.company || "Company"}
                 </h4>
-                <p className="text-sm text-gray-500">{exp.date || "Date"}</p>
+                <p className="text-sm text-gray-500">{exp.startDate + " - " + exp.endDate || "Date"}</p>
                 <p className="text-gray-700">{exp.description || "No description provided"}</p>
               </div>
             ))
@@ -361,7 +361,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
               <div key={index} className="mb-2">
                 <h4 className="font-semibold text-blue-600">{edu.degree || "Degree"}</h4>
                 <p className="text-gray-700">
-                  {edu.school || "School"} - {edu.date || "Date"}
+                  {edu.school || "School"} - {edu.startDate + " - " + edu.endDate || "Date"}
                 </p>
               </div>
             ))
