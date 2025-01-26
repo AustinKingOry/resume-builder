@@ -1,28 +1,47 @@
 export type ResumeData = {
-  personalInfo: {
-    name: string
-    email: string
-    phone: string
-    location: string
-    photo: string
-    socialMedia: {
-      linkedin?: string
-      twitter?: string
-      github?: string
+    personalInfo: {
+      name: string
+      title: string
+      email: string
+      phone: string
+      location: string
+      website: string
+      photo: string
+      socialMedia: {
+        linkedin?: string
+        twitter?: string
+        github?: string
+      }
     }
+    summary: string
+    experience: {
+      title: string
+      company: string
+      startDate: string
+      endDate: string
+      location: string
+      description: string
+      current: boolean
+    }[]
+    education: {
+      degree: string
+      school: string
+      startDate: string
+      endDate: string
+      location: string
+      description: string
+    }[]
+    skills: string[]
+    skillLevels: {
+      [skill: string]: number
+    }
+    certifications: {
+      name: string
+      issuer: string
+      date: string
+      expiry: string
+      id: string
+    }[]
   }
-  summary: string
-  experience: {
-    title: string
-    company: string
-    date: string
-    description: string
-  }[]
-  education: {
-    degree: string
-    school: string
-    date: string
-  }[]
-  skills: string[]
-}
-
+  
+  
