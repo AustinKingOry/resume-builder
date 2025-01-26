@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import type { ResumeData } from "../types"
 import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
@@ -12,6 +13,8 @@ type ResumePreviewProps = {
 }
 
 export default function ResumePreview({ data }: ResumePreviewProps) {
+  const [pdfError, setPdfError] = useState<string | null>(null)
+
   const exportToPDF = async () => {
     const doc = new jsPDF()
     const pageWidth = doc.internal.pageSize.getWidth()
@@ -21,17 +24,23 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     // Add photo if it exists
     if (data.personalInfo?.photo) {
       try {
-        const img = new Image()
-        img.crossOrigin = "anonymous"
-        await new Promise((resolve, reject) => {
-          img.onload = resolve
-          img.onerror = reject
-          img.src = data.personalInfo.photo
-        })
-        // Add photo to the top right
-        doc.addImage(img, "JPEG", pageWidth - margin - 30, margin, 30, 30, undefined, "FAST")
+        if (typeof window !== "undefined") {
+          const img = new window.Image()
+          img.crossOrigin = "anonymous"
+          await new Promise((resolve, reject) => {
+            img.onload = resolve
+            img.onerror = reject
+            img.src = data.personalInfo.photo
+          })
+          // Add photo to the top right
+          doc.addImage(img, "JPEG", pageWidth - margin - 30, margin, 30, 30, undefined, "FAST")
+        } else {
+          console.warn("Unable to load image in non-browser environment")
+        }
       } catch (error) {
         console.error("Error loading image:", error)
+        setPdfError("Failed to load profile image. PDF generated without image.")
+        // Continue with PDF generation without the image
       }
     }
 
@@ -54,7 +63,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     yPos += 20
 
     // Draw a horizontal line with a blue gradient
-    const gradient = doc.setDrawColor(41, 65, 171)
+    doc.setDrawColor(41, 65, 171)
     doc.setLineWidth(0.5)
     doc.line(margin, yPos, pageWidth - margin, yPos)
     yPos += 10
@@ -216,6 +225,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
               width={100}
               height={100}
               className="rounded-full"
+              unoptimized
             />
           )}
           <div>
@@ -314,6 +324,8 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
         <Download className="mr-2 h-4 w-4" />
         Export to PDF
       </Button>
+
+      {pdfError && <p className="text-red-500 text-center mt-2">{pdfError}</p>}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { useForm, useFieldArray, Controller } from "react-hook-form"
+import { useForm, useFieldArray } from "react-hook-form"
 import type { ResumeData } from "../types"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -39,6 +39,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
   })
 
   React.useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const subscription = watch((value, { name, type }) => {
       if (type === "change") {
         onUpdate(value as ResumeData)
