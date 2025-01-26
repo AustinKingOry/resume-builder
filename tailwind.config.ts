@@ -8,13 +8,13 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
+  	container: {
+  		center: true,
+  		padding: '2rem',
+  		screens: {
+  			'2xl': '1400px'
+  		}
+  	},
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',
@@ -63,14 +63,69 @@ export default {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
-        animation: {
-            "accordion-down": "accordion-down 0.2s ease-out",
-            "accordion-up": "accordion-up 0.2s ease-out",
-        },
-        fontFamily: {
-            'body': ["Geist",'Work Sans','Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
-            'sans': ["Geist",'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji']
-        }
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
+  		},
+  		fontFamily: {
+  			body: [
+  				'Geist',
+  				'Work Sans',
+  				'Inter',
+  				'ui-sans-serif',
+  				'system-ui',
+  				'-apple-system',
+  				'system-ui',
+  				'Segoe UI',
+  				'Roboto',
+  				'Helvetica Neue',
+  				'Arial',
+  				'Noto Sans',
+  				'sans-serif',
+  				'Apple Color Emoji',
+  				'Segoe UI Emoji',
+  				'Segoe UI Symbol',
+  				'Noto Color Emoji'
+  			],
+  			sans: [
+  				'Geist',
+  				'Inter',
+  				'ui-sans-serif',
+  				'system-ui',
+  				'-apple-system',
+  				'system-ui',
+  				'Segoe UI',
+  				'Roboto',
+  				'Helvetica Neue',
+  				'Arial',
+  				'Noto Sans',
+  				'sans-serif',
+  				'Apple Color Emoji',
+  				'Segoe UI Emoji',
+  				'Segoe UI Symbol',
+  				'Noto Color Emoji'
+  			]
+  		},
+  		keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		}
   	}
   },
   plugins: [
