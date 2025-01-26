@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState } from "react"
@@ -18,8 +19,18 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
   const exportToPDF = async () => {
     const doc = new jsPDF()
     const pageWidth = doc.internal.pageSize.getWidth()
+    const pageHeight = doc.internal.pageSize.getHeight()
     const margin = 20
-    let yPos = margin + 20
+    let yPos = margin
+
+    const addNewPageIfNeeded = (height: number) => {
+      if (yPos + height > pageHeight - margin) {
+        doc.addPage()
+        yPos = margin
+        return true
+      }
+      return false
+    }
 
     // Add photo if it exists
     if (data.personalInfo?.photo) {
@@ -33,14 +44,13 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
             img.src = data.personalInfo.photo
           })
           // Add photo to the top right
-          doc.addImage(img, "JPEG", pageWidth - margin - 30, margin, 30, 30, undefined, "FAST")
+          doc.addImage(img, "JPEG", pageWidth - margin - 30, yPos, 30, 30, undefined, "FAST")
         } else {
           console.warn("Unable to load image in non-browser environment")
         }
       } catch (error) {
         console.error("Error loading image:", error)
         setPdfError("Failed to load profile image. PDF generated without image.")
-        // Continue with PDF generation without the image
       }
     }
 
@@ -50,8 +60,8 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     doc.setTextColor(41, 65, 171) // Navy blue
     const name = data.personalInfo?.name?.toUpperCase() || "YOUR NAME"
     const nameWidth = doc.getTextWidth(name)
-    doc.text(name, (pageWidth - nameWidth) / 2, yPos)
-    yPos += 10
+    doc.text(name, (pageWidth - nameWidth) / 2, yPos + 10)
+    yPos += 20
 
     // Job Title - centered
     doc.setFont("helvetica", "normal")
@@ -60,9 +70,9 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     const title = "PROFESSIONAL RESUME"
     const titleWidth = doc.getTextWidth(title)
     doc.text(title, (pageWidth - titleWidth) / 2, yPos)
-    yPos += 20
+    yPos += 10
 
-    // Draw a horizontal line with a blue gradient
+    // Draw a horizontal line
     doc.setDrawColor(41, 65, 171)
     doc.setLineWidth(0.5)
     doc.line(margin, yPos, pageWidth - margin, yPos)
@@ -93,6 +103,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     yPos += 15
 
     // Skills Section
+    addNewPageIfNeeded(20)
     doc.setFont("helvetica", "bold")
     doc.setFontSize(12)
     doc.setTextColor(41, 65, 171) // Navy blue for headers
@@ -104,12 +115,23 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     doc.setTextColor(60, 60, 60) // Dark gray for content
     const skills = Array.isArray(data.skills) ? data.skills : []
     skills.forEach((skill) => {
+      if (addNewPageIfNeeded(5)) {
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(12)
+        doc.setTextColor(41, 65, 171)
+        doc.text("SKILLS (continued)", leftColX, yPos)
+        yPos += 7
+        doc.setFont("helvetica", "normal")
+        doc.setFontSize(10)
+        doc.setTextColor(60, 60, 60)
+      }
       doc.text(skill, leftColX, yPos)
       yPos += 5
     })
     yPos += 10
 
     // Education Section
+    addNewPageIfNeeded(20)
     doc.setFont("helvetica", "bold")
     doc.setFontSize(12)
     doc.setTextColor(41, 65, 171) // Navy blue for headers
@@ -118,7 +140,16 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
     doc.setTextColor(60, 60, 60) // Dark gray for content
     doc.setFontSize(10)
-    data.education?.forEach((edu) => {
+    data.education?.forEach((edu, index) => {
+      if (addNewPageIfNeeded(20)) {
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(12)
+        doc.setTextColor(41, 65, 171)
+        doc.text("EDUCATION (continued)", leftColX, yPos)
+        yPos += 7
+        doc.setTextColor(60, 60, 60)
+        doc.setFontSize(10)
+      }
       doc.setFont("helvetica", "bold")
       doc.text(edu.degree, leftColX, yPos)
       yPos += 5
@@ -145,17 +176,38 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     doc.setFontSize(10)
     doc.setTextColor(60, 60, 60) // Dark gray for content
     const summaryLines = doc.splitTextToSize(data.summary || "", rightColWidth)
-    doc.text(summaryLines, rightColX, yPos)
-    yPos += summaryLines.length * 5 + 15
+    summaryLines.forEach((line: string, index: number) => {
+      if (addNewPageIfNeeded(5)) {
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(12)
+        doc.setTextColor(41, 65, 171)
+        doc.text("PROFILE (continued)", rightColX, yPos)
+        yPos += 7
+        doc.setFont("helvetica", "normal")
+        doc.setFontSize(10)
+        doc.setTextColor(60, 60, 60)
+      }
+      doc.text(line, rightColX, yPos)
+      yPos += 5
+    })
+    yPos += 10
 
     // Work Experience Section
+    addNewPageIfNeeded(20)
     doc.setFont("helvetica", "bold")
     doc.setFontSize(12)
     doc.setTextColor(41, 65, 171) // Navy blue for headers
     doc.text("WORK EXPERIENCE", rightColX, yPos)
     yPos += 7
 
-    data.experience?.forEach((exp) => {
+    data.experience?.forEach((exp, index) => {
+      if (addNewPageIfNeeded(20)) {
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(12)
+        doc.setTextColor(41, 65, 171)
+        doc.text("WORK EXPERIENCE (continued)", rightColX, yPos)
+        yPos += 7
+      }
       // Job Title and Company
       doc.setFont("helvetica", "bold")
       doc.setFontSize(11)
@@ -177,13 +229,26 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       // Description
       doc.setFont("helvetica", "normal")
       const descLines = doc.splitTextToSize(exp.description, rightColWidth)
-      doc.text(descLines, rightColX, yPos)
-      yPos += descLines.length * 5 + 10
+      descLines.forEach((line: string) => {
+        if (addNewPageIfNeeded(5)) {
+          doc.setFont("helvetica", "bold")
+          doc.setFontSize(11)
+          doc.setTextColor(41, 65, 171)
+          doc.text("WORK EXPERIENCE (continued)", rightColX, yPos)
+          yPos += 7
+          doc.setFont("helvetica", "normal")
+          doc.setFontSize(10)
+          doc.setTextColor(60, 60, 60)
+        }
+        doc.text(line, rightColX, yPos)
+        yPos += 5
+      })
+      yPos += 5
     })
 
     // Add social media links if they exist
     if (data.personalInfo?.socialMedia) {
-      yPos += 5
+      addNewPageIfNeeded(20)
       doc.setFont("helvetica", "bold")
       doc.setFontSize(10)
       doc.setTextColor(41, 65, 171) // Navy blue for headers
