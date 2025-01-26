@@ -354,10 +354,9 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
                     className="border-red-300"
                   />
                 </div>
-                { /** <div className="space-y-2">
+                <div className="space-y-2">
                   <Label>Skill Proficiency</Label>
-                  {watch("skills")
-                    ?.split(",")
+                  {(Array.isArray(watch("skills")) ? watch("skills") : [])
                     .map((skill, index) => (
                       <div key={index} className="flex items-center space-x-4">
                         <span className="w-1/4">{skill.trim()}</span>
@@ -377,7 +376,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
                         />
                       </div>
                     ))}
-                </div**/ }
+                </div>
               </CardContent>
             </Card>
           </AccordionContent>
