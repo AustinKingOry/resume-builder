@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import ResumeForm from "./components/ResumeForm"
-import ResumePreview from "./components/ResumePreview"
-import type { ResumeData } from "./types"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Wand2 } from "lucide-react"
+import { useState } from "react";
+import ResumeForm from "./components/ResumeForm";
+import ResumePreview from "./components/ResumePreview";
+import type { ResumeData } from "./types";
+import { Button } from "@/components/ui/button";
+import { Wand2 } from "lucide-react";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 export default function Home() {
   const [resumeData, setResumeData] = useState<ResumeData>({
@@ -41,26 +41,22 @@ export default function Home() {
   return (
     <main className="container mx-auto p-4 bg-gradient-to-r from-blue-50 to-indigo-50">
       <h1 className="text-4xl font-bold mb-6 text-center text-blue-600">Resume Builder</h1>
-      <Tabs defaultValue="form" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-4">
-          <TabsTrigger value="form" className="text-lg">
-            Edit Resume
-          </TabsTrigger>
-          <TabsTrigger value="preview" className="text-lg">
-            Preview
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="form">
-          <ResumeForm onUpdate={handleUpdate} initialData={resumeData} />
-        </TabsContent>
-        <TabsContent value="preview">
-          <ResumePreview data={resumeData} />
-        </TabsContent>
-      </Tabs>
-      <Button
-        onClick={handleAIFineTune}
-        className="mt-4 w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600"
-      >
+      <ResizablePanelGroup direction="horizontal" className="min-h-[200px] w-full rounded-lg border md:min-w-[450px]">
+            <ResizablePanel defaultSize={30}>
+                <h2>Edit Resume</h2>
+                <div className="h-full w-full p-6">
+                    <ResumeForm onUpdate={handleUpdate} initialData={resumeData} />
+                </div>
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel defaultSize={70}>
+                <h2>Preview</h2>
+                <div className="h-full w-full p-6">
+                    <ResumePreview data={resumeData} />
+                </div>
+            </ResizablePanel>
+        </ResizablePanelGroup>
+      <Button onClick={handleAIFineTune} className="mt-4 w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600">
         <Wand2 className="mr-2 h-5 w-5" />
         Fine-tune with AI
       </Button>
