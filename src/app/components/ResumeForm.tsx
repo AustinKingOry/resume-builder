@@ -1,14 +1,18 @@
 "use client"
 
 import React from "react"
-import { useForm, useFieldArray } from "react-hook-form"
+import { useForm, useFieldArray, Controller } from "react-hook-form"
 import type { ResumeData } from "../types"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { PlusCircle, Trash2 } from "lucide-react"
+import { PlusCircle, Trash2, Upload, Briefcase, GraduationCap, Award } from "lucide-react"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Switch } from "@/components/ui/switch"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Slider } from "@/components/ui/slider"
 
 type ResumeFormProps = {
   onUpdate: (data: ResumeData) => void
@@ -38,8 +42,16 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
     name: "education",
   })
 
+  const {
+    fields: certFields,
+    append: appendCert,
+    remove: removeCert,
+  } = useFieldArray({
+    control,
+    name: "certifications",
+  })
+
   React.useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const subscription = watch((value, { name, type }) => {
       if (type === "change") {
         onUpdate(value as ResumeData)
@@ -66,168 +78,366 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onUpdate)} className="space-y-6">
-      <Card className="bg-gradient-to-r from-blue-100 to-indigo-100">
-        <CardHeader>
-          <CardTitle className="text-2xl text-blue-800">Personal Information</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" {...register("personalInfo.name")} placeholder="Your Name" className="border-blue-300" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              {...register("personalInfo.email")}
-              placeholder="your.email@example.com"
-              type="email"
-              className="border-blue-300"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone">Phone</Label>
-            <Input
-              id="phone"
-              {...register("personalInfo.phone")}
-              placeholder="Your phone number"
-              className="border-blue-300"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="location">Location</Label>
-            <Input
-              id="location"
-              {...register("personalInfo.location")}
-              placeholder="City, Country"
-              className="border-blue-300"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="photo">Photo</Label>
-            <Input id="photo" type="file" onChange={handlePhotoUpload} accept="image/*" className="border-blue-300" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="linkedin">LinkedIn</Label>
-            <Input
-              id="linkedin"
-              {...register("personalInfo.socialMedia.linkedin")}
-              placeholder="LinkedIn URL"
-              className="border-blue-300"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="twitter">Twitter</Label>
-            <Input
-              id="twitter"
-              {...register("personalInfo.socialMedia.twitter")}
-              placeholder="Twitter URL"
-              className="border-blue-300"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="github">GitHub</Label>
-            <Input
-              id="github"
-              {...register("personalInfo.socialMedia.github")}
-              placeholder="GitHub URL"
-              className="border-blue-300"
-            />
-          </div>
-        </CardContent>
-      </Card>
+    <form onSubmit={handleSubmit(onUpdate)} className="space-y-8">
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="personal-info">
+          <AccordionTrigger>Personal Information</AccordionTrigger>
+          <AccordionContent>
+            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50">
+              <CardContent className="space-y-4 pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input
+                      id="name"
+                      {...register("personalInfo.name")}
+                      placeholder="John Doe"
+                      className="border-blue-300"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="title">Professional Title</Label>
+                    <Input
+                      id="title"
+                      {...register("personalInfo.title")}
+                      placeholder="Software Engineer"
+                      className="border-blue-300"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      {...register("personalInfo.email")}
+                      placeholder="john.doe@example.com"
+                      type="email"
+                      className="border-blue-300"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input
+                      id="phone"
+                      {...register("personalInfo.phone")}
+                      placeholder="+1 (555) 123-4567"
+                      className="border-blue-300"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="location">Location</Label>
+                    <Input
+                      id="location"
+                      {...register("personalInfo.location")}
+                      placeholder="New York, NY"
+                      className="border-blue-300"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="website">Personal Website</Label>
+                    <Input
+                      id="website"
+                      {...register("personalInfo.website")}
+                      placeholder="https://johndoe.com"
+                      className="border-blue-300"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="photo">Profile Photo</Label>
+                  <div className="flex items-center space-x-4">
+                    <Input
+                      id="photo"
+                      type="file"
+                      onChange={handlePhotoUpload}
+                      accept="image/*"
+                      className="border-blue-300"
+                    />
+                    {watch("personalInfo.photo") && (
+                      <img
+                        src={watch("personalInfo.photo") || "/placeholder.svg"}
+                        alt="Profile"
+                        className="w-16 h-16 rounded-full object-cover"
+                      />
+                    )}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Social Media</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Input
+                      {...register("personalInfo.socialMedia.linkedin")}
+                      placeholder="LinkedIn URL"
+                      className="border-blue-300"
+                    />
+                    <Input
+                      {...register("personalInfo.socialMedia.twitter")}
+                      placeholder="Twitter URL"
+                      className="border-blue-300"
+                    />
+                    <Input
+                      {...register("personalInfo.socialMedia.github")}
+                      placeholder="GitHub URL"
+                      className="border-blue-300"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </AccordionContent>
+        </AccordionItem>
 
-      <Card className="bg-gradient-to-r from-green-100 to-teal-100">
-        <CardHeader>
-          <CardTitle className="text-2xl text-green-800">Professional Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Textarea
-            {...register("summary")}
-            placeholder="Write a brief summary of your professional background and key skills"
-            className="border-green-300"
-          />
-        </CardContent>
-      </Card>
+        <AccordionItem value="summary">
+          <AccordionTrigger>Professional Summary</AccordionTrigger>
+          <AccordionContent>
+            <Card className="bg-gradient-to-r from-green-50 to-teal-50">
+              <CardContent className="pt-6">
+                <Textarea
+                  {...register("summary")}
+                  placeholder="Write a brief summary of your professional background and key skills"
+                  className="border-green-300 min-h-[150px]"
+                />
+              </CardContent>
+            </Card>
+          </AccordionContent>
+        </AccordionItem>
 
-      <Card className="bg-gradient-to-r from-yellow-100 to-orange-100">
-        <CardHeader>
-          <CardTitle className="text-2xl text-yellow-800">Experience</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {expFields.map((field, index) => (
-            <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
-              <Input {...register(`experience.${index}.title`)} placeholder="Job Title" className="border-yellow-300" />
-              <Input {...register(`experience.${index}.company`)} placeholder="Company" className="border-yellow-300" />
-              <Input
-                {...register(`experience.${index}.date`)}
-                placeholder="Employment Period"
-                className="border-yellow-300"
-              />
-              <Textarea
-                {...register(`experience.${index}.description`)}
-                placeholder="Job Description"
-                className="border-yellow-300"
-              />
-              <Button type="button" variant="destructive" size="sm" onClick={() => removeExp(index)}>
-                <Trash2 className="mr-2 h-4 w-4" />
-                Remove
-              </Button>
-            </div>
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => appendExp({ title: "", company: "", date: "", description: "" })}
-          >
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add Experience
-          </Button>
-        </CardContent>
-      </Card>
+        <AccordionItem value="experience">
+          <AccordionTrigger>Work Experience</AccordionTrigger>
+          <AccordionContent>
+            <Card className="bg-gradient-to-r from-yellow-50 to-orange-50">
+              <CardContent className="space-y-4 pt-6">
+                {expFields.map((field, index) => (
+                  <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Input
+                        {...register(`experience.${index}.title`)}
+                        placeholder="Job Title"
+                        className="border-yellow-300"
+                      />
+                      <Input
+                        {...register(`experience.${index}.company`)}
+                        placeholder="Company"
+                        className="border-yellow-300"
+                      />
+                      <Input
+                        {...register(`experience.${index}.startDate`)}
+                        placeholder="Start Date"
+                        type="date"
+                        className="border-yellow-300"
+                      />
+                      <Input
+                        {...register(`experience.${index}.endDate`)}
+                        placeholder="End Date"
+                        type="date"
+                        className="border-yellow-300"
+                      />
+                    </div>
+                    <Input
+                      {...register(`experience.${index}.location`)}
+                      placeholder="Location"
+                      className="border-yellow-300"
+                    />
+                    <Textarea
+                      {...register(`experience.${index}.description`)}
+                      placeholder="Job Description"
+                      className="border-yellow-300"
+                    />
+                    <div className="flex items-center space-x-2">
+                      <Switch {...register(`experience.${index}.current`)} />
+                      <Label htmlFor={`experience.${index}.current`}>Current Job</Label>
+                    </div>
+                    <Button type="button" variant="destructive" size="sm" onClick={() => removeExp(index)}>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    appendExp({
+                      title: "",
+                      company: "",
+                      startDate: "",
+                      endDate: "",
+                      location: "",
+                      description: "",
+                      current: false,
+                    })
+                  }
+                >
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Add Experience
+                </Button>
+              </CardContent>
+            </Card>
+          </AccordionContent>
+        </AccordionItem>
 
-      <Card className="bg-gradient-to-r from-purple-100 to-pink-100">
-        <CardHeader>
-          <CardTitle className="text-2xl text-purple-800">Education</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {eduFields.map((field, index) => (
-            <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
-              <Input {...register(`education.${index}.degree`)} placeholder="Degree" className="border-purple-300" />
-              <Input {...register(`education.${index}.school`)} placeholder="School" className="border-purple-300" />
-              <Input
-                {...register(`education.${index}.date`)}
-                placeholder="Graduation Date"
-                className="border-purple-300"
-              />
-              <Button type="button" variant="destructive" size="sm" onClick={() => removeEdu(index)}>
-                <Trash2 className="mr-2 h-4 w-4" />
-                Remove
-              </Button>
-            </div>
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => appendEdu({ degree: "", school: "", date: "" })}
-          >
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add Education
-          </Button>
-        </CardContent>
-      </Card>
+        <AccordionItem value="education">
+          <AccordionTrigger>Education</AccordionTrigger>
+          <AccordionContent>
+            <Card className="bg-gradient-to-r from-purple-50 to-pink-50">
+              <CardContent className="space-y-4 pt-6">
+                {eduFields.map((field, index) => (
+                  <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Input
+                        {...register(`education.${index}.degree`)}
+                        placeholder="Degree"
+                        className="border-purple-300"
+                      />
+                      <Input
+                        {...register(`education.${index}.school`)}
+                        placeholder="School"
+                        className="border-purple-300"
+                      />
+                      <Input
+                        {...register(`education.${index}.startDate`)}
+                        placeholder="Start Date"
+                        type="date"
+                        className="border-purple-300"
+                      />
+                      <Input
+                        {...register(`education.${index}.endDate`)}
+                        placeholder="End Date"
+                        type="date"
+                        className="border-purple-300"
+                      />
+                    </div>
+                    <Input
+                      {...register(`education.${index}.location`)}
+                      placeholder="Location"
+                      className="border-purple-300"
+                    />
+                    <Textarea
+                      {...register(`education.${index}.description`)}
+                      placeholder="Description or achievements"
+                      className="border-purple-300"
+                    />
+                    <Button type="button" variant="destructive" size="sm" onClick={() => removeEdu(index)}>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    appendEdu({ degree: "", school: "", startDate: "", endDate: "", location: "", description: "" })
+                  }
+                >
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Add Education
+                </Button>
+              </CardContent>
+            </Card>
+          </AccordionContent>
+        </AccordionItem>
 
-      <Card className="bg-gradient-to-r from-red-100 to-rose-100">
-        <CardHeader>
-          <CardTitle className="text-2xl text-red-800">Skills</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Input {...register("skills")} placeholder="Enter skills separated by commas" className="border-red-300" />
-        </CardContent>
-      </Card>
+        <AccordionItem value="skills">
+          <AccordionTrigger>Skills</AccordionTrigger>
+          <AccordionContent>
+            <Card className="bg-gradient-to-r from-red-50 to-rose-50">
+              <CardContent className="space-y-4 pt-6">
+                <div className="space-y-2">
+                  <Label htmlFor="skills">Skills (comma-separated)</Label>
+                  <Textarea
+                    id="skills"
+                    {...register("skills")}
+                    placeholder="Enter skills separated by commas"
+                    className="border-red-300"
+                  />
+                </div>
+                { /** <div className="space-y-2">
+                  <Label>Skill Proficiency</Label>
+                  {watch("skills")
+                    ?.split(",")
+                    .map((skill, index) => (
+                      <div key={index} className="flex items-center space-x-4">
+                        <span className="w-1/4">{skill.trim()}</span>
+                        <Controller
+                          name={`skillLevels.${skill.trim()}`}
+                          control={control}
+                          defaultValue={50}
+                          render={({ field }) => (
+                            <Slider
+                              min={0}
+                              max={100}
+                              step={10}
+                              value={[field.value]}
+                              onValueChange={(value) => field.onChange(value[0])}
+                            />
+                          )}
+                        />
+                      </div>
+                    ))}
+                </div**/ }
+              </CardContent>
+            </Card>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="certifications">
+          <AccordionTrigger>Certifications</AccordionTrigger>
+          <AccordionContent>
+            <Card className="bg-gradient-to-r from-cyan-50 to-blue-50">
+              <CardContent className="space-y-4 pt-6">
+                {certFields.map((field, index) => (
+                  <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Input
+                        {...register(`certifications.${index}.name`)}
+                        placeholder="Certification Name"
+                        className="border-cyan-300"
+                      />
+                      <Input
+                        {...register(`certifications.${index}.issuer`)}
+                        placeholder="Issuing Organization"
+                        className="border-cyan-300"
+                      />
+                      <Input
+                        {...register(`certifications.${index}.date`)}
+                        placeholder="Date Obtained"
+                        type="date"
+                        className="border-cyan-300"
+                      />
+                      <Input
+                        {...register(`certifications.${index}.expiry`)}
+                        placeholder="Expiry Date (if applicable)"
+                        type="date"
+                        className="border-cyan-300"
+                      />
+                    </div>
+                    <Input
+                      {...register(`certifications.${index}.id`)}
+                      placeholder="Certification ID (if applicable)"
+                      className="border-cyan-300"
+                    />
+                    <Button type="button" variant="destructive" size="sm" onClick={() => removeCert(index)}>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendCert({ name: "", issuer: "", date: "", expiry: "", id: "" })}
+                >
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Add Certification
+                </Button>
+              </CardContent>
+            </Card>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
       <Button
         type="submit"
