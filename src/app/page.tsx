@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import Head from "next/head";
 
 export default function Home() {
     const [resumeData, setResumeData] = useState<ResumeData>({
@@ -45,6 +46,11 @@ export default function Home() {
 
   return (
     <main className="fixed h-screen w-screen mx-auto px-4 bg-gradient-to-r from-blue-50 to-indigo-50">
+        <Head>
+        <meta property="og:image" content="/logo.webp" />
+        <meta property="twitter:card" content="summary_large_image" />
+        </Head>
+
         <div className="relative h-full w-full">
             <div className="h-[5%]">
                 <h1 className="text-4xl font-bold mb-6 text-center text-blue-600">Resume Builder</h1>
