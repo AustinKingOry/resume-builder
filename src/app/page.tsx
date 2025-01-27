@@ -51,7 +51,7 @@ export default function Home() {
             </div>
             <div className="h-[90%] py-1.5">
                 <ResizablePanelGroup direction="horizontal" className="min-h-[200px] w-full rounded-lg border md:min-w-[450px]">
-                    <ResizablePanel defaultSize={30}>
+                    <ResizablePanel defaultSize={40}>
                         <ScrollArea className="h-full w-full">
                             <h2 className="px-6 py-2 text-lg font-bold">Edit Resume</h2>
                             <div className="h-full w-full px-6 py-3">
@@ -60,7 +60,7 @@ export default function Home() {
                         </ScrollArea>
                     </ResizablePanel>
                     <ResizableHandle withHandle />
-                    <ResizablePanel defaultSize={70}>
+                    <ResizablePanel defaultSize={60}>
                         <ScrollArea className="h-full w-full">
                             <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
                             <div className="h-full w-full px-6 py-3">
