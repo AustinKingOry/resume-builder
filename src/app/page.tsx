@@ -45,12 +45,29 @@ export default function Home() {
   }
 
   return (
-    <main className="fixed h-screen w-screen mx-auto px-4 bg-gradient-to-r from-blue-50 to-indigo-50">
-        <Head>
-        <meta property="og:image" content="/logo.webp" />
-        <meta property="twitter:card" content="summary_large_image" />
-        </Head>
+    <>
+    <Head>
+      {/* Favicon */}
+      <link rel="icon" href="/favicon.ico" />
 
+      {/* Metadata */}
+      <title>Resume Builder</title>
+      <meta name="description" content="Effortlessly create professional resumes with Resume Builder. A great learning opportunity for all." />
+
+      {/* Open Graph */}
+      <meta property="og:title" content="Resume Builder" />
+      <meta property="og:description" content="Effortlessly create professional resumes with Resume Builder. A great learning opportunity for all." />
+      <meta property="og:image" content="/logo.webp" />
+      <meta property="og:url" content="https://open-resume-builder.vercel.app" />
+      <meta property="og:type" content="website" />
+
+      {/* Twitter Cards */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Resume Builder" />
+      <meta name="twitter:description" content="Effortlessly create professional resumes with Resume Builder. A great learning opportunity for all." />
+      <meta name="twitter:image" content="/logo.webp" />
+    </Head>
+    <main className="fixed h-screen w-screen mx-auto px-4 bg-gradient-to-r from-blue-50 to-indigo-50">
         <div className="relative h-full w-full">
             <div className="h-[5%]">
                 <h1 className="text-4xl font-bold mb-6 text-center text-blue-600">Resume Builder</h1>
@@ -84,6 +101,7 @@ export default function Home() {
             </div>
         </div>
     </main>
+    </>
   )
 }
 
