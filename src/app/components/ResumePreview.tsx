@@ -100,6 +100,8 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     doc.text(data.personalInfo?.email || "", leftColX, yPos)
     yPos += 5
     doc.text(data.personalInfo?.location || "", leftColX, yPos)
+    yPos += 5
+    doc.text(data.personalInfo?.website || "", leftColX, yPos)
     yPos += 15
 
     // Skills Section
@@ -219,15 +221,15 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       doc.setFont("helvetica", "italic")
       doc.text((exp.startDate + " - " + exp.endDate), pageWidth - margin - dateWidth, yPos)
       yPos += 5
-
-      // Company
-      doc.setFont("helvetica", "semibold")
+      doc.setFont("helvetica", "normal")
       doc.setFontSize(10)
       doc.text(exp.company, rightColX, yPos)
-      yPos += 7
-
-      // Description
-      doc.setFont("helvetica", "normal")
+      yPos += 5
+      const dateText = `${exp.startDate} - ${exp.current ? "Present" : exp.endDate}`
+      doc.text(dateText, rightColX, yPos)
+      yPos += 5
+      doc.text(exp.location, rightColX, yPos)
+      yPos += 5
       const descLines = doc.splitTextToSize(exp.description, rightColWidth)
       descLines.forEach((line: string) => {
         if (addNewPageIfNeeded(5)) {
@@ -245,6 +247,43 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       })
       yPos += 5
     })
+
+    // Add Certifications Section
+    if (data.certifications && data.certifications.length > 0) {
+      addNewPageIfNeeded(20)
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(12)
+      doc.setTextColor(41, 65, 171)
+      doc.text("CERTIFICATIONS", leftColX, yPos)
+      yPos += 7
+
+      data.certifications.forEach((cert, index) => {
+        if (addNewPageIfNeeded(15)) {
+          doc.setFont("helvetica", "bold")
+          doc.setFontSize(12)
+          doc.setTextColor(41, 65, 171)
+          doc.text("CERTIFICATIONS (continued)", leftColX, yPos)
+          yPos += 7
+        }
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(10)
+        doc.setTextColor(60, 60, 60)
+        doc.text(cert.name, leftColX, yPos)
+        yPos += 5
+        doc.setFont("helvetica", "normal")
+        doc.text(`${cert.issuer} - ${cert.date}`, leftColX, yPos)
+        yPos += 5
+        if (cert.expiry) {
+          doc.text(`Expires: ${cert.expiry}`, leftColX, yPos)
+          yPos += 5
+        }
+        if (cert.id) {
+          doc.text(`ID: ${cert.id}`, leftColX, yPos)
+          yPos += 5
+        }
+        yPos += 2
+      })
+    }
 
     // Add social media links if they exist
     if (data.personalInfo?.socialMedia) {
@@ -289,16 +328,18 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
               alt={data.personalInfo?.name || "Profile"}
               width={100}
               height={100}
-              className="rounded-full flex-shrink-0"
+              className="rounded-full"
               unoptimized
             />
           )}
           <div>
             <CardTitle className="text-3xl text-blue-600">{data.personalInfo?.name || "Your Name"}</CardTitle>
+            <p className="text-xl text-gray-600">{data.personalInfo?.title || "Your Title"}</p>
             <div className="text-gray-600">
               <p>{data.personalInfo?.email || "Email"}</p>
               <p>{data.personalInfo?.phone || "Phone"}</p>
               <p>{data.personalInfo?.location || "Location"}</p>
+              <p>{data.personalInfo?.website || "Website"}</p>
             </div>
           </div>
         </CardHeader>
@@ -341,7 +382,10 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                 <h4 className="font-semibold text-blue-600">
                   {exp.title || "Job Title"} at {exp.company || "Company"}
                 </h4>
-                <p className="text-sm text-gray-500">{exp.startDate + " - " + exp.endDate || "Date"}</p>
+                <p className="text-sm text-gray-500">
+                  {exp.startDate || "Start Date"} - {exp.current ? "Present" : exp.endDate || "End Date"}
+                </p>
+                <p className="text-sm text-gray-500">{exp.location || "Location"}</p>
                 <p className="text-gray-700">{exp.description || "No description provided"}</p>
               </div>
             ))
@@ -361,12 +405,36 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
               <div key={index} className="mb-2">
                 <h4 className="font-semibold text-blue-600">{edu.degree || "Degree"}</h4>
                 <p className="text-gray-700">
-                  {edu.school || "School"} - {edu.startDate + " - " + edu.endDate || "Date"}
+                  {edu.school || "School"} - {edu.startDate || "Start Date"} to {edu.endDate || "End Date"}
                 </p>
+                <p className="text-gray-700">{edu.location || "Location"}</p>
+                <p className="text-gray-600">{edu.description || "No description provided"}</p>
               </div>
             ))
           ) : (
             <p className="text-gray-700">No education listed</p>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="bg-white">
+        <CardHeader>
+          <CardTitle className="text-2xl text-cyan-600">Certifications</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {data.certifications && data.certifications.length > 0 ? (
+            data.certifications.map((cert, index) => (
+              <div key={index} className="mb-2">
+                <h4 className="font-semibold text-blue-600">{cert.name || "Certification Name"}</h4>
+                <p className="text-gray-700">
+                  {cert.issuer || "Issuer"} - {cert.date || "Date"}
+                </p>
+                {cert.expiry && <p className="text-gray-600">Expires: {cert.expiry}</p>}
+                {cert.id && <p className="text-gray-600">ID: {cert.id}</p>}
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-700">No certifications listed</p>
           )}
         </CardContent>
       </Card>
