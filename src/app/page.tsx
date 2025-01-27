@@ -10,20 +10,24 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
-  const [resumeData, setResumeData] = useState<ResumeData>({
-    personalInfo: {
-      name: "",
-      email: "",
-      phone: "",
-      location: "",
-      photo: "",
-      socialMedia: {},
-    },
-    summary: "",
-    experience: [],
-    education: [],
-    skills: [] as string[],
-  })
+    const [resumeData, setResumeData] = useState<ResumeData>({
+        personalInfo: {
+          name: "",
+          title: "",
+          email: "",
+          phone: "",
+          location: "",
+          website: "",
+          photo: "",
+          socialMedia: {},
+        },
+        summary: "",
+        experience: [],
+        education: [],
+        skills: [] as string[],
+        skillLevels: {},
+        certifications: [],
+    })
 
   const handleUpdate = (data: ResumeData) => {
     setResumeData(data)
