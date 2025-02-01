@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import React, { useState } from "react";
 import ResumeForm from "./components/ResumeForm";
 import ResumePreview from "./components/ResumePreview";
 import type { ResumeData, ResumeTemplate } from "./types";
@@ -10,8 +10,11 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Head from "next/head";
 import TemplateSelector from "./components/TemplateSelector";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function Home() {
+    const isDesktop = useMediaQuery("(min-width: 768px)")
     const [resumeData, setResumeData] = useState<ResumeData>({
         selectedTemplate: "classic",
         personalInfo: {
@@ -37,7 +40,7 @@ export default function Home() {
   const handleUpdate = (data: ResumeData) => {
     setResumeData(data)
   }
-  
+
   const handleTemplateSelect = (template: ResumeTemplate) => {
     setResumeData((prev) => ({ ...prev, selectedTemplate: template.id }))
   }
@@ -92,6 +95,7 @@ export default function Home() {
                 <h1 className="text-4xl font-bold mb-6 text-center text-blue-600">Resume Builder</h1>
             </div>
             <div className="h-[90%] py-1.5">
+                {isDesktop ?
                 <ResizablePanelGroup direction="horizontal" className="min-h-[200px] w-full rounded-lg border md:min-w-[450px]">
                     <ResizablePanel defaultSize={40}>
                         <ScrollArea className="h-full w-full">
@@ -114,6 +118,7 @@ export default function Home() {
                         </ScrollArea>
                     </ResizablePanel>
                 </ResizablePanelGroup>
+                :(<MobileView handleUpdate={handleUpdate} resumeData={resumeData} handleTemplateSelect={handleTemplateSelect} />)}
             </div>            
             <div className="w-full h-[4%]">            
                 <Button onClick={handleAIFineTune} className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600">
@@ -127,3 +132,37 @@ export default function Home() {
   )
 }
 
+type ResumeFormProps = {
+    handleUpdate: (data: ResumeData) => void
+    resumeData: ResumeData
+    handleTemplateSelect: (template: ResumeTemplate) => void
+  }
+const MobileView = ({ handleUpdate, resumeData, handleTemplateSelect }: ResumeFormProps) => {
+    return (
+        <Tabs defaultValue="form" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-4">
+          <TabsTrigger value="form" className="text-lg">
+            Edit Resume
+          </TabsTrigger>
+          <TabsTrigger value="preview" className="text-lg">
+            Preview
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="form">
+            <h2 className="px-6 py-2 text-lg font-bold">Edit Resume</h2>
+            <div className="h-full w-full px-6 py-3">
+                <ResumeForm onUpdate={handleUpdate} initialData={resumeData} />
+            </div>
+        </TabsContent>
+        <TabsContent value="preview">
+            <div className="w-full flex items-center justify-between px-6">
+                <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
+                <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
+            </div>
+            <div className="h-full w-full px-6 py-3">
+                <ResumePreview data={resumeData} />
+            </div>
+        </TabsContent>
+      </Tabs>
+    )
+}
