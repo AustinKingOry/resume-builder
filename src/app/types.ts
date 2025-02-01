@@ -7,6 +7,7 @@ export type ResumeData = {
       location: string
       website: string
       photo: string
+      gender: string
       socialMedia: {
         linkedin?: string
         twitter?: string

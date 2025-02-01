@@ -67,7 +67,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     doc.setFont("helvetica", "normal")
     doc.setFontSize(14)
     doc.setTextColor(100, 100, 100)
-    const title = data.personalInfo?.title?.toUpperCase() || "PROFESSIONAL RESUME"
+    const title = data.personalInfo?.title || "PROFESSIONAL RESUME"
     const titleWidth = doc.getTextWidth(title)
     doc.text(title, (pageWidth - titleWidth) / 2, yPos)
     yPos += 10
@@ -102,6 +102,8 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     doc.text(data.personalInfo?.location || "", leftColX, yPos)
     yPos += 5
     doc.text(data.personalInfo?.website || "", leftColX, yPos)
+    yPos += 5
+    doc.text(data.personalInfo?.gender || "", leftColX, yPos)
     yPos += 15
 
     // Skills Section
@@ -115,21 +117,24 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     doc.setFont("helvetica", "normal")
     doc.setFontSize(10)
     doc.setTextColor(60, 60, 60) // Dark gray for content
-    const skills = Array.isArray(data.skills) ? data.skills : []
-    skills.forEach((skill) => {
-      if (addNewPageIfNeeded(5)) {
-        doc.setFont("helvetica", "bold")
-        doc.setFontSize(12)
-        doc.setTextColor(41, 65, 171)
-        doc.text("SKILLS (continued)", leftColX, yPos)
-        yPos += 7
-        doc.setFont("helvetica", "normal")
-        doc.setFontSize(10)
-        doc.setTextColor(60, 60, 60)
-      }
-      doc.text(skill, leftColX, yPos)
-      yPos += 5
-    })
+    if (Array.isArray(data.skills) && data.skills.length > 0) {
+      data.skills.forEach((skill) => {
+        if (addNewPageIfNeeded(5)) {
+          doc.setFont("helvetica", "bold")
+          doc.setFontSize(12)
+          doc.setTextColor(41, 65, 171)
+          doc.text("SKILLS (continued)", leftColX, yPos)
+          yPos += 7
+          doc.setFont("helvetica", "normal")
+          doc.setFontSize(10)
+          doc.setTextColor(60, 60, 60)
+        }
+        doc.text(`• ${skill}`, leftColX, yPos)
+        yPos += 5
+      })
+    } else {
+      doc.text("No skills listed", leftColX, yPos)
+    }
     yPos += 10
 
     // Education Section
@@ -159,7 +164,11 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       doc.text(edu.school, leftColX, yPos)
       yPos += 5
       doc.setFont("helvetica", "italic")
-      doc.text((edu.startDate + " - "+edu.endDate), leftColX, yPos)
+      doc.text(`${edu.startDate} - ${edu.endDate}`, leftColX, yPos)
+      yPos += 5
+      doc.text(edu.location, leftColX, yPos)
+      yPos += 5
+      doc.text(edu.description, leftColX, yPos)
       yPos += 10
     })
 
@@ -215,11 +224,6 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       doc.setFontSize(11)
       doc.setTextColor(60, 60, 60) // Dark gray for content
       doc.text(exp.title, rightColX, yPos)
-
-      // Date aligned to the right
-      const dateWidth = doc.getTextWidth(exp.startDate + " - " + exp.endDate)
-      doc.setFont("helvetica", "italic")
-      doc.text((exp.startDate + " - " + exp.endDate), pageWidth - margin - dateWidth, yPos)
       yPos += 5
       doc.setFont("helvetica", "normal")
       doc.setFontSize(10)
@@ -340,6 +344,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
               <p>{data.personalInfo?.phone || "Phone"}</p>
               <p>{data.personalInfo?.location || "Location"}</p>
               <p>{data.personalInfo?.website || "Website"}</p>
+              <p>{data.personalInfo?.gender || "Gender"}</p>
             </div>
           </div>
         </CardHeader>
@@ -444,9 +449,15 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
           <CardTitle className="text-2xl text-red-600">Skills</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-700">
-            {Array.isArray(data.skills) && data.skills.length > 0 ? data.skills.join(", ") : "No skills listed"}
-          </p>
+          {Array.isArray(data.skills) && data.skills.length > 0 ? (
+            <ul className="list-disc list-inside text-gray-700">
+              {data.skills.map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-700">No skills listed</p>
+          )}
         </CardContent>
       </Card>
 

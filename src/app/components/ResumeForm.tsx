@@ -142,6 +142,23 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
                       className="border-blue-300"
                     />
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="gender">Gender</Label>
+                    <Select
+                      onValueChange={(value) =>
+                        onUpdate({ ...watch(), personalInfo: { ...watch().personalInfo, gender: value } })
+                      }
+                    >
+                      <SelectTrigger className="border-blue-300">
+                        <SelectValue placeholder="Select gender" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="male">Male</SelectItem>
+                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="photo">Profile Photo</Label>
