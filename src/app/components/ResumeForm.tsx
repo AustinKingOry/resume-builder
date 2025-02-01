@@ -349,7 +349,15 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
                   <Label htmlFor="skills">Skills (comma-separated)</Label>
                   <Textarea
                     id="skills"
-                    {...register("skills")}
+                    {...register("skills", {
+                        setValueAs: (v: string | string[]) => {
+                          if (Array.isArray(v)) return v
+                          return v
+                            .split(",")
+                            .map((skill) => skill.trim())
+                            .filter(Boolean)
+                        },
+                      })}
                     placeholder="Enter skills separated by commas"
                     className="border-red-300"
                   />
