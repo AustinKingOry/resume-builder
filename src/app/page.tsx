@@ -12,6 +12,7 @@ import Head from "next/head";
 
 export default function Home() {
     const [resumeData, setResumeData] = useState<ResumeData>({
+        selectedTemplate: "classic",
         personalInfo: {
           name: "",
           title: "",
@@ -98,7 +99,10 @@ export default function Home() {
                     <ResizableHandle withHandle />
                     <ResizablePanel defaultSize={60}>
                         <ScrollArea className="h-full w-full">
-                            <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
+                            <div className="w-full flex items-center justify-between px-6">
+                                <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
+                                <Button>Choose Template</Button>
+                            </div>
                             <div className="h-full w-full px-6 py-3">
                                 <ResumePreview data={resumeData} />
                             </div>
