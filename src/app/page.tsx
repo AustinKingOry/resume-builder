@@ -26,7 +26,7 @@ export default function Home() {
         summary: "",
         experience: [],
         education: [],
-        skills: [] as string[],
+        skills: [],
         skillLevels: {},
         certifications: [],
         referees: [],
@@ -39,10 +39,21 @@ export default function Home() {
   const handleAIFineTune = async () => {
     // This is where you'd implement the AI fine-tuning logic
     console.log("AI fine-tuning initiated")
-    // For demonstration, let's just update the summary
+    // For demonstration, let's update the summary and add a skill
     setResumeData((prev) => ({
-      ...prev,
-      summary: prev.summary + " [AI enhanced: This professional is highly skilled and motivated.]",
+        ...prev,
+        summary: prev.summary + " [AI enhanced: This professional is highly skilled and motivated.]",
+        skills: [...prev.skills, "AI-enhanced skill"],
+        referees: [
+          ...prev.referees,
+          {
+            name: "AI Generated Referee",
+            position: "AI Manager",
+            company: "Tech Innovations Inc.",
+            email: "ai.referee@example.com",
+            phone: "+1 (555) 123-4567",
+          },
+        ],
     }))
   }
 
