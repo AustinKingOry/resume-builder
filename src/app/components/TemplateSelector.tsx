@@ -27,8 +27,8 @@ export default function TemplateSelector({ selectedTemplate, onTemplateSelect }:
                     Choose A Template To Use For Your Resume.
                 </DialogDescription>
             </DialogHeader>
-            <div className="overflow-y-hidden p-2">                
-                <ScrollArea className="relative w-full min-h-[90%] flex flex-col py-3">
+            <div className="max-h-[90%] min-h-96">                
+                <ScrollArea className="w-full h-full min-h-[90%] py-3">
                     <TemplatesList selectedTemplate={selectedTemplate} onTemplateSelect={onTemplateSelect} />
                 </ScrollArea>
             </div>
