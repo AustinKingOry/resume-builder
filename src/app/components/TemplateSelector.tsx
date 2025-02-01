@@ -4,10 +4,10 @@ import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Check } from "lucide-react"
 import type { ResumeTemplate } from "../types"
-import { resumeTemplates } from "./data/templates"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { resumeTemplates } from "./data/templates";
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 type TemplateSelectorProps = {
   selectedTemplate: string
@@ -16,30 +16,30 @@ type TemplateSelectorProps = {
 
 export default function TemplateSelector({ selectedTemplate, onTemplateSelect }: TemplateSelectorProps) {
   return (
-    <Dialog>
-        <DialogTrigger asChild>
+    <Sheet>
+        <SheetTrigger asChild>
             <Button>Choose Template</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-7xl max-h-[90%]">
-            <DialogHeader>
-                <DialogTitle>Select A Template</DialogTitle>
-                <DialogDescription>
+        </SheetTrigger>
+        <SheetContent className="sm:max-w-7xl grid grid-rows-10">
+            <SheetHeader className="row-span-1">
+                <SheetTitle>Select A Template</SheetTitle>
+                <SheetDescription>
                     Choose A Template To Use For Your Resume.
-                </DialogDescription>
-            </DialogHeader>
-            <div className="max-h-[90%] min-h-96">                
-                <ScrollArea className="w-full h-full min-h-[90%] py-3">
+                </SheetDescription>
+            </SheetHeader>
+            <div className="row-span-9">
+                <ScrollArea className="w-full h-full min-h-96 pr-3">
                     <TemplatesList selectedTemplate={selectedTemplate} onTemplateSelect={onTemplateSelect} />
                 </ScrollArea>
             </div>
-        </DialogContent>
-    </Dialog>
+        </SheetContent>
+    </Sheet>
   )
 }
 
 const TemplatesList = ({ selectedTemplate, onTemplateSelect }: TemplateSelectorProps) => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-2">
       {resumeTemplates.map((template) => (
         <Card
           key={template.id}
