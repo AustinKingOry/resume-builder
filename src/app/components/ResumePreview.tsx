@@ -289,6 +289,38 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       })
     }
 
+    // Add Referees Section
+    if (data.referees && data.referees.length > 0) {
+      addNewPageIfNeeded(20)
+      doc.setFont("helvetica", "bold")
+      doc.setFontSize(12)
+      doc.setTextColor(41, 65, 171)
+      doc.text("REFEREES", leftColX, yPos)
+      yPos += 7
+
+      data.referees.forEach((referee, index) => {
+        if (addNewPageIfNeeded(20)) {
+          doc.setFont("helvetica", "bold")
+          doc.setFontSize(12)
+          doc.setTextColor(41, 65, 171)
+          doc.text("REFEREES (continued)", leftColX, yPos)
+          yPos += 7
+        }
+        doc.setFont("helvetica", "bold")
+        doc.setFontSize(10)
+        doc.setTextColor(60, 60, 60)
+        doc.text(referee.name, leftColX, yPos)
+        yPos += 5
+        doc.setFont("helvetica", "normal")
+        doc.text(`${referee.position} at ${referee.company}`, leftColX, yPos)
+        yPos += 5
+        doc.text(`Email: ${referee.email}`, leftColX, yPos)
+        yPos += 5
+        doc.text(`Phone: ${referee.phone}`, leftColX, yPos)
+        yPos += 10
+      })
+    }
+
     // Add social media links if they exist
     if (data.personalInfo?.socialMedia) {
       addNewPageIfNeeded(20)
@@ -457,6 +489,28 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
             </ul>
           ) : (
             <p className="text-gray-700">No skills listed</p>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="bg-white">
+        <CardHeader>
+          <CardTitle className="text-2xl text-teal-600">Referees</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {data.referees && data.referees.length > 0 ? (
+            data.referees.map((referee, index) => (
+              <div key={index} className="mb-4">
+                <h4 className="font-semibold text-blue-600">{referee.name || "Referee Name"}</h4>
+                <p className="text-gray-700">
+                  {referee.position || "Position"} at {referee.company || "Company"}
+                </p>
+                <p className="text-gray-600">Email: {referee.email || "Email"}</p>
+                <p className="text-gray-600">Phone: {referee.phone || "Phone"}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-700">No referees listed</p>
           )}
         </CardContent>
       </Card>

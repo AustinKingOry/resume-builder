@@ -52,6 +52,15 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
     name: "certifications",
   })
 
+  const {
+    fields: refFields,
+    append: appendRef,
+    remove: removeRef,
+  } = useFieldArray({
+    control,
+    name: "referees",
+  })
+
   React.useEffect(() => {
     const subscription = watch((value, { name, type }) => {
       if (type === "change") {
@@ -457,6 +466,55 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
                 >
                   <PlusCircle className="mr-2 h-4 w-4" />
                   Add Certification
+                </Button>
+              </CardContent>
+            </Card>
+          </AccordionContent>
+        </AccordionItem><AccordionItem value="referees">
+          <AccordionTrigger>Referees</AccordionTrigger>
+          <AccordionContent>
+            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50">
+              <CardContent className="space-y-4 pt-6">
+                {refFields.map((field, index) => (
+                  <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Input
+                        {...register(`referees.${index}.name`)}
+                        placeholder="Referee Name"
+                        className="border-teal-300"
+                      />
+                      <Input
+                        {...register(`referees.${index}.position`)}
+                        placeholder="Position"
+                        className="border-teal-300"
+                      />
+                      <Input
+                        {...register(`referees.${index}.company`)}
+                        placeholder="Company"
+                        className="border-teal-300"
+                      />
+                      <Input
+                        {...register(`referees.${index}.email`)}
+                        placeholder="Email"
+                        type="email"
+                        className="border-teal-300"
+                      />
+                      <Input {...register(`referees.${index}.phone`)} placeholder="Phone" className="border-teal-300" />
+                    </div>
+                    <Button type="button" variant="destructive" size="sm" onClick={() => removeRef(index)}>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendRef({ name: "", position: "", company: "", email: "", phone: "" })}
+                >
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Add Referee
                 </Button>
               </CardContent>
             </Card>

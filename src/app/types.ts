@@ -43,6 +43,13 @@ export type ResumeData = {
       expiry: string
       id: string
     }[]
+    referees: {
+      name: string
+      position: string
+      company: string
+      email: string
+      phone: string
+    }[]
   }
   
   
