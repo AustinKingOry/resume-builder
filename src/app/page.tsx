@@ -20,6 +20,7 @@ export default function Home() {
           location: "",
           website: "",
           photo: "",
+          gender: "",
           socialMedia: {},
         },
         summary: "",
@@ -28,6 +29,7 @@ export default function Home() {
         skills: [] as string[],
         skillLevels: {},
         certifications: [],
+        referees: [],
     })
 
   const handleUpdate = (data: ResumeData) => {
