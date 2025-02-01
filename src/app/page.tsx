@@ -118,7 +118,10 @@ export default function Home() {
                         </ScrollArea>
                     </ResizablePanel>
                 </ResizablePanelGroup>
-                :(<MobileView handleUpdate={handleUpdate} resumeData={resumeData} handleTemplateSelect={handleTemplateSelect} />)}
+                :(
+                <ScrollArea className="h-full w-full pr-2">
+                    <MobileView handleUpdate={handleUpdate} resumeData={resumeData} handleTemplateSelect={handleTemplateSelect} />
+                </ScrollArea>)}
             </div>            
             <div className="w-full h-[4%]">            
                 <Button onClick={handleAIFineTune} className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600">
