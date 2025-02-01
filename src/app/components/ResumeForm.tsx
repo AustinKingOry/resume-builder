@@ -397,7 +397,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
                         <Controller
                           name={`skillLevels.${skill.trim()}`}
                           control={control}
-                          defaultValue={50}
+                          defaultValue={5}
                           render={({ field }) => (
                             <Slider
                               min={0}
