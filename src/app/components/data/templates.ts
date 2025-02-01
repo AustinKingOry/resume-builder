@@ -8,7 +8,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Professional two-column layout with skill ratings",
     layout: "two-column",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/milan-resume-templates.jpg-1968cOXw6nYSw671PBjyJOE3f18z84.jpeg",
+      "/templates/milan-resume-templates.jpg",
   },
   {
     id: "stockholm",
@@ -16,7 +16,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Modern single-column design with progress bars",
     layout: "single-column",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/stockholm-resume-templates.jpg-QDJyqf7IPJgyf1coZWMnfc8fz7yBdc.jpeg",
+      "/templates/stockholm-resume-templates.jpg",
   },
   {
     id: "athens",
@@ -24,7 +24,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Clean layout with expertise grid",
     layout: "modern",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/athens-resume-templates.jpg-fXJhiru6ru4RMHzFEI8eIRKA1kIWmR.jpeg",
+      "/templates/athens-resume-templates.jpg",
   },
   {
     id: "brussels",
@@ -32,7 +32,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Traditional layout with right sidebar",
     layout: "sidebar",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/brussels-resume-templates.jpg-U50nLkLLZViMzCnVqahpT735DgKbUK.jpeg",
+      "/templates/brussels-resume-templates.jpg",
   },
   {
     id: "singapore",
@@ -40,7 +40,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Minimalist black and white design",
     layout: "minimal",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/singapore-resume-templates.jpg-nxpOh0450wynAvmODN5zl0Gtu1SJgV.jpeg",
+      "/templates/singapore-resume-templates.jpg",
   },
   {
     id: "oslo",
@@ -48,7 +48,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Dark theme with centered profile",
     layout: "dark",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/oslo-resume-templates.jpg-txri5fCfyVQVYvwRt93THESJzAkMPo.jpeg",
+      "/templates/oslo-resume-templates.jpg",
   },
   {
     id: "madrid",
@@ -56,7 +56,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Bold header with clean layout",
     layout: "bold",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/madrid-resume-templates.jpg-TKhqZKU5MYdogW5sQsxMOdM1h2QBJQ.jpeg",
+      "/templates/madrid-resume-templates.jpg",
   },
   {
     id: "santiago",
@@ -64,7 +64,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Classic serif design with grey sections",
     layout: "classic",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/santiago-resume-templates.jpg-39zPuvA1JAzmytzCsFmY2dJNpAqk8Q.jpeg",
+      "/templates/santiago-resume-templates.jpg",
   },
   {
     id: "paris",
@@ -72,7 +72,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Elegant design with skills sidebar",
     layout: "elegant",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/paris-resume-templates.jpg-Spbxq5YNqfUz6LbnC9hcGmbDGkEt4I.jpeg",
+      "/templates/paris-resume-templates.jpg",
   },
   {
     id: "tokyo",
@@ -80,7 +80,7 @@ export const resumeTemplates: ResumeTemplate[] = [
     description: "Modern design with skill indicators",
     layout: "modern-dark",
     thumbnail:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/tokyo-resume-templates.jpg-t4VGx4snkryZf8UfqsAENPsAaarecM.jpeg",
+      "/templates/tokyo-resume-templates.jpg",
   },
 ]
 

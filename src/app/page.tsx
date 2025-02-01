@@ -3,12 +3,13 @@
 import { useState } from "react";
 import ResumeForm from "./components/ResumeForm";
 import ResumePreview from "./components/ResumePreview";
-import type { ResumeData } from "./types";
+import type { ResumeData, ResumeTemplate } from "./types";
 import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Head from "next/head";
+import TemplateSelector from "./components/TemplateSelector";
 
 export default function Home() {
     const [resumeData, setResumeData] = useState<ResumeData>({
@@ -35,6 +36,10 @@ export default function Home() {
 
   const handleUpdate = (data: ResumeData) => {
     setResumeData(data)
+  }
+  
+  const handleTemplateSelect = (template: ResumeTemplate) => {
+    setResumeData((prev) => ({ ...prev, selectedTemplate: template.id }))
   }
 
   const handleAIFineTune = async () => {
@@ -101,7 +106,7 @@ export default function Home() {
                         <ScrollArea className="h-full w-full">
                             <div className="w-full flex items-center justify-between px-6">
                                 <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
-                                <Button>Choose Template</Button>
+                                <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
                             </div>
                             <div className="h-full w-full px-6 py-3">
                                 <ResumePreview data={resumeData} />

@@ -7,6 +7,7 @@ import type { ResumeTemplate } from "../types"
 import { resumeTemplates } from "./data/templates"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 type TemplateSelectorProps = {
   selectedTemplate: string
@@ -19,15 +20,17 @@ export default function TemplateSelector({ selectedTemplate, onTemplateSelect }:
         <DialogTrigger asChild>
             <Button>Choose Template</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-7xl max-h-[90%]">
             <DialogHeader>
                 <DialogTitle>Select A Template</DialogTitle>
                 <DialogDescription>
                     Choose A Template To Use For Your Resume.
                 </DialogDescription>
             </DialogHeader>
-            <div className="w-full">
-                <TemplatesList selectedTemplate={selectedTemplate} onTemplateSelect={onTemplateSelect} />
+            <div className="overflow-y-hidden p-2">                
+                <ScrollArea className="relative w-full min-h-[90%] flex flex-col py-3">
+                    <TemplatesList selectedTemplate={selectedTemplate} onTemplateSelect={onTemplateSelect} />
+                </ScrollArea>
             </div>
         </DialogContent>
     </Dialog>
