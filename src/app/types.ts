@@ -1,4 +1,32 @@
-export type ResumeData = {
+export type ResumeTemplate = {
+    id: string
+    name: string
+    description: string
+    layout:
+      | "two-column"
+      | "single-column"
+      | "modern"
+      | "sidebar"
+      | "minimal"
+      | "dark"
+      | "bold"
+      | "classic"
+      | "elegant"
+      | "modern-dark"
+    thumbnail: string
+  }
+  
+  export type ColorTheme = {
+    id: string
+    primary: string
+    secondary: string
+    accent: string
+  }
+  
+  export type SkillLevel = 1 | 2 | 3 | 4 | 5
+  
+  export type ResumeData = {
+    selectedTemplate: ResumeTemplate["id"]
     personalInfo: {
       name: string
       title: string
@@ -34,7 +62,7 @@ export type ResumeData = {
     }[]
     skills: string[]
     skillLevels: {
-      [skill: string]: number
+      [skill: string]: SkillLevel
     }
     certifications: {
       name: string
