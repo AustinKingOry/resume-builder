@@ -1,6 +1,21 @@
 import { Mail, Phone, MapPin } from "lucide-react"
 import type { ResumeData } from "../../types"
 
+const formatDescription = (description: string | undefined) => {
+    if (!description) return null
+    const listItems = description.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
+    if (listItems.length > 0) {
+      return (
+        <ul className="list-disc list-inside">
+          {listItems.map((item, index) => (
+            <li key={index}>{item.replace(/^[-*]\s*/, "")}</li>
+          ))}
+        </ul>
+      )
+    }
+    return <p>{description}</p>
+}
+
 export default function AthensTemplate({ data }: { data: ResumeData }) {
   return (
     <div className="bg-white p-8 max-w-4xl mx-auto">
@@ -30,7 +45,9 @@ export default function AthensTemplate({ data }: { data: ResumeData }) {
             <p className="text-gray-600">
               {exp.company} | {exp.startDate} - {exp.current ? "Present" : exp.endDate}
             </p>
-            <p className="text-gray-700">{exp.description}</p>
+            <div className="text-gray-700">
+                {formatDescription(exp.description)}
+            </div>
           </div>
         ))}
       </section>
