@@ -4,7 +4,7 @@ import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Check } from "lucide-react"
 import type { ResumeTemplate } from "../types"
-import { resumeTemplates } from "./data/templates";
+import { resumeTemplates } from "../data/templates";
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
