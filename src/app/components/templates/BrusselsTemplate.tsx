@@ -1,4 +1,19 @@
-import type { ResumeData } from "../../types"
+import type { ResumeData } from "../../types";
+
+const formatDescription = (description: string | undefined) => {
+    if (!description) return null
+    const listItems = description.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
+    if (listItems.length > 0) {
+      return (
+        <ul className="list-disc list-inside">
+          {listItems.map((item, index) => (
+            <li key={index}>{item.replace(/^[-*]\s*/, "")}</li>
+          ))}
+        </ul>
+      )
+    }
+    return <p>{description}</p>
+}
 
 export default function BrusselsTemplate({ data }: { data: ResumeData }) {
   return (
@@ -22,11 +37,7 @@ export default function BrusselsTemplate({ data }: { data: ResumeData }) {
               <p className="text-gray-600">
                 {exp.company}, {exp.startDate} - {exp.current ? "Present" : exp.endDate}
               </p>
-              <ul className="list-disc list-inside text-gray-700">
-                {exp.description.split(". ").map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
+              {formatDescription(exp.description)}
             </div>
           ))}
         </section>
