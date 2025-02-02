@@ -7,7 +7,7 @@ export const resumeTemplates: ResumeTemplate[] = [
         name: "Nairobi",
         description: "Modern design with a teal accent and clean layout",
         layout: "modern",
-        thumbnail: "/templates/milan-resume-templates.jpg",
+        thumbnail: "/templates/nairobi-resume-templates.png",
     },
     {
         id: "milan",
