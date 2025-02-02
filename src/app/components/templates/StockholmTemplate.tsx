@@ -3,6 +3,21 @@ import { Linkedin, Twitter, Github } from "lucide-react"
 import Image from "next/image"
 import type { ResumeData } from "../../types"
 
+const formatDescription = (description: string | undefined) => {
+    if (!description) return null
+    const listItems = description.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
+    if (listItems.length > 0) {
+      return (
+        <ul className="list-disc list-inside">
+          {listItems.map((item, index) => (
+            <li key={index}>{item.replace(/^[-*]\s*/, "")}</li>
+          ))}
+        </ul>
+      )
+    }
+    return <p>{description}</p>
+}
+
 export default function ModernTemplate({ data }: { data: ResumeData }) {
   return (
     <div className="space-y-6 bg-white rounded-lg shadow p-6">
@@ -77,7 +92,9 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
                   </p>
                 </div>
               </div>
-              <p className="mt-2">{exp.description}</p>
+              <div className="mt-2">
+                {formatDescription(exp.description)}
+              </div>
             </CardContent>
           </Card>
         ))}
