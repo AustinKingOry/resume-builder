@@ -2,6 +2,21 @@ import { Mail, Phone, MapPin } from "lucide-react"
 import Image from "next/image"
 import type { ResumeData } from "../../types"
 
+const formatDescription = (description: string | undefined) => {
+    if (!description) return null
+    const listItems = description.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
+    if (listItems.length > 0) {
+      return (
+        <ul className="list-disc list-inside">
+          {listItems.map((item, index) => (
+            <li key={index}>{item.replace(/^[-*]\s*/, "")}</li>
+          ))}
+        </ul>
+      )
+    }
+    return <p>{description}</p>
+}
+
 export default function ParisTemplate({ data }: { data: ResumeData }) {
   return (
     <div className="bg-white p-8 max-w-4xl mx-auto flex">
@@ -53,7 +68,7 @@ export default function ParisTemplate({ data }: { data: ResumeData }) {
               <p className="text-gray-600">
                 {exp.company} | {exp.startDate} - {exp.current ? "Present" : exp.endDate}
               </p>
-              <p>{exp.description}</p>
+              {formatDescription(exp.description)}
             </div>
           ))}
         </section>
