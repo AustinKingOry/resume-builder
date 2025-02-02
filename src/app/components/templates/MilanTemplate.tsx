@@ -3,24 +3,19 @@ import { Linkedin, Twitter, Github, Mail, Phone, MapPin, Globe } from "lucide-re
 import Image from "next/image"
 import type { ResumeData } from "../../types"
 
-const detectListItems = (text: string | undefined): string[] => {
-  if (!text) return []
-  return text.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
-}
-
 const formatDescription = (description: string | undefined) => {
-  if (!description) return null
-  const listItems = detectListItems(description)
-  if (listItems.length > 0) {
-    return (
-      <ul className="list-disc list-inside">
-        {listItems.map((item, index) => (
-          <li key={index}>{item.replace(/^[-*]\s*/, "")}</li>
-        ))}
-      </ul>
-    )
-  }
-  return <p>{description}</p>
+    if (!description) return null
+    const listItems = description.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
+    if (listItems.length > 0) {
+      return (
+        <ul className="list-disc list-inside">
+          {listItems.map((item, index) => (
+            <li key={index}>{item.replace(/^[-*]\s*/, "")}</li>
+          ))}
+        </ul>
+      )
+    }
+    return <p>{description}</p>
 }
 
 export default function MilanTemplate({ data }: { data: ResumeData }) {
