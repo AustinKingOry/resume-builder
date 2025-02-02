@@ -7,6 +7,7 @@ import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
+import NairobiTemplate from "./templates/NairobiTemplate"
 import StockholmTemplate from "./templates/StockholmTemplate"
 import AthensTemplate from "./templates/AthensTemplate"
 import BrusselsTemplate from "./templates/BrusselsTemplate"
@@ -30,28 +31,30 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
   const renderTemplate = () => {
     switch (data.selectedTemplate) {
-      case "milan":
-        return <MilanTemplate data={data} />
-      case "stockholm":
-        return <StockholmTemplate data={data} />
-      case "athens":
-        return <AthensTemplate data={data} />
-      case "brussels":
-        return <BrusselsTemplate data={data} />
-      case "singapore":
-        return <SingaporeTemplate data={data} />
-      case "oslo":
-        return <OsloTemplate data={data} />
-      case "madrid":
-        return <MadridTemplate data={data} />
-      case "santiago":
-        return <SantiagoTemplate data={data} />
-      case "paris":
-        return <ParisTemplate data={data} />
-      case "tokyo":
-        return <TokyoTemplate data={data} />
-      default:
-        return <MilanTemplate data={data} />
+        case "nairobi":
+            return <NairobiTemplate data={data}  />
+        case "milan":
+            return <MilanTemplate data={data} />
+        case "stockholm":
+            return <StockholmTemplate data={data} />
+        case "athens":
+            return <AthensTemplate data={data} />
+        case "brussels":
+            return <BrusselsTemplate data={data} />
+        case "singapore":
+            return <SingaporeTemplate data={data} />
+        case "oslo":
+            return <OsloTemplate data={data} />
+        case "madrid":
+            return <MadridTemplate data={data} />
+        case "santiago":
+            return <SantiagoTemplate data={data} />
+        case "paris":
+            return <ParisTemplate data={data} />
+        case "tokyo":
+            return <TokyoTemplate data={data} />
+        default:
+            return <MilanTemplate data={data} />
     }
   }
 

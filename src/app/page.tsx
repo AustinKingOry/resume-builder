@@ -157,7 +157,7 @@ export default function Home() {
                     </ScrollArea>)}
                 </div>            
                 <div className="w-full h-[4%]">
-                    <div className="flex justify-between mt-4">
+                    <div className="flex justify-between">
                         <Button
                         onClick={handleAIFineTune}
                         className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600"
