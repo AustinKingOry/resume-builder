@@ -24,6 +24,7 @@ type ResumePreviewProps = {
 export default function ResumePreview({ data }: ResumePreviewProps) {
   const [pdfError, setPdfError] = useState<string | null>(null)
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const template = resumeTemplates.find((t) => t.id === data.selectedTemplate) || resumeTemplates[0]
   const colorTheme = colorThemes[0] // Default to first color theme for now
 

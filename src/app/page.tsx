@@ -29,7 +29,17 @@ export default function Home() {
           socialMedia: {},
         },
         summary: "",
-        experience: [],
+        experience: [
+            {
+              title: "",
+              company: "",
+              startDate: "",
+              endDate: "",
+              location: "",
+              description: "",
+              current: false,
+            },
+        ],
         education: [],
         skills: [],
         skillLevels: {},

@@ -266,8 +266,8 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
                     />
                     <Textarea
                       {...register(`experience.${index}.description`)}
-                      placeholder="Job Description"
-                      className="border-yellow-300"
+                      placeholder="Job Description (Use '-' or '*' at the start of a line for bullet points)"
+                      className="border-yellow-300 min-h-[150px]"
                     />
                     <div className="flex items-center space-x-2">
                       <Switch {...register(`experience.${index}.current`)} />
