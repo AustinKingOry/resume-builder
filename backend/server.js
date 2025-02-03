@@ -2,7 +2,6 @@ import express from "express";
 import puppeteer from "puppeteer";
 import cors from "cors";
 import bodyParser from "body-parser";
-import fs from "fs";
 
 const app = express();
 app.use(cors());  // Enable frontend requests
@@ -31,8 +30,6 @@ app.post("/generate-pdf", async (req, res) => {
 
 
         const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
-        // Save the PDF locally for debugging
-        fs.writeFileSync("test.pdf", pdfBuffer);
 
         res.setHeader("Content-Type", "application/pdf");
         res.setHeader("Content-Disposition", 'attachment; filename="resume.pdf"');
