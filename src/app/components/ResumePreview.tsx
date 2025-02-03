@@ -89,7 +89,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                 const response = await fetch("/api/convert", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ html }),
+                body: JSON.stringify({ html, name:`${data.personalInfo.name}` }),
                 })
 
                 if (response.ok) {
@@ -98,7 +98,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
                 const a = document.createElement("a")
                 a.href = url
-                a.download = "resume.pdf"
+                a.download = `${data.personalInfo.name} Resume.pdf`
                 document.body.appendChild(a)
                 a.click()
                 document.body.removeChild(a)

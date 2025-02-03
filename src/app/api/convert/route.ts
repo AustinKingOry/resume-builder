@@ -2,9 +2,13 @@ import { type NextRequest, NextResponse } from "next/server"
 import puppeteer from "puppeteer"
 
 export async function POST(req: NextRequest) {
-  const { html } = await req.json()
+  const { html, name } = await req.json()
     if (!html) {
         return NextResponse.json({ error: "HTML content is required" }, { status: 400 })
+    }
+    let userName = name;
+    if(!name){
+        userName = "New Resume";
     }
 
     let browser
@@ -21,6 +25,9 @@ export async function POST(req: NextRequest) {
             deviceScaleFactor: 2, // Increase for better quality
         })
         await page.setContent(html, { waitUntil: "networkidle0" })
+        await page.evaluate((name) => {
+            document.title = `${name}'s Resume`;
+        }, userName);
         const pdf = await page.pdf({ 
             margin: { top: "5mm", right: "0mm", bottom: "5mm", left: "0mm" },
             printBackground: true,
@@ -32,7 +39,7 @@ export async function POST(req: NextRequest) {
         status: 200,
         headers: {
             "Content-Type": "application/pdf",
-            "Content-Disposition": "attachment; filename=converted.pdf",
+            "Content-Disposition": `attachment; filename=${userName} Resume.pdf`,
         },
         })
     } catch (error) {
