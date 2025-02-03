@@ -4,48 +4,54 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 const app = express();
-app.use(cors());  // Enable frontend requests
-app.use(bodyParser.json({ limit: "10mb" })); // Increase request size limit
+app.use(cors());
+app.use(bodyParser.json({ limit: "50mb" })) // Increased limit for larger HTML content
 
 app.post("/generate-pdf", async (req, res) => {
-    const { html } = req.body;
-    if (!html) return res.status(400).json({ error: "No HTML content provided" });
+    const { html } = req.body
+    if (!html) return res.status(400).json({ error: "No HTML content provided" })
 
-    let browser;
+    let browser
     try {
         browser = await puppeteer.launch({
-            headless: "new", // Use "true" if "new" causes issues
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        });
+        headless: "new",
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        })
 
-        const page = await browser.newPage();
-        await page.setContent(html, { waitUntil: "networkidle2" });
+        const page = await browser.newPage()
 
-        await page.setContent(html, { waitUntil: "domcontentloaded" });
+        // Set the content and wait for the network to be idle
+        await page.setContent(html, { waitUntil: "networkidle0" })
 
-        // Inject Tailwind styles if not included in the HTML
+        // Inject Tailwind CSS
         await page.addStyleTag({
-            url: "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css",
-        });
+        url: "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css",
+        })
 
+        // Wait for a short time to ensure styles are applied (using setTimeout instead of waitForTimeout)
+        await new Promise((resolve) => setTimeout(resolve, 1000))
 
-        const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
+        const pdfBuffer = await page.pdf({
+        margin: { top: "20mm", right: "20mm", bottom: "20mm", left: "20mm" },
+        printBackground: true,
+        format: "A4",
+        })
 
-        res.setHeader("Content-Type", "application/pdf");
-        res.setHeader("Content-Disposition", 'attachment; filename="resume.pdf"');
-        res.send(pdfBuffer);
+        res.setHeader("Content-Type", "application/pdf")
+        res.setHeader("Content-Disposition", 'attachment; filename="resume.pdf"')
+        res.send(pdfBuffer)
     } catch (error) {
-        console.error("Error generating PDF:", error);
-        res.status(500).json({ error: "Failed to generate PDF" });
+        console.error("Error generating PDF:", error)
+        res.status(500).json({ error: "Failed to generate PDF", details: error.message })
     } finally {
-        if (browser) await browser.close(); // Ensure browser closes
+        if (browser) await browser.close()
     }
-});
+})
 
+app.get("/", (req, res) => {
+    res.json({ message: "PDF generation server is running." })
+})
 
-app.get('/', (req, res) => {
-    res.json({ message: 'All systems normal. (Backend)' });
-});
+const PORT = 5000
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import type { ResumeData } from "../types"
 import { resumeTemplates, colorThemes } from "../data/templates"
-// import { jsPDF } from "jspdf"
+import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
@@ -24,6 +24,7 @@ type ResumePreviewProps = {
 
 export default function ResumePreview({ data }: ResumePreviewProps) {
   const [pdfError, setPdfError] = useState<string | null>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const template = resumeTemplates.find((t) => t.id === data.selectedTemplate) || resumeTemplates[0]
@@ -58,65 +59,75 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     }
   }
 
-    const exportToPDF = async () => {
-        const element = document.getElementById("resume-preview");
-
-        if (element) {
-            const html = element.outerHTML; // Get the resume HTML
-
-            try {
-                const response = await fetch("http://localhost:5000/generate-pdf", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ html }),
-                });
-
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "resume.pdf";
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                } else {
-                    console.error("Failed to generate PDF");
-                    setPdfError("Failed to generate PDF. Please try again.")
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                setPdfError("Failed to generate PDF. Please try again.")
-            }
-        } else {
-            console.error("Resume preview not found.");
-            setPdfError("Resume preview not found. Please try again.")
-        }
-    };
-
 //   const exportToPDF = async () => {
-//     const doc = new jsPDF()
 //     const element = document.getElementById("resume-preview")
+
 //     if (element) {
+//       setIsGenerating(true)
+//       setPdfError(null)
+
+//       // Combine styles with HTML
+//       const html = element.outerHTML;
+
 //       try {
-//         await doc.html(element, {
-//           callback: (doc) => {
-//             doc.save("resume.pdf")
-//           },
-//           x: 10,
-//           y: 10,
-//           width: 180,
-//           windowWidth: 1000,
+//         const response = await fetch("http://localhost:5000/generate-pdf", {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           body: JSON.stringify({ html }),
 //         })
+
+//         if (response.ok) {
+//           const blob = await response.blob()
+//           const url = window.URL.createObjectURL(blob)
+
+//           const a = document.createElement("a")
+//           a.href = url
+//           a.download = "resume.pdf"
+//           document.body.appendChild(a)
+//           a.click()
+//           document.body.removeChild(a)
+//         } else {
+//           const errorData = await response.json()
+//           console.error("Failed to generate PDF:", errorData)
+//           setPdfError(`Failed to generate PDF: ${errorData.error}`)
+//         }
 //       } catch (error) {
-//         console.error("Error generating PDF:", error)
+//         console.error("Error:", error)
 //         setPdfError("Failed to generate PDF. Please try again.")
+//       } finally {
+//         setIsGenerating(false)
 //       }
 //     } else {
+//       console.error("Resume preview not found.")
 //       setPdfError("Resume preview not found. Please try again.")
 //     }
 //   }
+
+  const exportToPDF = async () => {
+    const doc = new jsPDF()
+    const element = document.getElementById("resume-preview")
+    if (element) {
+        setIsGenerating(true);
+        try {
+            await doc.html(element, {
+            callback: (doc) => {
+                doc.save("resume.pdf")
+            },
+            x: 10,
+            y: 10,
+            width: 180,
+            windowWidth: 1000,
+            })
+        } catch (error) {
+            console.error("Error generating PDF:", error)
+            setPdfError("Failed to generate PDF. Please try again.")
+        } finally {
+            setIsGenerating(false)
+        }
+    } else {
+      setPdfError("Resume preview not found. Please try again.")
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -131,9 +142,10 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
           background: `linear-gradient(to right, ${colorTheme.primary}, ${colorTheme.secondary})`,
           color: "white",
         }}
+        disabled={isGenerating}
       >
         <Download className="mr-2 h-4 w-4" />
-        Export to PDF
+        {isGenerating ? "Generating PDF..." : "Export to PDF"}
       </Button>
 
       {pdfError && <p className="text-red-500 text-center mt-2">{pdfError}</p>}
