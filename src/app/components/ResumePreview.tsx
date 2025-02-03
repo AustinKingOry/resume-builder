@@ -3,7 +3,7 @@
 import { useState } from "react"
 import type { ResumeData } from "../types"
 import { resumeTemplates, colorThemes } from "../data/templates"
-import { jsPDF } from "jspdf"
+// import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
@@ -19,120 +19,139 @@ import ParisTemplate from "./templates/ParisTemplate"
 import TokyoTemplate from "./templates/TokyoTemplate"
 
 type ResumePreviewProps = {
-  data: ResumeData
+    data: ResumeData
 }
 
 export default function ResumePreview({ data }: ResumePreviewProps) {
-  const [pdfError, setPdfError] = useState<string | null>(null)
-  const [isGenerating, setIsGenerating] = useState(false)
+    const [pdfError, setPdfError] = useState<string | null>(null)
+    const [isGenerating, setIsGenerating] = useState(false)
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const template = resumeTemplates.find((t) => t.id === data.selectedTemplate) || resumeTemplates[0]
-  const colorTheme = colorThemes[1] // Default to first color theme for now
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const template = resumeTemplates.find((t) => t.id === data.selectedTemplate) || resumeTemplates[0]
+    const colorTheme = colorThemes[1] // Default to first color theme for now
 
-  const renderTemplate = () => {
-    switch (data.selectedTemplate) {
-        case "nairobi":
-            return <NairobiTemplate data={data}  />
-        case "milan":
-            return <MilanTemplate data={data} />
-        case "stockholm":
-            return <StockholmTemplate data={data} />
-        case "athens":
-            return <AthensTemplate data={data} />
-        case "brussels":
-            return <BrusselsTemplate data={data} />
-        case "singapore":
-            return <SingaporeTemplate data={data} />
-        case "oslo":
-            return <OsloTemplate data={data} />
-        case "madrid":
-            return <MadridTemplate data={data} />
-        case "santiago":
-            return <SantiagoTemplate data={data} />
-        case "paris":
-            return <ParisTemplate data={data} />
-        case "tokyo":
-            return <TokyoTemplate data={data} />
-        default:
-            return <MilanTemplate data={data} />
+    const renderTemplate = () => {
+        switch (data.selectedTemplate) {
+            case "nairobi":
+                return <NairobiTemplate data={data}  />
+            case "milan":
+                return <MilanTemplate data={data} />
+            case "stockholm":
+                return <StockholmTemplate data={data} />
+            case "athens":
+                return <AthensTemplate data={data} />
+            case "brussels":
+                return <BrusselsTemplate data={data} />
+            case "singapore":
+                return <SingaporeTemplate data={data} />
+            case "oslo":
+                return <OsloTemplate data={data} />
+            case "madrid":
+                return <MadridTemplate data={data} />
+            case "santiago":
+                return <SantiagoTemplate data={data} />
+            case "paris":
+                return <ParisTemplate data={data} />
+            case "tokyo":
+                return <TokyoTemplate data={data} />
+            default:
+                return <MilanTemplate data={data} />
+        }
     }
-  }
+    const exportToPDF = async () => {
+        const element = document.getElementById("resume-preview")
 
+        if (element) {
+            setIsGenerating(true)
+            setPdfError(null)
+
+            // Get the styles
+            const styles = Array.from(document.styleSheets)
+                .map((sheet) => {
+                try {
+                    return Array.from(sheet.cssRules)
+                    .map((rule) => rule.cssText)
+                    .join("")
+                } catch (e) {
+                    console.log("Error accessing stylesheet rules",e)
+                    return ""
+                }
+                })
+                .join("\n")
+
+            // Combine styles with HTML
+            const html = `
+                <style>${styles}</style>
+                ${element.outerHTML}
+            `
+
+            try {
+                const response = await fetch("/api/convert", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ html }),
+                })
+
+                if (response.ok) {
+                const blob = await response.blob()
+                const url = window.URL.createObjectURL(blob)
+
+                const a = document.createElement("a")
+                a.href = url
+                a.download = "resume.pdf"
+                document.body.appendChild(a)
+                a.click()
+                document.body.removeChild(a)
+                } else {
+                const errorData = await response.json()
+                console.error("Failed to generate PDF:", errorData)
+                setPdfError(`Failed to generate PDF: ${errorData.error}`)
+                }
+            } catch (error) {
+                console.error("Error:", error)
+                setPdfError("Failed to generate PDF. Please try again.")
+            } finally {
+                setIsGenerating(false)
+            }
+        } else {
+            console.error("Resume preview not found.")
+            setPdfError("Resume preview not found. Please try again.")
+        }
+    }
+
+    // jspdf alternative
 //   const exportToPDF = async () => {
+//     const doc = new jsPDF()
 //     const element = document.getElementById("resume-preview")
-
 //     if (element) {
-//       setIsGenerating(true)
-//       setPdfError(null)
-
-//       // Combine styles with HTML
-//       const html = element.outerHTML;
-
-//       try {
-//         const response = await fetch("http://localhost:5000/generate-pdf", {
-//           method: "POST",
-//           headers: { "Content-Type": "application/json" },
-//           body: JSON.stringify({ html }),
-//         })
-
-//         if (response.ok) {
-//           const blob = await response.blob()
-//           const url = window.URL.createObjectURL(blob)
-
-//           const a = document.createElement("a")
-//           a.href = url
-//           a.download = "resume.pdf"
-//           document.body.appendChild(a)
-//           a.click()
-//           document.body.removeChild(a)
-//         } else {
-//           const errorData = await response.json()
-//           console.error("Failed to generate PDF:", errorData)
-//           setPdfError(`Failed to generate PDF: ${errorData.error}`)
+//         setIsGenerating(true);
+//         try {
+//             await doc.html(element, {
+//             callback: (doc) => {
+//                 doc.save("resume.pdf")
+//             },
+//             x: 10,
+//             y: 10,
+//             width: 180,
+//             windowWidth: 1000,
+//             })
+//         } catch (error) {
+//             console.error("Error generating PDF:", error)
+//             setPdfError("Failed to generate PDF. Please try again.")
+//         } finally {
+//             setIsGenerating(false)
 //         }
-//       } catch (error) {
-//         console.error("Error:", error)
-//         setPdfError("Failed to generate PDF. Please try again.")
-//       } finally {
-//         setIsGenerating(false)
-//       }
 //     } else {
-//       console.error("Resume preview not found.")
 //       setPdfError("Resume preview not found. Please try again.")
 //     }
 //   }
 
-  const exportToPDF = async () => {
-    const doc = new jsPDF()
-    const element = document.getElementById("resume-preview")
-    if (element) {
-        setIsGenerating(true);
-        try {
-            await doc.html(element, {
-            callback: (doc) => {
-                doc.save("resume.pdf")
-            },
-            x: 10,
-            y: 10,
-            width: 180,
-            windowWidth: 1000,
-            })
-        } catch (error) {
-            console.error("Error generating PDF:", error)
-            setPdfError("Failed to generate PDF. Please try again.")
-        } finally {
-            setIsGenerating(false)
-        }
-    } else {
-      setPdfError("Resume preview not found. Please try again.")
-    }
-  }
-
   return (
     <div className="space-y-6">
-      <div id="resume-preview" className="bg-white rounded-lg shadow-lg p-8">
-        {renderTemplate()}
+      <div className="bg-white rounded-lg shadow-lg p-8">
+        <div id="resume-preview" className="bg-white">        
+            {renderTemplate()}
+        </div>
       </div>
 
       <Button

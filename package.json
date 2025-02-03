@@ -24,6 +24,7 @@
     "jspdf": "^2.5.2",
     "lucide-react": "^0.474.0",
     "next": "15.1.6",
+    "puppeteer": "^24.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
