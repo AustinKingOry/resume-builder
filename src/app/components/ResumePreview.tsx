@@ -3,7 +3,7 @@
 import { useState } from "react"
 import type { ResumeData } from "../types"
 import { resumeTemplates, colorThemes } from "../data/templates"
-import { jsPDF } from "jspdf"
+// import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
@@ -58,28 +58,65 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     }
   }
 
-  const exportToPDF = async () => {
-    const doc = new jsPDF()
-    const element = document.getElementById("resume-preview")
-    if (element) {
-      try {
-        await doc.html(element, {
-          callback: (doc) => {
-            doc.save("resume.pdf")
-          },
-          x: 10,
-          y: 10,
-          width: 180,
-          windowWidth: 1000,
-        })
-      } catch (error) {
-        console.error("Error generating PDF:", error)
-        setPdfError("Failed to generate PDF. Please try again.")
-      }
-    } else {
-      setPdfError("Resume preview not found. Please try again.")
-    }
-  }
+    const exportToPDF = async () => {
+        const element = document.getElementById("resume-preview");
+
+        if (element) {
+            const html = element.outerHTML; // Get the resume HTML
+
+            try {
+                const response = await fetch("http://localhost:5000/generate-pdf", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ html }),
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "resume.pdf";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                } else {
+                    console.error("Failed to generate PDF");
+                    setPdfError("Failed to generate PDF. Please try again.")
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                setPdfError("Failed to generate PDF. Please try again.")
+            }
+        } else {
+            console.error("Resume preview not found.");
+            setPdfError("Resume preview not found. Please try again.")
+        }
+    };
+
+//   const exportToPDF = async () => {
+//     const doc = new jsPDF()
+//     const element = document.getElementById("resume-preview")
+//     if (element) {
+//       try {
+//         await doc.html(element, {
+//           callback: (doc) => {
+//             doc.save("resume.pdf")
+//           },
+//           x: 10,
+//           y: 10,
+//           width: 180,
+//           windowWidth: 1000,
+//         })
+//       } catch (error) {
+//         console.error("Error generating PDF:", error)
+//         setPdfError("Failed to generate PDF. Please try again.")
+//       }
+//     } else {
+//       setPdfError("Resume preview not found. Please try again.")
+//     }
+//   }
 
   return (
     <div className="space-y-6">
