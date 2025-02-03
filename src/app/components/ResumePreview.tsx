@@ -27,7 +27,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const template = resumeTemplates.find((t) => t.id === data.selectedTemplate) || resumeTemplates[0]
-  const colorTheme = colorThemes[0] // Default to first color theme for now
+  const colorTheme = colorThemes[1] // Default to first color theme for now
 
   const renderTemplate = () => {
     switch (data.selectedTemplate) {
