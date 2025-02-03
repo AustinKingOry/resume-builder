@@ -39,5 +39,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-vercel.json
+/vercel.json
 src/app/components/ResumePreview - Copy.tsx
