@@ -3,7 +3,7 @@
 import { useState } from "react"
 import type { ResumeData } from "../types"
 import { resumeTemplates, colorThemes } from "../data/templates"
-// import { jsPDF } from "jspdf"
+import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
@@ -120,31 +120,41 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     }
 
     // jspdf alternative
-//   const exportToPDF = async () => {
-//     const doc = new jsPDF()
-//     const element = document.getElementById("resume-preview")
-//     if (element) {
-//         setIsGenerating(true);
-//         try {
-//             await doc.html(element, {
-//             callback: (doc) => {
-//                 doc.save("resume.pdf")
-//             },
-//             x: 10,
-//             y: 10,
-//             width: 180,
-//             windowWidth: 1000,
-//             })
-//         } catch (error) {
-//             console.error("Error generating PDF:", error)
-//             setPdfError("Failed to generate PDF. Please try again.")
-//         } finally {
-//             setIsGenerating(false)
-//         }
-//     } else {
-//       setPdfError("Resume preview not found. Please try again.")
-//     }
-//   }
+    const exportToPDFProd = async () => {
+        const doc = new jsPDF()
+        const element = document.getElementById("resume-preview")
+        if (element) {
+            setIsGenerating(true);
+            try {
+                await doc.html(element, {
+                callback: (doc) => {
+                    doc.save(`${data.personalInfo.name} Resume.pdf`)
+                },
+                x: 10,
+                y: 10,
+                width: 180,
+                windowWidth: 1000,
+                })
+            } catch (error) {
+                console.error("Error generating PDF:", error)
+                setPdfError("Failed to generate PDF. Please try again.")
+            } finally {
+                setIsGenerating(false)
+            }
+        } else {
+        setPdfError("Resume preview not found. Please try again.")
+        }
+    }
+
+    const downloadPDF = async () => {
+        const isProd = process.env.VERCEL_ENV === "production";
+        if(isProd){
+            await exportToPDFProd();
+            console.log("Using jsPDF")
+            return;
+        }
+        await exportToPDF();
+    }
 
   return (
     <div className="space-y-6">
@@ -155,7 +165,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
       </div>
 
       <Button
-        onClick={exportToPDF}
+        onClick={downloadPDF}
         className="w-full"
         style={{
           background: `linear-gradient(to right, ${colorTheme.primary}, ${colorTheme.secondary})`,
