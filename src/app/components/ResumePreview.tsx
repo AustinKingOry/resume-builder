@@ -147,7 +147,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     }
 
     const downloadPDF = async () => {
-        const isProd = process.env.VERCEL_ENV === "production";
+        const isProd = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
         if(isProd){
             await exportToPDFProd();
             console.log("Using jsPDF")
