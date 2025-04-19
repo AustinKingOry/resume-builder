@@ -3,7 +3,7 @@
 
 import React from "react"
 import { useForm, useFieldArray, Controller } from "react-hook-form"
-import type { ResumeData } from "../types"
+import type { ResumeData } from "../../lib/types"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"

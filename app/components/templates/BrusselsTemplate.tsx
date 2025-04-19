@@ -1,4 +1,4 @@
-import type { ResumeData } from "../../types";
+import type { ResumeData } from "../../../lib/types";
 
 const formatDescription = (description: string | undefined) => {
     if (!description) return null

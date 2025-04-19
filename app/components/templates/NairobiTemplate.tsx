@@ -1,6 +1,6 @@
 import { Mail, Phone, MapPin, Globe, Linkedin, Twitter, Github } from "lucide-react"
 import Image from "next/image"
-import type { ResumeData } from "../../types"
+import type { ResumeData } from "../../../lib/types"
 
 const formatDescription = (description: string | undefined) => {
   if (!description) return null

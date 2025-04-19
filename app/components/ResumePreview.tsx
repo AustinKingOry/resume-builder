@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import type { ResumeData } from "../types"
+import type { ResumeData } from "../../lib/types"
 import { resumeTemplates, colorThemes } from "../data/templates"
 import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"

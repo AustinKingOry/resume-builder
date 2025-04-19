@@ -1,4 +1,4 @@
-import { ResumeTemplate } from "@/app/types"
+import { ResumeTemplate } from "@/lib/types"
 
 
 export const resumeTemplates: ResumeTemplate[] = [

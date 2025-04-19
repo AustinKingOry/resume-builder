@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from "@/components/ui/layout/navbar";
 import { TemplatesList } from "../../components/TemplateSelector";
-import { ResumeData, ResumeTemplate } from "../../types";
+import { ResumeData, ResumeTemplate } from "../../../lib/types";
 
 const initialResumeData: ResumeData = {
     selectedTemplate: "milan",
