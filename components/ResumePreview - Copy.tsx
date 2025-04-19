@@ -2,7 +2,7 @@
 "use client"
 
 import { useState } from "react"
-import type { ResumeData } from "../../lib/types"
+import type { ResumeData } from "@/lib/types"
 import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
