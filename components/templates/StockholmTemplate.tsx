@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Linkedin, Twitter, Github } from "lucide-react"
 import Image from "next/image"
-import type { ResumeData } from "../../../lib/types"
+import type { ResumeData } from "../../lib/types"
 
 const formatDescription = (description: string | undefined) => {
     if (!description) return null
