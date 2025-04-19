@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export function CTASection() {
     return (
@@ -14,11 +15,11 @@ export function CTASection() {
                 </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <Button size="lg" className="bg-[#1E3A8A] hover:bg-[#1E3A8A]/90">
-                Try for Free
+                <Button size="lg" className="bg-[#1E3A8A] hover:bg-[#1E3A8A]/90" asChild>
+                <Link href={"/builder"}>Try for Free</Link>
                 </Button>
-                <Button size="lg" variant="outline" className="border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10">
-                Log In
+                <Button size="lg" variant="outline" className="border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10" asChild>
+                    <Link href={'/login'}>Log In</Link>
                 </Button>
             </div>
             </div>
