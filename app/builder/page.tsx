@@ -1,15 +1,15 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import ResumeForm from "../components/ResumeForm";
-import ResumePreview from "../components/ResumePreview";
+import ResumeForm from "@/components/ResumeForm";
+import ResumePreview from "@/components/ResumePreview";
 import type { ResumeData, ResumeTemplate } from "../../lib/types";
 import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Head from "next/head";
-import TemplateSelector from "../components/TemplateSelector";
+import TemplateSelector from "@/components/TemplateSelector";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
