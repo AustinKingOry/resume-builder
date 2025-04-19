@@ -9,7 +9,7 @@ export function Footer() {
                 <div className="flex flex-col space-y-4">
                     <div className="flex items-center gap-2">
                     <Image src="/logo.png?height=32&width=32" width={32} height={32} alt="KaziKit Logo" />
-                    <span className="text-xl font-bold text-[#1E3A8A]">KaziKit</span>
+                    <span className="text-xl font-bold text-[#1E3A8A] sr-only">KaziKit</span>
                     </div>
                     <p className="text-sm text-gray-600">
                     Your all-in-one toolkit to build a standout professional profile and thrive in your career journey.

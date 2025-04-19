@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
 		<div className="container mx-auto flex h-16 items-center justify-between px-4">
 			<Link href="/" className="flex items-center space-x-2">
 				<Image src="/logo.png?height=32&width=32" width={32} height={32} alt="KaziKit Logo" />
-				<span className="text-xl font-bold">{appData.name}</span>
+				<span className="text-xl font-bold sr-only">{appData.name}</span>
 			</Link>
 			<nav className="hidden md:flex items-center space-x-6">
 			<Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
