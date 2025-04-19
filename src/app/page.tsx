@@ -1,212 +1,148 @@
-"use client"
+import React from 'react';
+import Link from "next/link";
+import { Button } from '@/components/ui/button';
+import Navbar from "@/components/ui/layout/navbar";
+import { FileText, Award, Download, Layout, ArrowRight } from 'lucide-react';
 
-import React, { useEffect, useState } from "react";
-import ResumeForm from "./components/ResumeForm";
-import ResumePreview from "./components/ResumePreview";
-import type { ResumeData, ResumeTemplate } from "./types";
-import { Button } from "@/components/ui/button";
-import { Wand2 } from "lucide-react";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Head from "next/head";
-import TemplateSelector from "./components/TemplateSelector";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-const initialResumeData: ResumeData = {
-    selectedTemplate: "milan",
-    personalInfo: {
-        name: "",
-        title: "",
-        email: "",
-        phone: "",
-        location: "",
-        website: "",
-        photo: "",
-        gender: "",
-        socialMedia: {},
+const Index = () => {
+  const features = [
+    {
+      title: "Professional Templates",
+      description: "Choose from a variety of professionally designed templates that stand out.",
+      icon: Layout
     },
-    summary: "",
-    experience: [
-      {
-        title: "",
-        company: "",
-        startDate: "",
-        endDate: "",
-        location: "",
-        description: "",
-        current: false,
-      },
-    ],
-    education: [],
-    skills: [],
-    skillLevels: {},
-    certifications: [],
-    referees: [],
-}
-
-export default function Home() {
-    const isDesktop = useMediaQuery("(min-width: 768px)")
-    const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData)
-
-    useEffect(() => {
-        // Load data from local storage when the component mounts
-        const savedData = localStorage.getItem("resumeData")
-        if (savedData) {
-        setResumeData(JSON.parse(savedData))
-        }
-    }, [])
-  const handleUpdate = (data: ResumeData) => {
-    setResumeData(data)
-    // Save data to local storage whenever it's updated
-    localStorage.setItem("resumeData", JSON.stringify(data))
-  }
-
-    const handleTemplateSelect = (template: ResumeTemplate) => {
-        const updatedData = { ...resumeData, selectedTemplate: template.id }
-        setResumeData(updatedData)
-        // Save data to local storage when template is changed
-        localStorage.setItem("resumeData", JSON.stringify(updatedData))
+    {
+      title: "ATS-Friendly",
+      description: "Our resumes are optimized to pass through Applicant Tracking Systems.",
+      icon: Award
+    },
+    {
+      title: "Easy Export",
+      description: "Download your resume as a professional PDF with just one click.",
+      icon: Download
     }
+  ];
 
-    const handleAIFineTune = async () => {
-        // This is where we'd implement the AI fine-tuning logic
-        console.log("AI fine-tuning initiated")
-        // For demonstration, let's update the summary and add a skill
-        const updatedData = {
-            ...resumeData,
-            summary: resumeData.summary + " [AI enhanced: This professional is highly skilled and motivated.]",
-            skills: [...resumeData.skills, "AI-enhanced skill"],
-            referees: [
-            ...resumeData.referees,
-            {
-                name: "AI Generated Referee",
-                position: "AI Manager",
-                company: "Tech Innovations Inc.",
-                email: "ai.referee@example.com",
-                phone: "+1 (555) 123-4567",
-            },
-            ],
-        }
-        setResumeData(updatedData);
-        // Save AI-enhanced data to local storage
-        localStorage.setItem("resumeData", JSON.stringify(updatedData))
+  const steps = [
+    {
+      title: "Choose a Template",
+      description: "Select from our collection of professional, ATS-friendly resume templates."
+    },
+    {
+      title: "Fill in Your Details",
+      description: "Enter your information using our intuitive form interface."
+    },
+    {
+      title: "Preview & Customize",
+      description: "See your resume take shape in real-time and make adjustments as needed."
+    },
+    {
+      title: "Download & Share",
+      description: "Export your resume as a PDF and start applying for jobs."
     }
+  ];
 
-    const handleReset = () => {
-        setResumeData(initialResumeData)
-        // Clear data from local storage
-        localStorage.removeItem("resumeData")
-    }
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-b from-background to-muted py-20">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Create Professional Resumes in Minutes</h1>
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Build beautiful, ATS-friendly resumes with our easy-to-use resume builder. 
+              Choose from professional templates and download as PDF.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link href="/builder">
+                <Button size="lg" className="w-full sm:w-auto">
+                  <FileText className="mr-2 h-5 w-5" />
+                  Create Your Resume
+                </Button>
+              </Link>
+              <Link href="/templates">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto">
+                  <Layout className="mr-2 h-5 w-5" />
+                  Browse Templates
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
 
-    return (
-        <>
-        <Head>
-        {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" />
-
-        {/* Metadata */}
-        <title>Resume Builder</title>
-        <meta name="description" content="Effortlessly create professional resumes with Resume Builder. A great learning opportunity for all." />
-
-        {/* Open Graph */}
-        <meta property="og:title" content="Resume Builder" />
-        <meta property="og:description" content="Effortlessly create professional resumes with Resume Builder. A great learning opportunity for all." />
-        <meta property="og:image" content="/logo.webp" />
-        <meta property="og:url" content="https://open-resume-builder.vercel.app" />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Cards */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Resume Builder" />
-        <meta name="twitter:description" content="Effortlessly create professional resumes with Resume Builder. A great learning opportunity for all." />
-        <meta name="twitter:image" content="/logo.webp" />
-        </Head>
-        <main className="fixed h-screen w-screen mx-auto px-4 bg-gradient-to-r from-blue-50 to-indigo-50">
-            <div className="relative h-full w-full">
-                <div className="h-[5%]">
-                    <h1 className="text-4xl font-bold mb-6 text-center text-blue-600">Resume Builder</h1>
+        {/* How It Works Section */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {steps.map((step, index) => (
+                <div key={index} className="relative">
+                  <div className="bg-card rounded-lg p-6">
+                    <div className="text-4xl font-bold text-primary mb-4">{index + 1}</div>
+                    <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                    <p className="text-muted-foreground">{step.description}</p>
+                  </div>
+                  {index < steps.length - 1 && (
+                    <ArrowRight className="hidden lg:block absolute top-1/2 -right-4 text-muted-foreground transform -translate-y-1/2" />
+                  )}
                 </div>
-                <div className="h-[90%] py-1.5">
-                    {isDesktop ?
-                    <ResizablePanelGroup direction="horizontal" className="min-h-[200px] w-full rounded-lg border md:min-w-[450px]">
-                        <ResizablePanel defaultSize={40}>
-                            <ScrollArea className="h-full w-full">
-                                <h2 className="px-6 py-2 text-lg font-bold">Edit Resume</h2>
-                                <div className="h-full w-full px-6 py-3">
-                                    <ResumeForm onUpdate={handleUpdate} initialData={resumeData} />
-                                </div>
-                            </ScrollArea>
-                        </ResizablePanel>
-                        <ResizableHandle withHandle />
-                        <ResizablePanel defaultSize={60}>
-                            <ScrollArea className="h-full w-full">
-                                <div className="w-full flex items-center justify-between px-6">
-                                    <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
-                                    <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
-                                </div>
-                                <div className="h-full w-full px-6 py-3">
-                                    <ResumePreview data={resumeData} />
-                                </div>
-                            </ScrollArea>
-                        </ResizablePanel>
-                    </ResizablePanelGroup>
-                    :(
-                    <ScrollArea className="h-full w-full pr-2">
-                        <MobileView handleUpdate={handleUpdate} resumeData={resumeData} handleTemplateSelect={handleTemplateSelect} />
-                    </ScrollArea>)}
-                </div>            
-                <div className="w-full h-[4%]">
-                    <div className="flex justify-between">
-                        <Button
-                        onClick={handleAIFineTune}
-                        className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600"
-                        >
-                        <Wand2 className="mr-2 h-5 w-5" />
-                        Fine-tune with AI
-                        </Button>
-                        <Button onClick={handleReset} variant="outline" className="bg-white hover:bg-gray-100">
-                        Reset Resume
-                        </Button>
-                    </div>
-                </div>
+              ))}
             </div>
-        </main>
-        </>
-    )
-}
+          </div>
+        </section>
 
-type ResumeFormProps = {
-    handleUpdate: (data: ResumeData) => void
-    resumeData: ResumeData
-    handleTemplateSelect: (template: ResumeTemplate) => void
-  }
-const MobileView = ({ handleUpdate, resumeData, handleTemplateSelect }: ResumeFormProps) => {
-    return (
-        <Tabs defaultValue="form" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-4">
-          <TabsTrigger value="form" className="text-lg">
-            Edit Resume
-          </TabsTrigger>
-          <TabsTrigger value="preview" className="text-lg">
-            Preview
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="form">
-            <h2 className="px-6 py-2 text-lg font-bold">Edit Resume</h2>
-            <div className="h-full w-full px-6 py-3">
-                <ResumeForm onUpdate={handleUpdate} initialData={resumeData} />
+        {/* Features Section */}
+        <section className="py-16 bg-muted">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {features.map((feature, index) => (
+                <div key={index} className="bg-card rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
+                  <div className="bg-primary/10 h-16 w-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <feature.icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </div>
+              ))}
             </div>
-        </TabsContent>
-        <TabsContent value="preview">
-            <div className="w-full flex items-center justify-between px-6">
-                <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
-                <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
+            <div className="text-center mt-12">
+              <Link href="/builder">
+                <Button size="lg">
+                  Get Started <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
             </div>
-            <div className="h-full w-full px-6 py-3">
-                <ResumePreview data={resumeData} />
-            </div>
-        </TabsContent>
-      </Tabs>
-    )
-}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="bg-primary text-primary-foreground py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-6">Ready to Create Your Resume?</h2>
+            <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+              Join thousands of job seekers who have successfully created professional 
+              resumes and landed their dream jobs.
+            </p>
+            <Link href="/builder">
+              <Button size="lg" variant="secondary">
+                Build Your Resume Now
+              </Button>
+            </Link>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t py-6">
+        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} ResumeBuilder. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Index;
