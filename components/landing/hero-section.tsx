@@ -32,7 +32,7 @@ export function HeroSection() {
             <div className="relative mx-auto lg:ml-auto">
                 <div className="relative h-[350px] w-[350px] sm:h-[400px] sm:w-[400px] md:h-[450px] md:w-[450px]">
                 <Image
-                    src="/placeholder.svg?height=450&width=450"
+                    src="/hero.png?height=450&width=450"
                     alt="Person building a digital resume"
                     fill
                     className="object-contain"
