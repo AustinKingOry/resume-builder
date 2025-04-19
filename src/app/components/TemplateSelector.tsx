@@ -37,7 +37,7 @@ export default function TemplateSelector({ selectedTemplate, onTemplateSelect }:
   )
 }
 
-const TemplatesList = ({ selectedTemplate, onTemplateSelect }: TemplateSelectorProps) => {
+export const TemplatesList = ({ selectedTemplate, onTemplateSelect }: TemplateSelectorProps) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-2">
       {resumeTemplates.map((template) => (
