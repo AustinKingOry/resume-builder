@@ -45,7 +45,7 @@ const initialResumeData: ResumeData = {
     referees: [],
 }
 
-export default function Home() {
+export default function BuilderPage() {
     const isDesktop = useMediaQuery("(min-width: 768px)")
     const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData)
 
