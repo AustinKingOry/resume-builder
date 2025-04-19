@@ -1,16 +1,17 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import Link from "next/link";
-import { FileText, LogIn } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { appData } from "@/lib/data";
+import Image from "next/image";
 
 const Navbar: React.FC = () => {
 	return (
 		<header className="border-b">
 		<div className="container mx-auto flex h-16 items-center justify-between px-4">
 			<Link href="/" className="flex items-center space-x-2">
-			<FileText className="h-6 w-6" style={{ color: appData.colors.primary }} />
-			<span className="text-xl font-bold">{appData.name}</span>
+				<Image src="/logo.png?height=32&width=32" width={32} height={32} alt="KaziKit Logo" />
+				<span className="text-xl font-bold">{appData.name}</span>
 			</Link>
 			<nav className="hidden md:flex items-center space-x-6">
 			<Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
