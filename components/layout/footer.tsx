@@ -8,7 +8,7 @@ export function Footer() {
                 <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
                 <div className="flex flex-col space-y-4">
                     <div className="flex items-center gap-2">
-                    <Image src="/logo.png?height=32&width=64" width={32} height={64} alt="KaziKit Logo" />
+                    <Image src="/logo.png?height=40&width=72" width={72} height={40} alt="KaziKit Logo" />
                     <span className="text-xl font-bold text-[#1E3A8A] sr-only">KaziKit</span>
                     </div>
                     <p className="text-sm text-gray-600">
