@@ -20,19 +20,19 @@ export function HowItWorksSection() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1E3A8A] text-white">1</div>
                 <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Fill Details</h3>
                 <p className="text-gray-600 dark:text-muted-foreground">Enter your personal and professional information.</p>
-                <div className="absolute right-0 top-6 hidden h-0.5 w-full translate-x-1/2 bg-[#1E3A8A] lg:block"></div>
+                <div className="absolute -right-2 top-2.5 hidden h-0.5 w-full translate-x-1/2 bg-[#1E3A8A] lg:block"></div>
                 </div>
                 <div className="relative flex flex-col items-center space-y-4 text-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1E3A8A] text-white">2</div>
                 <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Choose Template</h3>
                 <p className="text-gray-600 dark:text-muted-foreground">Select from our modern, professional templates.</p>
-                <div className="absolute right-0 top-6 hidden h-0.5 w-full translate-x-1/2 bg-[#1E3A8A] lg:block"></div>
+                <div className="absolute -right-2 top-2.5 hidden h-0.5 w-full translate-x-1/2 bg-[#1E3A8A] lg:block"></div>
                 </div>
                 <div className="relative flex flex-col items-center space-y-4 text-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1E3A8A] text-white">3</div>
                 <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Preview & Tweak</h3>
                 <p className="text-gray-600 dark:text-muted-foreground">Preview your document and make any necessary adjustments.</p>
-                <div className="absolute right-0 top-6 hidden h-0.5 w-full translate-x-1/2 bg-[#1E3A8A] lg:block"></div>
+                <div className="absolute -right-2 top-2.5 hidden h-0.5 w-full translate-x-1/2 bg-[#1E3A8A] lg:block"></div>
                 </div>
                 <div className="flex flex-col items-center space-y-4 text-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#1E3A8A] text-white">4</div>
