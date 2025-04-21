@@ -4,6 +4,7 @@ import Link from "next/link";
 import { LogIn } from 'lucide-react';
 import { appData } from "@/lib/data";
 import Image from "next/image";
+import { ThemeSwitcher } from "../theme-switcher";
 
 const Navbar: React.FC = () => {
 	return (
@@ -34,6 +35,7 @@ const Navbar: React.FC = () => {
 			<Link href="/builder">
 				<Button>Create Resume</Button>
 			</Link>
+			<ThemeSwitcher />
 			</div>
 		</div>
 		</header>
