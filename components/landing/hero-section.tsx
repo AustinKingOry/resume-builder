@@ -31,7 +31,7 @@ export function HeroSection() {
             </div>
             <div className="relative mx-auto lg:ml-auto">
                 <div className="hidden md:block relative animate-slideInRight">
-                    <div className="relative aspect-square bg-gray-950 rounded-2xl border overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-300 h-[350px] w-[350px] sm:h-[400px] sm:w-[400px] md:h-[450px] md:w-[450px]">
+                    <div className="relative aspect-square dark:bg-gray-950 rounded-2xl border overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-300 h-[350px] w-[350px] sm:h-[400px] sm:w-[400px] md:h-[450px] md:w-[450px]">
                     <Image 
                         src="/hero.png?height=450&width=450" 
                         width={450} height={450}

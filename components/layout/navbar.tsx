@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
 		<header className="border-b">
 		<div className="container mx-auto flex h-16 items-center justify-between px-4">
 			<Link href="/" className="flex items-center space-x-2">
-				<Image src="/logo.png?height=40&width=72" width={72} height={40} alt="KaziKit Logo" />
+				<Image src="/logo.png?height=56&width=80" width={100} height={56} alt="KaziKit Logo" />
 				<span className="text-xl font-bold sr-only">{appData.name}</span>
 			</Link>
 			<nav className="hidden md:flex items-center space-x-6">
