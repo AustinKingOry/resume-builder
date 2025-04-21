@@ -25,7 +25,7 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: 'hsl(134, 63%, 48%)', // Emerald Green - #10B981
+					DEFAULT: 'hsl(160, 84%, 39%)', // Emerald Green - #10B981
 					foreground: 'hsl(0, 0%, 100%)' // White foreground for contrast
 				},
 				secondary: {

@@ -21,17 +21,17 @@ export function HeroSection() {
                 journey.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" className="bg-[#1E3A8A] hover:bg-[#1E3A8A]/90" asChild>
+                <Button size="lg" className="bg-emerald-600 hover:bg-primary/90" asChild>
                     <Link href={'/builder'}>Start Building <ArrowRight className="ml-2 h-4 w-4" /></Link>                    
                 </Button>
-                <Button size="lg" variant="outline" className="border-[#1E3A8A] text-[#1E3A8A] hover:bg-[#1E3A8A]/10" asChild>
-                    <Link href={'/builder'}>Explore Features</Link>                    
+                <Button size="lg" variant="outline" className="border-[#1E3A8A] text-[#1E3A8A] dark:text-blue-700 hover:bg-[#1E3A8A]/10" asChild>
+                    <Link href={'#features'}>Explore Features</Link>                    
                 </Button>
                 </div>
             </div>
             <div className="relative mx-auto lg:ml-auto">
                 <div className="hidden md:block relative animate-slideInRight">
-                    <div className="relative aspect-square bg-white rounded-2xl border overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-300 h-[350px] w-[350px] sm:h-[400px] sm:w-[400px] md:h-[450px] md:w-[450px]">
+                    <div className="relative aspect-square bg-gray-950 rounded-2xl border overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-300 h-[350px] w-[350px] sm:h-[400px] sm:w-[400px] md:h-[450px] md:w-[450px]">
                     <Image 
                         src="/hero.png?height=450&width=450" 
                         width={450} height={450}
