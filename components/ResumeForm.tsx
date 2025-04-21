@@ -93,7 +93,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
         <AccordionItem value="personal-info">
           <AccordionTrigger>Personal Information</AccordionTrigger>
           <AccordionContent>
-            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50">
+            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950">
               <CardContent className="space-y-4 pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -102,7 +102,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
                       id="name"
                       {...register("personalInfo.name")}
                       placeholder="John Doe"
-                      className="border-blue-300"
+                      className="border-blue-300 dark:border-blue-700"
                     />
                   </div>
                   <div className="space-y-2">
@@ -216,7 +216,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
         <AccordionItem value="summary">
           <AccordionTrigger>Professional Summary</AccordionTrigger>
           <AccordionContent>
-            <Card className="bg-gradient-to-r from-green-50 to-teal-50">
+            <Card className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-950 dark:to-teal-950">
               <CardContent className="pt-6">
                 <Textarea
                   {...register("summary")}
@@ -231,7 +231,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
         <AccordionItem value="experience">
           <AccordionTrigger>Work Experience</AccordionTrigger>
           <AccordionContent>
-            <Card className="bg-gradient-to-r from-yellow-50 to-orange-50">
+            <Card className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-950 dark:to-orange-950">
               <CardContent className="space-y-4 pt-6">
                 {expFields.map((field, index) => (
                   <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
@@ -306,7 +306,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
         <AccordionItem value="education">
           <AccordionTrigger>Education</AccordionTrigger>
           <AccordionContent>
-            <Card className="bg-gradient-to-r from-purple-50 to-pink-50">
+            <Card className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950">
               <CardContent className="space-y-4 pt-6">
                 {eduFields.map((field, index) => (
                   <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
@@ -369,7 +369,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
         <AccordionItem value="skills">
           <AccordionTrigger>Skills</AccordionTrigger>
           <AccordionContent>
-            <Card className="bg-gradient-to-r from-red-50 to-rose-50">
+            <Card className="bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-950 dark:to-rose-950">
               <CardContent className="space-y-4 pt-6">
                 <div className="space-y-2">
                   <Label htmlFor="skills">Skills (comma-separated)</Label>
@@ -419,7 +419,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
         <AccordionItem value="certifications">
           <AccordionTrigger>Certifications</AccordionTrigger>
           <AccordionContent>
-            <Card className="bg-gradient-to-r from-cyan-50 to-blue-50">
+            <Card className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-950 dark:to-blue-950">
               <CardContent className="space-y-4 pt-6">
                 {certFields.map((field, index) => (
                   <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
@@ -473,7 +473,7 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
         </AccordionItem><AccordionItem value="referees">
           <AccordionTrigger>Referees</AccordionTrigger>
           <AccordionContent>
-            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50">
+            <Card className="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-950 dark:to-cyan-950">
               <CardContent className="space-y-4 pt-6">
                 {refFields.map((field, index) => (
                   <div key={field.id} className="space-y-4 p-4 bg-white rounded-lg shadow">
