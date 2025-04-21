@@ -3,14 +3,14 @@ import Link from "next/link"
 
 export function CTASection() {
     return (
-        <section className="bg-white py-16 md:py-24">
+        <section className="bg-background py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#1E3A8A]">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#1E3A8A] dark:text-blue-600">
                 Ready to build your future?
                 </h2>
-                <p className="mx-auto max-w-[700px] text-gray-600 md:text-xl">
+                <p className="mx-auto max-w-[700px] text-gray-600 dark:text-muted-foreground md:text-xl">
                 Start crafting your professional profile today and take the next step in your career journey.
                 </p>
             </div>
