@@ -12,6 +12,7 @@ import Head from "next/head";
 import TemplateSelector from "@/components/TemplateSelector";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Navbar from "@/components/layout/navbar";
 
 const initialResumeData: ResumeData = {
     selectedTemplate: "milan",
@@ -122,56 +123,58 @@ export default function BuilderPage() {
         <meta name="twitter:description" content="Effortlessly create professional resumes with Resume Builder. A great learning opportunity for all." />
         <meta name="twitter:image" content="/logo.webp" />
         </Head>
-        <main className="fixed h-screen w-screen mx-auto px-4 bg-gradient-to-r from-blue-50 to-indigo-50">
-            <div className="relative h-full w-full">
-                <div className="h-[5%]">
-                    <h1 className="text-4xl font-bold mb-6 text-center text-blue-600">Resume Builder</h1>
-                </div>
-                <div className="h-[90%] py-1.5">
-                    {isDesktop ?
-                    <ResizablePanelGroup direction="horizontal" className="min-h-[200px] w-full rounded-lg border md:min-w-[450px]">
-                        <ResizablePanel defaultSize={40}>
-                            <ScrollArea className="h-full w-full">
-                                <h2 className="px-6 py-2 text-lg font-bold">Edit Resume</h2>
-                                <div className="h-full w-full px-6 py-3">
-                                    <ResumeForm onUpdate={handleUpdate} initialData={resumeData} />
+        <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <main className="w-screen mx-auto px-4">
+                <div className="relative w-full">
+                    <div className="p-2 flex items-center justify-between">
+                        <h1 className="text-2xl font-bold">Resume Builder</h1>
+                        <div className="flex flex-row gap-2">
+                            <Button onClick={handleReset} variant="outline" className="float-end bg-white hover:bg-gray-100">
+                                Reset Resume
+                            </Button>
+                            <Button onClick={handleAIFineTune} className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600">
+                            <Wand2 className="mr-2 h-5 w-5" />
+                            Fine-tune with AI
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="py-1.5">
+                        {isDesktop ?
+                        <ResizablePanelGroup direction="horizontal" className="min-h-[200px] w-full rounded-lg border md:min-w-[450px]">
+                            <ResizablePanel defaultSize={40}>
+                                <div className="h-full w-full">
+                                    <div className="w-full flex items-center justify-between px-2">
+                                        <h2 className="px-6 py-2 text-lg font-bold">Edit Resume</h2>
+                                        <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
+                                    </div>
+                                    <div className="h-full w-full px-2 py-3">
+                                        <ResumeForm onUpdate={handleUpdate} initialData={resumeData} />
+                                    </div>
                                 </div>
-                            </ScrollArea>
-                        </ResizablePanel>
-                        <ResizableHandle withHandle />
-                        <ResizablePanel defaultSize={60}>
-                            <ScrollArea className="h-full w-full">
-                                <div className="w-full flex items-center justify-between px-6">
-                                    <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
-                                    <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
+                            </ResizablePanel>
+                            <ResizableHandle withHandle />
+                            <ResizablePanel defaultSize={60} className="sticky top-4 hh-[calc(100vh-12rem)]">
+                                <div className="h-full bg-gray-100">
+                                    <div className="w-full flex items-center justify-between px-6">
+                                        <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
+                                    </div>
+                                    <ScrollArea className="w-full h-full max-h-[90vh]">
+                                        <div className="w-full px-6 py-3">
+                                            <ResumePreview data={resumeData} />
+                                        </div>
+                                    </ScrollArea>
                                 </div>
-                                <div className="h-full w-full px-6 py-3">
-                                    <ResumePreview data={resumeData} />
-                                </div>
-                            </ScrollArea>
-                        </ResizablePanel>
-                    </ResizablePanelGroup>
-                    :(
-                    <ScrollArea className="h-full w-full pr-2">
-                        <MobileView handleUpdate={handleUpdate} resumeData={resumeData} handleTemplateSelect={handleTemplateSelect} />
-                    </ScrollArea>)}
-                </div>            
-                <div className="w-full h-[4%]">
-                    <div className="flex justify-between">
-                        <Button
-                        onClick={handleAIFineTune}
-                        className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600"
-                        >
-                        <Wand2 className="mr-2 h-5 w-5" />
-                        Fine-tune with AI
-                        </Button>
-                        <Button onClick={handleReset} variant="outline" className="bg-white hover:bg-gray-100">
-                        Reset Resume
-                        </Button>
+                            </ResizablePanel>
+                        </ResizablePanelGroup>
+                        :(
+                        <ScrollArea className="h-full w-full pr-2">
+                            <MobileView handleUpdate={handleUpdate} resumeData={resumeData} handleTemplateSelect={handleTemplateSelect} />
+                        </ScrollArea>)}
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </div>
         </>
     )
 }
@@ -193,7 +196,10 @@ const MobileView = ({ handleUpdate, resumeData, handleTemplateSelect }: ResumeFo
           </TabsTrigger>
         </TabsList>
         <TabsContent value="form">
-            <h2 className="px-6 py-2 text-lg font-bold">Edit Resume</h2>
+            <div className="w-full flex items-center justify-between px-2">
+                <h2 className="px-6 py-2 text-lg font-bold">Edit Resume</h2>
+                <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
+            </div>
             <div className="h-full w-full px-6 py-3">
                 <ResumeForm onUpdate={handleUpdate} initialData={resumeData} />
             </div>
@@ -203,7 +209,7 @@ const MobileView = ({ handleUpdate, resumeData, handleTemplateSelect }: ResumeFo
                 <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
                 <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
             </div>
-            <div className="h-full w-full px-6 py-3">
+            <div className="h-full w-full px-6 py-3 bg-gray-100">
                 <ResumePreview data={resumeData} />
             </div>
         </TabsContent>
