@@ -13,37 +13,37 @@ export function WhyKaziKitSection() {
             </div>
             <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 <div className="flex flex-col items-start space-y-3 rounded-lg bg-white/5 p-6">
-                <h3 className="text-xl font-bold text-[#10B981]">Complete Career Toolkit</h3>
+                <h3 className="text-xl font-bold text-primary">Complete Career Toolkit</h3>
                 <p className="text-white/80">
                     KaziKit goes beyond resume building to provide a comprehensive set of tools for career advancement.
                 </p>
                 </div>
                 <div className="flex flex-col items-start space-y-3 rounded-lg bg-white/5 p-6">
-                <h3 className="text-xl font-bold text-[#10B981]">Swahili-Inspired Branding</h3>
+                <h3 className="text-xl font-bold text-primary">Build. Brand. Breakthrough.</h3>
                 <p className="text-white/80">
-                    Rooted in empowerment and self-driven growth, our Swahili-inspired name reflects our mission.
+                    KaziKit empowers users with smart tools to craft standout resumes, portfolios, and a powerful personal brand.
                 </p>
                 </div>
                 <div className="flex flex-col items-start space-y-3 rounded-lg bg-white/5 p-6">
-                <h3 className="text-xl font-bold text-[#10B981]">Offline Accessibility</h3>
+                <h3 className="text-xl font-bold text-primary">Offline Accessibility</h3>
                 <p className="text-white/80">
                     Work on your career documents even without an internet connection with our offline capabilities.
                 </p>
                 </div>
                 <div className="flex flex-col items-start space-y-3 rounded-lg bg-white/5 p-6">
-                <h3 className="text-xl font-bold text-[#10B981]">User-Friendly Interface</h3>
+                <h3 className="text-xl font-bold text-primary">User-Friendly Interface</h3>
                 <p className="text-white/80">
                     Our intuitive design makes it easy for anyone to create professional documents without technical skills.
                 </p>
                 </div>
                 <div className="flex flex-col items-start space-y-3 rounded-lg bg-white/5 p-6">
-                <h3 className="text-xl font-bold text-[#10B981]">Privacy-Focused</h3>
+                <h3 className="text-xl font-bold text-primary">Privacy-Focused</h3>
                 <p className="text-white/80">
                     Your data stays with you - we prioritize your privacy and security with local-first storage options.
                 </p>
                 </div>
                 <div className="flex flex-col items-start space-y-3 rounded-lg bg-white/5 p-6">
-                <h3 className="text-xl font-bold text-[#10B981]">Continuous Updates</h3>
+                <h3 className="text-xl font-bold text-primary">Continuous Updates</h3>
                 <p className="text-white/80">
                     We regularly update our templates and features to keep up with the latest industry standards.
                 </p>
