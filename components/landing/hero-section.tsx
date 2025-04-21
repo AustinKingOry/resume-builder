@@ -14,7 +14,7 @@ export function HeroSection() {
                 Your Career Toolkit
                 </div>
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-[#1E3A8A] dark:text-blue-600">
-                Craft. Stand Out. Grow.
+                Craft. <br /><span className="text-primary">Stand Out.</span><br /> Grow.
                 </h1>
                 <p className="max-w-[600px] text-gray-600 dark:text-muted-foreground md:text-xl">
                 KaziKit is your all-in-one toolkit to build a standout professional profile and thrive in your career
