@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from "@/components/layout/navbar";
 import { TemplatesList } from "@/components/TemplateSelector";
 import { ResumeData, ResumeTemplate } from "../../lib/types";
+import { Footer } from "@/components/layout/footer";
 
 const initialResumeData: ResumeData = {
     selectedTemplate: "milan",
@@ -53,31 +54,27 @@ const Templates = () => {
         // Save data to local storage when template is changed
         localStorage.setItem("resumeData", JSON.stringify(updatedData))
     }
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold mb-4">Professional Resume Templates</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choose from our collection of professionally designed resume templates. 
-            Each template is ATS-friendly and customizable to your needs.
-          </p>
-        </div>
-        
-        <div className="w=full">
-            <TemplatesList selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
-        </div>
-      </main>
+	return (
+		<div className="min-h-screen flex flex-col">
+		<Navbar />
+		
+		<main className="flex-1 container mx-auto px-4 py-8">
+			<div className="text-center mb-12">
+			<h1 className="text-3xl font-bold mb-4">Professional Resume Templates</h1>
+			<p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+				Choose from our collection of professionally designed resume templates. 
+				Each template is ATS-friendly and customizable to your needs.
+			</p>
+			</div>
+			
+			<div className="w=full">
+				<TemplatesList selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
+			</div>
+		</main>
 
-      <footer className="border-t py-6">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} ResumeBuilder. All rights reserved.</p>
-        </div>
-      </footer>
-    </div>
-  );
+		<Footer />
+		</div>
+	);
 };
 
 export default Templates;
