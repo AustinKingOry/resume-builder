@@ -130,7 +130,7 @@ export default function BuilderPage() {
                     <div className="p-2 flex items-center justify-between">
                         <h1 className="text-2xl font-bold">Resume Builder</h1>
                         <div className="flex flex-row gap-2">
-                            <Button onClick={handleReset} variant="outline" className="float-end bg-white hover:bg-gray-100">
+                            <Button onClick={handleReset} variant="outline" className="float-end bg-white dark:bg-secondary/90 hover:bg-gray-100">
                                 Reset Resume
                             </Button>
                             <Button onClick={handleAIFineTune} className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600">
@@ -155,9 +155,9 @@ export default function BuilderPage() {
                             </ResizablePanel>
                             <ResizableHandle withHandle />
                             <ResizablePanel defaultSize={60} className="sticky top-4 hh-[calc(100vh-12rem)]">
-                                <div className="h-full bg-gray-100">
+                                <div className="h-full bg-gray-100 dark:bg-muted/20">
                                     <div className="w-full flex items-center justify-between px-6">
-                                        <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
+                                        <h2 className="py-2 text-lg font-bold">Preview</h2>
                                     </div>
                                     <ScrollArea className="w-full h-full max-h-[90vh]">
                                         <div className="w-full px-6 py-3">
@@ -206,10 +206,10 @@ const MobileView = ({ handleUpdate, resumeData, handleTemplateSelect }: ResumeFo
         </TabsContent>
         <TabsContent value="preview">
             <div className="w-full flex items-center justify-between px-6">
-                <h2 className="px-6 py-2 text-lg font-bold">Preview</h2>
+                <h2 className="py-2 text-lg font-bold">Preview</h2>
                 <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
             </div>
-            <div className="h-full w-full px-6 py-3 bg-gray-100">
+            <div className="h-full w-full px-6 py-3 bg-gray-100 dark:bg-muted/20">
                 <ResumePreview data={resumeData} />
             </div>
         </TabsContent>
