@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export function Footer() {
     return (
-        <footer className="bg-gray-50 py-12 md:py-16">
+        <footer className="bg-gray-50 dark:bg-gray-950 py-12 md:py-16">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
                 <div className="flex flex-col space-y-4">
@@ -11,42 +11,42 @@ export function Footer() {
                     <Image src="/logo.png?height=40&width=72" width={72} height={40} alt="KaziKit Logo" />
                     <span className="text-xl font-bold text-[#1E3A8A] sr-only">KaziKit</span>
                     </div>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-muted-foreground">
                     Your all-in-one toolkit to build a standout professional profile and thrive in your career journey.
                     </p>
                 </div>
                 <div className="flex flex-col space-y-4">
-                    <h3 className="text-lg font-bold text-[#1E3A8A]">Quick Links</h3>
-                    <Link href="#features" className="text-sm text-gray-600 hover:text-[#1E3A8A]">
-                    Features
+                    <h3 className="text-lg font-bold text-[#1E3A8A] dark:text-blue-600">Features</h3>
+                    <Link href="/builder" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
+                    Resume Builder
                     </Link>
-                    <Link href="#how-it-works" className="text-sm text-gray-600 hover:text-[#1E3A8A]">
-                    How It Works
+                    <Link href="/templates" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
+                    Templates
                     </Link>
-                    <Link href="#why-kazikit" className="text-sm text-gray-600 hover:text-[#1E3A8A]">
-                    Why KaziKit
+                    <Link href="#why-kazikit" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
+                    Cover Letters
                     </Link>
-                    <Link href="#testimonials" className="text-sm text-gray-600 hover:text-[#1E3A8A]">
-                    Testimonials
+                    <Link href="#testimonials" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
+                    Skills Tracker
                     </Link>
                 </div>
                 <div className="flex flex-col space-y-4">
-                    <h3 className="text-lg font-bold text-[#1E3A8A]">Company</h3>
-                    <Link href="#" className="text-sm text-gray-600 hover:text-[#1E3A8A]">
+                    <h3 className="text-lg font-bold text-[#1E3A8A] dark:text-blue-600">Company</h3>
+                    <Link href="#" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
                     About Us
                     </Link>
-                    <Link href="#" className="text-sm text-gray-600 hover:text-[#1E3A8A]">
+                    <Link href="#" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
                     Contact
                     </Link>
-                    <Link href="#" className="text-sm text-gray-600 hover:text-[#1E3A8A]">
+                    <Link href="#" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
                     Privacy Policy
                     </Link>
-                    <Link href="#" className="text-sm text-gray-600 hover:text-[#1E3A8A]">
+                    <Link href="#" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
                     Terms of Service
                     </Link>
                 </div>
                 <div className="flex flex-col space-y-4">
-                    <h3 className="text-lg font-bold text-[#1E3A8A]">Connect</h3>
+                    <h3 className="text-lg font-bold text-[#1E3A8A] dark:text-blue-600">Connect</h3>
                     <div className="flex space-x-4">
                     <Link href="#" className="text-gray-600 hover:text-[#1E3A8A]">
                         <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -72,11 +72,11 @@ export function Footer() {
                         </svg>
                     </Link>
                     </div>
-                    <p className="text-sm text-gray-600">Follow us for updates, tips, and career advice.</p>
+                    <p className="text-sm text-gray-600 dark:text-muted-foreground">Follow us for updates, tips, and career advice.</p>
                 </div>
                 </div>
                 <div className="mt-8 border-t pt-8">
-                <p className="text-center text-sm text-gray-600">
+                <p className="text-center text-sm text-gray-600 dark:text-muted-foreground">
                     &copy; {new Date().getFullYear()} KaziKit. All rights reserved.
                 </p>
                 </div>
