@@ -1,4 +1,6 @@
-import React from 'react';
+"use client"
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from "next/link";
 import { LogIn, MenuIcon } from 'lucide-react';
@@ -7,6 +9,7 @@ import Image from "next/image";
 import { ThemeSwitcher } from "../theme-switcher";
 
 const Navbar: React.FC = () => {
+	const [showDropdown, setShowDropdown] = useState(false);
 	const links = [
 		{title:"Home",link:"/"},
 		{title:"Resume Builder",link:"/builder"},
@@ -16,7 +19,7 @@ const Navbar: React.FC = () => {
 	return (
 		<header className="border-b">
 		<div className="container mx-auto flex h-16 items-center justify-between px-4">
-			<Button type="button" className="flex md:hidden">
+			<Button type="button" size={"icon"} variant="outline" className="flex md:hidden w-7 h-7" onClick={()=>{setShowDropdown(!showDropdown)}}>
 				<MenuIcon className="w-4 h-4" />
 			</Button>
 			<Link href="/" className="flex items-center space-x-2">
@@ -43,10 +46,10 @@ const Navbar: React.FC = () => {
 			<ThemeSwitcher />
 			</div>
 		</div>
-		<div className="w-full">
+		<div className={`w-full ${showDropdown ? "block":"hidden"} md:hidden border-t`}>
 			<div className="flex flex-col">
 				{links.map((item, index)=>(
-				<Link key={index} href={item.link} className="text-sm font-medium transition-colors hover:text-primary">
+				<Link key={index} href={item.link} className="text-sm font-medium transition-colors hover:text-primary p-2 w-full">
 				{item.title}
 				</Link>
 				))}
