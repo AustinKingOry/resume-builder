@@ -13,7 +13,7 @@ const CoverPhotosPage = () => {
 				<div className="container mx-auto py-8 px-4">
 					<header className="text-center mb-10">
 					<h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-						MyCoverPhotos
+						Cover Photo Generator
 					</h1>
 					<p className="text-muted-foreground max-w-2xl mx-auto">
 						Create professional cover images that make your social media profiles stand out and leave a lasting
