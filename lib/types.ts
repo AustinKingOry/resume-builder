@@ -80,4 +80,32 @@ export type ResumeTemplate = {
     }[]
   }
   
+
+export interface UserDataCP {
+  headline: string
+  subheadline: string
+  company: string
+  profileImage: string
+  name?: string
+}
+
+export interface TemplateCP {
+  id: string
+  name: string
+  previewBg?: string
+}
+
+export interface ColorPaletteCP {
+  id: string
+  name: string
+  colors: string[] // [primary, secondary, accent, background, text]
+}
+
+export interface PlatformCP {
+  id: string
+  name: string
+  width: number
+  height: number
+  description: string
+}
   
