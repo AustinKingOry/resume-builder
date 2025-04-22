@@ -23,6 +23,9 @@ export function Footer() {
                     <Link href="/templates" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
                     Templates
                     </Link>
+                    <Link href="/coverphotos" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
+                    Cover Photos Generator
+                    </Link>
                     <Link href="#why-kazikit" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
                     Cover Letters
                     </Link>

@@ -24,6 +24,9 @@ const Navbar: React.FC = () => {
 			<Link href="/templates" className="text-sm font-medium transition-colors hover:text-primary">
 				Templates
 			</Link>
+			<Link href="/coverphotos" className="text-sm font-medium transition-colors hover:text-primary">
+				Cover Photos
+			</Link>
 			</nav>
 			<div className="flex items-center space-x-4">
 			<Link href="/login">
