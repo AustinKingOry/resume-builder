@@ -1,6 +1,6 @@
-import type { UserData, Template, ColorPalette, Platform } from "./types"
+import type { UserDataCP, TemplateCP, ColorPaletteCP, PlatformCP } from "./types"
 
-export const defaultUserData: UserData = {
+export const defaultUserData: UserDataCP = {
   headline: "Crafting Solutions, One Line of Code at a Time", 
   subheadline: "Passionate about building scalable and efficient digital experiences", 
   company: "Software Engineer | Tech Innovators Inc.", 
@@ -8,7 +8,7 @@ export const defaultUserData: UserData = {
   name: "Alex Johnson", 
 }
 
-export const templates: Template[] = [
+export const templates: TemplateCP[] = [
   {
     id: "template-1",
     name: "Modern Tech",
@@ -61,7 +61,7 @@ export const templates: Template[] = [
   },
 ]
 
-export const colorPalettes: ColorPalette[] = [
+export const colorPalettes: ColorPaletteCP[] = [
   {
     id: "blue-emerald",
     name: "Blue & Emerald",
@@ -109,7 +109,7 @@ export const colorPalettes: ColorPalette[] = [
   },
 ]
 
-export const platforms: Platform[] = [
+export const platforms: PlatformCP[] = [
   {
     id: "linkedin",
     name: "LinkedIn",
