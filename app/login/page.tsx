@@ -9,7 +9,7 @@ import { appData } from "@/lib/data";
 
 const Login = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-muted p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-muted dark:bg-gray-950 p-4">
       <Link href="/" className="flex items-center space-x-2 mb-8">
         <FileText className="h-6 w-6" style={{ color: appData.colors.primary }} />
         <span className="text-xl font-bold">{appData.name}</span>
