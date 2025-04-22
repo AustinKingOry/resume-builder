@@ -3,19 +3,20 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FileText } from "lucide-react"
+import { appData } from "@/lib/data";
 
 export default function SignupPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <div className="flex min-h-screen flex-col items-center justify-center p-4">
         <Link href="/" className="flex items-center gap-2 mb-8">
-          <FileText className="w-6 h-6" />
-          <span className="text-xl font-semibold">ResumeBuilder</span>
+          <FileText className="w-6 h-6" style={{ color: appData.colors.primary }} />
+          <span className="text-xl font-semibold">{appData.name}</span>
         </Link>
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold">Create an account</h1>
-            <p className="text-sm text-gray-500 mt-2">Sign up to start building your professional resume</p>
+            <p className="text-sm text-gray-500 mt-2">Sign up to start building your professional profile.</p>
           </div>
           <div className="space-y-4">
             <div className="space-y-2">
