@@ -3,7 +3,7 @@
 import { useState } from "react"
 import type { ResumeData } from "@/lib/types"
 import { resumeTemplates, colorThemes } from "../data/templates"
-import { jsPDF } from "jspdf"
+// import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
@@ -58,7 +58,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                 return <MilanTemplate data={data} />
         }
     }
-    const exportToPDF = async () => {
+    const exportToPDF = async (serverless=false) => {
         const element = document.getElementById("resume-preview")
 
         if (element) {
@@ -86,11 +86,21 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
             `
 
             try {
-                const response = await fetch("/api/convert", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ html, name:`${data.personalInfo.name}` }),
-                })
+                let response;
+                const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production.up.railway.app";
+                if(!serverless){
+                    response = await fetch("/api/convert", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ html, name:`${data.personalInfo.name}` }),
+                    })
+                } else {                    
+                    response = await fetch(`${serverless_url}/api/builder`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ html, name:`${data.personalInfo.name}` }),
+                    })
+                }
 
                 if (response.ok) {
                 const blob = await response.blob()
@@ -120,36 +130,36 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     }
 
     // jspdf alternative
-    const exportToPDFProd = async () => {
-        const doc = new jsPDF()
-        const element = document.getElementById("resume-preview")
-        if (element) {
-            setIsGenerating(true);
-            try {
-                await doc.html(element, {
-                callback: (doc) => {
-                    doc.save(`${data.personalInfo.name} Resume.pdf`)
-                },
-                x: 10,
-                y: 10,
-                width: 180,
-                windowWidth: 1000,
-                })
-            } catch (error) {
-                console.error("Error generating PDF:", error)
-                setPdfError("Failed to generate PDF. Please try again.")
-            } finally {
-                setIsGenerating(false)
-            }
-        } else {
-        setPdfError("Resume preview not found. Please try again.")
-        }
-    }
+    // const exportToPDFProd = async () => {
+    //     const doc = new jsPDF()
+    //     const element = document.getElementById("resume-preview")
+    //     if (element) {
+    //         setIsGenerating(true);
+    //         try {
+    //             await doc.html(element, {
+    //             callback: (doc) => {
+    //                 doc.save(`${data.personalInfo.name} Resume.pdf`)
+    //             },
+    //             x: 10,
+    //             y: 10,
+    //             width: 180,
+    //             windowWidth: 1000,
+    //             })
+    //         } catch (error) {
+    //             console.error("Error generating PDF:", error)
+    //             setPdfError("Failed to generate PDF. Please try again.")
+    //         } finally {
+    //             setIsGenerating(false)
+    //         }
+    //     } else {
+    //     setPdfError("Resume preview not found. Please try again.")
+    //     }
+    // }
 
     const downloadPDF = async () => {
         const isProd = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
         if(isProd){
-            await exportToPDFProd();
+            await exportToPDF(true);
             console.log("Using jsPDF")
             return;
         }

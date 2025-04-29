@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
         });
         const page = await browser.newPage()
+        // await page.goto(previewUrl, { waitUntil: 'networkidle0' });
         // Set the viewport to match A4 size
         await page.setViewport({
             width: 794, // A4 width in pixels at 96 DPI
