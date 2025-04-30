@@ -14,6 +14,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
+import imageCompression from 'browser-image-compression'
 
 type ResumeFormProps = {
   onUpdate: (data: ResumeData) => void
@@ -70,20 +71,50 @@ export default function ResumeForm({ onUpdate, initialData }: ResumeFormProps) {
     return () => subscription.unsubscribe()
   }, [watch, onUpdate])
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0]
+  //   if (file) {
+  //     const reader = new FileReader()
+  //     reader.onloadend = () => {
+  //       onUpdate({
+  //         ...watch(),
+  //         personalInfo: {
+  //           ...watch().personalInfo,
+  //           photo: reader.result as string,
+  //         },
+  //       })
+  //     }
+  //     reader.readAsDataURL(file)
+  //   }
+  // }
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        onUpdate({
-          ...watch(),
-          personalInfo: {
-            ...watch().personalInfo,
-            photo: reader.result as string,
-          },
-        })
+    console.log(": ",file?.size)
+    if (!file) return
+
+    try {
+      const options = {
+        maxSizeMB: 0.3, // Target max size in MB
+        maxWidthOrHeight: 800, // Resize large images
+        useWebWorker: true,
       }
-      reader.readAsDataURL(file)
+
+      const compressedFile = await imageCompression(file, options)
+      const base64 = await imageCompression.getDataUrlFromFile(compressedFile)
+
+      console.log("Original size:", (file.size / 1024).toFixed(1), "KB")
+      console.log("Compressed size:", (compressedFile.size / 1024).toFixed(1), "KB")
+
+      onUpdate({
+        ...watch(),
+        personalInfo: {
+          ...watch().personalInfo,
+          photo: base64,
+        },
+      })
+    } catch (error) {
+      console.error("Image compression failed:", error)
     }
   }
 
