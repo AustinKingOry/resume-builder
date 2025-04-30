@@ -1,3 +1,4 @@
+import Image from "next/image"
 import type { ResumeData } from "../../lib/types"
 
 const formatDescription = (description: string | undefined) => {
@@ -24,10 +25,13 @@ export default function MadridTemplate({ data }: { data: ResumeData }) {
         {/* Photo section */}
         <div className="w-1/4">
           {resumeData.personalInfo?.photo ? (
-            <img
+            <Image
               src={resumeData.personalInfo.photo || "/placeholder.svg"}
               alt={resumeData.personalInfo.name}
               className="w-full h-[160px] object-cover"
+              width={160}
+              height={160}
+              unoptimized
             />
           ) : (
             <div className="w-full h-[160px] bg-gray-200"></div>

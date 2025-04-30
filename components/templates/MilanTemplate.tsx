@@ -1,8 +1,16 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Linkedin, Twitter, Github, Mail, Phone, MapPin, Globe } from "lucide-react"
 import Image from "next/image"
 import type { ResumeData } from "../../lib/types"
 
+// Helper component for skill rating dots
+const SkillRating = ({ level = 5 }: { level?: number }) => {
+  return (
+    <div className="flex mt-1">
+      {[...Array(5)].map((_, i) => (
+        <div key={i} className={`w-2 h-2 rounded-full mr-1 ${i < level ? "bg-gray-800" : "bg-gray-300"}`} />
+      ))}
+    </div>
+  )
+}
 const formatDescription = (description: string | undefined) => {
     if (!description) return null
     const listItems = description.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
@@ -19,178 +27,177 @@ const formatDescription = (description: string | undefined) => {
 }
 
 export default function MilanTemplate({ data }: { data: ResumeData }) {
+  const resumeData = data;
+  // Helper function to get skill level
+  const getSkillLevel = (skill: string) => {
+    if (!resumeData.skillLevels || !resumeData.skillLevels[skill]) return 5
+
+    const level = resumeData.skillLevels[skill]
+    if (level === 2) return 2
+    if (level === 3) return 3
+    if (level === 4) return 4
+    if (level === 5) return 5
+    return 5
+  }
   return (
-    <div className="grid grid-cols-3 gap-6 p-6 bg-white rounded-lg shadow">
-      {/* Left Column */}
-      <div className="space-y-6">
-        {data.personalInfo?.photo && (
-          <div className="flex justify-center">
-            <Image
-              src={data.personalInfo.photo || "/placeholder.svg"}
-              alt={data.personalInfo?.name || "Profile"}
-              width={150}
-              height={150}
-              className="rounded-full"
-              unoptimized
-            />
-          </div>
-        )}
+    <div className="bg-white font-sans max-w-4xl mx-auto p-8">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Left sidebar */}
+        <div className="md:w-1/3">
+          {/* Photo */}
+          {resumeData.personalInfo?.photo && (
+            <div className="flex justify-center mb-6">
+              <Image
+                src={resumeData.personalInfo.photo || "/placeholder.svg"}
+                alt={resumeData.personalInfo.name}
+                className="w-32 h-32 rounded-full object-cover"
+                width={150}
+                height={150}
+                unoptimized
+              />
+            </div>
+          )}
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Contact</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {data.personalInfo?.email && (
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                <span>{data.personalInfo.email}</span>
-              </div>
-            )}
-            {data.personalInfo?.phone && (
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                <span>{data.personalInfo.phone}</span>
-              </div>
-            )}
-            {data.personalInfo?.location && (
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                <span>{data.personalInfo.location}</span>
-              </div>
-            )}
-            {data.personalInfo?.website && (
-              <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4" />
-                <span>{data.personalInfo.website}</span>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          {/* Details section */}
+          <section className="mb-8">
+            <h2 className="text-xl font-normal text-amber-700 mb-4">Details</h2>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Skills</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="list-disc list-inside">
-              {data.skills?.map((skill, index) => (
-                <li key={index}>{skill}</li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+            <h3 className="font-bold text-gray-800 mb-1">Address</h3>
+            <p className="text-gray-700 mb-4 whitespace-pre-line">
+              {resumeData.personalInfo?.location || "Your Address"}
+            </p>
 
-        {data.certifications && data.certifications.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Certifications</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {data.certifications.map((cert, index) => (
+            <h3 className="font-bold text-gray-800 mb-1">Phone</h3>
+            <p className="text-gray-700 mb-4">{resumeData.personalInfo?.phone || "Your Phone Number"}</p>
+
+            <h3 className="font-bold text-gray-800 mb-1">Email</h3>
+            <p className="text-gray-700 mb-4">{resumeData.personalInfo?.email || "your.email@example.com"}</p>
+          </section>
+
+          {/* Skills section */}
+          <section>
+            <h2 className="text-xl font-normal text-amber-700 mb-4">Skills</h2>
+            <div className="space-y-3">
+              {(resumeData.skills || []).slice(0, 4).map((skill, index) => (
                 <div key={index}>
-                  <h4 className="font-medium">{cert.name}</h4>
-                  <p className="text-sm text-muted-foreground">{cert.issuer}</p>
-                  <p className="text-sm">{cert.date}</p>
+                  <h3 className="font-bold text-gray-800">{skill}</h3>
+                  <SkillRating level={getSkillLevel(skill)} />
                 </div>
               ))}
-            </CardContent>
-          </Card>
-        )}
-      </div>
-
-      {/* Right Column */}
-      <div className="col-span-2 space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold">{data.personalInfo?.name}</h1>
-          <p className="text-xl text-muted-foreground">{data.personalInfo?.title}</p>
-          <div className="flex gap-2">
-            {data.personalInfo?.socialMedia?.linkedin && (
-              <a href={data.personalInfo.socialMedia.linkedin} target="_blank" rel="noopener noreferrer">
-                <Linkedin className="h-5 w-5" />
-              </a>
-            )}
-            {data.personalInfo?.socialMedia?.twitter && (
-              <a href={data.personalInfo.socialMedia.twitter} target="_blank" rel="noopener noreferrer">
-                <Twitter className="h-5 w-5" />
-              </a>
-            )}
-            {data.personalInfo?.socialMedia?.github && (
-              <a href={data.personalInfo.socialMedia.github} target="_blank" rel="noopener noreferrer">
-                <Github className="h-5 w-5" />
-              </a>
-            )}
-          </div>
+            </div>
+          </section>
         </div>
 
-        {data.summary && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Professional Summary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>{data.summary}</p>
-            </CardContent>
-          </Card>
-        )}
+        {/* Main content */}
+        <div className="md:w-2/3">
+          {/* Header */}
+          <header className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-800">{resumeData.personalInfo?.name || "Your Name"}</h1>
+            <p className="text-gray-600">{resumeData.personalInfo?.title || "Your Title"}</p>
+          </header>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Experience</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {data.experience?.map((exp, index) => (
-              <div key={index}>
-                <h4 className="font-medium">{exp.title}</h4>
-                <p className="text-muted-foreground">{exp.company}</p>
-                <p className="text-sm">
-                  {exp.startDate} - {exp.current ? "Present" : exp.endDate}
-                </p>
-                <p className="text-sm">{exp.location}</p>
-                <div className="mt-2">{exp.description ? formatDescription(exp.description) : null}</div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+          {/* Profile section */}
+          <section className="mb-8">
+            <h2 className="text-xl font-normal text-amber-700 mb-4">Profile</h2>
+            <p className="text-gray-700">{resumeData.summary || "Your professional summary goes here."}</p>
+          </section>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Education</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {data.education?.map((edu, index) => (
-              <div key={index}>
-                <h4 className="font-medium">{edu.degree}</h4>
-                <p className="text-muted-foreground">{edu.school}</p>
-                <p className="text-sm">
-                  {edu.startDate} - {edu.endDate}
-                </p>
-                <p className="text-sm">{edu.location}</p>
-                <p className="mt-2">{edu.description}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        {data.referees && data.referees.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">References</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {data.referees.map((referee, index) => (
-                <div key={index}>
-                  <h4 className="font-medium">{referee.name}</h4>
-                  <p className="text-muted-foreground">
-                    {referee.position} at {referee.company}
-                  </p>
-                  <p className="text-sm">Email: {referee.email}</p>
-                  <p className="text-sm">Phone: {referee.phone}</p>
+          {/* Employment History section */}
+          <section className="mb-8">
+            <h2 className="text-xl font-normal text-amber-700 mb-4">Employment History</h2>
+            {(resumeData.experience || []).map((exp, index) => (
+              <div key={index} className="mb-6">
+                <h3 className="font-bold text-gray-800">
+                  {exp.title || "Job Title"}, {exp.company || "Company"}
+                </h3>
+                <div className="flex items-center text-gray-600 mb-2">
+                  <span>
+                    {exp.startDate || "Start Date"} — {exp.current ? "Present" : exp.endDate || "End Date"}
+                  </span>
+                  {exp.location && (
+                    <>
+                      <span className="mx-2">•</span>
+                      <span className="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                        </svg>
+                        {exp.location}
+                      </span>
+                    </>
+                  )}
                 </div>
-              ))}
-            </CardContent>
-          </Card>
-        )}
+                {formatDescription(exp.description)}
+              </div>
+            ))}
+          </section>
+
+          {/* Education section */}
+          <section>
+            <h2 className="text-xl font-normal text-amber-700 mb-4">Education</h2>
+            {(resumeData.education || []).map((edu, index) => (
+              <div key={index} className="mb-6">
+                <h3 className="font-bold text-gray-800">
+                  {edu.school || "School"}, {edu.degree || "Degree"}
+                </h3>
+                <div className="flex items-center text-gray-600 mb-2">
+                  <span>
+                    {edu.startDate || "Start Date"} — {edu.endDate || "End Date"}
+                  </span>
+                  {edu.location && (
+                    <>
+                      <span className="mx-2">•</span>
+                      <span className="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                        </svg>
+                        {edu.location}
+                      </span>
+                    </>
+                  )}
+                </div>
+                {edu.description && (
+                  <ul className="list-disc ml-5 text-gray-700">
+                    <li>{edu.description}</li>
+                  </ul>
+                )}
+              </div>
+            ))}
+          </section>
+        </div>
       </div>
     </div>
   )
