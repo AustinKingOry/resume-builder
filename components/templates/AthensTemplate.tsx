@@ -1,77 +1,90 @@
-import { Mail, Phone, MapPin } from "lucide-react"
 import type { ResumeData } from "../../lib/types"
 
 const formatDescription = (description: string | undefined) => {
-    if (!description) return null
-    const listItems = description.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
-    if (listItems.length > 0) {
-      return (
-        <ul className="list-disc list-inside">
-          {listItems.map((item, index) => (
-            <li key={index}>{item.replace(/^[-*]\s*/, "")}</li>
-          ))}
-        </ul>
-      )
-    }
-    return <p>{description}</p>
+  if (!description) return null
+  const listItems = description.split("\n").filter((line) => line.trim().startsWith("-") || line.trim().startsWith("*"))
+  if (listItems.length > 0) {
+    return (
+      <ul className="list-disc ml-5">
+        {listItems.map((item, index) => (
+          <li key={index} className="text-gray-800 mb-1">
+            {item.replace(/^[-*]\s*/, "")}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  return <p>{description}</p>
 }
 
 export default function AthensTemplate({ data }: { data: ResumeData }) {
+  // Use provided data or fall back to default data
+  const resumeData = data
+
   return (
-    <div className="bg-white p-8 max-w-4xl mx-auto">
-      <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-blue-600">{data.personalInfo.name}</h1>
-        <p className="text-xl text-gray-600">{data.personalInfo.title}</p>
-        <div className="flex justify-center items-center space-x-4 mt-4">
-          <Mail className="w-4 h-4 text-gray-600" />
-          <span>{data.personalInfo.email}</span>
-          <Phone className="w-4 h-4 text-gray-600" />
-          <span>{data.personalInfo.phone}</span>
-          <MapPin className="w-4 h-4 text-gray-600" />
-          <span>{data.personalInfo.location}</span>
+    <div className="bg-white p-8 max-w-4xl mx-auto font-sans">
+      {/* Header */}
+      <header className="mb-6">
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-normal text-blue-600">{resumeData.personalInfo?.name || "Your Name"}</h1>
+            <p className="text-lg text-gray-700 mt-1">{resumeData.personalInfo?.title || "Your Title"}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-blue-600">
+              {resumeData.personalInfo?.email || "email@example.com"} •{" "}
+              {resumeData.personalInfo?.phone || "(555) 123-4567"}
+            </p>
+            <p className="text-gray-700">{resumeData.personalInfo?.location || "City, State, Country"}</p>
+          </div>
         </div>
       </header>
 
+      {/* Summary */}
       <section className="mb-8">
-        <h2 className="text-2xl font-bold text-blue-600 mb-4">Professional Summary</h2>
-        <p className="text-gray-700">{data.summary}</p>
+        <p className="text-gray-800">{resumeData.summary || "Professional summary goes here."}</p>
       </section>
 
+      {/* Professional Experience */}
       <section className="mb-8">
-        <h2 className="text-2xl font-bold text-blue-600 mb-4">Professional Experience</h2>
-        {data.experience.map((exp, index) => (
-          <div key={index} className="mb-4">
-            <h3 className="text-xl font-semibold">{exp.title}</h3>
-            <p className="text-gray-600">
-              {exp.company} | {exp.startDate} - {exp.current ? "Present" : exp.endDate}
-            </p>
-            <div className="text-gray-700">
-                {formatDescription(exp.description)}
+        <h2 className="text-2xl font-normal text-blue-600 mb-4">Professional Experience</h2>
+        {(resumeData.experience || []).map((exp, index) => (
+          <div key={index} className="mb-6">
+            <div className="flex justify-between items-baseline mb-1">
+              <h3 className="text-blue-600 font-normal">
+                {exp.company || "Company Name"}, {exp.location || "Location"}
+              </h3>
+              <span className="text-gray-700">
+                {exp.startDate || "Start Date"} — {exp.current ? "Present" : exp.endDate || "End Date"}
+              </span>
             </div>
+            <p className="text-gray-800 mb-2">{exp.title || "Job Title"}</p>
+            {formatDescription(exp.description)}
           </div>
         ))}
       </section>
 
+      {/* Education */}
       <section className="mb-8">
-        <h2 className="text-2xl font-bold text-blue-600 mb-4">Education</h2>
-        {data.education.map((edu, index) => (
-          <div key={index} className="mb-4">
-            <h3 className="text-xl font-semibold">{edu.degree}</h3>
-            <p className="text-gray-600">
-              {edu.school} | {edu.startDate} - {edu.endDate}
+        <h2 className="text-2xl font-normal text-blue-600 mb-4">Education</h2>
+        {(resumeData.education || []).map((edu, index) => (
+          <div key={index} className="mb-3">
+            <h3 className="text-blue-600 font-normal">{edu.degree || "Degree"}</h3>
+            <p className="text-gray-800">
+              {edu.school || "School"}, {edu.location || "Location"}
             </p>
-            <p className="text-gray-700">{edu.description}</p>
           </div>
         ))}
       </section>
 
+      {/* Areas of Expertise */}
       <section className="mb-8">
-        <h2 className="text-2xl font-bold text-blue-600 mb-4">Areas of Expertise</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {data.skills.map((skill, index) => (
-            <div key={index} className="flex items-center">
-              <div className="w-2 h-2 bg-blue-600 rounded-full mr-2"></div>
-              <span>{skill}</span>
+        <h2 className="text-2xl font-normal text-blue-600 mb-4">Areas of Expertise</h2>
+        <div className="grid grid-cols-3 gap-x-4 gap-y-2">
+          {(resumeData.skills || []).map((skill, index) => (
+            <div key={index} className="flex items-baseline">
+              <span className="text-blue-600 mr-2">•</span>
+              <span className="text-gray-800">{skill}</span>
             </div>
           ))}
         </div>
