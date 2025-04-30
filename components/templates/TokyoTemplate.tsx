@@ -1,11 +1,15 @@
 import Image from "next/image"
 import type { ResumeData } from "../../lib/types"
 
-// Helper component for skill bars
-const SkillBar = ({ level = 90 }: { level?: number }) => {
+// Helper component for skill progress bars
+const SkillProgressBar = ({ level = 90 }: { level?: number }) => {
   return (
-    <div className="w-full bg-gray-200 h-2 mt-1 mb-4">
-      <div className="bg-blue-500 h-full" style={{ width: `${level}%` }} />
+    <div className="w-full h-2 mt-1 mb-1">
+      <div className="flex">
+        {[...Array(10)].map((_, i) => (
+          <div key={i} className={`h-2 w-full mr-0.5 ${i < (level / 10) ? "bg-red-600" : "bg-gray-200"}`} />
+        ))}
+      </div>
     </div>
   )
 }
@@ -28,74 +32,106 @@ const formatDescription = (description: string | undefined) => {
 export default function TokyoTemplate({ data }: { data: ResumeData }) {
   const resumeData = data;
   return (
-    <div className="bg-white font-sans max-w-4xl mx-auto p-8">
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Left column - Main content */}
-        <div className="md:w-2/3">
-          {/* Header with name, title and photo */}
-          <header className="flex items-start mb-8">
-            {resumeData.personalInfo?.photo && (
-              <div className="mr-4">
-                <Image
-                  src={resumeData.personalInfo.photo || "/placeholder.svg"}
-                  alt={resumeData.personalInfo.name}
-                  className="w-16 h-16 object-cover rounded"
-                  width={64}
-                  height={64}
-                />
-              </div>
-            )}
-            <div>
-              <h1 className="text-3xl font-bold text-gray-800">{resumeData.personalInfo?.name || "Your Name"}</h1>
-              <p className="text-gray-600">{resumeData.personalInfo?.title || "Your Title"}</p>
+    <div className="bg-white font-sans max-w-4xl mx-auto">
+      {/* Header */}
+      <header className="bg-red-600 text-white p-8">
+        <div className="flex items-center">
+          {resumeData.personalInfo?.photo && (
+            <div className="mr-6">
+              <Image
+                src={resumeData.personalInfo.photo || "/placeholder.svg"}
+                alt={resumeData.personalInfo.name}
+                className="w-20 h-20 rounded-full object-cover border-2 border-white"
+                width={80}
+                height={80}
+              />
             </div>
-          </header>
+          )}
+          <div>
+            <h1 className="text-3xl font-bold">{resumeData.personalInfo?.name || "Your Name"}</h1>
+            <p className="text-sm uppercase tracking-wider">{resumeData.personalInfo?.title || "Your Title"}</p>
+          </div>
+        </div>
+      </header>
 
-          {/* Profile section */}
+      {/* Contact Bar */}
+      <div className="bg-white py-4 px-8 flex flex-wrap justify-between text-sm border-b">
+        {resumeData.personalInfo?.email && (
+          <div className="flex items-center mr-6 mb-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 mr-2 text-gray-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            <span>{resumeData.personalInfo.email}</span>
+          </div>
+        )}
+        {resumeData.personalInfo?.location && (
+          <div className="flex items-center mr-6 mb-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 mr-2 text-gray-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>{resumeData.personalInfo.location}</span>
+          </div>
+        )}
+        {resumeData.personalInfo?.phone && (
+          <div className="flex items-center mb-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 mr-2 text-gray-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+              />
+            </svg>
+            <span>{resumeData.personalInfo.phone}</span>
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-col md:flex-row">
+        {/* Main content */}
+        <div className="md:w-2/3 p-8">
+          {/* Profile */}
           <section className="mb-8">
-            <h2 className="flex items-center text-lg font-bold mb-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-              Profile
-            </h2>
+            <h2 className="text-xl font-bold mb-4">Profile</h2>
             <p className="text-gray-700">{resumeData.summary || "Your professional summary goes here."}</p>
           </section>
 
-          {/* Employment History section */}
-          <section className="mb-8">
-            <h2 className="flex items-center text-lg font-bold mb-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              Employment History
-            </h2>
+          {/* Employment History */}
+          <section>
+            <h2 className="text-xl font-bold mb-4">Employment History</h2>
             {(resumeData.experience || []).map((exp, index) => (
               <div key={index} className="mb-6">
                 <h3 className="font-bold text-gray-800">
-                  {exp.title || "Job Title"} at {exp.company || "Company"}, {exp.location || "Location"}
+                  {exp.title || "Job Title"}, {exp.company || "Company"}, {exp.location || "Location"}
                 </h3>
                 <p className="text-gray-600 text-sm mb-2">
                   {exp.startDate || "Start Date"} — {exp.current ? "Present" : exp.endDate || "End Date"}
@@ -104,93 +140,17 @@ export default function TokyoTemplate({ data }: { data: ResumeData }) {
               </div>
             ))}
           </section>
-
-          {/* Education section */}
-          <section className="mb-8">
-            <h2 className="flex items-center text-lg font-bold mb-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
-                />
-              </svg>
-              Education
-            </h2>
-            {(resumeData.education || []).map((edu, index) => (
-              <div key={index} className="mb-4">
-                <h3 className="font-bold text-gray-800">
-                  {edu.degree || "Degree"}, {edu.school || "School"}, {edu.location || "Location"}
-                </h3>
-                <p className="text-gray-600 text-sm mb-1">
-                  {edu.startDate || "Start Date"} — {edu.endDate || "End Date"}
-                </p>
-                {edu.description && <p className="text-gray-700 italic">{edu.description}</p>}
-              </div>
-            ))}
-          </section>
-
-          {/* References section */}
-          {resumeData.referees && resumeData.referees.length > 0 && (
-            <section>
-              <h2 className="flex items-center text-lg font-bold mb-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                  />
-                </svg>
-                References
-              </h2>
-              <ul className="ml-5">
-                {resumeData.referees.map((referee, index) => (
-                  <li key={index} className="mb-1 text-gray-700 flex items-center">
-                  <span className="text-gray-700 mr-2">◆</span>
-                  <h3>{referee.name} • {referee.company}</h3>
-                  <p>{referee.email}</p>
-                  <p>{referee.phone}</p>
-                </li>
-                ))}
-              </ul>
-            </section>
-          )}
         </div>
 
-        {/* Right column - Details and Skills */}
-        <div className="md:w-1/3">
-          {/* Details section */}
-          <section className="mb-8">
-            <h2 className="text-lg font-bold mb-4">Details</h2>
-            <p className="text-gray-700 mb-2">{resumeData.personalInfo?.location || "Your Location"}</p>
-            <p className="text-gray-700 mb-2">{resumeData.personalInfo?.phone || "Your Phone Number"}</p>
-            <p className="text-gray-700 mb-4">{resumeData.personalInfo?.email || "your.email@example.com"}</p>
-          </section>
-
-          {/* Skills section */}
-          <section className="mb-8">
-            <h2 className="text-lg font-bold mb-4">Skills</h2>
-            <div className="space-y-1">
+        {/* Skills sidebar */}
+        <div className="md:w-1/3 bg-gray-50 p-8">
+          <section>
+            <h2 className="text-xl font-bold mb-4">Skills</h2>
+            <div className="space-y-4">
               {(resumeData.skills || []).map((skill, index) => (
                 <div key={index} className="mb-2">
                   <p className="text-gray-800">{skill}</p>
-                  <SkillBar
+                  <SkillProgressBar
                     level={
                       resumeData.skillLevels?.[skill] === 1
                       ? 20
@@ -207,15 +167,6 @@ export default function TokyoTemplate({ data }: { data: ResumeData }) {
                   />
                 </div>
               ))}
-            </div>
-          </section>
-
-          {/* Languages section */}
-          <section>
-            <h2 className="text-lg font-bold mb-4">Languages</h2>
-            <div className="space-y-1">
-              <p className="text-gray-800">Spanish</p>
-              <SkillBar level={75} />
             </div>
           </section>
         </div>
