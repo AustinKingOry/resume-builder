@@ -54,7 +54,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                     ${element.outerHTML}
                 `
                 const response = await axios.post(
-                    `${serverless_url}/builder/preview`,
+                    `${serverless_url}/api/builder/preview`,
                     { html: html, name:`${data.personalInfo.name}` },
                     { responseType: "blob" }
                 );
