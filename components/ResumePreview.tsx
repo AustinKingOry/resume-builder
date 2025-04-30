@@ -53,6 +53,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                     <style>${styles}</style>
                     ${element.outerHTML}
                 `
+                console.log("fetching...")
                 const response = await axios.post(
                     `${serverless_url}/api/builder/preview`,
                     { html: html, name:`${data.personalInfo.name}` },
@@ -219,7 +220,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
         <div id="resume-preview" className="bg-white">        
             {renderTemplate()}
         </div>
-        <iframe src={previewUrl} className="w-full h-full" />
+        {previewUrl && <iframe src={previewUrl} className="w-full h-full" />}
       </div>
 
       <Button
