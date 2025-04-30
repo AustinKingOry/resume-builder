@@ -1,7 +1,14 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Linkedin, Twitter, Github } from "lucide-react"
 import Image from "next/image"
 import type { ResumeData } from "../../lib/types"
+
+// Helper component for skill bars
+const SkillBar = ({ level = 90 }: { level?: number }) => {
+  return (
+    <div className="w-full bg-gray-200 h-2 mt-1 mb-4">
+      <div className="bg-blue-500 h-full" style={{ width: `${level}%` }} />
+    </div>
+  )
+}
 
 const formatDescription = (description: string | undefined) => {
     if (!description) return null
@@ -19,162 +26,200 @@ const formatDescription = (description: string | undefined) => {
 }
 
 export default function ModernTemplate({ data }: { data: ResumeData }) {
+  const resumeData = data;
   return (
-    <div className="space-y-6 bg-white rounded-lg shadow p-6">
-      {/* Header */}
-      <div className="flex items-center gap-6 border-b pb-6">
-        {data.personalInfo?.photo && (
-          <Image
-            src={data.personalInfo.photo || "/placeholder.svg"}
-            alt={data.personalInfo?.name || "Profile"}
-            width={120}
-            height={120}
-            className="rounded-lg"
-            unoptimized
-          />
-        )}
-        <div>
-          <h1 className="text-4xl font-bold">{data.personalInfo?.name}</h1>
-          <p className="text-xl text-primary">{data.personalInfo?.title}</p>
-          <div className="flex gap-4 mt-2">
-            <div className="space-y-1">
-              <p>{data.personalInfo?.email}</p>
-              <p>{data.personalInfo?.phone}</p>
-            </div>
-            <div className="space-y-1">
-              <p>{data.personalInfo?.location}</p>
-              <p>{data.personalInfo?.website}</p>
-            </div>
-          </div>
-          <div className="flex gap-2 mt-2">
-            {data.personalInfo?.socialMedia?.linkedin && (
-              <a href={data.personalInfo.socialMedia.linkedin} target="_blank" rel="noopener noreferrer">
-                <Linkedin className="h-5 w-5" />
-              </a>
-            )}
-            {data.personalInfo?.socialMedia?.twitter && (
-              <a href={data.personalInfo.socialMedia.twitter} target="_blank" rel="noopener noreferrer">
-                <Twitter className="h-5 w-5" />
-              </a>
-            )}
-            {data.personalInfo?.socialMedia?.github && (
-              <a href={data.personalInfo.socialMedia.github} target="_blank" rel="noopener noreferrer">
-                <Github className="h-5 w-5" />
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Summary */}
-      {data.summary && (
-        <div className="prose max-w-none">
-          <h2 className="text-2xl font-bold text-primary">About Me</h2>
-          <p>{data.summary}</p>
-        </div>
-      )}
-
-      {/* Experience */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-primary">Experience</h2>
-        {data.experience?.map((exp, index) => (
-          <Card key={index}>
-            <CardContent className="pt-6">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-bold text-lg">{exp.title}</h3>
-                  <p className="text-primary">{exp.company}</p>
-                </div>
-                <div className="text-right">
-                  <p>{exp.location}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {exp.startDate} - {exp.current ? "Present" : exp.endDate}
-                  </p>
-                </div>
+    <div className="bg-white font-sans max-w-4xl mx-auto p-8">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Left column - Main content */}
+        <div className="md:w-2/3">
+          {/* Header with name, title and photo */}
+          <header className="flex items-start mb-8">
+            {resumeData.personalInfo?.photo && (
+              <div className="mr-4">
+                <Image
+                  src={resumeData.personalInfo.photo || "/placeholder.svg"}
+                  alt={resumeData.personalInfo.name}
+                  className="w-16 h-16 object-cover rounded"
+                  width={64}
+                  height={64}
+                />
               </div>
-              <div className="mt-2">
+            )}
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800">{resumeData.personalInfo?.name || "Your Name"}</h1>
+              <p className="text-gray-600">{resumeData.personalInfo?.title || "Your Title"}</p>
+            </div>
+          </header>
+
+          {/* Profile section */}
+          <section className="mb-8">
+            <h2 className="flex items-center text-lg font-bold mb-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              Profile
+            </h2>
+            <p className="text-gray-700">{resumeData.summary || "Your professional summary goes here."}</p>
+          </section>
+
+          {/* Employment History section */}
+          <section className="mb-8">
+            <h2 className="flex items-center text-lg font-bold mb-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+              Employment History
+            </h2>
+            {(resumeData.experience || []).map((exp, index) => (
+              <div key={index} className="mb-6">
+                <h3 className="font-bold text-gray-800">
+                  {exp.title || "Job Title"} at {exp.company || "Company"}, {exp.location || "Location"}
+                </h3>
+                <p className="text-gray-600 text-sm mb-2">
+                  {exp.startDate || "Start Date"} — {exp.current ? "Present" : exp.endDate || "End Date"}
+                </p>
                 {formatDescription(exp.description)}
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            ))}
+          </section>
 
-      {/* Skills */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-primary">Skills</h2>
-        <div className="flex flex-wrap gap-2">
-          {data.skills?.map((skill, index) => (
-            <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-              {skill}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Education */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-primary">Education</h2>
-        {data.education?.map((edu, index) => (
-          <Card key={index}>
-            <CardContent className="pt-6">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-bold text-lg">{edu.degree}</h3>
-                  <p className="text-primary">{edu.school}</p>
-                </div>
-                <div className="text-right">
-                  <p>{edu.location}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {edu.startDate} - {edu.endDate}
-                  </p>
-                </div>
+          {/* Education section */}
+          <section className="mb-8">
+            <h2 className="flex items-center text-lg font-bold mb-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
+                />
+              </svg>
+              Education
+            </h2>
+            {(resumeData.education || []).map((edu, index) => (
+              <div key={index} className="mb-4">
+                <h3 className="font-bold text-gray-800">
+                  {edu.degree || "Degree"}, {edu.school || "School"}, {edu.location || "Location"}
+                </h3>
+                <p className="text-gray-600 text-sm mb-1">
+                  {edu.startDate || "Start Date"} — {edu.endDate || "End Date"}
+                </p>
+                {edu.description && <p className="text-gray-700 italic">{edu.description}</p>}
               </div>
-              <p className="mt-2">{edu.description}</p>
-            </CardContent>
-          </Card>
-        ))}
+            ))}
+          </section>
+
+          {/* References section */}
+          {resumeData.referees && resumeData.referees.length > 0 && (
+            <section>
+              <h2 className="flex items-center text-lg font-bold mb-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                  />
+                </svg>
+                References
+              </h2>
+              <ul className="ml-5">
+                {resumeData.referees.map((referee, index) => (
+                  <li key={index} className="mb-1 text-gray-700 flex items-center">
+                  <span className="text-gray-700 mr-2">◆</span>
+                  <h3>{referee.name} • {referee.company}</h3>
+                  <p>{referee.email}</p>
+                  <p>{referee.phone}</p>
+                </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+
+        {/* Right column - Details and Skills */}
+        <div className="md:w-1/3">
+          {/* Details section */}
+          <section className="mb-8">
+            <h2 className="text-lg font-bold mb-4">Details</h2>
+            <p className="text-gray-700 mb-2">{resumeData.personalInfo?.location || "Your Location"}</p>
+            <p className="text-gray-700 mb-2">{resumeData.personalInfo?.phone || "Your Phone Number"}</p>
+            <p className="text-gray-700 mb-4">{resumeData.personalInfo?.email || "your.email@example.com"}</p>
+          </section>
+
+          {/* Skills section */}
+          <section className="mb-8">
+            <h2 className="text-lg font-bold mb-4">Skills</h2>
+            <div className="space-y-1">
+              {(resumeData.skills || []).map((skill, index) => (
+                <div key={index} className="mb-2">
+                  <p className="text-gray-800">{skill}</p>
+                  <SkillBar
+                    level={
+                      resumeData.skillLevels?.[skill] === 1
+                      ? 20
+                      : resumeData.skillLevels?.[skill] === 2
+                        ? 40
+                        : resumeData.skillLevels?.[skill] === 3
+                          ? 60
+                          : resumeData.skillLevels?.[skill] === 4
+                            ? 80
+                            : resumeData.skillLevels?.[skill] === 5
+                              ? 100
+                              : 80
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Languages section */}
+          <section>
+            <h2 className="text-lg font-bold mb-4">Languages</h2>
+            <div className="space-y-1">
+              <p className="text-gray-800">Spanish</p>
+              <SkillBar level={75} />
+            </div>
+          </section>
+        </div>
       </div>
-
-      {/* Certifications */}
-      {data.certifications && data.certifications.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-primary">Certifications</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {data.certifications.map((cert, index) => (
-              <Card key={index}>
-                <CardContent className="pt-6">
-                  <h3 className="font-bold">{cert.name}</h3>
-                  <p className="text-primary">{cert.issuer}</p>
-                  <p className="text-sm text-muted-foreground">{cert.date}</p>
-                  {cert.expiry && <p className="text-sm text-muted-foreground">Expires: {cert.expiry}</p>}
-                  {cert.id && <p className="text-sm">ID: {cert.id}</p>}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* References */}
-      {data.referees && data.referees.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-primary">References</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {data.referees.map((referee, index) => (
-              <Card key={index}>
-                <CardContent className="pt-6">
-                  <h3 className="font-bold">{referee.name}</h3>
-                  <p className="text-primary">{referee.position}</p>
-                  <p>{referee.company}</p>
-                  <p className="text-sm">{referee.email}</p>
-                  <p className="text-sm">{referee.phone}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   )
 }
