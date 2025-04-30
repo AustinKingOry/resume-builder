@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { ResumeData } from "@/lib/types"
 import { resumeTemplates, colorThemes } from "../data/templates"
 // import { jsPDF } from "jspdf"
@@ -17,6 +17,7 @@ import MadridTemplate from "./templates/MadridTemplate"
 import SantiagoTemplate from "./templates/SantiagoTemplate"
 import ParisTemplate from "./templates/ParisTemplate"
 import TokyoTemplate from "./templates/TokyoTemplate"
+import axios from "axios";
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -25,6 +26,53 @@ type ResumePreviewProps = {
 export default function ResumePreview({ data }: ResumePreviewProps) {
     const [pdfError, setPdfError] = useState<string | null>(null)
     const [isGenerating, setIsGenerating] = useState(false)
+    const [previewUrl, setPreviewUrl] = useState("");
+    const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production.up.railway.app";
+  
+    useEffect(() => {
+      const fetchPreview = async () => {
+        try {
+            const element = document.getElementById("resume-preview");
+            if(element){
+
+                const styles = Array.from(document.styleSheets)
+                .map((sheet) => {
+                try {
+                    return Array.from(sheet.cssRules)
+                    .map((rule) => rule.cssText)
+                    .join("")
+                } catch (e) {
+                    console.log("Error accessing stylesheet rules",e)
+                    return ""
+                }
+                })
+                .join("\n")
+
+                // Combine styles with HTML
+                const html = `
+                    <style>${styles}</style>
+                    ${element.outerHTML}
+                `
+                const response = await axios.post(
+                    `${serverless_url}/builder/preview`,
+                    { html: html, name:`${data.personalInfo.name}` },
+                    { responseType: "blob" }
+                );
+        
+                const blob = new Blob([response.data], { type: "application/pdf" });
+                const url = URL.createObjectURL(blob);
+                setPreviewUrl(url);
+            }
+        } catch (error) {
+          console.error("Preview error:", error);
+        }
+      };
+  
+      if (Object.keys(data).length > 0) {
+        const timeout = setTimeout(fetchPreview, 500); // debounce
+        return () => clearTimeout(timeout);
+      }
+    }, [data, serverless_url]);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const template = resumeTemplates.find((t) => t.id === data.selectedTemplate) || resumeTemplates[0]
@@ -87,7 +135,6 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
             try {
                 let response;
-                const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production.up.railway.app";
                 if(!serverless){
                     response = await fetch("/api/convert", {
                     method: "POST",
@@ -172,6 +219,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
         <div id="resume-preview" className="bg-white">        
             {renderTemplate()}
         </div>
+        <iframe src={previewUrl} className="w-full h-full" />
       </div>
 
       <Button
