@@ -1,3 +1,5 @@
+import type { User, Session } from "@supabase/supabase-js"
+
 export type ResumeTemplate = {
     id: string
     name: string
@@ -108,4 +110,34 @@ export interface PlatformCP {
   height: number
   description: string
 }
-  
+
+// User profile type
+export type Profile = {
+	id: string
+	display_name: string
+	username: string
+	email: string
+	bio?: string
+	avatar?: string
+	role?: string
+	school?: string
+	points?: number
+	created_at: string
+	updated_at?: string
+}
+
+// Auth context type
+export type AuthContextType = {
+	user: User | null
+	session: Session | null
+	profile: Profile | null
+	isLoading: boolean
+	isProfileLoading: boolean
+	signIn: (email: string, password: string) => Promise<{ error: unknown }>
+	signUp: (email: string, password: string, userData: unknown) => Promise<{ error: unknown; user: User | null }>
+	signOut: () => Promise<void>
+	resetPassword: (email: string) => Promise<{ error: unknown }>
+	updatePassword: (password: string) => Promise<{ error: unknown }>
+	updateProfile: (profile: Partial<Profile>) => Promise<{ error: unknown }>
+  	getCurrentProfile: () => Promise<{ profile: Profile | null; error: unknown }>
+}
