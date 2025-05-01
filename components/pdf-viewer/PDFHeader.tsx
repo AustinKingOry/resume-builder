@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 
 interface PDFHeaderProps {
@@ -16,13 +15,6 @@ const PDFHeader: React.FC<PDFHeaderProps> = ({ fileName }) => {
         </h2>
       </div>
       <div>
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-purple-600 hover:text-purple-700 border-purple-200 hover:border-purple-300"
-        >
-          Sample PDF
-        </Button>
       </div>
     </div>
   );
