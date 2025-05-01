@@ -213,3 +213,58 @@ body {
 .prose {
     max-width: unset !important;
 }
+
+
+/* PDF Viewer Custom Styles */
+.pdf-container {
+  max-height: calc(100vh - 250px);
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.pdf-viewer {
+  flex: 1;
+  overflow: auto;
+}
+
+.pdf-controls {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.pdf-page {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.react-pdf__Page__annotations.annotationLayer {
+  padding: 20px;
+}
+
+.react-pdf__Page__canvas {
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+/* Custom scrollbar for PDF container */
+.pdf-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.pdf-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.pdf-container::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 10px;
+}
+
+.pdf-container::-webkit-scrollbar-thumb:hover {
+  background: #c4c4cc;
+}
