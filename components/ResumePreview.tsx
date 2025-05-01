@@ -28,6 +28,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     const [pdfError, setPdfError] = useState<string | null>(null)
     const [isGenerating, setIsGenerating] = useState(false)
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [previewBlob, setPreviewBlob] = useState<Blob | Uint8Array | null>(null);
     const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production.up.railway.app";
   
     useEffect(() => {
@@ -64,6 +65,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                 const blob = new Blob([response.data], { type: "application/pdf" });
                 const url = URL.createObjectURL(blob);
                 setPreviewUrl(url);
+                setPreviewBlob(blob);
             }
         } catch (error) {
           console.error("Preview error:", error);
@@ -217,15 +219,15 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
   return (
     <div className="space-y-6">
-      <div className={`bg-white text-black rounded-lg shadow-lg p-8 scale-95 ${previewUrl && "hidden"}`}>
+      <div className={`bg-white text-black rounded-lg shadow-lg p-8 scale-95 ${!previewUrl && "hidden"}`}>
         <div id="resume-preview" className="bg-white">        
             {renderTemplate()}
         </div>
       </div>
-      {previewUrl && 
+      {!previewUrl && 
       <div className="bg-white text-black rounded-lg shadow-lg p-8">
-      {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
-      <PdfPreview pdfUrl={previewUrl} />
+      {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> }
+      <PdfPreview pdfUrl={previewUrl} pdfBlob={previewBlob} />
       </div>}
 
       <Button
