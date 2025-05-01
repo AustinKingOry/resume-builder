@@ -18,6 +18,7 @@ import SantiagoTemplate from "./templates/SantiagoTemplate"
 import ParisTemplate from "./templates/ParisTemplate"
 import TokyoTemplate from "./templates/TokyoTemplate"
 import axios from "axios";
+import PdfPreview from "./PdfPreview"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -26,7 +27,7 @@ type ResumePreviewProps = {
 export default function ResumePreview({ data }: ResumePreviewProps) {
     const [pdfError, setPdfError] = useState<string | null>(null)
     const [isGenerating, setIsGenerating] = useState(false)
-    const [previewUrl, setPreviewUrl] = useState("");
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production.up.railway.app";
   
     useEffect(() => {
@@ -216,14 +217,16 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white text-black rounded-lg shadow-lg p-8 scale-95">
+      <div className={`bg-white text-black rounded-lg shadow-lg p-8 scale-95 ${previewUrl && "hidden"}`}>
         <div id="resume-preview" className="bg-white">        
             {renderTemplate()}
         </div>
       </div>
-      <div className="bg-white text-black rounded-lg shadow-lg p-8 hidden">
-      {previewUrl && <iframe src={previewUrl} className="w-full h-full" />}
-      </div>
+      {previewUrl && 
+      <div className="bg-white text-black rounded-lg shadow-lg p-8">
+      {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
+      <PdfPreview pdfUrl={previewUrl} />
+      </div>}
 
       <Button
         onClick={downloadPDF}
