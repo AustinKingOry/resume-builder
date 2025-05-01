@@ -23,9 +23,24 @@ export const appData = {
         icon: "Award"
       },
       {
-        title: "Easy Export",
-        description: "Download your resume as a professional PDF with just one click.",
+        title: "Local & Cloud Saving",
+        description: "Save locally or sync with your cloud account for access anywhere.",
         icon: "Download"
+      },
+      {
+        title: "Cover Letter Generator",
+        description: "Create compelling cover letters tailored to specific job applications.",
+        icon: "Laptop"
+      },
+      {
+        title: "Skills Tracker",
+        description: "Track and showcase your skills and experience in a compelling way.",
+        icon: "CheckCircle"
+      },
+      {
+        title: "Real-time Previews",
+        description: "Preview your documents in real-time with multiple template options.",
+        icon: "Shield"
       }
     ],
     steps: [

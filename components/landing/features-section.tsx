@@ -1,6 +1,28 @@
-import { CheckCircle, Download, Laptop, PenTool, Shield, Users } from "lucide-react"
+import { appData } from "@/lib/data"
+import { CheckCircle, Download, Laptop, FileText, Award, Cloud, User, LayoutTemplate, Linkedin, Twitter, Instagram, Shield, ImageIcon } from 'lucide-react';
 
 export function FeaturesSection() {
+
+  // Map icon names to Lucide components
+  const getIconComponent = (iconName: string) => {
+    const iconMap: Record<string, React.ReactNode> = {
+      FileText: <FileText className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Award: <Award className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Cloud: <Cloud className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Image: <ImageIcon className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Download: <Download className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      User: <User className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      LayoutTemplate: <LayoutTemplate className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Linkedin: <Linkedin className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Twitter: <Twitter className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Instagram: <Instagram className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      CheckCircle: <CheckCircle className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Laptop: <Laptop className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />,
+      Shield: <Shield className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />
+    };
+    
+    return iconMap[iconName] || <FileText className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />;
+  };
     return (
         <section id="features" className="bg-gray-50 dark:bg-gray-950 py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
@@ -16,48 +38,15 @@ export function FeaturesSection() {
             </div>
             </div>
             <div className="mx-auto grid max-w-5xl gap-8 pt-12 sm:grid-cols-2 md:gap-12 lg:grid-cols-3">
-            <div className="flex flex-col items-start space-y-3 rounded-lg border p-6 shadow-sm">
+            {appData.features.map((feature, index) => (
+            <div key={index} className="flex flex-col items-start space-y-3 rounded-lg border p-6 shadow-sm">
                 <div className="rounded-full bg-[#1E3A8A]/10 p-3">
-                <PenTool className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />
+                {getIconComponent(feature.icon)}
                 </div>
-                <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Resume Builder</h3>
-                <p className="text-gray-600 dark:text-muted-foreground">Customizable templates to create professional resumes that stand out.</p>
+                <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">{feature.title}</h3>
+                <p className="text-gray-600 dark:text-muted-foreground">{feature.description}</p>
             </div>
-            <div className="flex flex-col items-start space-y-3 rounded-lg border p-6 shadow-sm">
-                <div className="rounded-full bg-[#1E3A8A]/10 p-3">
-                <Laptop className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Cover Letter Generator</h3>
-                <p className="text-gray-600 dark:text-muted-foreground">Create compelling cover letters tailored to specific job applications.</p>
-            </div>
-            <div className="flex flex-col items-start space-y-3 rounded-lg border p-6 shadow-sm">
-                <div className="rounded-full bg-[#1E3A8A]/10 p-3">
-                <Users className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Professional Photo Generator</h3>
-                <p className="text-gray-600 dark:text-muted-foreground">Generate professional cover photos to enhance your profile.</p>
-            </div>
-            <div className="flex flex-col items-start space-y-3 rounded-lg border p-6 shadow-sm">
-                <div className="rounded-full bg-[#1E3A8A]/10 p-3">
-                <CheckCircle className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Skills Tracker</h3>
-                <p className="text-gray-600 dark:text-muted-foreground">Track and showcase your skills and experience in a compelling way.</p>
-            </div>
-            <div className="flex flex-col items-start space-y-3 rounded-lg border p-6 shadow-sm">
-                <div className="rounded-full bg-[#1E3A8A]/10 p-3">
-                <Download className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Local & Cloud Saving</h3>
-                <p className="text-gray-600 dark:text-muted-foreground">Save locally or sync with your cloud account for access anywhere.</p>
-            </div>
-            <div className="flex flex-col items-start space-y-3 rounded-lg border p-6 shadow-sm">
-                <div className="rounded-full bg-[#1E3A8A]/10 p-3">
-                <Shield className="h-6 w-6 text-[#1E3A8A] dark:text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-[#1E3A8A] dark:text-blue-600">Real-time Previews</h3>
-                <p className="text-gray-600 dark:text-muted-foreground">Preview your documents in real-time with multiple template options.</p>
-            </div>
+            ))}
             </div>
         </div>
         </section>
