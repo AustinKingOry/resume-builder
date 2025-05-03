@@ -252,7 +252,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
   return (
     <div className="space-y-6">
-      <div className={`bg-white text-black rounded-lg shadow-lg p-8 scale-95 ${previewUrl && "hidden"}`}>
+      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 ${previewUrl && "hidden"}`}>
         <div id="resume-preview" className="bg-white">        
             {renderTemplate()}
         </div>

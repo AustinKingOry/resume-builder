@@ -271,10 +271,10 @@ body {
 
 /* Resume template styles */
 .resume-page {
-  width: 210mm;
-  min-height: 297mm;
-  padding: 10mm;
-  margin: 0 auto;
+  /* width: 210mm;
+  min-height: 297mm; */
+  /* padding: 10mm; */
+  /* margin: 0 auto; */
   background-color: white;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }

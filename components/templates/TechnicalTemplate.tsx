@@ -22,7 +22,7 @@ export const TechnicalTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, summary, experience, education, skills, skillLevels, certifications, referees } = data;
 
   return (
-    <div className="resume-page font-mono text-gray-800">
+    <div className="resume-page font-mono p-8 text-gray-800">
       <div className="mb-6 border-b-2 border-resume-blue pb-4">
         <h1 className="text-2xl font-bold mb-1">{personalInfo.name}</h1>
         <p className="text-lg text-resume-blue mb-2">{personalInfo.title}</p>

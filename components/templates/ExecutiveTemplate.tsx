@@ -22,7 +22,7 @@ export const ExecutiveTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, summary, experience, education, skills, skillLevels, certifications, referees } = data;
 
   return (
-    <div className="resume-page font-serif text-gray-800">
+    <div className="resume-page font-serif p-8 text-gray-800">
       {/* Header with border */}
       <header className="mb-6">
         <div className="border-b-4 border-resume-burgundy pb-4 mb-4">
