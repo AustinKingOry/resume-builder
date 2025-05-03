@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cookies } from "next/headers"
 import { createServerClient as createClient } from "@supabase/ssr"
 import type { CookieOptions } from "@supabase/ssr"
