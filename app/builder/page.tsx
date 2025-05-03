@@ -13,6 +13,7 @@ import TemplateSelector from "@/components/TemplateSelector";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Navbar from "@/components/layout/navbar";
+import { Badge } from "@/components/ui/badge";
 
 const initialResumeData: ResumeData = {
     selectedTemplate: "milan",
@@ -158,7 +159,7 @@ export default function BuilderPage() {
                                 <div className="h-full bg-gray-100 dark:bg-muted/20">
                                     <div className="w-full flex items-center justify-between px-6">
                                         <h2 className="py-2 text-lg font-bold">Preview</h2>
-                                        <span>{resumeData.selectedTemplate}</span>
+                                        <Badge variant="outline">{resumeData.selectedTemplate}</Badge>
                                     </div>
                                     <ScrollArea className="w-full h-full max-h-[90vh]">
                                         <div className="w-full px-6 py-3">
