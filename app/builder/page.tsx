@@ -158,6 +158,7 @@ export default function BuilderPage() {
                                 <div className="h-full bg-gray-100 dark:bg-muted/20">
                                     <div className="w-full flex items-center justify-between px-6">
                                         <h2 className="py-2 text-lg font-bold">Preview</h2>
+                                        <span>{resumeData.selectedTemplate}</span>
                                     </div>
                                     <ScrollArea className="w-full h-full max-h-[90vh]">
                                         <div className="w-full px-6 py-3">
