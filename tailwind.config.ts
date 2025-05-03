@@ -51,6 +51,19 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				// Resume template specific colors
+				resume: {
+					'navy': '#1A365D',
+					'teal': '#2C7A7B',
+					'burgundy': '#9B2C2C',
+					'slate': '#4A5568',
+					'charcoal': '#2D3748',
+					'forest': '#276749',
+					'purple': '#553C9A',
+					'orange': '#C05621',
+					'blue': '#2B6CB0',
+					'red': '#C53030'
 				}
 			},
   		borderRadius: {

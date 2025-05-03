@@ -268,3 +268,65 @@ body {
 .pdf-container::-webkit-scrollbar-thumb:hover {
   background: #c4c4cc;
 }
+
+/* Resume template styles */
+.resume-page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 10mm;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media print {
+  .resume-page {
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+/* Skill level dots */
+.skill-dot {
+  @apply inline-block w-2 h-2 mx-0.5 rounded-full;
+}
+
+.skill-dot-filled {
+  @apply bg-gray-800;
+}
+
+.skill-dot-empty {
+  @apply bg-gray-300;
+}
+
+/* Resume section styles */
+.resume-section {
+  @apply mb-6;
+}
+
+.resume-section-title {
+  @apply text-lg font-semibold mb-3 pb-1 border-b;
+}
+
+/* Timeline entries */
+.timeline-item {
+  @apply mb-4 relative;
+}
+
+.timeline-item:last-child {
+  @apply mb-0;
+}
+
+/* Print-specific adjustments */
+@media print {
+  body {
+    @apply bg-white;
+  }
+  
+  .no-print {
+    @apply hidden;
+  }
+}
