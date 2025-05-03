@@ -15,6 +15,13 @@ export type ResumeTemplate = {
       | "classic"
       | "elegant"
       | "modern-dark"
+      | "technical"
+      | "executive"
+      | "creative"
+      | "functional"
+      | "simple"
+      | "highlight"
+      | "business"
     thumbnail: string
   }
   
