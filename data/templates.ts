@@ -89,6 +89,83 @@ export const resumeTemplates: ResumeTemplate[] = [
         thumbnail:
         "/templates/tokyo-resume-templates.jpg",
     },
+    {
+      id: "classic",
+      name: "Classic",
+      description: "Traditional resume with clear sections and professional styling.",
+      layout: "classic",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "modern",
+      name: "Modern",
+      description: "Contemporary design with sidebar and clean layout.",
+      layout: "modern",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "minimalist",
+      name: "Minimalist",
+      description: "Clean and minimal design with subtle styling.",
+      layout: "minimal",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "technical",
+      name: "Technical",
+      description: "Code-inspired design ideal for tech roles.",
+      layout: "technical",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "executive",
+      name: "Executive",
+      description: "Sophisticated design for senior positions.",
+      layout: "executive",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "creative",
+      name: "Creative",
+      description: "Unique layout while maintaining ATS compatibility.",
+      layout: "creative",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "elegant",
+      name: "Elegant",
+      description: "Refined serif-based design with classic elements.",
+      layout: "elegant",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "functional",
+      name: "Functional",
+      description: "Emphasizes skills over chronological experience.",
+      layout: "functional",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "simple",
+      name: "Simple",
+      description: "No-frills design focused on readability.",
+      layout: "simple",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "highlight",
+      name: "Highlight",
+      description: "Bold headers with key information emphasized.",
+      layout: "highlight",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    },
+    {
+      id: "business",
+      name: "Business",
+      description: "Professional template ideal for corporate roles.",
+      layout: "business",
+      thumbnail: "/templates/tokyo-resume-templates.jpg",
+    }
 ]
 
 export const colorThemes = [
