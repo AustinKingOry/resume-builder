@@ -25,7 +25,7 @@ const formatDescription = (description: string | undefined) => {
     return <p>{description}</p>
 }
 
-export default function ModernTemplate({ data }: { data: ResumeData }) {
+export default function StockholmTemplate({ data }: { data: ResumeData }) {
   const resumeData = data;
   return (
     <div className="bg-white font-sans max-w-4xl mx-auto p-8">

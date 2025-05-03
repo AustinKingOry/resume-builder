@@ -20,7 +20,6 @@ import TokyoTemplate from "./templates/TokyoTemplate"
 import axios from "axios";
 import PdfPreview from "./PdfPreview"
 import ClassicTemplate from "./templates/ClassicTemplate"
-import ModernTemplate from "./templates/StockholmTemplate"
 import MinimalistTemplate from "./templates/MinimalTemplate"
 import TechnicalTemplate from "./templates/TechnicalTemplate"
 import ExecutiveTemplate from "./templates/ExecutiveTemplate"
@@ -30,6 +29,7 @@ import FunctionalTemplate from "./templates/FunctionalTemplate"
 import SimpleTemplate from "./templates/SimpleTemplate"
 import HighlightTemplate from "./templates/HighlightTemplate"
 import BusinessTemplate from "./templates/BusinessTemplate"
+import ModernTemplate from "./templates/ModernTemplate"
 
 type ResumePreviewProps = {
     data: ResumeData
