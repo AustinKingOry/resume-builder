@@ -19,6 +19,17 @@ import ParisTemplate from "./templates/ParisTemplate"
 import TokyoTemplate from "./templates/TokyoTemplate"
 import axios from "axios";
 import PdfPreview from "./PdfPreview"
+import ClassicTemplate from "./templates/ClassicTemplate"
+import ModernTemplate from "./templates/StockholmTemplate"
+import MinimalistTemplate from "./templates/MinimalTemplate"
+import TechnicalTemplate from "./templates/TechnicalTemplate"
+import ExecutiveTemplate from "./templates/ExecutiveTemplate"
+import CreativeTemplate from "./templates/CreativeTemplate"
+import ElegantTemplate from "./templates/ElegantTemplate"
+import FunctionalTemplate from "./templates/FunctionalTemplate"
+import SimpleTemplate from "./templates/SimpleTemplate"
+import HighlightTemplate from "./templates/HighlightTemplate"
+import BusinessTemplate from "./templates/BusinessTemplate"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -106,6 +117,28 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                 return <ParisTemplate data={data} />
             case "tokyo":
                 return <TokyoTemplate data={data} />
+            case "classic":
+                return <ClassicTemplate data={data} />
+            case "modern":
+                return <ModernTemplate data={data} />
+            case "minimalist":
+                return <MinimalistTemplate data={data} />
+            case "technical":
+                return <TechnicalTemplate data={data} />
+            case "executive":
+                return <ExecutiveTemplate data={data} />
+            case "creative":
+                return <CreativeTemplate data={data} />
+            case "elegant":
+                return <ElegantTemplate data={data} />
+            case "functional":
+                return <FunctionalTemplate data={data} />
+            case "simple":
+                return <SimpleTemplate data={data} />
+            case "highlight":
+                return <HighlightTemplate data={data} />
+            case "business":
+                return <BusinessTemplate data={data} />
             default:
                 return <MilanTemplate data={data} />
         }
