@@ -43,6 +43,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production.up.railway.app";
   
     useEffect(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const fetchPreview = async () => {
         try {
             const element = document.getElementById("resume-preview");
@@ -83,10 +84,10 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
         }
       };
   
-      if (Object.keys(data).length > 0) {
-        const timeout = setTimeout(fetchPreview, 500); // debounce
-        return () => clearTimeout(timeout);
-      }
+    //   if (Object.keys(data).length > 0) {
+    //     const timeout = setTimeout(fetchPreview, 500); // debounce
+    //     return () => clearTimeout(timeout);
+    //   }
     }, [data, serverless_url]);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
