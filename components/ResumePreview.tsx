@@ -41,6 +41,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [previewBlob, setPreviewBlob] = useState<Blob | Uint8Array | null>(null);
     const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production.up.railway.app";
+    // const backend_url = process.env.PUPPETEER_SERVERLESS_URL || "http://localhost:5000";
   
     useEffect(() => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -84,10 +85,10 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
         }
       };
   
-    //   if (Object.keys(data).length > 0) {
-    //     const timeout = setTimeout(fetchPreview, 500); // debounce
-    //     return () => clearTimeout(timeout);
-    //   }
+      if (Object.keys(data).length > 0) {
+        const timeout = setTimeout(fetchPreview, 500); // debounce
+        return () => clearTimeout(timeout);
+      }
     }, [data, serverless_url]);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
