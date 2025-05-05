@@ -253,13 +253,13 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
   return (
     <div className="space-y-6">
-      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 ${previewUrl && "hiddens"}`}>
-        <div id="resume-preview" className="bg-white border-red-600">
+      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 ${previewUrl && "hidden"}`}>
+        <div id="resume-preview" className="bg-white">
             {renderTemplate()}
         </div>
       </div>
       {previewUrl && 
-      <div className="bg-white text-black rounded-lg shadow-lg p-8">
+      <div className="bg-white text-black rounded-lg shadow-lg overflow-hidden">
       {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
       <PdfPreview pdfUrl={previewUrl} pdfBlob={previewBlob} />
       </div>}

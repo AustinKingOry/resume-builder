@@ -217,7 +217,7 @@ body {
 
 /* PDF Viewer Custom Styles */
 .pdf-container {
-  max-height: calc(100vh - 250px);
+  /* max-height: calc(100vh - 250px); */
   min-height: 500px;
   display: flex;
   flex-direction: column;

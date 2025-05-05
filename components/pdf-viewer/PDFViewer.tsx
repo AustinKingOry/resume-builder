@@ -38,7 +38,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
 
   if (!file) {
     return (
-      <div className="pdf-viewer flex items-center justify-center h-[70vh] bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+      <div className="pdf-viewer flex items-center justify-center min-h-[70vh] bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
         <div className="text-center">
           <p className="text-lg text-gray-500">No PDF document loaded</p>
           <p className="text-sm text-gray-400 mt-2">
