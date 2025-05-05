@@ -24,7 +24,7 @@ export const SimpleTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, summary, experience, education, skills, skillLevels, certifications, referees } = data;
 
   return (
-    <div className="resume-page font-sans text-gray-800 p-8">
+    <div className="resume-page font-sans text-gray-800 p-8 add-padding">
       {/* Simple header */}
       <header className="mb-6 flex items-center gap-4">
         {personalInfo.photo && (

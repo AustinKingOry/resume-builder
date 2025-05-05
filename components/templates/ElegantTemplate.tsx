@@ -21,7 +21,7 @@ export const ElegantTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, summary, experience, education, skills, skillLevels, certifications, referees } = data;
 
   return (
-    <div className="resume-page font-serif text-gray-800 p-10">
+    <div className="resume-page font-serif text-gray-800 p-10 add-padding">
       {/* Elegant header with minimal styling */}
       <header className="mb-8 text-center border-b border-gray-300 pb-4">
         <h1 className="text-3xl font-bold tracking-wide mb-1">{personalInfo.name}</h1>

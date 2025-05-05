@@ -22,7 +22,7 @@ export const MinimalistTemplate: React.FC<{ data: ResumeData }> = ({ data }) => 
   const { personalInfo, summary, experience, education, skills, skillLevels, certifications, referees } = data;
 
   return (
-    <div className="resume-page font-sans text-gray-800 max-w-4xl mx-auto p-8">
+    <div className="resume-page font-sans text-gray-800 max-w-4xl mx-auto p-8 add-padding">
       {/* Header */}
       <header className="mb-8 text-center">
         <h1 className="text-3xl font-bold tracking-tight mb-1">{personalInfo.name}</h1>

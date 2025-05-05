@@ -67,7 +67,7 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
                     <style>${styles}</style>
                     ${element.outerHTML}
                 `
-                console.log("fetching...")
+                
                 const response = await axios.post(
                     `${serverless_url}/api/builder/preview`,
                     { html: html, name:`${data.personalInfo.name}` },
@@ -253,8 +253,8 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
   return (
     <div className="space-y-6">
-      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 ${previewUrl && "hidden"}`}>
-        <div id="resume-preview" className="bg-white">        
+      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 ${previewUrl && "hiddens"}`}>
+        <div id="resume-preview" className="bg-white border-red-600">
             {renderTemplate()}
         </div>
       </div>

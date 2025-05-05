@@ -279,12 +279,22 @@ body {
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
+/* Resume template styles */
+.resume-page.add-padding{
+  /* width: 210mm;
+  min-height: 297mm; */
+  padding: 10mm;
+  /* margin: 0 auto; */
+  background-color: white;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
 @media print {
   .resume-page {
     width: 100%;
     height: 100%;
     box-shadow: none;
-    padding: 0;
+    /* padding: 0; */
     margin: 0;
   }
 }
