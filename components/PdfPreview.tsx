@@ -1,10 +1,15 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import PDFViewer from "@/components/pdf-viewer/PDFViewer";
+// import PDFViewer from "@/components/pdf-viewer/PDFViewer";
 import PDFControls from "@/components/pdf-viewer/PDFControls";
 import PDFHeader from "@/components/pdf-viewer/PDFHeader";
 import { useToast } from "@/hooks/use-toast";
+import dynamic from "next/dynamic";
+
+const PDFViewer = dynamic(() => import("@/components/pdf-viewer/PDFViewer"), {
+  ssr: false,
+});
 
 type PdfPreviewProps = {
 	pdfUrl: string | null

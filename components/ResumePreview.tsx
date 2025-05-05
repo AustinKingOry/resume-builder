@@ -44,7 +44,6 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
     // const backend_url = process.env.PUPPETEER_SERVERLESS_URL || "http://localhost:5000";
   
     useEffect(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const fetchPreview = async () => {
         try {
             const element = document.getElementById("resume-preview");
