@@ -115,6 +115,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			password,
 			options: {
 			data: userData,
+			emailRedirectTo: 'https://kazikit.vercel.app',
 			},
 		})
 
