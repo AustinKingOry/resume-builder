@@ -1,4 +1,4 @@
-import type { User, Session } from "@supabase/supabase-js"
+import type { User, Session, AuthError } from "@supabase/supabase-js"
 
 export type ResumeTemplate = {
     id: string
@@ -141,7 +141,14 @@ export type AuthContextType = {
 	isLoading: boolean
 	isProfileLoading: boolean
 	signIn: (email: string, password: string) => Promise<{ error: unknown }>
-	signUp: (email: string, password: string, userData: unknown) => Promise<{ error: unknown; user: User | null }>
+	signUp: (email: string, password: string, userData: unknown) => Promise<{
+    error: AuthError | null;
+    user: User | null;
+} | {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    error: any;
+    user: null;
+}>
 	signOut: () => Promise<void>
 	resetPassword: (email: string) => Promise<{ error: unknown }>
 	updatePassword: (password: string) => Promise<{ error: unknown }>

@@ -121,7 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		if (!error && data.user) {
 			// Create initial profile record
 			await supabase.from("profiles").insert({
-			id: data.user.id,
+			user_id: data.user.id,
 			full_name: userData.full_name,
 			email: email,
 			})
