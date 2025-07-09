@@ -94,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			title: "Success!",
 			description: "You have been signed in.",
 			})
-			router.push("/dashboard")
+			router.push("/")
 		}
 
 		return { error }

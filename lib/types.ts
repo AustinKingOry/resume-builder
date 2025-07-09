@@ -140,7 +140,7 @@ export type AuthContextType = {
 	profile: Profile | null
 	isLoading: boolean
 	isProfileLoading: boolean
-	signIn: (email: string, password: string) => Promise<{ error: unknown }>
+	signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>
 	signUp: (email: string, password: string, userData: unknown) => Promise<{
     error: AuthError | null;
     user: User | null;
