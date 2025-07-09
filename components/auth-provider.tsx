@@ -81,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		return () => {
 		subscription.unsubscribe()
 		}
-	}, [getCurrentProfile, router, supabase])
+	}, [router, supabase])
 
 	const signIn = async (email: string, password: string) => {
 		try {
