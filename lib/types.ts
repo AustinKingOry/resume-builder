@@ -121,14 +121,13 @@ export interface PlatformCP {
 // User profile type
 export type Profile = {
 	id: string
-	display_name: string
+	full_name: string
 	username: string
 	email: string
-	bio?: string
+  profession: string
+	summary?: string
 	avatar?: string
 	role?: string
-	school?: string
-	points?: number
 	created_at: string
 	updated_at?: string
 }

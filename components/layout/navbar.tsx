@@ -38,6 +38,9 @@ const Navbar: React.FC = () => {
 				))}
 			</nav>
 			<div className="flex items-center space-x-4">
+				<Link href="/builder">
+					<Button>Create Resume</Button>
+				</Link>
 				{user ? 
 				<div>
 				<DropdownMenu>
@@ -45,7 +48,7 @@ const Navbar: React.FC = () => {
 					<Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
 					<Avatar className="h-8 w-8">
 						<AvatarImage src={!isProfileLoading && profile?.avatar || "/placeholder-user.jpg"} alt="User" />
-						<AvatarFallback>{!isProfileLoading && profile?.display_name.charAt(0) || "AD"}</AvatarFallback>
+						<AvatarFallback>{!isProfileLoading && profile?.full_name.charAt(0) || "AD"}</AvatarFallback>
 					</Avatar>
 					</Button>
 				</DropdownMenuTrigger>
@@ -67,9 +70,6 @@ const Navbar: React.FC = () => {
 					</Button>
 				</Link>
 				}
-				<Link href="/builder">
-					<Button>Create Resume</Button>
-				</Link>
 				<ThemeSwitcher />
 			</div>
 		</div>
