@@ -84,12 +84,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	const signIn = async (email: string, password: string) => {
 		try {
-		const { error } = await supabase.auth.signInWithPassword({
+		const { data, error } = await supabase.auth.signInWithPassword({
 			email,
 			password,
 		})
 
 		if (!error) {
+			// Create initial profile record
+			if(!data.user.last_sign_in_at){
+				await supabase.from("profiles").insert({
+				user_id: data.user.id,
+				full_name: data.user.user_metadata.full_name,
+				email: email,
+				})
+			}
+
 			toast({
 			title: "Success!",
 			description: "You have been signed in.",
@@ -120,13 +129,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		})
 
 		if (!error && data.user) {
-			// Create initial profile record
-			await supabase.from("profiles").insert({
-			user_id: data.user.id,
-			full_name: userData.full_name,
-			email: email,
-			})
-
 			toast({
 			title: "Account created!",
 			description: "Please check your email to confirm your account.",
