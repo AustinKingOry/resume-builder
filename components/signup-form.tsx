@@ -37,6 +37,8 @@ export default function SignupForm () {
             description: error.message,
             variant: "destructive",
           })
+        } else {
+          resetForm();
         }
       } catch (error) {
         console.error("Login error:", error)
@@ -48,6 +50,13 @@ export default function SignupForm () {
       } finally {
         setIsLoading(false)
       }
+    }
+
+    const resetForm = () => {
+      setEmail("");
+      setPassword("");
+      setName("");
+      setPasswordRepeat("");
     }
     return (
         <div className="flex min-h-screen flex-col items-center justify-center p-4">
@@ -89,7 +98,7 @@ export default function SignupForm () {
                 onChange={(e) => setPasswordRepeat(e.target.value)}
                 required  />
                 </div>
-                <Button type="submit" className="w-full">{isLoading ? <><Loader className="w-3.5 h-3.5 animate-spin" /> Signing Up</>: "Sign Up"}</Button>
+                <Button type="submit" className="w-full" disabled={isLoading}>{isLoading ? <><Loader className="w-3.5 h-3.5 animate-spin" /> Signing Up</>: "Sign Up"}</Button>
             </form>
             <div className="text-center text-sm">
                 <p>
