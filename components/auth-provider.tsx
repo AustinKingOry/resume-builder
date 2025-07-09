@@ -90,8 +90,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		})
 
 		if (!error) {
+			const { data: profile } = await supabase.from("profiles").select("*").eq("user_id", data.user?.id).single();
 			// Create initial profile record
-			if(!data.user.last_sign_in_at){
+			if(!profile){
 				await supabase.from("profiles").insert({
 				user_id: data.user.id,
 				full_name: data.user.user_metadata.full_name,
