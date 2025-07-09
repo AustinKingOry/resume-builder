@@ -7,8 +7,12 @@ import { LogIn, MenuIcon } from 'lucide-react';
 import { appData } from "@/lib/data";
 import Image from "next/image";
 import { ThemeSwitcher } from "../theme-switcher";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useAuth } from "../auth-provider";
 
 const Navbar: React.FC = () => {
+	const {user, signOut, isProfileLoading, profile} = useAuth();
 	const [showDropdown, setShowDropdown] = useState(false);
 	const links = [
 		{title:"Home",link:"/"},
@@ -34,16 +38,39 @@ const Navbar: React.FC = () => {
 				))}
 			</nav>
 			<div className="flex items-center space-x-4">
-			<Link href="/login">
-				<Button variant="outline" className="hidden md:flex">
-				<LogIn className="mr-2 h-4 w-4" />
-				Sign In
-				</Button>
-			</Link>
-			<Link href="/builder">
-				<Button>Create Resume</Button>
-			</Link>
-			<ThemeSwitcher />
+				{user ? 
+				<div>
+				<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+					<Avatar className="h-8 w-8">
+						<AvatarImage src={!isProfileLoading && profile?.avatar || "/placeholder-user.jpg"} alt="User" />
+						<AvatarFallback>{!isProfileLoading && profile?.display_name.charAt(0) || "AD"}</AvatarFallback>
+					</Avatar>
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end">
+					<DropdownMenuLabel>My Account</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem asChild><Link href={'/account'}>Profile</Link></DropdownMenuItem>
+					<DropdownMenuItem asChild><Link href={'/settings'}>Settings</Link></DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem onClick={signOut}>Log out</DropdownMenuItem>
+				</DropdownMenuContent>
+				</DropdownMenu>
+					
+				</div>:
+				<Link href="/login">
+					<Button variant="outline" className="hidden md:flex">
+					<LogIn className="mr-2 h-4 w-4" />
+					Sign In
+					</Button>
+				</Link>
+				}
+				<Link href="/builder">
+					<Button>Create Resume</Button>
+				</Link>
+				<ThemeSwitcher />
 			</div>
 		</div>
 		<div className={`w-full ${showDropdown ? "block":"hidden"} md:hidden border-t`}>
