@@ -3,7 +3,7 @@
 
 import type React from "react"
 
-import { createContext, useContext, useState, useEffect } from "react"
+import { createContext, useContext, useState, useEffect, useCallback } from "react"
 import { createBrowserClient } from "@/lib/supabase-browser"
 import type { User, Session } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const { toast } = useToast()
 	
 
-	const getCurrentProfile = async () => {
+	const getCurrentProfile = useCallback(async () => {
 		if (!user) return { profile: null, error: new Error("User not authenticated") }
 
 		setIsProfileLoading(true)
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		} finally {
 		setIsProfileLoading(false)
 		}
-	}
+	},[supabase, user])
 
 	useEffect(() => {
 		const getSession = async () => {
@@ -81,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		return () => {
 		subscription.unsubscribe()
 		}
-	}, [router, supabase])
+	}, [getCurrentProfile, router, supabase])
 
 	const signIn = async (email: string, password: string) => {
 		try {
