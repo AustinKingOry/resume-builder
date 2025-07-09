@@ -53,6 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			setUser(session?.user || null)
 
 			if (session?.user) {
+				console.log("fetching profile")
 				await getCurrentProfile()
 			}
 
