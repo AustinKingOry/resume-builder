@@ -46,6 +46,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	}
 
 	useEffect(() => {
+		const getCurrentProfile = async () => {
+			if (!user) return { profile: null, error: new Error("User not authenticated") }
+			console.log("fetching profile")
+	
+			setIsProfileLoading(true)
+			try {
+			const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user?.id).single();
+			console.log("profile:",data)
+	
+			if (error) { throw error }
+	
+			setProfile(data)
+			return { profile: data, error: null }
+			} catch (error: any) {
+			console.error("Error fetching profile:", error)
+			return { profile: null, error }
+			} finally {
+			setIsProfileLoading(false)
+			}
+		}
 		const getSession = async () => {
 			const {
 				data: { session },
@@ -81,7 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		return () => {
 		subscription.unsubscribe()
 		}
-	}, [router, supabase])
+	}, [router, supabase, user])
 
 	const signIn = async (email: string, password: string) => {
 		try {
