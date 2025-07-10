@@ -165,7 +165,7 @@ const LoginForm = () => {
                         <span className="bg-white px-3 text-sm text-gray-500">or</span>
                     </div>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3 w-full">
                     <Button
                         variant="outline"
                         type="button"
