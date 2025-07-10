@@ -136,6 +136,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
+	const signInWithGoogle = async () => {
+		try {
+			const { error } = await supabase.auth.signInWithOAuth({
+				provider: "google",
+				options: {
+				  redirectTo: `${location.origin}`, // Optional: redirect after login
+				}
+			  });
+			  if (error) console.error("Google login error:", error);
+		} catch (error: any) {
+		toast({
+			title: "Google auth failed",
+			description: error.message,
+			variant: "destructive",
+		})
+		return { error }
+		}
+	}
+
 	const signUp = async (email: string, password: string, userData: any) => {
 		try {
 		const { data, error } = await supabase.auth.signUp({
@@ -266,6 +285,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		updatePassword,
 		updateProfile,
 		getCurrentProfile,
+		signInWithGoogle,
 	}
 
 	return <Context.Provider value={value}>{children}</Context.Provider>
