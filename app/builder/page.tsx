@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ResumeForm from "@/components/ResumeForm";
 import ResumePreview from "@/components/ResumePreview";
-import type { ResumeData, ResumeTemplate } from "../../lib/types";
+import type { ResumeData, ResumeDataDb, ResumeTemplate } from "../../lib/types";
 import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
@@ -65,6 +65,20 @@ export default function BuilderPage() {
         }
     }, [])
 
+    useEffect(() => {
+        const loadResume = async () => {
+            if (!user?.id) return;
+            const resumes = await ResumeDB.fetchResumesByUser(1, 0, user.id);
+            if (resumes.length > 0) {
+                setResumeData(resumes[0].data);
+                setResumeId(resumes[0].id);
+                setLastSyncedData(resumes[0].data);
+            }
+        };
+        loadResume();
+    }, [user]);
+    
+
     const syncResumeToDB = async (data: ResumeData) => {
         if (!user?.id) return;
     
@@ -79,7 +93,13 @@ export default function BuilderPage() {
                     setLastSyncedData(data);
                 }
             } else {
-                const updated = await ResumeDB.updateResume(resumeId, data);
+                const updates: ResumeDataDb = {
+                    data: data,
+                    id: resumeId,
+                    user_id: user.id,
+                    template_id: data.selectedTemplate
+                }
+                const updated = await ResumeDB.updateResume(resumeId, updates);
                 if (updated) {
                     setLastSyncedData(data);
                 }
