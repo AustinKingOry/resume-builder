@@ -23,18 +23,18 @@ export type ResumeTemplate = {
       | "highlight"
       | "business"
     thumbnail: string
-  }
+}
   
-  export type ColorTheme = {
+export type ColorTheme = {
     id: string
     primary: string
     secondary: string
     accent: string
-  }
+}
   
-  export type SkillLevel = 1 | 2 | 3 | 4 | 5
+export type SkillLevel = 1 | 2 | 3 | 4 | 5
   
-  export type ResumeData = {
+export type ResumeData = {
     selectedTemplate: ResumeTemplate["id"]
     personalInfo: {
       name: string
@@ -87,7 +87,16 @@ export type ResumeTemplate = {
       email: string
       phone: string
     }[]
-  }
+}
+
+export interface ResumeDataDb {
+	data: ResumeData
+	id: string
+	user_id: string
+	template_id: string
+	created_at?: Date
+	updated_at?: Date
+}
   
 
 export interface UserDataCP {

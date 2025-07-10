@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase-server";
-import { ResumeData } from "@/lib/types";
+import { ResumeData, ResumeDataDb } from "@/lib/types";
 
 const supabase = await createServerClient();
 
@@ -21,7 +21,7 @@ export const ResumeDB = {
             return null;
         }
     },
-    async updateResume (resume_id: string, resumeData: ResumeData){
+    async updateResume (resume_id: string, resumeData: ResumeDataDb){
         try {
             const { data, error } = await supabase
                 .from('Resumes')
@@ -35,7 +35,7 @@ export const ResumeDB = {
             return null;
         }
     },
-    async fetchResumeById(id: string): Promise<ResumeData | null>{
+    async fetchResumeById(id: string): Promise<ResumeDataDb | null>{
         try {
             const { data, error } = await supabase
                 .from('Resumes')
@@ -49,7 +49,7 @@ export const ResumeDB = {
             return null;
         }
     },
-    async fetchResumesByUser(limit=5, offset = 0, user_id: string): Promise<ResumeData[]>{
+    async fetchResumesByUser(limit=5, offset = 0, user_id: string): Promise<ResumeDataDb[]>{
         const supabase = await createServerClient();
         try {
             const { data, error } = await supabase
