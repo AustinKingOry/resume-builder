@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ResumeForm from "@/components/ResumeForm";
 import ResumePreview from "@/components/ResumePreview";
 import type { ResumeData, ResumeTemplate } from "../../lib/types";
@@ -14,6 +14,9 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Navbar from "@/components/layout/navbar";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/components/auth-provider";
+import { ResumeDB } from "@/utils/supabaseClient";
+import { debounce } from "lodash";
 
 const initialResumeData: ResumeData = {
     selectedTemplate: "milan",
@@ -50,7 +53,10 @@ const initialResumeData: ResumeData = {
 export default function BuilderPage() {
     const isDesktop = useMediaQuery("(min-width: 768px)")
     const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData)
-
+    const [resumeId, setResumeId] = useState<string | null>(null);
+    const [lastSyncedData, setLastSyncedData] = useState<ResumeData | null>(null);
+    const {user} = useAuth();
+    
     useEffect(() => {
         // Load data from local storage when the component mounts
         const savedData = localStorage.getItem("resumeData")
@@ -58,17 +64,47 @@ export default function BuilderPage() {
         setResumeData(JSON.parse(savedData))
         }
     }, [])
-  const handleUpdate = (data: ResumeData) => {
-    setResumeData(data)
-    // Save data to local storage whenever it's updated
-    localStorage.setItem("resumeData", JSON.stringify(data))
-  }
+
+    const syncResumeToDB = async (data: ResumeData) => {
+        if (!user?.id) return;
+    
+        const isChanged = JSON.stringify(data) !== JSON.stringify(lastSyncedData);
+        if (!isChanged) return;
+    
+        try {
+            if (!resumeId) {
+                const created = await ResumeDB.createResume(user.id, data);
+                if (created && created[0]?.id) {
+                    setResumeId(created[0].id);
+                    setLastSyncedData(data);
+                }
+            } else {
+                const updated = await ResumeDB.updateResume(resumeId, data);
+                if (updated) {
+                    setLastSyncedData(data);
+                }
+            }
+        } catch (err) {
+            console.error("Error syncing resume:", err);
+        }
+    };
+    
+    const debouncedSync = useRef(debounce(syncResumeToDB, 2000)).current;
+
+    
+    const handleUpdate = (data: ResumeData) => {
+        setResumeData(data)
+        // Save data to local storage whenever it's updated
+        localStorage.setItem("resumeData", JSON.stringify(data))
+        debouncedSync(data);
+    }
 
     const handleTemplateSelect = (template: ResumeTemplate) => {
         const updatedData = { ...resumeData, selectedTemplate: template.id }
         setResumeData(updatedData)
         // Save data to local storage when template is changed
         localStorage.setItem("resumeData", JSON.stringify(updatedData))
+        debouncedSync(updatedData);
     }
 
     const handleAIFineTune = async () => {

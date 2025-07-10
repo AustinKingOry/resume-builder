@@ -10,8 +10,8 @@ export const ResumeDB = {
                 .from('Resumes')
                 .insert({
                     user_id,
-                    full_name: resumeData,
                     data: resumeData,
+                    template_id: resumeData.selectedTemplate,
                 })
                 .select();
             if (error) throw error;
