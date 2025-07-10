@@ -105,6 +105,7 @@ const LoginForm = () => {
                             placeholder="name@example.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            className="pl-10 h-11"
                             required
                         />
                         </div>
@@ -123,6 +124,7 @@ const LoginForm = () => {
                             placeholder="Enter your password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            className="pl-10 pr-10 h-11"
                             required
                         />
                         <button
@@ -156,6 +158,44 @@ const LoginForm = () => {
                         "Sign in"
                     )}
                 </Button>
+
+                <div className="relative">
+                    <Separator />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="bg-white px-3 text-sm text-gray-500">or</span>
+                    </div>
+                </div>
+                <div className="space-y-3">
+                    <Button
+                        variant="outline"
+                        type="button"
+                        className="w-full h-11 border-gray-200 hover:bg-gray-50 transition-all duration-200 hover:border-gray-300"
+                        onClick={handleGoogleSignIn}
+                        disabled={isGoogleLoading}
+                    >
+                        {isGoogleLoading ? (
+                        <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2" />
+                        ) : (
+                        <GoogleIcon className="w-5 h-5 mr-2" />
+                        )}
+                        Continue with Google
+                    </Button>
+                
+                {/* <Button
+                    variant="outline"
+                    type="button"
+                    className="w-full h-11 border-gray-200 hover:bg-gray-50 transition-all duration-200 hover:border-gray-300"
+                    onClick={handleGithubSignIn}
+                    disabled={isGithubLoading}
+                >
+                    {isGithubLoading ? (
+                    <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2" />
+                    ) : (
+                    <Github className="w-5 h-5 mr-2" />
+                    )}
+                    Continue with GitHub
+                </Button> */}
+                </div>
                 <p className="text-sm text-muted-foreground text-center">
                     Don&apos;t have an account?{' '}
                     <Link href="/signup" className="text-primary hover:underline">
@@ -165,42 +205,6 @@ const LoginForm = () => {
                 </CardFooter>
             </Card>
         </form>
-
-        <div className="relative">
-            <Separator />
-            <div className="absolute inset-0 flex items-center justify-center">
-                <span className="bg-white px-3 text-sm text-gray-500">or</span>
-            </div>
-        </div>
-        <div className="space-y-3">
-            <Button
-                variant="outline"
-                className="w-full h-11 border-gray-200 hover:bg-gray-50 transition-all duration-200 hover:border-gray-300"
-                onClick={handleGoogleSignIn}
-                disabled={isGoogleLoading}
-            >
-                {isGoogleLoading ? (
-                <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2" />
-                ) : (
-                <GoogleIcon className="w-5 h-5 mr-2" />
-                )}
-                Continue with Google
-            </Button>
-          
-          {/* <Button
-            variant="outline"
-            className="w-full h-11 border-gray-200 hover:bg-gray-50 transition-all duration-200 hover:border-gray-300"
-            onClick={handleGithubSignIn}
-            disabled={isGithubLoading}
-          >
-            {isGithubLoading ? (
-              <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mr-2" />
-            ) : (
-              <Github className="w-5 h-5 mr-2" />
-            )}
-            Continue with GitHub
-          </Button> */}
-        </div>
         </div>
     );
 };
