@@ -144,14 +144,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				  redirectTo: `${location.origin}`, // Optional: redirect after login
 				}
 			  });
-			  if (error) console.error("Google login error:", error);
+			if (error) {
+				console.error("Google login error:", error);
+				toast({
+					title: "Google auth failed",
+					description: error.message,
+					variant: "destructive",
+				})
+				return;
+			}
 		} catch (error: any) {
-		toast({
-			title: "Google auth failed",
-			description: error.message,
-			variant: "destructive",
-		})
-		return { error }
+			toast({
+				title: "Google auth failed",
+				description: error.message,
+				variant: "destructive",
+			})
+			return
 		}
 	}
 
