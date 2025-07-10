@@ -46,7 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	}
 
 	useEffect(() => {
-		const getCurrentProfile = async () => {
+		const getCurrentProfile = async (user: User | null) => {
 			if (!user) return { profile: null, error: new Error("User not authenticated") }
 			console.log("fetching profile")
 	
@@ -74,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			setUser(session?.user || null)
 
 			if (session?.user) {
-				await getCurrentProfile()
+				await getCurrentProfile(session?.user)
 			}
 
 			setIsLoading(false)
@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		setUser(session?.user || null)
 
 		if (session?.user) {
-			await getCurrentProfile()
+			await getCurrentProfile(session?.user)
 		} else {
 			setProfile(null)
 		}
@@ -101,7 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		return () => {
 		subscription.unsubscribe()
 		}
-	}, [router, supabase, user])
+	}, [router, supabase])
 
 	const signIn = async (email: string, password: string) => {
 		try {
