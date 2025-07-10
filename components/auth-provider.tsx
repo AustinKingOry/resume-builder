@@ -26,12 +26,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	const getCurrentProfile = async () => {
 		if (!user) return { profile: null, error: new Error("User not authenticated") }
-		console.log("fetching profile")
 
 		setIsProfileLoading(true)
 		try {
 		const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user?.id).single();
-		console.log("profile:",data)
+		console.log("profile")
 
 		if (error) { throw error }
 
@@ -48,12 +47,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
 		const getCurrentProfile = async (user: User | null) => {
 			if (!user) return { profile: null, error: new Error("User not authenticated") }
-			console.log("fetching profile")
 	
 			setIsProfileLoading(true)
 			try {
 			const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user?.id).single();
-			console.log("profile:",data)
 	
 			if (error) { throw error }
 	
