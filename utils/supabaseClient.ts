@@ -1,7 +1,6 @@
+import { supabase } from "@/lib/supabase-browser";
 import { createServerClient } from "@/lib/supabase-server";
 import { ResumeData, ResumeDataDb } from "@/lib/types";
-
-const supabase = await createServerClient();
 
 export const ResumeDB = {
     async createResume (user_id: string, resumeData: ResumeData){
