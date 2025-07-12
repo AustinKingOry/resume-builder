@@ -40,13 +40,13 @@ const fallbackSuggestions = {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("AI Generation API called")
+    // console.log("AI Generation API called")
 
     const body: AIGenerationRequest = await request.json()
     const { type, context } = body
 
-    console.log("Request type:", type)
-    console.log("Context:", context)
+    // console.log("Request type:", type)
+    // console.log("Context:", context)
 
     // Check if Google AI API key is available
     if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
@@ -132,18 +132,18 @@ Rules:
         })
     }
 
-    console.log("Attempting AI generation with prompt:", prompt.substring(0, 100) + "...")
+    // console.log("Attempting AI generation with prompt:", prompt.substring(0, 100) + "...")
 
     try {
       const { text } = await generateText({
-        model: google("gemini-1.5-flash"),
+        model: google("gemini-2.5-flash"),
         system: systemPrompt,
         prompt: prompt,
         temperature: 0.7,
         maxTokens: 1000,
       })
 
-      console.log("AI response received:", text.substring(0, 100) + "...")
+      // console.log("AI response received:", text.substring(0, 100) + "...")
 
       // Parse the response into an array of suggestions
       let suggestions = text
@@ -163,7 +163,7 @@ Rules:
         suggestions = fallbackSuggestions[type] || ["No suggestions available"]
       }
 
-      console.log("Parsed suggestions:", suggestions.length, "items")
+      // console.log("Parsed suggestions:", suggestions.length, "items")
 
       return NextResponse.json({ suggestions, fallback: false })
     } catch (aiError) {
