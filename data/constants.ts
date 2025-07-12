@@ -1,5 +1,5 @@
 export const SiteInfo = {
-    name: "Kazikit",
+    name: "KaziKit",
     email: "kazikit.tools@gmail.com",
     twitter: "https://x.com/KaziKit_",
     instagram: "",

@@ -171,7 +171,7 @@ export default function BuilderPage() {
         <meta property="og:title" content="Resume Builder" />
         <meta property="og:description" content="Effortlessly create professional resumes with Resume Builder. A great learning opportunity for all." />
         <meta property="og:image" content="/logo.webp" />
-        <meta property="og:url" content="https://open-resume-builder.vercel.app" />
+        <meta property="og:url" content="https://kazikit.vercel.app" />
         <meta property="og:type" content="website" />
 
         {/* Twitter Cards */}
