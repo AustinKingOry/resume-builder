@@ -255,7 +255,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
 
   return (
     <div className="space-y-6">
-        <div className="">
+        <div className=" flex flex-row gap-3">
             <TemplateSelector selectedTemplate={data.selectedTemplate} onTemplateSelect={changeTemplate} />
             <Button
             onClick={downloadPDF}
