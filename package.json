@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@genkit-ai/googleai": "^1.14.1",
         "@radix-ui/react-accordion": "^1.2.2",
         "@radix-ui/react-avatar": "^1.1.7",
         "@radix-ui/react-dialog": "^1.1.5",
@@ -31,6 +32,7 @@
         "browser-image-compression": "^2.0.2",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
+        "genkit": "^1.14.1",
         "jspdf": "^3.0.1",
         "lodash": "^4.17.21",
         "lucide-react": "^0.474.0",
