@@ -45,6 +45,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 type RedesignedResumeFormProps = {
   onUpdate: (data: ResumeData) => void
   initialData: ResumeData
+  reset: () => void
 }
 
 const formSteps = [
@@ -153,7 +154,7 @@ const ValidationMessage = ({ type, message }: { type: "error" | "success" | "inf
   )
 }
 
-export default function RedesignedResumeForm({ onUpdate, initialData }: RedesignedResumeFormProps) {
+export default function RedesignedResumeForm({ onUpdate, initialData, reset }: RedesignedResumeFormProps) {
   const [currentStep, setCurrentStep] = useState(0)
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set())
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
@@ -482,6 +483,9 @@ export default function RedesignedResumeForm({ onUpdate, initialData }: Redesign
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
         <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
+        <Button onClick={reset} variant="outline" className="float-end bg-white dark:bg-secondary/90 hover:bg-gray-100">
+            Reset Resume
+        </Button>
       </div>
 
       <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
