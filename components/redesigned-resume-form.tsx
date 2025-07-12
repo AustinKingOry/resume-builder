@@ -1126,7 +1126,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                                 <Controller
                                   name={`skillLevels.${skill.trim()}`}
                                   control={control}
-                                  defaultValue={5}
+                                  defaultValue={70}
                                   render={({ field }) => (
                                     <div className="space-y-2">
                                       <Slider
