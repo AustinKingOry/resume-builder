@@ -1,13 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Download, FileText, Sparkles, Eye } from "lucide-react"
+import { FileText, Sparkles, Eye } from "lucide-react"
 import RedesignedResumeForm from "@/components/redesigned-resume-form"
-import type { ResumeData } from "@/lib/types"
+import type { ResumeData, ResumeDataDb, ResumeTemplate } from "@/lib/types"
 import { Toaster } from "@/components/ui/toaster"
 import ResumePreview from "@/components/ResumePreview"
+import Navbar from "@/components/layout/navbar"
+import { useAuth } from "@/components/auth-provider"
+import { ResumeDB } from "@/utils/supabaseClient"
+import { debounce } from "lodash"
 
 const initialResumeData: ResumeData = {
   selectedTemplate: "milan",
@@ -44,18 +47,88 @@ const initialResumeData: ResumeData = {
 export default function ResumeBuilder() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData)
   const [activeTab, setActiveTab] = useState("form")
-
-  const handleResumeUpdate = (data: ResumeData) => {
-    setResumeData(data)
-  }
-
-  const handleDownload = () => {
-    console.log("Download resume:", resumeData)
-    alert("Download functionality would be implemented here!")
-  }
-
+      const [resumeId, setResumeId] = useState<string | null>(null);
+      const [lastSyncedData, setLastSyncedData] = useState<ResumeData | null>(null);
+      const {user} = useAuth();
+      
+      useEffect(() => {
+          // Load data from local storage when the component mounts
+          const savedData = localStorage.getItem("resumeData")
+          if (savedData) {
+          setResumeData(JSON.parse(savedData))
+          }
+      }, [])
+  
+      useEffect(() => {
+          const loadResume = async () => {
+              if (!user?.id) return;
+              const resumes = await ResumeDB.fetchResumesByUser(1, 0, user.id);
+              if (resumes.length > 0) {
+                  setResumeData(resumes[0].data);
+                  setResumeId(resumes[0].id);
+                  setLastSyncedData(resumes[0].data);
+              }
+          };
+          loadResume();
+      }, [user]);
+      
+  
+      const syncResumeToDB = async (data: ResumeData) => {
+          if (!user?.id) return;
+      
+          const isChanged = JSON.stringify(data) !== JSON.stringify(lastSyncedData);
+          if (!isChanged) return;
+      
+          try {
+              if (!resumeId) {
+                  const created = await ResumeDB.createResume(user.id, data);
+                  if (created && created[0]?.id) {
+                      setResumeId(created[0].id);
+                      setLastSyncedData(data);
+                  }
+              } else {
+                  const updates: ResumeDataDb = {
+                      data: data,
+                      id: resumeId,
+                      user_id: user.id,
+                      template_id: data.selectedTemplate
+                  }
+                  const updated = await ResumeDB.updateResume(resumeId, updates);
+                  if (updated) {
+                      setLastSyncedData(data);
+                  }
+              }
+          } catch (err) {
+              console.error("Error syncing resume:", err);
+          }
+      };
+      
+      const debouncedSync = useRef(debounce(syncResumeToDB, 2000)).current;
+  
+      
+      const handleUpdate = (data: ResumeData) => {
+          setResumeData(data)
+          // Save data to local storage whenever it's updated
+          localStorage.setItem("resumeData", JSON.stringify(data))
+          debouncedSync(data);
+      }
+  
+      const handleTemplateSelect = (template: ResumeTemplate) => {
+          const updatedData = { ...resumeData, selectedTemplate: template.id }
+          setResumeData(updatedData)
+          // Save data to local storage when template is changed
+          localStorage.setItem("resumeData", JSON.stringify(updatedData))
+          debouncedSync(updatedData);
+      }
+  
+      const handleReset = () => {
+          setResumeData(initialResumeData)
+          // Clear data from local storage
+          localStorage.removeItem("resumeData")
+      }
   return (
     <div className="min-h-screen">
+      <Navbar />
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Tab Navigation - Fixed Header */}
         <div className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-50">
@@ -85,7 +158,7 @@ export default function ResumeBuilder() {
                   </TabsTrigger>
                 </TabsList>
 
-                {activeTab === "preview" && (
+                {/* {activeTab === "preview" && (
                   <Button
                     onClick={handleDownload}
                     className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white shadow-lg"
@@ -93,7 +166,7 @@ export default function ResumeBuilder() {
                     <Download className="w-4 h-4 mr-2" />
                     Download PDF
                   </Button>
-                )}
+                )} */}
               </div>
             </div>
           </div>
@@ -101,7 +174,7 @@ export default function ResumeBuilder() {
 
         {/* Tab Content */}
         <TabsContent value="form" className="mt-0">
-          <RedesignedResumeForm onUpdate={handleResumeUpdate} initialData={resumeData} />
+          <RedesignedResumeForm onUpdate={handleUpdate} initialData={resumeData} reset={handleReset} />
         </TabsContent>
 
         <TabsContent value="preview" className="mt-0">
@@ -111,7 +184,7 @@ export default function ResumeBuilder() {
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Resume Preview</h2>
                 <p className="text-gray-600 text-lg">Review your resume before downloading</p>
               </div>
-              <ResumePreview data={resumeData} />
+              <ResumePreview data={resumeData} changeTemplate={handleTemplateSelect} />
             </div>
           </div>
         </TabsContent>

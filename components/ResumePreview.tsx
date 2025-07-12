@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import type { ResumeData } from "@/lib/types"
+import type { ResumeData, ResumeTemplate } from "@/lib/types"
 import { resumeTemplates, colorThemes } from "../data/templates"
 // import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
@@ -30,12 +30,14 @@ import SimpleTemplate from "./templates/SimpleTemplate"
 import HighlightTemplate from "./templates/HighlightTemplate"
 import BusinessTemplate from "./templates/BusinessTemplate"
 import ModernTemplate from "./templates/ModernTemplate"
+import TemplateSelector from "./TemplateSelector"
 
 type ResumePreviewProps = {
     data: ResumeData
+    changeTemplate: (template: ResumeTemplate) => void
 }
 
-export default function ResumePreview({ data }: ResumePreviewProps) {
+export default function ResumePreview({ data, changeTemplate }: ResumePreviewProps) {
     const [pdfError, setPdfError] = useState<string | null>(null)
     const [isGenerating, setIsGenerating] = useState(false)
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -253,6 +255,16 @@ export default function ResumePreview({ data }: ResumePreviewProps) {
 
   return (
     <div className="space-y-6">
+        <div className="">
+            <TemplateSelector selectedTemplate={data.selectedTemplate} onTemplateSelect={changeTemplate} />
+            <Button
+            onClick={downloadPDF}
+            className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white shadow-lg"
+            >
+            <Download className="w-4 h-4 mr-2" />
+            Download PDF
+            </Button>
+        </div>
       <div className={`bg-white text-black rounded-lg shadow-lg scale-95 ${previewUrl && "hidden"}`}>
         <div id="resume-preview" className="bg-white">
             {renderTemplate()}

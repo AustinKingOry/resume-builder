@@ -219,7 +219,7 @@ export default function BuilderPage() {
                                     </div>
                                     <ScrollArea className="w-full h-full max-h-[90vh]">
                                         <div className="w-full px-6 py-3">
-                                            <ResumePreview data={resumeData} />
+                                            <ResumePreview data={resumeData} changeTemplate={handleTemplateSelect} />
                                         </div>
                                     </ScrollArea>
                                 </div>
@@ -268,7 +268,7 @@ const MobileView = ({ handleUpdate, resumeData, handleTemplateSelect }: ResumeFo
                 <TemplateSelector selectedTemplate={resumeData.selectedTemplate} onTemplateSelect={handleTemplateSelect} />
             </div>
             <div className="h-full w-full px-6 py-3 bg-gray-100 dark:bg-muted/20">
-                <ResumePreview data={resumeData} />
+                <ResumePreview data={resumeData} changeTemplate={handleTemplateSelect} />
             </div>
         </TabsContent>
       </Tabs>
