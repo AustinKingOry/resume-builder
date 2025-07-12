@@ -176,10 +176,6 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
     handleSubmit,
     watch,
     setValue,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    formState: { errors },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    trigger,
   } = useForm<ResumeData>({
     defaultValues: initialData,
     mode: "onChange",

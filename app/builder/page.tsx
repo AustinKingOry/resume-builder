@@ -54,6 +54,7 @@ export default function ResumeBuilder() {
       useEffect(() => {
           // Load data from local storage when the component mounts
           const savedData = localStorage.getItem("resumeData")
+          console.log(savedData)
           if (savedData) {
           setResumeData(JSON.parse(savedData))
           }
