@@ -138,10 +138,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	const signInWithGoogle = async () => {
 		try {
+			console.log(`${location.origin}/auth/callback`);
 			const { error } = await supabase.auth.signInWithOAuth({
 				provider: "google",
 				options: {
-				  redirectTo: `${location.origin}/auth/callback`, // Optional: redirect after login
+				  redirectTo: `https://kazikit.vercel.app/auth/callback`, // Optional: redirect after login
 				}
 			  });
 			if (error) {
