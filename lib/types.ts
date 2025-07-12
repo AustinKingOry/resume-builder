@@ -22,6 +22,7 @@ export type ResumeTemplate = {
       | "simple"
       | "highlight"
       | "business"
+      | "plain"
     thumbnail: string
 }
   

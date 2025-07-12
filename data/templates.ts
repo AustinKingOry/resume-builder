@@ -165,7 +165,14 @@ export const resumeTemplates: ResumeTemplate[] = [
       description: "Professional template ideal for corporate roles.",
       layout: "business",
       thumbnail: "/templates/business-resume-templates.jpg",
-    }
+    },
+    {
+      id: "plain",
+      name: "Plain",
+      description: "Simple mierarchical design with minimal styles.",
+      layout: "plain",
+      thumbnail: "/templates/plain-resume-templates.jpg",
+    },
 ]
 
 export const colorThemes = [

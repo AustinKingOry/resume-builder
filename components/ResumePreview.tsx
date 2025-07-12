@@ -31,6 +31,7 @@ import HighlightTemplate from "./templates/HighlightTemplate"
 import BusinessTemplate from "./templates/BusinessTemplate"
 import ModernTemplate from "./templates/ModernTemplate"
 import TemplateSelector from "./TemplateSelector"
+import { PlainTemplate } from "./templates/PlainTemplate"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -142,6 +143,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <HighlightTemplate data={data} />
             case "business":
                 return <BusinessTemplate data={data} />
+            case "plain":
+                return <PlainTemplate data={data} />
             default:
                 return <MilanTemplate data={data} />
         }
