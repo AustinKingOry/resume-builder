@@ -25,7 +25,6 @@ import {
   ChevronRight,
   Plus,
   Trash2,
-  Sparkles,
   Save,
   HelpCircle,
   GripVertical,
@@ -483,9 +482,6 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
         <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
-        <Button onClick={reset} variant="outline" className="float-end bg-white dark:bg-secondary/90 hover:bg-gray-100">
-            Reset Resume
-        </Button>
       </div>
 
       <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
@@ -715,7 +711,6 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                 }
                 className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
               >
-                <Sparkles className="w-4 h-4 mr-2" />
                 AI Generate
               </AIAssistantButton>
             </div>
@@ -864,7 +859,6 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                               size="sm"
                               className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
                             >
-                              <Sparkles className="w-4 h-4 mr-1" />
                               AI Enhance
                             </AIAssistantButton>
                           </div>
@@ -1075,7 +1069,6 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                 }
                 className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600"
               >
-                <Sparkles className="w-4 h-4 mr-2" />
                 Suggest Skills
               </AIAssistantButton>
             </div>
@@ -1445,29 +1438,29 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl">
-                  <Sparkles className="w-6 h-6 text-white" />
-                </div>
                 <div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    AI Resume Builder
-                  </h1>
                   <p className="text-sm text-gray-600">
                     Step {currentStep + 1} of {formSteps.length}
                   </p>
+
+                  <div className="flex items-center space-x-4">
+                    <div className="hidden md:flex items-center space-x-2 text-sm text-gray-600">
+                      <Save className="w-4 h-4 text-green-500" />
+                      <span>Auto-saved</span>
+                    </div>
+                    <div className="w-32">
+                      <Progress value={progress} className="h-2" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-700">{Math.round(progress)}%</span>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-2 text-sm text-gray-600">
-                <Save className="w-4 h-4 text-green-500" />
-                <span>Auto-saved</span>
-              </div>
-              <div className="w-32">
-                <Progress value={progress} className="h-2" />
-              </div>
-              <span className="text-sm font-medium text-gray-700">{Math.round(progress)}%</span>
+              <Button onClick={reset} variant="outline" className="float-end bg-white dark:bg-secondary/90 hover:bg-gray-100">
+                  Reset Resume
+              </Button>
             </div>
           </div>
         </div>

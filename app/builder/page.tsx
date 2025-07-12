@@ -180,10 +180,10 @@ export default function ResumeBuilder() {
         <TabsContent value="preview" className="mt-0">
           <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-8">
             <div className="container mx-auto px-4">
-              <div className="mb-8 text-center">
+              {/* <div className="mb-8 text-center">
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Resume Preview</h2>
                 <p className="text-gray-600 text-lg">Review your resume before downloading</p>
-              </div>
+              </div> */}
               <ResumePreview data={resumeData} changeTemplate={handleTemplateSelect} />
             </div>
           </div>
