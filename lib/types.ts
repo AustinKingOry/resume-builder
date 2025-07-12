@@ -33,24 +33,26 @@ export type ColorTheme = {
 }
   
 export type SkillLevel = 1 | 2 | 3 | 4 | 5
+
+export interface PersonalInfo {
+  name: string
+  title: string
+  email: string
+  phone: string
+  location: string
+  website: string
+  photo: string
+  gender: string
+  socialMedia: {
+    linkedin?: string
+    twitter?: string
+    github?: string
+  }
+}
   
 export type ResumeData = {
     selectedTemplate: ResumeTemplate["id"]
-    personalInfo: {
-      name: string
-      title: string
-      email: string
-      phone: string
-      location: string
-      website: string
-      photo: string
-      gender: string
-      socialMedia: {
-        linkedin?: string
-        twitter?: string
-        github?: string
-      }
-    }
+    personalInfo: PersonalInfo
     summary: string
     experience: {
       title: string
@@ -163,4 +165,16 @@ export type AuthContextType = {
 	updatePassword: (password: string) => Promise<{ error: unknown }>
 	updateProfile: (profile: Partial<Profile>) => Promise<{ error: unknown }>
   	getCurrentProfile: () => Promise<{ profile: Profile | null; error: unknown }>
+}
+
+export interface AIGenerationRequest {
+  type: "summary" | "job-description" | "skills" | "accomplishments"
+  context: {
+    jobTitle?: string
+    company?: string
+    industry?: string
+    experience?: string
+    skills?: string[]
+    personalInfo?: Partial<PersonalInfo>
+  }
 }
