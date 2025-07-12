@@ -2,10 +2,10 @@ import Image from "next/image"
 import type { ResumeData } from "../../lib/types"
 
 // Helper component for skill rating dots
-const SkillRating = ({ level = 5 }: { level?: number }) => {
+const SkillRating = ({ level = 70 }: { level?: number }) => {
   return (
     <div className="flex mt-1">
-      {[...Array(5)].map((_, i) => (
+      {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((_, i) => (
         <div key={i} className={`w-2 h-2 rounded-full mr-1 ${i < level ? "bg-gray-800" : "bg-gray-300"}`} />
       ))}
     </div>
@@ -30,14 +30,10 @@ export default function MilanTemplate({ data }: { data: ResumeData }) {
   const resumeData = data;
   // Helper function to get skill level
   const getSkillLevel = (skill: string) => {
-    if (!resumeData.skillLevels || !resumeData.skillLevels[skill]) return 5
+    if (!resumeData.skillLevels || !resumeData.skillLevels[skill]) return 70
 
     const level = resumeData.skillLevels[skill]
-    if (level === 2) return 2
-    if (level === 3) return 3
-    if (level === 4) return 4
-    if (level === 5) return 5
-    return 5
+    return level
   }
   return (
     <div className="bg-white font-sans max-w-4xl mx-auto p-8">

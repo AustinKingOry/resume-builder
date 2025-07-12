@@ -127,7 +127,7 @@ export const CreativeTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
                         <div className="w-full bg-gray-200 rounded-full h-1.5">
                           <div 
                             className="bg-resume-teal h-1.5 rounded-full" 
-                            style={{ width: `${(skillLevels[skill] / 5) * 100}%` }}
+                            style={{ width: `${skillLevels[skill]}%` }}
                           ></div>
                         </div>
                       )}

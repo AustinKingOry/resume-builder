@@ -157,19 +157,7 @@ export default function OsloTemplate({ data }: { data: ResumeData }) {
               <div key={index}>
                 <p className="text-gray-800">{skill}</p>
                 <SkillProgressBar
-                  level={
-                    resumeData.skillLevels?.[skill] === 1
-                      ? 20
-                      : resumeData.skillLevels?.[skill] === 2
-                        ? 40
-                        : resumeData.skillLevels?.[skill] === 3
-                          ? 60
-                          : resumeData.skillLevels?.[skill] === 4
-                            ? 80
-                            : resumeData.skillLevels?.[skill] === 5
-                              ? 100
-                              : 80
-                  }
+                  level={resumeData.skillLevels?.[skill]  || 70}
                 />
               </div>
             ))}

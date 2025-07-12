@@ -116,7 +116,7 @@ export const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
                     <div className="w-full bg-white/20 rounded-full h-1.5">
                       <div 
                         className="bg-white h-1.5 rounded-full" 
-                        style={{ width: `${(skillLevels[skill] / 5) * 100}%` }}
+                        style={{ width: `${skillLevels[skill] || 70}%` }}
                       ></div>
                     </div>
                   )}

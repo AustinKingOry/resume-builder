@@ -6,7 +6,7 @@ const SkillProgressBar = ({ level = 90 }: { level?: number }) => {
   return (
     <div className="w-full h-2 mt-1 mb-1">
       <div className="flex">
-        {[...Array(10)].map((_, i) => (
+        {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((_, i) => (
           <div key={i} className={`h-2 w-full mr-0.5 ${i < (level / 10) ? "bg-red-600" : "bg-gray-200"}`} />
         ))}
       </div>
@@ -152,17 +152,7 @@ export default function TokyoTemplate({ data }: { data: ResumeData }) {
                   <p className="text-gray-800">{skill}</p>
                   <SkillProgressBar
                     level={
-                      resumeData.skillLevels?.[skill] === 1
-                      ? 20
-                      : resumeData.skillLevels?.[skill] === 2
-                        ? 40
-                        : resumeData.skillLevels?.[skill] === 3
-                          ? 60
-                          : resumeData.skillLevels?.[skill] === 4
-                            ? 80
-                            : resumeData.skillLevels?.[skill] === 5
-                              ? 100
-                              : 80
+                      resumeData.skillLevels?.[skill] || 80
                     }
                   />
                 </div>

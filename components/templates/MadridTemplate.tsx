@@ -120,18 +120,7 @@ export default function MadridTemplate({ data }: { data: ResumeData }) {
                   <div
                     className="bg-black h-2"
                     style={{
-                      width:
-                      resumeData.skillLevels?.[skill] === 1
-                      ? "20%"
-                      : resumeData.skillLevels?.[skill] === 2
-                        ? "40%"
-                        : resumeData.skillLevels?.[skill] === 3
-                          ? "60%"
-                          : resumeData.skillLevels?.[skill] === 4
-                            ? "80%"
-                            : resumeData.skillLevels?.[skill] === 5
-                              ? "100%"
-                              : "80%",
+                      width: resumeData.skillLevels?.[skill] ? `${resumeData.skillLevels?.[skill]}%` : "70%",
                     }}
                   ></div>
                 </div>
@@ -154,18 +143,7 @@ export default function MadridTemplate({ data }: { data: ResumeData }) {
                     <div
                       className="bg-black h-2"
                       style={{
-                        width:
-                          resumeData.skillLevels?.[skill] === 1
-                            ? "20%"
-                            : resumeData.skillLevels?.[skill] === 2
-                              ? "40%"
-                              : resumeData.skillLevels?.[skill] === 3
-                                ? "60%"
-                                : resumeData.skillLevels?.[skill] === 4
-                                  ? "80%"
-                                  : resumeData.skillLevels?.[skill] === 5
-                                    ? "100%"
-                                    : "80%",
+                        width:resumeData.skillLevels?.[skill] ? `${resumeData.skillLevels?.[skill]}%` : "70%"
                       }}
                     ></div>
                   </div>

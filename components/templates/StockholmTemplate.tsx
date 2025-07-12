@@ -2,7 +2,7 @@ import Image from "next/image"
 import type { ResumeData } from "../../lib/types"
 
 // Helper component for skill bars
-const SkillBar = ({ level = 90 }: { level?: number }) => {
+const SkillBar = ({ level = 70 }: { level?: number }) => {
   return (
     <div className="w-full bg-gray-200 h-2 mt-1 mb-4">
       <div className="bg-blue-500 h-full" style={{ width: `${level}%` }} />
@@ -192,17 +192,7 @@ export default function StockholmTemplate({ data }: { data: ResumeData }) {
                   <p className="text-gray-800">{skill}</p>
                   <SkillBar
                     level={
-                      resumeData.skillLevels?.[skill] === 1
-                      ? 20
-                      : resumeData.skillLevels?.[skill] === 2
-                        ? 40
-                        : resumeData.skillLevels?.[skill] === 3
-                          ? 60
-                          : resumeData.skillLevels?.[skill] === 4
-                            ? 80
-                            : resumeData.skillLevels?.[skill] === 5
-                              ? 100
-                              : 80
+                      resumeData.skillLevels?.[skill] || 80
                     }
                   />
                 </div>

@@ -115,7 +115,7 @@ export const BusinessTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
                         <div className="col-span-4 bg-gray-200 rounded-full h-2">
                           <div 
                             className="bg-resume-blue h-2 rounded-full" 
-                            style={{ width: `${(skillLevels[skill] / 5) * 100}%` }}
+                            style={{ width: `${skillLevels[skill]}%` }}
                           ></div>
                         </div>
                       )}

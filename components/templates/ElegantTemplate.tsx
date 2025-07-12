@@ -66,7 +66,7 @@ export const ElegantTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
                     <span className="text-sm">{skill}</span>
                     {skillLevels[skill] && (
                       <div className="flex">
-                        {[1, 2, 3, 4, 5].map((level) => (
+                        {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((level) => (
                           <span
                             key={level}
                             className={`inline-block w-1.5 h-1.5 mx-0.5 rounded-full ${

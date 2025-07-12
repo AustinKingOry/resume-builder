@@ -130,7 +130,7 @@ export const ClassicTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
                 <span className="font-medium">{skill}</span>
                 {skillLevels[skill] && (
                   <div className="mt-1">
-                    {[1, 2, 3, 4, 5].map((level) => (
+                    {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((level) => (
                       <span
                         key={level}
                         className={`skill-dot ${

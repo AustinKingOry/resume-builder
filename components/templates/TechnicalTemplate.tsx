@@ -74,7 +74,7 @@ export const TechnicalTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
                   <span className="font-medium">{skill}</span>
                   {skillLevels[skill] && (
                     <div className="flex">
-                      {[1, 2, 3, 4, 5].map((level) => (
+                      {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((level) => (
                         <span
                           key={level}
                           className={`inline-block w-2 h-2 mx-0.5 ${

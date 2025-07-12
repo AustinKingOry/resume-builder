@@ -145,7 +145,7 @@ export const HighlightTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
                     <span>{skill}</span>
                     {skillLevels[skill] && (
                       <div className="mt-1 flex justify-center">
-                        {[1, 2, 3, 4, 5].map((level) => (
+                        {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((level) => (
                           <span
                             key={level}
                             className={`inline-block w-1 h-1 mx-0.5 rounded-full ${
