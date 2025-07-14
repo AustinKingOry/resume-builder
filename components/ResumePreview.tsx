@@ -32,6 +32,8 @@ import BusinessTemplate from "./templates/BusinessTemplate"
 import ModernTemplate from "./templates/ModernTemplate"
 import TemplateSelector from "./TemplateSelector"
 import { PlainTemplate } from "./templates/PlainTemplate"
+import { Switch } from "./ui/switch"
+import { Label } from "./ui/label"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -41,6 +43,7 @@ type ResumePreviewProps = {
 export default function ResumePreview({ data, changeTemplate }: ResumePreviewProps) {
     const [pdfError, setPdfError] = useState<string | null>(null)
     const [isGenerating, setIsGenerating] = useState(false)
+    const [livePreview, setLivePreview] = useState(false)
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [previewBlob, setPreviewBlob] = useState<Blob | Uint8Array | null>(null);
     const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production-7d82.up.railway.app";
@@ -87,7 +90,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
         }
       };
   
-      if (Object.keys(data).length > 0) {
+      if (livePreview && Object.keys(data).length > 0) {
         const timeout = setTimeout(fetchPreview, 500); // debounce
         return () => clearTimeout(timeout);
       }
@@ -268,13 +271,22 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             <Download className="w-4 h-4 mr-2" />
             {isGenerating ? <><Loader className="mr-2 h-4 w-4 animate-spin" /> Downloading...</> : "Download PDF"}
             </Button>
+            <div className="ml-auto">
+            <div className="flex items-center space-x-2">
+                <Switch id="stream-preview"
+                      checked={livePreview}
+                      onCheckedChange={setLivePreview}
+                 />
+                <Label htmlFor="stream-preview">Live PDF Preview</Label>
+            </div>
+            </div>
         </div>
-      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${previewUrl && "hidden"}`}>
+      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"}`}>
         <div id="resume-preview" className="bg-white">
             {renderTemplate()}
         </div>
       </div>
-      {previewUrl && 
+      {(livePreview && previewUrl) && 
       <div className="bg-white text-black rounded-lg shadow-lg overflow-hidden">
       {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
       <PdfPreview pdfUrl={previewUrl} pdfBlob={previewBlob} />
