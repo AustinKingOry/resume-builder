@@ -73,7 +73,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 
                 const response = await axios.post(
                     `${serverless_url}/api/builder/preview`,
-                    { html: html, name:`${data.personalInfo.name}` },
+                    { html: html, name:`${data.personalInfo.name}`, type: "resume" },
                     { responseType: "blob" }
                 );
         
@@ -188,7 +188,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                     response = await fetch(`${serverless_url}/api/builder`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ html, name:`${data.personalInfo.name}` }),
+                    body: JSON.stringify({ html, name:`${data.personalInfo.name}`, type: "resume" }),
                     })
                 }
 
