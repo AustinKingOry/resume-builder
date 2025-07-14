@@ -46,7 +46,7 @@ const initialResumeData: ResumeData = {
 
 export default function ResumeBuilder() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData)
-  const [activeTab, setActiveTab] = useState("preview")
+  const [activeTab, setActiveTab] = useState("form")
   const [loadingData, setLoadingData] = useState<boolean>(true);
   const [resumeId, setResumeId] = useState<string | null>(null);
   const [lastSyncedData, setLastSyncedData] = useState<ResumeData | null>(null);
