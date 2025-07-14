@@ -174,7 +174,7 @@ export default function ResumeBuilder() {
         </div>
 
         {/* Tab Content */}
-        <TabsContent value="form" className="mt-0" forceMount>
+        <TabsContent value="form" className="mt-0" forceMount hidden={activeTab !== 'form'}>
           <RedesignedResumeForm onUpdate={handleUpdate} initialData={resumeData} reset={handleReset} />
         </TabsContent>
 
