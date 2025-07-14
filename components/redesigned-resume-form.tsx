@@ -176,7 +176,6 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
   const { toast } = useToast()
 
   useEffect(() => {
-    console.log("initial Data: ", initialData || "empty")
     // Only reset once when initialData becomes truthy and has not been reset before
     if (!hasResetRef.current) {
       resetDefault(initialData);
@@ -386,14 +385,25 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
     if (type === "summary") {
       setValue("summary", suggestion)
     } else if (type === "job-description" && targetField && targetIndex !== undefined) {
-      setValue(`experience.${targetIndex}.description`, suggestion)
+      const currentDescription = watch(`experience.${targetIndex}.description`) || []
+      setValue(`experience.${targetIndex}.description`, `${currentDescription} *${suggestion.trim()}`)
     } else if (type === "skills") {
       const currentSkills = watch("skills") || []
       const newSkills = suggestion.split(",").map((s) => s.trim())
       setValue("skills", [...currentSkills, ...newSkills])
     }
 
-    setAiSuggestions({ type: "", suggestions: [], visible: false })
+    if(type === "summary"){
+      setAiSuggestions({ type: "", suggestions: [], visible: false })
+
+    } else {
+      if(aiSuggestions.suggestions.length > 0){
+        setAiSuggestions({ type: type, suggestions: aiSuggestions.suggestions.filter((sug)=> sug != suggestion), visible: true })
+      } else {
+        setAiSuggestions({ type: "", suggestions: [], visible: false })
+      }
+
+    }
     toast({
       title: "Suggestion Applied",
       description: "The AI suggestion has been added to your resume.",

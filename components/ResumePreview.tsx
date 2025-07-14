@@ -263,7 +263,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
 
   return (
     <div className="space-y-6">
-        <div className=" flex flex-row gap-3">
+        <div className=" flex flex-row gap-3 max-[425px]:flex-wrap">
             <TemplateSelector selectedTemplate={data.selectedTemplate} onTemplateSelect={changeTemplate} />
             <Button
             onClick={downloadPDF}
