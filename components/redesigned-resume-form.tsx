@@ -398,7 +398,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
     } else {
       if(aiSuggestions.suggestions.length > 0){
-        setAiSuggestions({ type: type, suggestions: aiSuggestions.suggestions.filter((sug)=> sug != suggestion), visible: true })
+        setAiSuggestions({ type: type, suggestions: aiSuggestions.suggestions.filter((sug)=> sug != suggestion), visible: true, targetField, targetIndex })
       } else {
         setAiSuggestions({ type: "", suggestions: [], visible: false })
       }
