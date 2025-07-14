@@ -268,7 +268,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             Download PDF
             </Button>
         </div>
-      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 ${previewUrl && "hidden"}`}>
+      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-5xl ${previewUrl && "hidden"}`}>
         <div id="resume-preview" className="bg-white">
             {renderTemplate()}
         </div>

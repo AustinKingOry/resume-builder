@@ -40,6 +40,7 @@ import { AISuggestionsPanel } from "./ai-suggestions-panel"
 import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
+import imageCompression from 'browser-image-compression'
 
 type RedesignedResumeFormProps = {
   onUpdate: (data: ResumeData) => void
@@ -154,6 +155,9 @@ const ValidationMessage = ({ type, message }: { type: "error" | "success" | "inf
 }
 
 export default function RedesignedResumeForm({ onUpdate, initialData, reset }: RedesignedResumeFormProps) {
+  const { register, control, handleSubmit, watch } = useForm<ResumeData>({
+    defaultValues: initialData,
+  })
   const [currentStep, setCurrentStep] = useState(0)
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set())
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
@@ -171,14 +175,10 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
   const { toast } = useToast()
 
   const {
-    register,
-    control,
-    handleSubmit,
-    watch,
     setValue,
   } = useForm<ResumeData>({
     defaultValues: initialData,
-    mode: "onChange",
+    // mode: "onChange",
   })
 
   const {
@@ -395,25 +395,48 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
     const file = e.target.files?.[0]
     if (!file) return
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 2 * 1024 * 1024) {
       toast({
         title: "File too large",
-        description: "Please select an image smaller than 5MB.",
+        description: "Please select an image smaller than 2MB.",
         variant: "destructive",
       })
       return
     }
 
     try {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setValue("personalInfo.photo", reader.result as string)
-        toast({
-          title: "Photo uploaded",
-          description: "Your profile photo has been added successfully.",
-        })
+      // const reader = new FileReader()
+      // reader.onloadend = () => {
+      //   setValue("personalInfo.photo", reader.result as string)
+      //   toast({
+      //     title: "Photo uploaded",
+      //     description: "Your profile photo has been added successfully.",
+      //   })
+      // }
+      // reader.readAsDataURL(file)
+      const options = {
+        maxSizeMB: 0.3, // Target max size in MB
+        maxWidthOrHeight: 800, // Resize large images
+        useWebWorker: true,
       }
-      reader.readAsDataURL(file)
+
+      const compressedFile = await imageCompression(file, options)
+      const base64 = await imageCompression.getDataUrlFromFile(compressedFile)
+
+      console.log("Original size:", (file.size / 1024).toFixed(1), "KB")
+      console.log("Compressed size:", (compressedFile.size / 1024).toFixed(1), "KB")
+
+      onUpdate({
+        ...watch(),
+        personalInfo: {
+          ...watch().personalInfo,
+          photo: base64,
+        },
+      })
+      toast({
+        title: "Photo uploaded",
+        description: "Your profile photo has been added successfully.",
+      })
     } catch (error) {
       console.error(error)
       toast({
