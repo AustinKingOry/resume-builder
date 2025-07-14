@@ -34,6 +34,8 @@ import TemplateSelector from "./TemplateSelector"
 import { PlainTemplate } from "./templates/PlainTemplate"
 import { Switch } from "./ui/switch"
 import { Label } from "./ui/label"
+import { Badge } from "./ui/badge"
+import { Separator } from "./ui/separator"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -271,14 +273,16 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             <Download className="w-4 h-4 mr-2" />
             {isGenerating ? <><Loader className="mr-2 h-4 w-4 animate-spin" /> Downloading...</> : "Download PDF"}
             </Button>
-            <div className="ml-auto">
-            <div className="flex items-center space-x-2">
-                <Switch id="stream-preview"
-                      checked={livePreview}
-                      onCheckedChange={setLivePreview}
-                 />
-                <Label htmlFor="stream-preview">Live PDF Preview</Label>
-            </div>
+            <div className="ml-auto flex flex-row gap-0.5">
+                <Badge variant={"outline"} className="text-xs">{data.selectedTemplate}</Badge>
+                <Separator orientation="vertical" className="h-full" />
+                <div className="flex items-center space-x-2">
+                    <Switch id="stream-preview"
+                        checked={livePreview}
+                        onCheckedChange={setLivePreview}
+                    />
+                    <Label htmlFor="stream-preview">Live PDF Preview</Label>
+                </div>
             </div>
         </div>
       <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"}`}>
