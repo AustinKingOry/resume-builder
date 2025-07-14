@@ -396,6 +396,14 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
     if(type === "summary"){
       setAiSuggestions({ type: "", suggestions: [], visible: false })
 
+    } else if(type === "skills") {
+      if(aiSuggestions.suggestions.length > 0){
+        const skills = aiSuggestions.suggestions[0].split(",").map((s) => s.trim())
+        setAiSuggestions({ type: type, suggestions: skills.filter((sug)=> sug != suggestion), visible: true, targetField, targetIndex })
+      } else {
+        setAiSuggestions({ type: "", suggestions: [], visible: false })
+      }
+
     } else {
       if(aiSuggestions.suggestions.length > 0){
         setAiSuggestions({ type: type, suggestions: aiSuggestions.suggestions.filter((sug)=> sug != suggestion), visible: true, targetField, targetIndex })

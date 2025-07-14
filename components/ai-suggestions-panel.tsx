@@ -30,8 +30,6 @@ export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isV
   }
 
   const suggestionsArray =  type == "skills" ? suggestions[0].split(",").map((s) => s.trim()) : suggestions;
-  console.log("suggestions:",suggestions)
-  console.log("skills:",suggestions[0].split(","))
 
   return (
     <Card className="mt-4 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950">
