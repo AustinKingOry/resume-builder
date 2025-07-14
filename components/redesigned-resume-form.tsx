@@ -1565,6 +1565,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
             onReject={() => setAiSuggestions({ type: "", suggestions: [], visible: false })}
             title={`AI ${aiSuggestions.type.replace("-", " ")} Suggestions`}
             isVisible={aiSuggestions.visible}
+            type={aiSuggestions.type}
           />
         </div>
       </div>

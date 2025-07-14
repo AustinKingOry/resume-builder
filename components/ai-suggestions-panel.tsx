@@ -9,9 +9,10 @@ interface AISuggestionsPanelProps {
   onReject: () => void
   title: string
   isVisible: boolean
+  type: string
 }
 
-export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isVisible }: AISuggestionsPanelProps) {
+export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isVisible, type }: AISuggestionsPanelProps) {
   if (!isVisible) return null
 
   if (suggestions.length === 0) {
@@ -28,6 +29,8 @@ export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isV
     )
   }
 
+  const suggestionsArray =  type == "skills" ? suggestions[0].split(",").map((s) => s.trim()) : suggestions;
+
   return (
     <Card className="mt-4 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950">
       <CardHeader className="pb-3">
@@ -37,7 +40,7 @@ export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isV
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {suggestions.map((suggestion, index) => (
+        {suggestionsArray.map((suggestion, index) => (
           <div
             key={index}
             className="flex items-start justify-between p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
