@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useForm, useFieldArray, Controller } from "react-hook-form"
 import type { ResumeData } from "@/lib/types"
 import { Button } from "@/components/ui/button"
@@ -155,9 +155,10 @@ const ValidationMessage = ({ type, message }: { type: "error" | "success" | "inf
 }
 
 export default function RedesignedResumeForm({ onUpdate, initialData, reset }: RedesignedResumeFormProps) {
-  const { register, control, handleSubmit, watch, setValue } = useForm<ResumeData>({
+  const { register, control, handleSubmit, watch, setValue, reset: resetInitial } = useForm<ResumeData>({
     defaultValues: initialData,
   })
+  const hasResetRef = useRef(false);
   const [currentStep, setCurrentStep] = useState(0)
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set())
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
@@ -176,6 +177,14 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
 
   console.log("initial Data: ", initialData || "empty")
+
+  useEffect(() => {
+    // Only reset once when initialData becomes truthy and has not been reset before
+    if (initialData && !hasResetRef.current) {
+      resetInitial(initialData);
+      hasResetRef.current = true;
+    }
+  }, [initialData, resetInitial]);
   // const {
   //   setValue,
   // } = useForm<ResumeData>({
@@ -427,7 +436,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
       console.log("Original size:", (file.size / 1024).toFixed(1), "KB")
       console.log("Compressed size:", (compressedFile.size / 1024).toFixed(1), "KB")
-      
+
       setValue("personalInfo.photo", base64 as string)
 
       // onUpdate({
