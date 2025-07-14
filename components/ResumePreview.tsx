@@ -5,7 +5,7 @@ import type { ResumeData, ResumeTemplate } from "@/lib/types"
 import { resumeTemplates, colorThemes } from "../data/templates"
 // import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+import { Download, Loader } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
 import NairobiTemplate from "./templates/NairobiTemplate"
 import StockholmTemplate from "./templates/StockholmTemplate"
@@ -263,12 +263,13 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             <Button
             onClick={downloadPDF}
             className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white shadow-lg"
+            disabled={isGenerating}
             >
             <Download className="w-4 h-4 mr-2" />
-            Download PDF
+            {isGenerating ? <><Loader className="mr-2 h-4 w-4 animate-spin" /> Downloading...</> : "Download PDF"}
             </Button>
         </div>
-      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-5xl ${previewUrl && "hidden"}`}>
+      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl ${previewUrl && "hidden"}`}>
         <div id="resume-preview" className="bg-white">
             {renderTemplate()}
         </div>

@@ -155,7 +155,7 @@ const ValidationMessage = ({ type, message }: { type: "error" | "success" | "inf
 }
 
 export default function RedesignedResumeForm({ onUpdate, initialData, reset }: RedesignedResumeFormProps) {
-  const { register, control, handleSubmit, watch } = useForm<ResumeData>({
+  const { register, control, handleSubmit, watch, setValue } = useForm<ResumeData>({
     defaultValues: initialData,
   })
   const [currentStep, setCurrentStep] = useState(0)
@@ -174,12 +174,12 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
   })
   const { toast } = useToast()
 
-  const {
-    setValue,
-  } = useForm<ResumeData>({
-    defaultValues: initialData,
-    // mode: "onChange",
-  })
+  // const {
+  //   setValue,
+  // } = useForm<ResumeData>({
+  //   defaultValues: initialData,
+  //   mode: "onChange",
+  // })
 
   const {
     fields: expFields,
