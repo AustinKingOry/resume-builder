@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { FileText, Sparkles, Eye } from "lucide-react"
+import { FileText, Sparkles, Eye, Loader2 } from "lucide-react"
 import RedesignedResumeForm from "@/components/redesigned-resume-form"
 import type { ResumeData, ResumeDataDb, ResumeTemplate } from "@/lib/types"
 import { Toaster } from "@/components/ui/toaster"
@@ -47,16 +47,29 @@ const initialResumeData: ResumeData = {
 export default function ResumeBuilder() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData)
   const [activeTab, setActiveTab] = useState("preview")
-      const [resumeId, setResumeId] = useState<string | null>(null);
-      const [lastSyncedData, setLastSyncedData] = useState<ResumeData | null>(null);
-      const {user} = useAuth();
+  const [loadingData, setLoadingData] = useState<boolean>(false);
+  const [resumeId, setResumeId] = useState<string | null>(null);
+  const [lastSyncedData, setLastSyncedData] = useState<ResumeData | null>(null);
+  const {user} = useAuth();
       
       useEffect(() => {
-          // Load data from local storage when the component mounts
-          const savedData = localStorage.getItem("resumeData")
-          if (savedData) {
-          setResumeData(JSON.parse(savedData))
+        const loadData = async ()=>{
+          setLoadingData(true);
+          try {
+            // Load data from local storage when the component mounts
+            const savedData = localStorage.getItem("resumeData")
+            if (savedData) {
+            setResumeData(JSON.parse(savedData))
+            }
+            
+          } catch (error) {
+            console.error(`Failed to load local data: `, error)
+          } finally {
+            setLoadingData(false);
           }
+        }
+
+        loadData();
       }, [])
   
       useEffect(() => {
@@ -175,7 +188,14 @@ export default function ResumeBuilder() {
 
         {/* Tab Content */}
         <TabsContent value="form" className="mt-0" forceMount hidden={activeTab !== 'form'}>
-          <RedesignedResumeForm onUpdate={handleUpdate} initialData={resumeData} reset={handleReset} />
+          {loadingData ?
+          <RedesignedResumeForm onUpdate={handleUpdate} initialData={resumeData} reset={handleReset} />:
+          <>
+          <div className="w-full min-h-96 flex items-center justify-center">
+            <Loader2 className="w-5 h-5 animate-spin" />
+          </div>
+          </>
+          }
         </TabsContent>
 
         <TabsContent value="preview" className="mt-0">

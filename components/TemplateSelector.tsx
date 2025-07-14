@@ -22,7 +22,7 @@ export default function TemplateSelector({ selectedTemplate, onTemplateSelect }:
         </SheetTrigger>
         <SheetContent className="sm:max-w-7xl grid grid-rows-10">
             <SheetHeader className="row-span-1">
-                <SheetTitle>Select A Template <span className="bg-background text-xs font-mono font-medium border px-2 py-0.5 rounded-xl">Experimental</span></SheetTitle>
+                <SheetTitle>Select A Template</SheetTitle>
                 <SheetDescription>
                     Choose A Template To Use For Your Resume.
                 </SheetDescription>
