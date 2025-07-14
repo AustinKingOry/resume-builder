@@ -126,10 +126,7 @@ export default function ResumeBuilder() {
           // Clear data from local storage
           localStorage.removeItem("resumeData")
       }
-
-      if(activeTab == "form"){
-        console.log("Form: ", resumeData || "empty")
-      }
+      
   return (
     <div className="min-h-screen">
       <Navbar />

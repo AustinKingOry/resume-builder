@@ -174,6 +174,8 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
   })
   const { toast } = useToast()
 
+
+  console.log("initial Data: ", initialData || "empty")
   // const {
   //   setValue,
   // } = useForm<ResumeData>({
@@ -425,14 +427,16 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
       console.log("Original size:", (file.size / 1024).toFixed(1), "KB")
       console.log("Compressed size:", (compressedFile.size / 1024).toFixed(1), "KB")
+      
+      setValue("personalInfo.photo", base64 as string)
 
-      onUpdate({
-        ...watch(),
-        personalInfo: {
-          ...watch().personalInfo,
-          photo: base64,
-        },
-      })
+      // onUpdate({
+      //   ...watch(),
+      //   personalInfo: {
+      //     ...watch().personalInfo,
+      //     photo: base64,
+      //   },
+      // })
       toast({
         title: "Photo uploaded",
         description: "Your profile photo has been added successfully.",
