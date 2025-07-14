@@ -273,7 +273,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             <Download className="w-4 h-4 mr-2" />
             {isGenerating ? <><Loader className="mr-2 h-4 w-4 animate-spin" /> Downloading...</> : "Download PDF"}
             </Button>
-            <div className="ml-auto flex flex-row gap-0.5">
+            <div className="ml-auto flex flex-row gap-2 h-7">
                 <Badge variant={"outline"} className="text-xs">{data.selectedTemplate}</Badge>
                 <Separator orientation="vertical" className="h-full" />
                 <div className="flex items-center space-x-2">
