@@ -155,7 +155,7 @@ const ValidationMessage = ({ type, message }: { type: "error" | "success" | "inf
 }
 
 export default function RedesignedResumeForm({ onUpdate, initialData, reset }: RedesignedResumeFormProps) {
-  const { register, control, handleSubmit, watch, setValue, reset: resetInitial } = useForm<ResumeData>({
+  const { register, control, handleSubmit, watch, setValue, reset: resetDefault } = useForm<ResumeData>({
     defaultValues: initialData,
   })
   const hasResetRef = useRef(false);
@@ -175,16 +175,14 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
   })
   const { toast } = useToast()
 
-
-  console.log("initial Data: ", initialData || "empty")
-
   useEffect(() => {
+    console.log("initial Data: ", initialData || "empty")
     // Only reset once when initialData becomes truthy and has not been reset before
-    if (initialData && !hasResetRef.current) {
-      resetInitial(initialData);
+    if (!hasResetRef.current) {
+      resetDefault(initialData);
       hasResetRef.current = true;
     }
-  }, [initialData, resetInitial]);
+  }, [initialData, resetDefault]);
   // const {
   //   setValue,
   // } = useForm<ResumeData>({
