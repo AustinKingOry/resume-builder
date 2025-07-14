@@ -94,7 +94,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
         const timeout = setTimeout(fetchPreview, 500); // debounce
         return () => clearTimeout(timeout);
       }
-    }, [data, serverless_url]);
+    }, [data, livePreview, serverless_url]);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const template = resumeTemplates.find((t) => t.id === data.selectedTemplate) || resumeTemplates[0]
