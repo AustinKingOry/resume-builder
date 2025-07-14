@@ -54,7 +54,6 @@ export default function ResumeBuilder() {
       useEffect(() => {
           // Load data from local storage when the component mounts
           const savedData = localStorage.getItem("resumeData")
-          console.log(savedData)
           if (savedData) {
           setResumeData(JSON.parse(savedData))
           }
@@ -126,6 +125,10 @@ export default function ResumeBuilder() {
           setResumeData(initialResumeData)
           // Clear data from local storage
           localStorage.removeItem("resumeData")
+      }
+
+      if(activeTab == "form"){
+        console.log("Form: ", resumeData || "empty")
       }
   return (
     <div className="min-h-screen">

@@ -36,7 +36,7 @@ export function PlainTemplate({ data }: ResumePreviewProps) {
 
   return (
     <Card className="w-full max-w-4xl mx-auto bg-white">
-      <CardContent className="p-8">
+      <CardContent className="p-8 shadow-none">
         {/* Header */}
         <div className="flex items-start gap-6 mb-8">
           {data.personalInfo.photo && (
