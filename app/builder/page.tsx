@@ -46,7 +46,7 @@ const initialResumeData: ResumeData = {
 
 export default function ResumeBuilder() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData)
-  const [activeTab, setActiveTab] = useState("form")
+  const [activeTab, setActiveTab] = useState("preview")
       const [resumeId, setResumeId] = useState<string | null>(null);
       const [lastSyncedData, setLastSyncedData] = useState<ResumeData | null>(null);
       const {user} = useAuth();
@@ -126,7 +126,7 @@ export default function ResumeBuilder() {
           // Clear data from local storage
           localStorage.removeItem("resumeData")
       }
-      
+
   return (
     <div className="min-h-screen">
       <Navbar />
