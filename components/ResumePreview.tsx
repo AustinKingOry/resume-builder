@@ -285,13 +285,13 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 </div>
             </div>
         </div>
-      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"}`}>
+      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800`}>
         <div id="resume-preview" className="bg-white">
             {renderTemplate()}
         </div>
       </div>
       {(livePreview && previewUrl) && 
-      <div className="bg-white text-black rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-white text-black rounded-lg shadow-lg overflow-hidden dark:bg-gray-800">
       {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
       <PdfPreview pdfUrl={previewUrl} pdfBlob={previewBlob} />
       </div>}
