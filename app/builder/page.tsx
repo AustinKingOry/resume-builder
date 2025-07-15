@@ -147,20 +147,20 @@ export default function ResumeBuilder() {
         {/* Tab Navigation - Fixed Header */}
         <div className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-50 dark:bg-gray-900/80 dark:border-gray-700">
           <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between max-sm:flex-wrap">
               <div className="flex items-center space-x-3">
-                <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl">
+                <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl max-sm:hidden">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent max-sm:text-xl">
                     AI Resume Builder
                   </h1>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Create professional resumes with AI assistance</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 max-sm:text-xs">Create professional resumes with AI assistance</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 max-sm:w-full">
                 <TabsList className="grid w-full grid-cols-2 bg-gray-100 dark:bg-gray-800">
                   <TabsTrigger value="form" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900">
                     <FileText className="w-4 h-4" />

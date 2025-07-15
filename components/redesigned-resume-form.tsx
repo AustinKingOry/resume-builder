@@ -1562,7 +1562,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
             <div className="flex items-center space-x-4">
               <div className="text-center">
                 <div className="text-sm text-gray-500 mb-1 dark:text-gray-300">
-                  {completedSteps.size} of {formSteps.length} sections completed
+                  {completedSteps.size} of {formSteps.length} <span className="max-sm:hidden">sections completed</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   {Array.from({ length: formSteps.length }, (_, i) => (
