@@ -532,12 +532,12 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
       </div>
 
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800">
         <CardContent className="p-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Label htmlFor="name" className="text-sm font-semibold text-gray-700">
+                <Label htmlFor="name" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Full Name
                 </Label>
                 <span className="text-red-500">*</span>
@@ -556,7 +556,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Label htmlFor="title" className="text-sm font-semibold text-gray-700">
+                <Label htmlFor="title" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Professional Title
                 </Label>
                 <FieldTooltip content="Your current job title or the position you're seeking">
@@ -573,7 +573,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Label htmlFor="email" className="text-sm font-semibold text-gray-700">
+                <Label htmlFor="email" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Email Address
                 </Label>
                 <span className="text-red-500">*</span>
@@ -599,7 +599,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Label htmlFor="phone" className="text-sm font-semibold text-gray-700">
+                <Label htmlFor="phone" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Phone Number
                 </Label>
                 <FieldTooltip content="Include country code for international applications">
@@ -616,7 +616,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Label htmlFor="location" className="text-sm font-semibold text-gray-700">
+                <Label htmlFor="location" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Location
                 </Label>
                 <FieldTooltip content="City and state/country where you're located">
@@ -633,7 +633,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Label htmlFor="website" className="text-sm font-semibold text-gray-700">
+                <Label htmlFor="website" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Website/Portfolio
                 </Label>
                 <FieldTooltip content="Link to your professional website or portfolio">
@@ -651,7 +651,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Label className="text-sm font-semibold text-gray-700">Profile Photo</Label>
+              <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Profile Photo</Label>
               <FieldTooltip content="Optional: Add a professional headshot (max 5MB)">
                 <HelpCircle className="w-4 h-4 text-gray-400 cursor-help" />
               </FieldTooltip>
@@ -661,7 +661,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                 <Input type="file" onChange={handlePhotoUpload} accept="image/*" className="hidden" id="photo-upload" />
                 <Label
                   htmlFor="photo-upload"
-                  className="flex items-center space-x-2 px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors dark:text-gray-300"
                 >
                   <Upload className="w-4 h-4 text-gray-500" />
                   <span className="text-sm text-gray-600">Upload Photo</span>
@@ -689,10 +689,10 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
           </div>
 
           <div className="space-y-4">
-            <Label className="text-sm font-semibold text-gray-700">Social Media & Professional Links</Label>
+            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Social Media & Professional Links</Label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label className="text-xs text-gray-500">LinkedIn</Label>
+                <Label className="text-xs text-gray-500 dark:text-gray-300">LinkedIn</Label>
                 <Input
                   {...register("personalInfo.socialMedia.linkedin")}
                   placeholder="LinkedIn profile URL"
@@ -700,7 +700,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-xs text-gray-500">GitHub</Label>
+                <Label className="text-xs text-gray-500 dark:text-gray-300">GitHub</Label>
                 <Input
                   {...register("personalInfo.socialMedia.github")}
                   placeholder="GitHub profile URL"
@@ -708,7 +708,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-xs text-gray-500">Twitter</Label>
+                <Label className="text-xs text-gray-500 dark:text-gray-300">Twitter</Label>
                 <Input
                   {...register("personalInfo.socialMedia.twitter")}
                   placeholder="Twitter profile URL"
@@ -733,16 +733,16 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         >
           <FileText className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
-        <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 dark:text-gray-100">{currentStepData.title}</h2>
+        <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800">
         <CardContent className="p-8 space-y-6">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Label htmlFor="summary" className="text-sm font-semibold text-gray-700">
+                <Label htmlFor="summary" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Professional Summary
                 </Label>
                 <FieldTooltip content="A brief overview of your professional background, key skills, and career objectives (2-4 sentences)">
@@ -768,15 +768,15 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
               placeholder="Write a compelling summary that highlights your professional background, key achievements, and career goals. Keep it concise and impactful..."
               className="min-h-[160px] text-base leading-relaxed resize-none"
             />
-            <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-300">
               <span>💡 Tip: Focus on your most relevant skills and achievements</span>
               <span>{watch("summary")?.length || 0} characters</span>
             </div>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-blue-900 mb-2">✨ Summary Writing Tips</h4>
-            <ul className="text-sm text-blue-800 space-y-1">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 dark:bg-blue-950 dark:border-blue-700">
+            <h4 className="font-semibold text-blue-900 mb-2 dark:text-blue-100">✨ Summary Writing Tips</h4>
+            <ul className="text-sm text-blue-800 space-y-1 dark:text-blue-200">
               <li>• Start with your professional title and years of experience</li>
               <li>• Highlight 2-3 key skills or areas of expertise</li>
               <li>• Mention a significant achievement or impact</li>
@@ -799,8 +799,8 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         >
           <Briefcase className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
-        <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 dark:text-gray-100">{currentStepData.title}</h2>
+        <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -814,7 +814,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       className={cn(
-                        "border-0 shadow-lg bg-white/80 backdrop-blur-sm transition-all duration-200",
+                        "border-0 shadow-lg bg-white/80 backdrop-blur-sm transition-all duration-200 dark:bg-gray-950/80",
                         snapshot.isDragging && "shadow-2xl scale-105 rotate-2",
                       )}
                     >
@@ -823,9 +823,9 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                           <div className="flex items-center space-x-3">
                             <div
                               {...provided.dragHandleProps}
-                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors"
+                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors dark:bg-gray-900 dark:hover:bg-gray-800"
                             >
-                              <GripVertical className="w-4 h-4 text-gray-500" />
+                              <GripVertical className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                             </div>
                             <CardTitle className="text-lg font-semibold">
                               {watch(`experience.${index}.title`) || `Experience #${index + 1}`}
@@ -845,7 +845,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                       <CardContent className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Job Title *</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Job Title *</Label>
                             <Input
                               {...register(`experience.${index}.title`)}
                               placeholder="e.g., Senior Software Engineer"
@@ -853,7 +853,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Company *</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Company *</Label>
                             <Input
                               {...register(`experience.${index}.company`)}
                               placeholder="e.g., Tech Solutions Inc."
@@ -861,11 +861,11 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Start Date</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Start Date</Label>
                             <Input {...register(`experience.${index}.startDate`)} type="date" className="h-12" />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">End Date</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">End Date</Label>
                             <Input
                               {...register(`experience.${index}.endDate`)}
                               type="date"
@@ -876,7 +876,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                         </div>
 
                         <div className="space-y-2">
-                          <Label className="text-sm font-semibold text-gray-700">Location</Label>
+                          <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Location</Label>
                           <Input
                             {...register(`experience.${index}.location`)}
                             placeholder="e.g., San Francisco, CA"
@@ -887,7 +887,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
-                              <Label className="text-sm font-semibold text-gray-700">Job Description</Label>
+                              <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Job Description</Label>
                               <FieldTooltip content="Describe your responsibilities and achievements. Use bullet points for better readability.">
                                 <HelpCircle className="w-4 h-4 text-gray-400 cursor-help" />
                               </FieldTooltip>
@@ -917,7 +917,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                           />
                         </div>
 
-                        <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg dark:bg-gray-950">
                           <Switch {...register(`experience.${index}.current`)} />
                           <Label className="text-sm font-medium">I currently work here</Label>
                         </div>
@@ -946,7 +946,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
             current: false,
           })
         }
-        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-orange-400 hover:bg-orange-50 transition-all duration-200"
+        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-orange-400 hover:bg-orange-50 dark:border-gray-800 dark:hover:bg-gray-900 dark:hover:border-orange-950 dark:bg-orange-950 transition-all duration-200"
       >
         <Plus className="w-5 h-5 mr-2" />
         Add Work Experience
@@ -965,8 +965,8 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         >
           <GraduationCap className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
-        <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 dark:text-gray-100">{currentStepData.title}</h2>
+        <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -980,7 +980,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       className={cn(
-                        "border-0 shadow-lg bg-white/80 backdrop-blur-sm transition-all duration-200",
+                        "border-0 shadow-lg bg-white/80 backdrop-blur-sm transition-all duration-200 dark:bg-gray-950/80",
                         snapshot.isDragging && "shadow-2xl scale-105 rotate-2",
                       )}
                     >
@@ -989,9 +989,9 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                           <div className="flex items-center space-x-3">
                             <div
                               {...provided.dragHandleProps}
-                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors"
+                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors dark:bg-gray-900 dark:hover:bg-gray-800"
                             >
-                              <GripVertical className="w-4 h-4 text-gray-500" />
+                              <GripVertical className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                             </div>
                             <CardTitle className="text-lg font-semibold">
                               {watch(`education.${index}.degree`) || `Education #${index + 1}`}
@@ -1011,7 +1011,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                       <CardContent className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Degree/Certification</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Degree/Certification</Label>
                             <Input
                               {...register(`education.${index}.degree`)}
                               placeholder="e.g., Bachelor of Computer Science"
@@ -1019,7 +1019,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Institution</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Institution</Label>
                             <Input
                               {...register(`education.${index}.school`)}
                               placeholder="e.g., Stanford University"
@@ -1027,17 +1027,17 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Start Date</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Start Date</Label>
                             <Input {...register(`education.${index}.startDate`)} type="date" className="h-12" />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">End Date</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">End Date</Label>
                             <Input {...register(`education.${index}.endDate`)} type="date" className="h-12" />
                           </div>
                         </div>
 
                         <div className="space-y-2">
-                          <Label className="text-sm font-semibold text-gray-700">Location</Label>
+                          <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Location</Label>
                           <Input
                             {...register(`education.${index}.location`)}
                             placeholder="e.g., Stanford, CA"
@@ -1047,7 +1047,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
                         <div className="space-y-2">
                           <div className="flex items-center space-x-2">
-                            <Label className="text-sm font-semibold text-gray-700">Description</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Description</Label>
                             <FieldTooltip content="Include relevant coursework, achievements, honors, or activities">
                               <HelpCircle className="w-4 h-4 text-gray-400 cursor-help" />
                             </FieldTooltip>
@@ -1073,7 +1073,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         type="button"
         variant="outline"
         onClick={() => appendEdu({ degree: "", school: "", startDate: "", endDate: "", location: "", description: "" })}
-        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-purple-400 hover:bg-purple-50 transition-all duration-200"
+        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-purple-400 hover:bg-purple-50 transition-all duration-200 dark:border-gray-800 dark:hover:border-purple-900 dark:hover:bg-purple-950"
       >
         <Plus className="w-5 h-5 mr-2" />
         Add Education
@@ -1092,16 +1092,16 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         >
           <Zap className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
-        <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 dark:text-gray-100">{currentStepData.title}</h2>
+        <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800">
         <CardContent className="p-8 space-y-8">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Label htmlFor="skills" className="text-sm font-semibold text-gray-700">
+                <Label htmlFor="skills" className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                   Skills
                 </Label>
                 <FieldTooltip content="Add both technical and soft skills relevant to your field. Separate with commas.">
@@ -1134,7 +1134,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
               placeholder="e.g., JavaScript, React, Node.js, Project Management, Team Leadership, Problem Solving"
               className="min-h-[120px] text-base leading-relaxed"
             />
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-gray-500 dark:text-gray-300">
               💡 Tip: Include both technical skills (programming languages, tools) and soft skills (leadership,
               communication)
             </div>
@@ -1143,7 +1143,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
           {/* Skills with drag-and-drop reordering */}
           {skillsOrder.length > 0 && (
             <div className="space-y-4">
-              <Label className="text-sm font-semibold text-gray-700">Skill Proficiency & Order</Label>
+              <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Skill Proficiency & Order</Label>
               <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable droppableId="skills" type="skills">
                   {(provided) => (
@@ -1155,13 +1155,13 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               className={cn(
-                                "flex items-center space-x-4 p-4 bg-gray-50 rounded-lg transition-all duration-200",
-                                snapshot.isDragging && "shadow-lg scale-105 bg-white",
+                                "flex items-center space-x-4 p-4 bg-gray-50 rounded-lg transition-all duration-200 dark:bg-gray-950",
+                                snapshot.isDragging && "shadow-lg scale-105 bg-white dark:bg-black",
                               )}
                             >
                               <div
                                 {...provided.dragHandleProps}
-                                className="p-1 rounded cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600"
+                                className="p-1 rounded cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 dark:text-gray-600 dark:hover:text-gray-400"
                               >
                                 <GripVertical className="w-4 h-4" />
                               </div>
@@ -1185,7 +1185,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                                         onValueChange={(value) => field.onChange(value[0])}
                                         className="w-full"
                                       />
-                                      <div className="text-sm text-gray-600 text-center">
+                                      <div className="text-sm text-gray-600 text-center dark:text-gray-300">
                                         {field.value}% proficiency
                                       </div>
                                     </div>
@@ -1219,8 +1219,8 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         >
           <Award className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
-        <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 dark:text-gray-100">{currentStepData.title}</h2>
+        <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -1234,7 +1234,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       className={cn(
-                        "border-0 shadow-lg bg-white/80 backdrop-blur-sm transition-all duration-200",
+                        "border-0 shadow-lg bg-white/80 backdrop-blur-sm transition-all duration-200 dark:bg-black/80",
                         snapshot.isDragging && "shadow-2xl scale-105 rotate-2",
                       )}
                     >
@@ -1243,7 +1243,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                           <div className="flex items-center space-x-3">
                             <div
                               {...provided.dragHandleProps}
-                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors"
+                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors dark:bg-gray-600 dark:hover:bg-gray-700"
                             >
                               <GripVertical className="w-4 h-4 text-gray-500" />
                             </div>
@@ -1265,7 +1265,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                       <CardContent className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Certification Name</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Certification Name</Label>
                             <Input
                               {...register(`certifications.${index}.name`)}
                               placeholder="e.g., AWS Certified Solutions Architect"
@@ -1273,7 +1273,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Issuing Organization</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Issuing Organization</Label>
                             <Input
                               {...register(`certifications.${index}.issuer`)}
                               placeholder="e.g., Amazon Web Services"
@@ -1281,18 +1281,18 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Date Obtained</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Date Obtained</Label>
                             <Input {...register(`certifications.${index}.date`)} type="date" className="h-12" />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Expiry Date</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Expiry Date</Label>
                             <Input {...register(`certifications.${index}.expiry`)} type="date" className="h-12" />
                           </div>
                         </div>
 
                         <div className="space-y-2">
                           <div className="flex items-center space-x-2">
-                            <Label className="text-sm font-semibold text-gray-700">Certification ID</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Certification ID</Label>
                             <FieldTooltip content="Certificate ID, license number, or credential identifier">
                               <HelpCircle className="w-4 h-4 text-gray-400 cursor-help" />
                             </FieldTooltip>
@@ -1318,7 +1318,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         type="button"
         variant="outline"
         onClick={() => appendCert({ name: "", issuer: "", date: "", expiry: "", id: "" })}
-        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200"
+        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200 dark:border-gray-800 dark:hover:border-indigo-600 dark:hover:bg-indigo-950"
       >
         <Plus className="w-5 h-5 mr-2" />
         Add Certification
@@ -1337,8 +1337,8 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         >
           <Users className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
-        <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 dark:text-gray-100">{currentStepData.title}</h2>
+        <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -1352,7 +1352,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       className={cn(
-                        "border-0 shadow-lg bg-white/80 backdrop-blur-sm transition-all duration-200",
+                        "border-0 shadow-lg bg-white/80 backdrop-blur-sm transition-all duration-200 dark:bg-black/80",
                         snapshot.isDragging && "shadow-2xl scale-105 rotate-2",
                       )}
                     >
@@ -1361,7 +1361,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                           <div className="flex items-center space-x-3">
                             <div
                               {...provided.dragHandleProps}
-                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors"
+                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors dark:bg-gray-900 dark:hover:bg-gray-800"
                             >
                               <GripVertical className="w-4 h-4 text-gray-500" />
                             </div>
@@ -1383,7 +1383,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                       <CardContent className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Full Name</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Full Name</Label>
                             <Input
                               {...register(`referees.${index}.name`)}
                               placeholder="e.g., John Smith"
@@ -1391,7 +1391,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Position/Title</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Position/Title</Label>
                             <Input
                               {...register(`referees.${index}.position`)}
                               placeholder="e.g., Senior Manager"
@@ -1399,7 +1399,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Company</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Company</Label>
                             <Input
                               {...register(`referees.${index}.company`)}
                               placeholder="e.g., Tech Solutions Inc."
@@ -1407,7 +1407,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-sm font-semibold text-gray-700">Email</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Email</Label>
                             <Input
                               {...register(`referees.${index}.email`)}
                               placeholder="e.g., john.smith@company.com"
@@ -1416,7 +1416,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                             />
                           </div>
                           <div className="space-y-2 md:col-span-2">
-                            <Label className="text-sm font-semibold text-gray-700">Phone Number</Label>
+                            <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Phone Number</Label>
                             <Input
                               {...register(`referees.${index}.phone`)}
                               placeholder="e.g., +1 (555) 123-4567"
@@ -1439,15 +1439,15 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         type="button"
         variant="outline"
         onClick={() => appendRef({ name: "", position: "", company: "", email: "", phone: "" })}
-        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-teal-400 hover:bg-teal-50 transition-all duration-200"
+        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-teal-400 hover:bg-teal-50 transition-all duration-200 dark:border-gray-800 dark:hover:border-teal-600 dark:hover:bg-teal-950"
       >
         <Plus className="w-5 h-5 mr-2" />
         Add Reference
       </Button>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-        <h4 className="font-semibold text-amber-900 mb-2">📋 Reference Guidelines</h4>
-        <ul className="text-sm text-amber-800 space-y-1">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 dark:bg-amber-950">
+        <h4 className="font-semibold text-amber-900 mb-2 dark:text-amber-100">📋 Reference Guidelines</h4>
+        <ul className="text-sm text-amber-800 space-y-1 dark:text-amber-200">
           <li>• Always ask permission before listing someone as a reference</li>
           <li>• Choose people who can speak to your professional abilities</li>
           <li>• Include former supervisors, colleagues, or clients when possible</li>
@@ -1479,27 +1479,27 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-950 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-50">
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40">
+      <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40 dark:bg-gray-900/80 dark:border-gray-700">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
                 <div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
                     Step {currentStep + 1} of {formSteps.length}
                   </p>
 
                   <div className="flex items-center space-x-4">
-                    <div className="hidden md:flex items-center space-x-2 text-sm text-gray-600">
+                    <div className="hidden md:flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
                       <Save className="w-4 h-4 text-green-500" />
                       <span>Auto-saved</span>
                     </div>
                     <div className="w-32">
                       <Progress value={progress} className="h-2" />
                     </div>
-                    <span className="text-sm font-medium text-gray-700">{Math.round(progress)}%</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{Math.round(progress)}%</span>
                   </div>
                 </div>
               </div>

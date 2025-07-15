@@ -145,7 +145,7 @@ export default function ResumeBuilder() {
       <Navbar />
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Tab Navigation - Fixed Header */}
-        <div className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-50 dark:bg-gray-900/80">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
@@ -156,13 +156,13 @@ export default function ResumeBuilder() {
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                     AI Resume Builder
                   </h1>
-                  <p className="text-sm text-gray-600">Create professional resumes with AI assistance</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Create professional resumes with AI assistance</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-4">
-                <TabsList className="grid w-full grid-cols-2 bg-gray-100">
-                  <TabsTrigger value="form" className="flex items-center gap-2 data-[state=active]:bg-white">
+                <TabsList className="grid w-full grid-cols-2 bg-gray-100 dark:bg-gray-800">
+                  <TabsTrigger value="form" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900">
                     <FileText className="w-4 h-4" />
                     Build Resume
                   </TabsTrigger>
