@@ -1506,7 +1506,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-950 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40 dark:bg-gray-900/80 dark:border-gray-700">
         <div className="container mx-auto px-4 py-4">
