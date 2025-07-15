@@ -528,8 +528,8 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         >
           <User className="w-8 h-8 text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentStepData.title}</h2>
-        <p className="text-gray-600 text-lg">{currentStepData.subtitle}</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 dark:text-gray-100">{currentStepData.title}</h2>
+        <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
       <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800">
@@ -946,7 +946,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
             current: false,
           })
         }
-        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-orange-400 hover:bg-orange-50 dark:border-gray-800 dark:hover:bg-gray-900 dark:hover:border-orange-950 dark:bg-orange-950 transition-all duration-200"
+        className="w-full h-14 border-2 border-dashed border-gray-300 hover:border-orange-400 hover:bg-orange-50 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-orange-950 dark:hover:bg-orange-950 transition-all duration-200"
       >
         <Plus className="w-5 h-5 mr-2" />
         Add Work Experience
@@ -1243,7 +1243,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                           <div className="flex items-center space-x-3">
                             <div
                               {...provided.dragHandleProps}
-                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors dark:bg-gray-600 dark:hover:bg-gray-700"
+                              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 cursor-grab active:cursor-grabbing transition-colors dark:bg-gray-900 dark:hover:bg-gray-800"
                             >
                               <GripVertical className="w-4 h-4 text-gray-500" />
                             </div>
@@ -1479,7 +1479,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-950 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-950 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40 dark:bg-gray-900/80 dark:border-gray-700">
         <div className="container mx-auto px-4 py-4">
@@ -1522,13 +1522,13 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
           {renderCurrentStep()}
 
           {/* Navigation */}
-          <div className="flex items-center justify-between mt-12 pt-8 border-t border-gray-200">
+          <div className="flex items-center justify-between mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
             <Button
               type="button"
               variant="outline"
               onClick={prevStep}
               disabled={currentStep === 0}
-              className="flex items-center space-x-2 h-12 px-6 bg-white/80 backdrop-blur-sm"
+              className="flex items-center space-x-2 h-12 px-6 bg-white/80 backdrop-blur-sm dark:bg-black/80"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>Previous</span>
@@ -1536,7 +1536,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
             <div className="flex items-center space-x-4">
               <div className="text-center">
-                <div className="text-sm text-gray-500 mb-1">
+                <div className="text-sm text-gray-500 mb-1 dark:text-gray-300">
                   {completedSteps.size} of {formSteps.length} sections completed
                 </div>
                 <div className="flex items-center space-x-1">

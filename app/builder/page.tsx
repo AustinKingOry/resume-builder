@@ -145,7 +145,7 @@ export default function ResumeBuilder() {
       <Navbar />
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Tab Navigation - Fixed Header */}
-        <div className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-50 dark:bg-gray-900/80">
+        <div className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-50 dark:bg-gray-900/80 dark:border-gray-700">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
@@ -166,7 +166,7 @@ export default function ResumeBuilder() {
                     <FileText className="w-4 h-4" />
                     Build Resume
                   </TabsTrigger>
-                  <TabsTrigger value="preview" className="flex items-center gap-2 data-[state=active]:bg-white">
+                  <TabsTrigger value="preview" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-900">
                     <Eye className="w-4 h-4" />
                     Preview
                   </TabsTrigger>
