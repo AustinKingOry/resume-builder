@@ -532,7 +532,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800">
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-950/80">
         <CardContent className="p-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
@@ -737,7 +737,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800">
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-950/80">
         <CardContent className="p-8 space-y-6">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -1096,7 +1096,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         <p className="text-gray-600 text-lg dark:text-gray-400">{currentStepData.subtitle}</p>
       </div>
 
-      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800">
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-950/80">
         <CardContent className="p-8 space-y-8">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -1134,7 +1134,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
               placeholder="e.g., JavaScript, React, Node.js, Project Management, Team Leadership, Problem Solving"
               className="min-h-[120px] text-base leading-relaxed"
             />
-            <div className="text-sm text-gray-500 dark:text-gray-300">
+            <div className="text-sm text-gray-500 dark:text-gray-400">
               💡 Tip: Include both technical skills (programming languages, tools) and soft skills (leadership,
               communication)
             </div>
@@ -1445,7 +1445,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
         Add Reference
       </Button>
 
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 dark:bg-amber-950">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 dark:bg-amber-950 dark:border-amber-800">
         <h4 className="font-semibold text-amber-900 mb-2 dark:text-amber-100">📋 Reference Guidelines</h4>
         <ul className="text-sm text-amber-800 space-y-1 dark:text-amber-200">
           <li>• Always ask permission before listing someone as a reference</li>
@@ -1528,7 +1528,7 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
               variant="outline"
               onClick={prevStep}
               disabled={currentStep === 0}
-              className="flex items-center space-x-2 h-12 px-6 bg-white/80 backdrop-blur-sm dark:bg-black/80"
+              className="flex items-center space-x-2 h-12 px-6 bg-white/80 backdrop-blur-sm dark:bg-gray-950/80"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>Previous</span>

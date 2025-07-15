@@ -32,7 +32,7 @@ export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isV
   const suggestionsArray =  type == "skills" ? suggestions[0].split(",").map((s) => s.trim()) : suggestions;
 
   return (
-    <Card className="mt-4 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950">
+    <Card className="mt-4 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 dark:border-purple-800">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center text-sm font-medium text-purple-700 dark:text-purple-300">
           <Sparkles className="mr-2 h-4 w-4" />
