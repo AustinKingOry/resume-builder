@@ -42,8 +42,8 @@ const PDFControls: React.FC<PDFControlsProps> = ({
   };
 
   return (
-    <div className="pdf-controls flex flex-wrap items-center justify-between px-4 py-3 bg-white border-t border-gray-200 shadow-sm rounded-b-lg sticky bottom-0">
-      <div className="flex items-center space-x-2">
+    <div className="pdf-controls flex flex-wrap items-center justify-between px-4 py-3 bg-white border-t border-gray-200 shadow-sm rounded-b-lg sticky bottom-0 dark:bg-black dark:border-gray-800">
+      <div className="flex items-center space-x-2 dark:text-gray-50">
         <Button
           variant="outline"
           size="icon"
@@ -62,7 +62,7 @@ const PDFControls: React.FC<PDFControlsProps> = ({
             className="w-12 text-center h-9"
             disabled={numPages <= 1}
           />
-          <span className="mx-2 text-gray-500">of {numPages}</span>
+          <span className="mx-2 text-gray-500 dark:text-gray-400">of {numPages}</span>
         </div>
         
         <Button
@@ -76,7 +76,7 @@ const PDFControls: React.FC<PDFControlsProps> = ({
         </Button>
       </div>
       
-      <div className="flex items-center space-x-1 mt-2 sm:mt-0">
+      <div className="flex items-center space-x-1 mt-2 sm:mt-0 dark:text-gray-50">
         <Button
           variant="outline"
           size="icon"

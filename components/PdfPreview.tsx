@@ -82,10 +82,10 @@ const PdfPreview = ({ pdfUrl = null, pdfBlob = null }: PdfPreviewProps) => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<div className="min-h-screen bg-gray-50 dark:bg-gray-950">
 			<div className="container mx-auto px-0">
 
-				<div className="pdf-container bg-white rounded-lg shadow-lg overflow-hidden">
+				<div className="pdf-container bg-white rounded-lg shadow-lg overflow-hidden dark:bg-black">
 				<PDFHeader fileName={fileName} />
 				
 				<PDFViewer
