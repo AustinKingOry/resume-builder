@@ -5,7 +5,7 @@ import type { ResumeData, ResumeTemplate } from "@/lib/types"
 import { resumeTemplates, colorThemes } from "../data/templates"
 // import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
-import { Download, Loader } from "lucide-react"
+import { Download, Loader, Loader2 } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
 import NairobiTemplate from "./templates/NairobiTemplate"
 import StockholmTemplate from "./templates/StockholmTemplate"
@@ -43,9 +43,10 @@ type ResumePreviewProps = {
 }
 
 export default function ResumePreview({ data, changeTemplate }: ResumePreviewProps) {
-    const [pdfError, setPdfError] = useState<string | null>(null)
-    const [isGenerating, setIsGenerating] = useState(false)
-    const [livePreview, setLivePreview] = useState(false)
+    const [pdfError, setPdfError] = useState<string | null>(null);
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [livePreview, setLivePreview] = useState(false);
+    const [loadingPreview, setLoadingPreview] = useState(false);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [previewBlob, setPreviewBlob] = useState<Blob | Uint8Array | null>(null);
     const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production-7d82.up.railway.app";
@@ -53,6 +54,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
   
     useEffect(() => {
       const fetchPreview = async () => {
+        setLoadingPreview(true);
         try {
             const element = document.getElementById("resume-preview");
             if(element){
@@ -89,6 +91,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             }
         } catch (error) {
           console.error("Preview error:", error);
+        } finally {
+            setLoadingPreview(false);
         }
       };
   
@@ -285,31 +289,34 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 </div>
             </div>
         </div>
-      <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800`}>
-        <div id="resume-preview" className="bg-white">
-            {renderTemplate()}
+        <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative`}>
+            {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center">
+            <Loader2 className="w-6 h-6 animate-spin" />
+            </div>}
+            <div id="resume-preview" className="bg-white">
+                {renderTemplate()}
+            </div>
         </div>
-      </div>
-      {(livePreview && previewUrl) && 
-      <div className="bg-white text-black rounded-lg shadow-lg overflow-hidden dark:bg-gray-800">
-      {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
-      <PdfPreview pdfUrl={previewUrl} pdfBlob={previewBlob} />
-      </div>}
+        {(livePreview && previewUrl) && 
+        <div className="bg-white text-black rounded-lg shadow-lg overflow-hidden dark:bg-gray-800">
+        {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
+        <PdfPreview pdfUrl={previewUrl} pdfBlob={previewBlob} />
+        </div>}
 
-      <Button
-        onClick={downloadPDF}
-        className="w-full"
-        style={{
-          background: `linear-gradient(to right, ${colorTheme.primary}, ${colorTheme.secondary})`,
-          color: "white",
-        }}
-        disabled={isGenerating}
-      >
-        <Download className="mr-2 h-4 w-4" />
-        {isGenerating ? "Generating PDF..." : "Export to PDF"}
-      </Button>
+        <Button
+            onClick={downloadPDF}
+            className="w-full"
+            style={{
+            background: `linear-gradient(to right, ${colorTheme.primary}, ${colorTheme.secondary})`,
+            color: "white",
+            }}
+            disabled={isGenerating}
+        >
+            <Download className="mr-2 h-4 w-4" />
+            {isGenerating ? "Generating PDF..." : "Export to PDF"}
+        </Button>
 
-      {pdfError && <p className="text-red-500 text-center mt-2">{pdfError}</p>}
+        {pdfError && <p className="text-red-500 text-center mt-2">{pdfError}</p>}
     </div>
   )
 }

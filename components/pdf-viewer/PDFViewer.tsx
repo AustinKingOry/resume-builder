@@ -50,7 +50,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   }
 
   return (
-    <div className="pdf-viewer overflow-auto bg-white">
+    <div className="pdf-viewer overflow-auto bg-white pt-2.5 dark:bg-gray-800">
       {isLoading && (
         <div className="flex items-center justify-center h-[70vh]">
           <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
