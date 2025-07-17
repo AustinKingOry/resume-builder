@@ -37,7 +37,7 @@ export default function Template8({ userData, palette }: TemplateProps) {
           }}
         >
           {userData.profileImage ? (
-            <div className="w-[212px] h-[212px]" style={{ transform: "rotate(-45deg) translate(-31px, -31px)" }}>
+            <div className="w-[212px] h-[212px]" style={{ transform: "rotate(-45deg) translate(0px, -50px)" }}>
               <img
                 src={userData.profileImage || "/placeholder.svg"}
                 alt="Profile"
