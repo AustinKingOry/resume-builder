@@ -84,7 +84,7 @@ export default function Template2({ userData, palette }: TemplateProps) {
           {userData.subheadline || "Innovating at the intersection of education and technology"}
         </p>
 
-        <div className="inline-block px-4 py-2 rounded-full" style={{ backgroundColor: secondary, color: background }}>
+        <div className="inline-block px-4 py-2 rounded-full w-fit" style={{ backgroundColor: secondary, color: background }}>
           {userData.company || "Founder & CTO | Campoprime Labs"}
         </div>
       </div>
