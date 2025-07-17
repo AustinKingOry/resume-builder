@@ -154,9 +154,9 @@ export default function ResumeBuilder() {
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent max-sm:text-xl">
-                    AI Resume Builder
+                    Resume Builder
                   </h1>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 max-sm:text-xs">Create professional resumes with AI assistance</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 max-sm:text-xs">Create professional resumes in minutes</p>
                 </div>
               </div>
 
