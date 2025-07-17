@@ -12,7 +12,7 @@ export default function Template6({ userData, palette }: TemplateProps) {
 
   return (
     <div
-      className="w-full h-[396px] relative overflow-hidden"
+      className="w-full h-[396px] min-h-full relative overflow-hidden"
       style={{
         background: background,
       }}
