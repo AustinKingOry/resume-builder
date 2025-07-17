@@ -40,7 +40,7 @@ export default function Template5({ userData, palette }: TemplateProps) {
       ></div>
 
       {/* Profile picture area */}
-      <div className="absolute right-[80px] top-[50%] transform -translate-y-1/2">
+      <div className="absolute right-[170px] top-[50%] transform -translate-y-1/2">
         <div className="w-[140px] h-[140px] rounded-full overflow-hidden border-4 border-white/30 shadow-lg">
           {userData.profileImage ? (
             <img
