@@ -191,7 +191,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                     response = await fetch("/api/convert", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ html, name:`${data.personalInfo.name}` }),
+                    body: JSON.stringify({ html, name:`${data.personalInfo.name}`, type: "resume" }),
                     })
                 } else {                    
                     response = await fetch(`${serverless_url}/api/builder`, {
@@ -291,7 +291,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
         </div>
         <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative`}>
             {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center">
-            <Loader2 className="w-6 h-6 animate-spin" />
+            <Loader2 className="w-6 h-6 animate-spin mx-auto" />
             </div>}
             <div id="resume-preview" className="bg-white">
                 {renderTemplate()}
