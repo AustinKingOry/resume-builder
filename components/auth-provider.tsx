@@ -258,6 +258,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
+	const ceateProfile = async (user_id: string, full_name: string, email: string) => {
+		try {
+			const {data, error} = await supabase.from("profiles").select("*").eq("user_id", user_id).single();
+			if(error){
+				return
+			}
+			if(data){
+				await supabase.from("profiles").insert({
+					user_id: user_id,
+					full_name: full_name,
+					email: email,
+				})
+			}
+		} catch (error: any) {
+			toast({
+				title: "Error creating profile",
+				description: error.message,
+				variant: "destructive",
+			})
+			return { error }			
+		}
+	}
+
 	const updateProfile = async (profile: any) => {
 		try {
 		const { error } = await supabase.from("profiles").update(profile).eq("id", user?.id)
@@ -295,6 +318,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		updateProfile,
 		getCurrentProfile,
 		signInWithGoogle,
+		ceateProfile
 	}
 
 	return <Context.Provider value={value}>{children}</Context.Provider>

@@ -156,16 +156,20 @@ export type AuthContextType = {
 	signUp: (email: string, password: string, userData: unknown) => Promise<{
     error: AuthError | null;
     user: User | null;
-} | {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    user: null;
-}>
+    } | {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        error: any;
+        user: null;
+    }>
 	signOut: () => Promise<void>
 	resetPassword: (email: string) => Promise<{ error: unknown }>
 	updatePassword: (password: string) => Promise<{ error: unknown }>
 	updateProfile: (profile: Partial<Profile>) => Promise<{ error: unknown }>
-  	getCurrentProfile: () => Promise<{ profile: Profile | null; error: unknown }>
+  getCurrentProfile: () => Promise<{ profile: Profile | null; error: unknown }>
+  ceateProfile: (user_id: string, full_name: string, email: string) => Promise<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    error: any;
+  } | undefined>
 }
 
 export interface AIGenerationRequest {
