@@ -19,6 +19,7 @@ const Navbar: React.FC = () => {
 		{title:"Resume Builder",link:"/builder"},
 		{title:"Templates",link:"/templates"},
 		{title:"Cover Photos",link:"/coverphotos"},
+		{title:"Roast My CV",link:"/roast-my-cv"},
 	]
 	return (
 		<header className="border-b">

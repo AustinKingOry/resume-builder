@@ -21,7 +21,7 @@ interface SidebarProps {
 export function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
   const navigation = [
     { name: "CV Builder", icon: FileText, href: "/dashboard", current: false },
-    { name: "CV Roaster", icon: Flame, href: "/roast", current: true },
+    { name: "CV Roaster", icon: Flame, href: "/roast-my-cv", current: true },
     { name: "Analytics", icon: BarChart3, href: "/analytics", current: false },
     { name: "Templates", icon: Download, href: "/templates", current: false },
   ]
