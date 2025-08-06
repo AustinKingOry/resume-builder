@@ -10,7 +10,7 @@ export interface StreamingCVAnalysisResult {
     content: string
     category: string
     severity: "low" | "medium" | "high"
-    tip: string
+    tip?: string
     kenyanContext?: string
   }>
   marketReadiness?: {
@@ -26,7 +26,7 @@ export interface StreamingCVAnalysisResult {
     pageCount?: number
     wordCount: number
   }
-  isComplete: boolean
+  isComplete?: boolean
   usage?: {
     promptTokens: number
     completionTokens: number
