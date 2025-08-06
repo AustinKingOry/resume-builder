@@ -1,27 +1,29 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Sidebar } from "@/components/layout/sidebar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import {
-  BarChart3,
-  TrendingUp,
-  Calendar,
-  Target,
-  ChevronRight,
-  Download,
-  Clock,
-  Award,
-  Users,
-  FileText,
-} from "lucide-react"
+import { 
+  supabaseAnalyticsService, 
+  type AnalyticsStats, 
+  type RecentRoast, 
+  type CategoryBreakdown,
+  type UserBenchmark
+} from "@/lib/supabase/analytics-service"
+import { BarChart3, TrendingUp, Calendar, Target, ChevronRight, Download, Clock, Award, Users, FileText, Loader2 } from 'lucide-react'
 
 export default function AnalyticsPage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [timeRange, setTimeRange] = useState("7d")
+  const [stats, setStats] = useState<AnalyticsStats | null>(null)
+  const [recentRoasts, setRecentRoasts] = useState<RecentRoast[]>([])
+  const [categoryBreakdown, setCategoryBreakdown] = useState<CategoryBreakdown[]>([])
+  const [userBenchmark, setUserBenchmark] = useState<UserBenchmark | null>(null)
+  const [keyAchievements, setKeyAchievements] = useState<string[]>([])
+  const [loading, setLoading] = useState(true)
 
   const timeRanges = [
     { value: "7d", label: "Last 7 days" },
@@ -30,11 +32,53 @@ export default function AnalyticsPage() {
     { value: "1y", label: "Last year" },
   ]
 
-  const stats = [
+  useEffect(() => {
+    const loadAnalyticsData = async () => {
+      try {
+        setLoading(true)
+        
+        const [analyticsStats, roasts, categories, benchmark, achievements] = await Promise.all([
+          supabaseAnalyticsService.getAnalyticsStats(timeRange),
+          supabaseAnalyticsService.getRecentRoasts(10),
+          supabaseAnalyticsService.getCategoryBreakdown(),
+          supabaseAnalyticsService.getUserBenchmark(),
+          supabaseAnalyticsService.getKeyAchievements()
+        ])
+
+        setStats(analyticsStats)
+        setRecentRoasts(roasts)
+        setCategoryBreakdown(categories)
+        setUserBenchmark(benchmark)
+        setKeyAchievements(achievements)
+      } catch (error) {
+        console.error("Error loading analytics data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadAnalyticsData()
+  }, [timeRange])
+
+  if (loading || !stats) {
+    return (
+      <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30">
+        <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+            <p className="text-gray-600">Loading analytics...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const analyticsStatsCards = [
     {
       title: "Total CVs Roasted",
-      value: "47",
-      change: "+12%",
+      value: stats.totalCVsRoasted.toString(),
+      change: `+${stats.totalCVsRoasted}`,
       trend: "up",
       icon: FileText,
       color: "text-blue-600",
@@ -42,8 +86,8 @@ export default function AnalyticsPage() {
     },
     {
       title: "Average Score",
-      value: "8.2/10",
-      change: "+0.8",
+      value: `${stats.averageScore}/10`,
+      change: stats.scoreChange,
       trend: "up",
       icon: Target,
       color: "text-emerald-600",
@@ -51,8 +95,8 @@ export default function AnalyticsPage() {
     },
     {
       title: "Processing Time",
-      value: "2.1s",
-      change: "-0.3s",
+      value: `${stats.processingTime}s`,
+      change: stats.processingChange,
       trend: "up",
       icon: Clock,
       color: "text-purple-600",
@@ -60,44 +104,13 @@ export default function AnalyticsPage() {
     },
     {
       title: "Success Rate",
-      value: "94%",
-      change: "+6%",
+      value: `${stats.successRate}%`,
+      change: stats.successRateChange,
       trend: "up",
       icon: Award,
       color: "text-yellow-600",
       bgColor: "bg-yellow-50",
     },
-  ]
-
-  const recentRoasts = [
-    {
-      fileName: "Software_Engineer_CV.pdf",
-      score: 92,
-      date: "2024-01-15",
-      feedback: 6,
-      improvements: ["Added quantified achievements", "Improved technical skills section"],
-    },
-    {
-      fileName: "Marketing_Manager_Resume.docx",
-      score: 87,
-      date: "2024-01-14",
-      feedback: 5,
-      improvements: ["Enhanced summary section", "Added relevant keywords"],
-    },
-    {
-      fileName: "Data_Analyst_CV.pdf",
-      score: 89,
-      date: "2024-01-13",
-      feedback: 7,
-      improvements: ["Structured experience better", "Added portfolio links"],
-    },
-  ]
-
-  const categoryBreakdown = [
-    { category: "Content & Writing", score: 85, count: 23 },
-    { category: "Format & Design", score: 78, count: 19 },
-    { category: "Skills & Experience", score: 91, count: 31 },
-    { category: "Contact Info", score: 95, count: 12 },
   ]
 
   return (
@@ -147,7 +160,7 @@ export default function AnalyticsPage() {
           <div className="max-w-7xl mx-auto space-y-6">
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {stats.map((stat, index) => (
+              {analyticsStatsCards.map((stat, index) => (
                 <Card key={index}>
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
@@ -183,7 +196,9 @@ export default function AnalyticsPage() {
                     <div className="text-center">
                       <BarChart3 className="w-12 h-12 text-gray-400 mx-auto mb-2" />
                       <p className="text-gray-600">Chart visualization would go here</p>
-                      <p className="text-sm text-gray-500">Showing improvement trend: +15% this month</p>
+                      <p className="text-sm text-gray-500">
+                        Showing improvement trend: {stats.scoreChange}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -199,16 +214,24 @@ export default function AnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {categoryBreakdown.map((category, index) => (
-                      <div key={index} className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="font-medium">{category.category}</span>
-                          <span className="text-gray-600">{category.score}/100</span>
-                        </div>
-                        <Progress value={category.score} className="h-2" />
-                        <p className="text-xs text-gray-500">{category.count} feedback points</p>
+                    {categoryBreakdown.length === 0 ? (
+                      <div className="text-center py-8 text-gray-500">
+                        <Target className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                        <p>No category data available</p>
+                        <p className="text-sm">Complete more CV analyses to see breakdown</p>
                       </div>
-                    ))}
+                    ) : (
+                      categoryBreakdown.map((category, index) => (
+                        <div key={index} className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="font-medium">{category.category}</span>
+                            <span className="text-gray-600">{category.score}/100</span>
+                          </div>
+                          <Progress value={category.score} className="h-2" />
+                          <p className="text-xs text-gray-500">{category.count} feedback points</p>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -224,33 +247,41 @@ export default function AnalyticsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {recentRoasts.map((roast, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                          <FileText className="w-5 h-5 text-emerald-600" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900">{roast.fileName}</p>
-                          <p className="text-sm text-gray-600">
-                            {roast.date} • {roast.feedback} feedback points
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <Badge variant="outline" className="mb-2">
-                          {roast.score}/100
-                        </Badge>
-                        <div className="space-y-1">
-                          {roast.improvements.map((improvement, i) => (
-                            <p key={i} className="text-xs text-gray-600">
-                              • {improvement}
-                            </p>
-                          ))}
-                        </div>
-                      </div>
+                  {recentRoasts.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                      <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>No recent roasts</p>
+                      <p className="text-sm">Upload a CV to get started!</p>
                     </div>
-                  ))}
+                  ) : (
+                    recentRoasts.map((roast, index) => (
+                      <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                            <FileText className="w-5 h-5 text-emerald-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-900">{roast.fileName}</p>
+                            <p className="text-sm text-gray-600">
+                              {roast.date} • {roast.feedbackCount} feedback points
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <Badge variant="outline" className="mb-2">
+                            {roast.score}/100
+                          </Badge>
+                          <div className="space-y-1">
+                            {roast.improvements.map((improvement, i) => (
+                              <p key={i} className="text-xs text-gray-600">
+                                • {improvement}
+                              </p>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -266,18 +297,16 @@ export default function AnalyticsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                      <span className="text-sm">Improved CV scores by 23% this month</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <span className="text-sm">Consistently scoring above 85/100</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                      <span className="text-sm">Fastest processing times in your plan</span>
-                    </div>
+                    {keyAchievements.length === 0 ? (
+                      <p className="text-sm text-gray-600">Complete more CV analyses to unlock achievements</p>
+                    ) : (
+                      keyAchievements.map((achievement, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                          <span className="text-sm">{achievement}</span>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -290,23 +319,27 @@ export default function AnalyticsPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-sm">Your average score</span>
-                      <span className="font-semibold">8.2/10</span>
+                  {userBenchmark ? (
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-sm">Your average score</span>
+                        <span className="font-semibold">{userBenchmark.userAverage}/10</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Platform average</span>
+                        <span className="font-semibold">{userBenchmark.platformAverage}/10</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Top 10% threshold</span>
+                        <span className="font-semibold">{userBenchmark.topPercentile}/10</span>
+                      </div>
+                      <div className="pt-2 border-t">
+                        <p className="text-xs text-blue-600">{userBenchmark.performanceMessage}</p>
+                      </div>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Platform average</span>
-                      <span className="font-semibold">7.1/10</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Top 10% threshold</span>
-                      <span className="font-semibold">8.8/10</span>
-                    </div>
-                    <div className="pt-2 border-t">
-                      <p className="text-xs text-blue-600">You're performing 15% above average! 🎉</p>
-                    </div>
-                  </div>
+                  ) : (
+                    <p className="text-sm text-gray-600">Complete more CV analyses to see benchmarks</p>
+                  )}
                 </CardContent>
               </Card>
             </div>
