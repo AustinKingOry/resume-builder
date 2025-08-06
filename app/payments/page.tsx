@@ -88,15 +88,15 @@ export default function PaymentsPage() {
 
   if (paymentSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 flex items-center justify-center p-4 dark:from-emerald-950 dark:to-blue-950">
         <Card className="max-w-md w-full text-center">
           <CardContent className="p-8">
-            <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-emerald-600" />
+            <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-emerald-900">
+              <CheckCircle className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment Successful! 🎉</h2>
-            <p className="text-gray-600 mb-4">Welcome to the {currentPlan.name}! Your account has been upgraded.</p>
-            <p className="text-sm text-emerald-600">Redirecting you back to the dashboard...</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 dark:text-gray-100">Payment Successful! 🎉</h2>
+            <p className="text-gray-600 mb-4 dark:text-gray-400">Welcome to the {currentPlan.name}! Your account has been upgraded.</p>
+            <p className="text-sm text-emerald-600 dark:text-emerald-400">Redirecting you back to the dashboard...</p>
           </CardContent>
         </Card>
       </div>
@@ -104,7 +104,7 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50 p-4 dark:from-emerald-950 dark:to-blue-950">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
@@ -113,8 +113,8 @@ export default function PaymentsPage() {
             Back
           </Button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Complete Your Upgrade</h1>
-            <p className="text-gray-600">Secure payment powered by Kenyan payment providers</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Complete Your Upgrade</h1>
+            <p className="text-gray-600 dark:text-gray-400">Secure payment powered by Kenyan payment providers</p>
           </div>
         </div>
 
@@ -127,21 +127,21 @@ export default function PaymentsPage() {
                 <CardTitle>Selected Plan</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg dark:bg-gray-950">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-10 h-10 bg-${currentPlan.color}-100 rounded-full flex items-center justify-center`}
+                      className={`w-10 h-10 bg-${currentPlan.color}-100 rounded-full flex items-center justify-center dark:bg-${currentPlan.color}-900`}
                     >
-                      <currentPlan.icon className={`w-5 h-5 text-${currentPlan.color}-600`} />
+                      <currentPlan.icon className={`w-5 h-5 text-${currentPlan.color}-600 dark:text-${currentPlan.color}-400`} />
                     </div>
                     <div>
                       <h3 className="font-semibold">{currentPlan.name}</h3>
-                      <p className="text-sm text-gray-600">Monthly subscription</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Monthly subscription</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold">KSh {currentPlan.price}</p>
-                    <p className="text-sm text-gray-600">/month</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">/month</p>
                   </div>
                 </div>
               </CardContent>
@@ -160,16 +160,16 @@ export default function PaymentsPage() {
                         <RadioGroupItem value={method.id} id={method.id} />
                         <label
                           htmlFor={method.id}
-                          className="flex-1 flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+                          className="flex-1 flex items-center justify-between p-3 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-950"
                         >
                           <div className="flex items-center gap-3">
                             <span className="text-xl">{method.icon}</span>
                             <div>
                               <p className="font-medium">{method.name}</p>
-                              <p className="text-sm text-gray-600">{method.description}</p>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">{method.description}</p>
                             </div>
                           </div>
-                          {method.popular && <Badge className="bg-emerald-100 text-emerald-700">Most Popular</Badge>}
+                          {method.popular && <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">Most Popular</Badge>}
                         </label>
                       </div>
                     ))}
@@ -194,7 +194,7 @@ export default function PaymentsPage() {
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       className="mt-1"
                     />
-                    <p className="text-xs text-gray-600 mt-1">You'll receive a payment prompt on your phone</p>
+                    <p className="text-xs text-gray-600 mt-1 dark:text-gray-400">You'll receive a payment prompt on your phone</p>
                   </div>
                 )}
 
@@ -217,9 +217,9 @@ export default function PaymentsPage() {
                   </div>
                 )}
 
-                <Alert className="border-emerald-200 bg-emerald-50">
+                <Alert className="border-emerald-200 bg-emerald-50 dark:bg-emerald-950 dark:border-emerald-800">
                   <Shield className="h-4 w-4" />
-                  <AlertDescription className="text-emerald-800">
+                  <AlertDescription className="text-emerald-800 dark:text-emerald-200">
                     Your payment is secured with 256-bit SSL encryption. We never store your payment details.
                   </AlertDescription>
                 </Alert>
@@ -238,7 +238,7 @@ export default function PaymentsPage() {
                   <span>{currentPlan.name}</span>
                   <span>KSh {currentPlan.price}</span>
                 </div>
-                <div className="flex justify-between text-sm text-gray-600">
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                   <span>Tax (16% VAT)</span>
                   <span>KSh {Math.round(currentPlan.price * 0.16)}</span>
                 </div>
@@ -251,11 +251,11 @@ export default function PaymentsPage() {
                 <Button
                   onClick={handlePayment}
                   disabled={isProcessing || (paymentMethod !== "card" && !phoneNumber)}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3"
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 dark:bg-emerald-400 dark:hover:bg-emerald-300"
                 >
                   {isProcessing ? (
                     <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 dark:border-black" />
                       Processing Payment...
                     </>
                   ) : (
@@ -266,7 +266,7 @@ export default function PaymentsPage() {
                   )}
                 </Button>
 
-                <p className="text-xs text-gray-600 text-center">
+                <p className="text-xs text-gray-600 text-center dark:text-gray-400">
                   By completing this purchase, you agree to our Terms of Service and Privacy Policy.
                 </p>
               </CardContent>
@@ -290,10 +290,10 @@ export default function PaymentsPage() {
             </Card>
 
             {/* Trust Indicators */}
-            <Card className="border-blue-200 bg-blue-50/30">
+            <Card className="border-blue-200 bg-blue-50/30 dark:bg-blue-950/30 dark:border-blue-800">
               <CardContent className="p-4 text-center">
-                <p className="text-sm font-medium text-blue-800 mb-2">🔒 Secure & Trusted</p>
-                <p className="text-xs text-blue-600">30-day money-back guarantee • Cancel anytime • 24/7 support</p>
+                <p className="text-sm font-medium text-blue-800 mb-2 dark:text-blue-200">🔒 Secure & Trusted</p>
+                <p className="text-xs text-blue-600 dark:text-blue-400">30-day money-back guarantee • Cancel anytime • 24/7 support</p>
               </CardContent>
             </Card>
           </div>
