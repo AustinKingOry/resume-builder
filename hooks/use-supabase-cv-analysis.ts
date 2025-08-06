@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { supabaseCVService } from "@/lib/supabase/cv-service"
+import { supabaseCVService } from "@/lib/supabase/client/cv-service"
 
 export interface CVAnalysisResult {
   id: string

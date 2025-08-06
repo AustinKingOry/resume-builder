@@ -22,7 +22,7 @@ import { UpgradeModal } from "@/components/modals/upgrade-modal"
 import { usageTracker } from "@/lib/usage-tracker"
 import { useRouter } from "next/navigation"
 import { useSupabaseCVAnalysis } from "@/hooks/use-supabase-cv-analysis"
-import { supabaseUsageService } from "@/lib/supabase/usage-service"
+import { supabaseUsageService } from "@/lib/supabase/client/usage-service"
 import { useAuth } from "@/components/auth-provider"
 import Link from "next/link"
 
