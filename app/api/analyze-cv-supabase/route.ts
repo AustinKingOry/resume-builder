@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { parseCV } from "@/lib/cv-parser"
 import { analyzeCVWithAI } from "@/lib/ai-services"
-import { supabaseCVService } from "@/lib/supabase/cv-service"
-import { supabaseUsageService } from "@/lib/supabase/usage-service"
+import { supabaseCVService } from "@/lib/supabase/server/cv-service"
+import { supabaseUsageService } from "@/lib/supabase/server/usage-service"
 import { createServerClient } from "@/lib/supabase-server"
 
 
@@ -32,9 +32,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Please sign in to analyze your CV" }, { status: 401 })
     }
 
+    const token = (await supabaseAuth.auth.getSession()).data.session?.access_token
+    if (!token) {
+      return NextResponse.json({ error: "Invalid session" }, { status: 401 })
+    }
+
     // Check usage limits
-    // const canMakeRequest = await supabaseUsageService.canMakeRequest()
-    const canMakeRequest = true;
+    const canMakeRequest = await supabaseUsageService.canMakeRequest(token)
+    // const canMakeRequest = true;
     console.log("data: ", canMakeRequest)
     if (!canMakeRequest) {
       return NextResponse.json(
@@ -71,6 +76,7 @@ export async function POST(request: NextRequest) {
 
     // Save CV upload to database
     const cvUpload = await supabaseCVService.saveCVUpload(
+      token,
       user.id,
       file.name,
       file.size,
@@ -105,8 +111,8 @@ export async function POST(request: NextRequest) {
 
     const processingTime = (Date.now() - startTime) / 1000
 
-    // Save roast response to database
-    const roastResponse = await supabaseCVService.saveRoastResponse(user.id, cvUpload.id, {
+    
+    const roastResponse = await supabaseCVService.saveRoastResponse(token, user.id, cvUpload.id, {
       roastTone,
       focusAreas,
       showEmojis,
@@ -117,7 +123,7 @@ export async function POST(request: NextRequest) {
       kenyanJobMarketTips: result.object.kenyanJobMarketTips,
       processingTimeSeconds: processingTime,
       aiTokensUsed: result.usage?.totalTokens,
-      aiModel: "gemini-1.5-flash",
+      aiModel: "gemini-2.5-flash",
       finishReason: result.finishReason,
     })
 
@@ -126,7 +132,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Increment usage count
-    await supabaseUsageService.incrementUsage()
+    await supabaseUsageService.incrementUsage(token)
 
     return NextResponse.json({
       success: true,
