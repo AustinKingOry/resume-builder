@@ -140,6 +140,8 @@ export type Profile = {
 	summary?: string
 	avatar?: string
 	role?: string
+  plan: "free" | "hustler" | "pro"
+  plan_expires_at: string | null
 	created_at: string
 	updated_at?: string
 }
