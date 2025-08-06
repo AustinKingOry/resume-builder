@@ -1,7 +1,7 @@
 export const siteSettings = {
     paymentPlans: {
         freePlan: {
-            limit: 1,
+            limit: 5,
         },
         hustlerPlan: {
             limit: 50,
