@@ -7,7 +7,7 @@ interface UsageData {
 }
 
 const STORAGE_KEY = "kazikit_usage_data"
-const FREE_PLAN_LIMIT = 1
+const FREE_PLAN_LIMIT = 5
 const HUSTLER_PLAN_LIMIT = 50
 const PRO_PLAN_LIMIT = 200
 
