@@ -31,6 +31,7 @@ export const metadata: Metadata = {
     "career development",
     "build your resume",
     "stand out professionally",
+    "CV analysis", "resume feedback", "Kenya jobs", "AI CV roaster", "job search", "career development",
   ],
   openGraph: {
     title: "KaziKit – Your Complete Career Toolkit",
