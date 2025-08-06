@@ -45,7 +45,7 @@ export function UserContextForm({ userContext, onUserContextChange }: UserContex
   }
 
   return (
-    <Card className="border-blue-100 bg-gradient-to-br from-blue-50/50 to-emerald-50/30 relative overflow-hidden">
+    <Card className="border-blue-100 bg-gradient-to-br from-blue-50/50 to-emerald-50/30 relative overflow-hidden dark:border-blue-900 dark:from-blue-950/50 dark:to-emerald-950/30">
       {/* Subtle pattern */}
       <div
         className="absolute top-0 right-0 w-20 h-20 opacity-10"
@@ -56,23 +56,23 @@ export function UserContextForm({ userContext, onUserContextChange }: UserContex
 
       <CardHeader className="relative z-10 pb-3">
         <CardTitle
-          className="flex items-center gap-2 text-blue-800 cursor-pointer"
+          className="flex items-center gap-2 text-blue-800 cursor-pointer dark:text-blue-200"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <User className="w-5 h-5" />
           Career Context
-          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-xs ml-auto">
+          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-xs ml-auto dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800">
             Optional
           </Badge>
         </CardTitle>
-        <p className="text-xs text-blue-600">Help us tailor feedback to your career goals</p>
+        <p className="text-xs text-blue-600 dark:text-blue-400">Help us tailor feedback to your career goals</p>
       </CardHeader>
 
       {isExpanded && (
         <CardContent className="space-y-4 relative z-10 pt-0">
           {/* Target Role */}
           <div>
-            <Label htmlFor="target-role" className="text-sm font-medium text-gray-900 flex items-center gap-2 mb-2">
+            <Label htmlFor="target-role" className="text-sm font-medium text-gray-900 flex items-center gap-2 mb-2 dark:text-gray-100">
               <Briefcase className="w-4 h-4" />
               Target Role
             </Label>
@@ -81,15 +81,15 @@ export function UserContextForm({ userContext, onUserContextChange }: UserContex
               placeholder="e.g., Marketing Manager, Software Developer"
               value={userContext.targetRole || ""}
               onChange={(e) => handleChange("targetRole", e.target.value)}
-              className="bg-white/80"
+              className="bg-white/80 dark:bg-black/80"
             />
           </div>
 
           {/* Experience Level */}
           <div>
-            <Label className="text-sm font-medium text-gray-900 mb-2 block">Experience Level</Label>
+            <Label className="text-sm font-medium text-gray-900 mb-2 block dark:text-gray-100">Experience Level</Label>
             <Select value={userContext.experience || ""} onValueChange={(value) => handleChange("experience", value)}>
-              <SelectTrigger className="bg-white/80">
+              <SelectTrigger className="bg-white/80 dark:bg-black/80">
                 <SelectValue placeholder="Select your experience level" />
               </SelectTrigger>
               <SelectContent>
@@ -102,12 +102,12 @@ export function UserContextForm({ userContext, onUserContextChange }: UserContex
 
           {/* Industry */}
           <div>
-            <Label className="text-sm font-medium text-gray-900 flex items-center gap-2 mb-2">
+            <Label className="text-sm font-medium text-gray-900 flex items-center gap-2 mb-2 dark:text-gray-100">
               <Building className="w-4 h-4" />
               Industry
             </Label>
             <Select value={userContext.industry || ""} onValueChange={(value) => handleChange("industry", value)}>
-              <SelectTrigger className="bg-white/80">
+              <SelectTrigger className="bg-white/80 dark:bg-black/80">
                 <SelectValue placeholder="Select your target industry" />
               </SelectTrigger>
               <SelectContent>
@@ -120,7 +120,7 @@ export function UserContextForm({ userContext, onUserContextChange }: UserContex
             </Select>
           </div>
 
-          <div className="text-xs text-blue-600 bg-blue-50 p-2 rounded">
+          <div className="text-xs text-blue-600 bg-blue-50 p-2 rounded dark:bg-blue-950 dark:text-blue-400">
             💡 This helps our AI provide more targeted advice for your specific career path in Kenya
           </div>
         </CardContent>

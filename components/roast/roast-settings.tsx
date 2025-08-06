@@ -42,7 +42,7 @@ export function RoastSettings({
   }
 
   return (
-    <Card className="border-emerald-100 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden">
+    <Card className="border-emerald-100 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden dark:border-emerald-900 dark:from-emerald-950/50 dark:to-blue-950/30">
       {/* Subtle pattern */}
       <div
         className="absolute top-0 right-0 w-20 h-20 opacity-10"
@@ -52,7 +52,7 @@ export function RoastSettings({
       />
 
       <CardHeader className="relative z-10">
-        <CardTitle className="flex items-center gap-2 text-emerald-800">
+        <CardTitle className="flex items-center gap-2 text-emerald-800 dark:text-emerald-200">
           <Settings className="w-5 h-5" />
           Roast Preferences
         </CardTitle>
@@ -60,14 +60,14 @@ export function RoastSettings({
       <CardContent className="space-y-6 relative z-10">
         {/* Roast Tone */}
         <div>
-          <Label className="text-sm font-medium text-gray-900 mb-3 block">Roast Intensity 🌶️</Label>
+          <Label className="text-sm font-medium text-gray-900 mb-3 block dark:text-gray-100">Roast Intensity 🌶️</Label>
           <div className="flex gap-2">
             <Button
               variant={roastTone === "light" ? "default" : "outline"}
               className={`flex-1 ${
                 roastTone === "light"
-                  ? "bg-blue-600 hover:bg-blue-700 text-white"
-                  : "border-blue-200 text-blue-600 hover:bg-blue-50"
+                  ? "bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-400 dark:hover:bg-blue-300 dark:text-black"
+                  : "border-blue-200 text-blue-600 hover:bg-blue-50 dark:border-blue-800 dark:text-blue-400 dark:hover:bg-blue-950"
               }`}
               onClick={() => onToneChange("light")}
             >
@@ -78,8 +78,8 @@ export function RoastSettings({
               variant={roastTone === "heavy" ? "default" : "outline"}
               className={`flex-1 ${
                 roastTone === "heavy"
-                  ? "bg-red-600 hover:bg-red-700 text-white"
-                  : "border-red-200 text-red-600 hover:bg-red-50"
+                  ? "bg-red-600 hover:bg-red-700 text-white dark:bg-red-400 dark:hover:bg-red-300 dark:text-black"
+                  : "border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
               }`}
               onClick={() => onToneChange("heavy")}
             >
@@ -87,7 +87,7 @@ export function RoastSettings({
               Heavy Roast 🔥
             </Button>
           </div>
-          <p className="text-xs text-gray-600 mt-2">
+          <p className="text-xs text-gray-600 mt-2 dark:text-gray-400">
             {roastTone === "light"
               ? "Gentle, encouraging feedback - like advice from your big sister 😊"
               : "Brutally honest, no-holds-barred critique - you'll know exactly where you stand! 💯"}
@@ -97,17 +97,17 @@ export function RoastSettings({
         {/* Emoji Toggle */}
         <div className="flex items-center justify-between">
           <div>
-            <Label htmlFor="emoji-toggle" className="text-sm font-medium text-gray-900">
+            <Label htmlFor="emoji-toggle" className="text-sm font-medium text-gray-900 dark:text-gray-100">
               Include Emojis
             </Label>
-            <p className="text-xs text-gray-600">Add emojis to make feedback more engaging</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Add emojis to make feedback more engaging</p>
           </div>
           <Switch id="emoji-toggle" checked={showEmojis} onCheckedChange={onEmojiToggle} />
         </div>
 
         {/* Focus Areas */}
         <div>
-          <Label className="text-sm font-medium text-gray-900 mb-3 block flex items-center gap-2">
+          <Label className="text-sm font-medium text-gray-900 mb-3 block flex items-center gap-2 dark:text-gray-100">
             <Target className="w-4 h-4" />
             Focus Areas
           </Label>
@@ -118,8 +118,8 @@ export function RoastSettings({
                 variant={focusAreas.includes(area) ? "default" : "outline"}
                 className={`cursor-pointer transition-colors text-xs ${
                   focusAreas.includes(area)
-                    ? "bg-emerald-600 hover:bg-emerald-700 text-white"
-                    : "border-gray-300 text-gray-600 hover:bg-emerald-50 hover:border-emerald-300"
+                    ? "bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-emerald-400 dark:hover:bg-emerald-300 dark:text-black"
+                    : "border-gray-300 text-gray-600 hover:bg-emerald-50 hover:border-emerald-300 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-emerald-950 dark:hover:border-emerald-700"
                 }`}
                 onClick={() => toggleFocusArea(area)}
               >
@@ -127,7 +127,7 @@ export function RoastSettings({
               </Badge>
             ))}
           </div>
-          <p className="text-xs text-gray-600 mt-2">Select areas you want the AI to focus on during the roast</p>
+          <p className="text-xs text-gray-600 mt-2 dark:text-gray-400">Select areas you want the AI to focus on during the roast</p>
         </div>
       </CardContent>
     </Card>

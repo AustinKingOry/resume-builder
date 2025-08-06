@@ -14,8 +14,8 @@ interface MarketReadinessScoreProps {
 
 export function MarketReadinessScore({ score, strengths, priorities, kenyanJobMarketTips }: MarketReadinessScoreProps) {
   const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-emerald-600"
-    if (score >= 60) return "text-yellow-600"
+    if (score >= 80) return "text-emerald-600 dark:text-emerald-400"
+    if (score >= 60) return "text-yellow-600 dark:text-yellow-400"
     return "text-red-600"
   }
 
@@ -26,7 +26,7 @@ export function MarketReadinessScore({ score, strengths, priorities, kenyanJobMa
   }
 
   return (
-    <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden">
+    <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden dark:border-emerald-800 dark:from-emerald-950/50 dark:to-blue-950/30">
       {/* Pattern */}
       <div
         className="absolute top-0 right-0 w-32 h-32 opacity-10"
@@ -37,7 +37,7 @@ export function MarketReadinessScore({ score, strengths, priorities, kenyanJobMa
 
       <CardHeader className="relative z-10">
         <CardTitle className="flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-emerald-600" />
+          <TrendingUp className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           Kenya Job Market Readiness
         </CardTitle>
       </CardHeader>
@@ -46,23 +46,23 @@ export function MarketReadinessScore({ score, strengths, priorities, kenyanJobMa
         {/* Score Display */}
         <div className="text-center">
           <div className={`text-4xl font-bold mb-2 ${getScoreColor(score)}`}>{score}/100</div>
-          <p className="text-lg font-medium text-gray-700">{getScoreLabel(score)}</p>
+          <p className="text-lg font-medium text-gray-700 dark:text-gray-300">{getScoreLabel(score)}</p>
           <Progress value={score} className="w-full mt-4 h-3" />
         </div>
 
         {/* Strengths */}
         <div>
-          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <span className="text-emerald-600">✨</span>
+          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2 dark:text-gray-100">
+            <span className="text-emerald-600 dark:text-emerald-400">✨</span>
             Your Strengths
           </h4>
           <div className="space-y-2">
             {strengths.map((strength, index) => (
               <div key={index} className="flex items-center gap-2">
-                <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs">
+                <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800">
                   ✓
                 </Badge>
-                <span className="text-sm text-gray-700">{strength}</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">{strength}</span>
               </div>
             ))}
           </div>
@@ -70,17 +70,17 @@ export function MarketReadinessScore({ score, strengths, priorities, kenyanJobMa
 
         {/* Priorities */}
         <div>
-          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Target className="w-4 h-4 text-red-600" />
+          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2 dark:text-gray-100">
+            <Target className="w-4 h-4 text-red-600 dark:text-red-400" />
             Top Priorities
           </h4>
           <div className="space-y-2">
             {priorities.map((priority, index) => (
               <div key={index} className="flex items-center gap-2">
-                <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 text-xs">
+                <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 text-xs dark:bg-red-950 dark:text-red-300 dark:border-red-800">
                   {index + 1}
                 </Badge>
-                <span className="text-sm text-gray-700">{priority}</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">{priority}</span>
               </div>
             ))}
           </div>
@@ -88,14 +88,14 @@ export function MarketReadinessScore({ score, strengths, priorities, kenyanJobMa
 
         {/* Kenyan Market Tips */}
         <div>
-          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Lightbulb className="w-4 h-4 text-blue-600" />
+          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2 dark:text-gray-100">
+            <Lightbulb className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             Kenya Market Tips 🇰🇪
           </h4>
           <div className="space-y-2">
             {kenyanJobMarketTips.map((tip, index) => (
-              <div key={index} className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                <p className="text-sm text-blue-800">{tip}</p>
+              <div key={index} className="bg-blue-50 border border-blue-200 rounded-lg p-3 dark:bg-blue-950 dark:border-blue-800">
+                <p className="text-sm text-blue-800 dark:text-blue-200">{tip}</p>
               </div>
             ))}
           </div>

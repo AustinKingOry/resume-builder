@@ -23,26 +23,26 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
       {/* Results Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2 dark:text-gray-100">
             Your CV Roast is Ready! 🔥
             <Badge variant={roastTone === "light" ? "secondary" : "destructive"} className="text-xs">
               {roastTone === "light" ? "Light Roast ☕" : "Heavy Roast 🔥"}
             </Badge>
             {!isComplete && (
-              <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">
+              <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-800">
                 <Activity className="w-3 h-3 mr-1 animate-pulse" />
                 Streaming live...
               </Badge>
             )}
             {isComplete && usage && (
-              <Badge variant="outline" className="text-xs bg-emerald-50 text-emerald-600 border-emerald-200">
+              <Badge variant="outline" className="text-xs bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800">
                 <Zap className="w-3 h-3 mr-1" />
                 {usage.totalTokens} tokens
               </Badge>
             )}
           </h2>
           {metadata && (
-            <div className="flex items-center gap-4 text-sm text-gray-600 flex-wrap">
+            <div className="flex items-center gap-4 text-sm text-gray-600 flex-wrap dark:text-gray-400">
               <span>File: {metadata.fileName}</span>
               <span>•</span>
               <span>{metadata.wordCount} words</span>
@@ -68,15 +68,15 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
 
       {/* Streaming Progress Indicator */}
       {!isComplete && (
-        <Card className="border-blue-200 bg-gradient-to-r from-blue-50/50 to-emerald-50/30">
+        <Card className="border-blue-200 bg-gradient-to-r from-blue-50/50 to-emerald-50/30 dark:from-blue-950/50 dark:to-emerald-950/30 dark:border-blue-800">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <Activity className="w-5 h-5 text-blue-600 animate-pulse" />
+              <Activity className="w-5 h-5 text-blue-600 animate-pulse dark:text-blue-400" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-blue-800">AI is analyzing your CV in real-time...</p>
-                <p className="text-xs text-blue-600">Results will appear as they're generated</p>
+                <p className="text-sm font-medium text-blue-800 dark:text-blue-200">AI is analyzing your CV in real-time...</p>
+                <p className="text-xs text-blue-600 dark:text-blue-400">Results will appear as they're generated</p>
               </div>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-xs">
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-xs dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800">
                 AI SDK v5
               </Badge>
             </div>
@@ -93,13 +93,13 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
           kenyanJobMarketTips={kenyanJobMarketTips || []}
         />
       ) : (
-        <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50/50 to-blue-50/30">
+        <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 dark:from-emerald-950/50 dark:to-blue-950/30 dark:border-emerald-800">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Skeleton className="w-5 h-5 rounded" />
               <Skeleton className="w-48 h-6" />
               {!isComplete && (
-                <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">
+                <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-800">
                   <Activity className="w-3 h-3 mr-1 animate-pulse" />
                   Calculating score...
                 </Badge>
@@ -123,7 +123,7 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
       )}
 
       {/* Overall Feedback */}
-      <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden">
+      <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden dark:border-emerald-800 dark:from-emerald-950/50 dark:to-blue-950/30">
         <div
           className="absolute top-0 right-0 w-32 h-32 opacity-10"
           style={{
@@ -134,11 +134,11 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
         <CardHeader className="relative z-10">
           <CardTitle className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center relative overflow-hidden">
-              <span className="text-white text-sm relative z-10">🤖</span>
+              <span className="text-white text-sm relative z-10 dark:text-black">🤖</span>
             </div>
             Overall Assessment - AI Career Mentor
             {!overall && !isComplete && (
-              <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">
+              <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-800">
                 <Activity className="w-3 h-3 mr-1 animate-pulse" />
                 Generating...
               </Badge>
@@ -147,7 +147,7 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
         </CardHeader>
         <CardContent className="relative z-10">
           {overall ? (
-            <p className="text-gray-700 leading-relaxed text-lg">
+            <p className="text-gray-700 leading-relaxed text-lg mb-4 dark:text-gray-300">
               {showEmojis
                 ? overall
                 : overall.replace(
@@ -167,13 +167,13 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
 
       {/* Detailed Feedback */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2 dark:text-gray-100">
           Detailed Feedback {feedback && `(${feedback.length} points)`}
-          <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs">
+          <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800">
             Kenya Job Market Ready 🇰🇪
           </Badge>
           {!isComplete && (
-            <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200">
+            <Badge variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-800">
               <Activity className="w-3 h-3 mr-1 animate-pulse" />
               Streaming feedback...
             </Badge>
@@ -209,7 +209,7 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
                         <Skeleton className="w-full h-4" />
                         <Skeleton className="w-3/4 h-4" />
                       </div>
-                      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+                      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 dark:bg-emerald-950 dark:border-emerald-800">
                         <Skeleton className="w-full h-4" />
                       </div>
                     </div>
@@ -222,12 +222,12 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
 
       {/* Token Usage Display (for development/debugging) */}
       {isComplete && usage && (
-        <Card className="border-gray-200 bg-gray-50/50">
+        <Card className="border-gray-200 bg-gray-50/50 dark:border-gray-800 dark:bg-gray-950/50">
           <CardContent className="p-4">
-            <div className="flex items-center justify-between text-sm text-gray-600">
+            <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
               <div className="flex items-center gap-2">
                 <Zap className="w-4 h-4" />
-                <span>AI Usage (AI SDK v5):</span>
+                <span>AI Usage (KAZIKIT AI):</span>
               </div>
               <div className="flex items-center gap-4">
                 <span>Prompt: {usage.promptTokens} tokens</span>
