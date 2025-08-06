@@ -1,10 +1,11 @@
+// "use client"
 
-
-import { supabase } from "../supabase-browser"
-import type { Database } from "./types"
+import { supabase } from "../../supabase-browser"
+import type { Database } from "../types"
 
 type UsageTracking = Database["public"]["Tables"]["usage_tracking"]["Row"]
 type User = Database["public"]["Tables"]["users"]["Row"]
+
 
 export class SupabaseUsageService {
   private static instance: SupabaseUsageService
@@ -34,7 +35,7 @@ export class SupabaseUsageService {
 
   async getCurrentUsage(): Promise<{ count: number; limit: number; plan: string }> {
     if (!this.currentUser) {
-      await this.initializeUser()
+      await this.initializeUser
     }
 
     if (!this.currentUser) {
@@ -59,7 +60,7 @@ export class SupabaseUsageService {
 
   async canMakeRequest(): Promise<boolean> {
     if (!this.currentUser) {
-      await this.initializeUser()
+      await this.initializeUser
     }
 
     if (!this.currentUser) {
@@ -73,7 +74,7 @@ export class SupabaseUsageService {
 
   async incrementUsage(): Promise<boolean> {
     if (!this.currentUser) {
-      await this.initializeUser()
+      await this.initializeUser
     }
 
     if (!this.currentUser) {
@@ -87,7 +88,7 @@ export class SupabaseUsageService {
 
   async upgradePlan(newPlan: "hustler" | "pro", transactionId?: string): Promise<boolean> {
     if (!this.currentUser) {
-      await this.initializeUser()
+      await this.initializeUser
     }
 
     if (!this.currentUser) {
@@ -128,7 +129,7 @@ export class SupabaseUsageService {
 
   async getUserStats(): Promise<any> {
     if (!this.currentUser) {
-      await this.initializeUser()
+      await this.initializeUser
     }
 
     if (!this.currentUser) {

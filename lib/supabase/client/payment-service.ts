@@ -1,7 +1,7 @@
 "use client"
 
-import { supabase } from "../supabase-browser"
-import type { Database } from "./types"
+import { supabase } from "../../supabase-browser"
+import type { Database } from "../types"
 
 type PaymentTransaction = Database["public"]["Tables"]["payment_transactions"]["Row"]
 

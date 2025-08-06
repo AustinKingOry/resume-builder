@@ -1,10 +1,11 @@
 
 
-import { supabase } from "../supabase-browser"
-import type { Database } from "./types"
+import { supabase } from "../../supabase-browser"
+import type { Database } from "../types"
 
 type CVUpload = Database["public"]["Tables"]["cv_uploads"]["Row"]
 type RoastResponse = Database["public"]["Tables"]["roast_responses"]["Row"]
+
 
 export class SupabaseCVService {
   async saveCVUpload(
