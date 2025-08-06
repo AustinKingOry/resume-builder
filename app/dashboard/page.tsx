@@ -52,12 +52,12 @@ export default function DashboardPage() {
 
   if (loading || !stats) {
     return (
-      <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30">
+      <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 dark:from-emerald-950/50 dark:to-blue-950/30">
         <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
-            <p className="text-gray-600">Loading dashboard...</p>
+            <p className="text-gray-600 dark:text-gray-400">Loading dashboard...</p>
           </div>
         </div>
       </div>
@@ -79,47 +79,47 @@ export default function DashboardPage() {
       value: stats.usageCount,
       max: stats.usageLimit,
       icon: Flame,
-      color: "text-red-600",
-      bgColor: "bg-red-50",
+      color: "text-red-600 dark:text-red-400",
+      bgColor: "bg-red-50 dark:bg-red-950",
     },
     {
       title: "Success Rate",
       value: `${Math.round(stats.successRate)}%`,
       icon: TrendingUp,
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-50",
+      color: "text-emerald-600 dark:text-emerald-400",
+      bgColor: "bg-emerald-50 dark:bg-emerald-950",
     },
     {
       title: "Avg. Processing Time",
       value: `${stats.processingTime.toFixed(1)}s`,
       icon: Clock,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50",
+      color: "text-blue-600 dark:text-blue-400",
+      bgColor: "bg-blue-50 dark:bg-blue-950",
     },
     {
       title: "Average Score",
       value: `${stats.averageScore.toFixed(1)}/10`,
       icon: Target,
-      color: "text-purple-600",
-      bgColor: "bg-purple-50",
+      color: "text-purple-600 dark:text-purple-400",
+      bgColor: "bg-purple-50 dark:bg-purple-950",
     },
   ]
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30">
+    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 dark:from-emerald-950/50 dark:to-blue-950/30">
       <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
 
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4">
+        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 dark:bg-black/90 dark:border-gray-800">
           <div className="flex items-center justify-between">
             <div>
-              <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
+              <div className="flex items-center gap-2 text-sm text-gray-500 mb-1 dark:text-gray-400">
                 <span>Dashboard</span>
                 <ChevronRight className="w-4 h-4" />
-                <span className="text-emerald-600 font-medium">Overview</span>
+                <span className="text-emerald-600 font-medium dark:text-emerald-400">Overview</span>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">Welcome back! 👋</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Welcome back! 👋</h1>
             </div>
 
             <div className="flex items-center gap-4">
@@ -127,10 +127,10 @@ export default function DashboardPage() {
                 variant="outline"
                 className={`${
                   stats.plan === "free"
-                    ? "bg-gray-50 text-gray-700 border-gray-200"
+                    ? "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-950 dark:text-gray-300 dark:border-gray-800"
                     : stats.plan === "hustler"
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                      : "bg-purple-50 text-purple-700 border-purple-200"
+                      ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800"
+                      : "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800"
                 }`}
               >
                 <PlanIcon className="w-3 h-3 mr-1" />
@@ -144,22 +144,22 @@ export default function DashboardPage() {
         <main className="flex-1 overflow-auto p-6">
           <div className="max-w-7xl mx-auto space-y-6">
             {/* Usage Card */}
-            <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-blue-50">
+            <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-950 dark:to-blue-950 dark:border-emerald-800">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="font-semibold text-gray-900">Daily Usage</h3>
-                    <p className="text-sm text-gray-600">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Daily Usage</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       {stats.usageCount} of {stats.usageLimit} roasts used today
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-gray-600">Resets in</p>
-                    <p className="font-semibold text-emerald-600">{stats.resetTime}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Resets in</p>
+                    <p className="font-semibold text-emerald-600 dark:text-emerald-400">{stats.resetTime}</p>
                   </div>
                 </div>
                 <Progress value={usagePercentage} className="h-3 mb-2" />
-                <div className="flex justify-between text-xs text-gray-600">
+                <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
                   <span>0</span>
                   <span>{stats.usageLimit}</span>
                 </div>
@@ -173,8 +173,8 @@ export default function DashboardPage() {
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                        <p className="text-2xl font-bold text-gray-900">
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.title}</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                           {typeof stat.value === "number" && stat.max ? `${stat.value}/${stat.max}` : stat.value}
                         </p>
                       </div>
@@ -192,12 +192,12 @@ export default function DashboardPage() {
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">
-                      <Flame className="w-6 h-6 text-red-600" />
+                    <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center dark:bg-red-950">
+                      <Flame className="w-6 h-6 text-red-600 dark:text-red-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Roast My CV</h3>
-                      <p className="text-sm text-gray-600">Get instant AI feedback</p>
+                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">Roast My CV</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Get instant AI feedback</p>
                     </div>
                   </div>
                 </CardContent>
@@ -206,12 +206,12 @@ export default function DashboardPage() {
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-                      <BarChart3 className="w-6 h-6 text-blue-600" />
+                    <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center dark:bg-blue-950">
+                      <BarChart3 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Analytics</h3>
-                      <p className="text-sm text-gray-600">Track your progress</p>
+                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">Analytics</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Track your progress</p>
                     </div>
                   </div>
                 </CardContent>
@@ -220,12 +220,12 @@ export default function DashboardPage() {
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center">
-                      <FileText className="w-6 h-6 text-emerald-600" />
+                    <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center dark:bg-emerald-950">
+                      <FileText className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">Templates</h3>
-                      <p className="text-sm text-gray-600">Download CV templates</p>
+                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">Templates</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Download CV templates</p>
                     </div>
                   </div>
                 </CardContent>
@@ -250,28 +250,28 @@ export default function DashboardPage() {
                     </div>
                   ) : (
                     recentActivity.map((activity, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-gray-950">
                         <div className="flex items-center gap-3">
                           <div
                             className={`w-8 h-8 rounded-full flex items-center justify-center ${
                               activity.status === "completed"
-                                ? "bg-emerald-100"
+                                ? "bg-emerald-100 dark:bg-emerald-900"
                                 : activity.status === "success"
-                                  ? "bg-blue-100"
-                                  : "bg-gray-100"
+                                  ? "bg-blue-100 dark:bg-blue-900"
+                                  : "bg-gray-100 dark:bg-gray-900"
                             }`}
                           >
                             {activity.status === "completed" ? (
-                              <Flame className="w-4 h-4 text-emerald-600" />
+                              <Flame className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                             ) : activity.status === "success" ? (
-                              <Award className="w-4 h-4 text-blue-600" />
+                              <Award className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                             ) : (
-                              <FileText className="w-4 h-4 text-gray-600" />
+                              <FileText className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                             )}
                           </div>
                           <div>
-                            <p className="font-medium text-gray-900">{activity.action}</p>
-                            <p className="text-sm text-gray-600">{activity.fileName}</p>
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{activity.action}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">{activity.fileName}</p>
                           </div>
                         </div>
                         <div className="text-right">
@@ -291,9 +291,9 @@ export default function DashboardPage() {
 
             {/* Insights */}
             <div className="grid md:grid-cols-2 gap-6">
-              <Card className="border-blue-200 bg-blue-50/30">
+              <Card className="border-blue-200 bg-blue-50/30 dark:border-blue-800 dark:bg-blue-950/30">
                 <CardHeader>
-                  <CardTitle className="text-blue-800 flex items-center gap-2">
+                  <CardTitle className="text-blue-800 flex items-center gap-2 dark:text-blue-200">
                     <TrendingUp className="w-5 h-5" />
                     Career Insights
                   </CardTitle>
@@ -301,7 +301,7 @@ export default function DashboardPage() {
                 <CardContent>
                   <div className="space-y-3">
                     {careerInsights.length === 0 ? (
-                      <p className="text-sm text-gray-600">Complete more CV analyses to see insights</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Complete more CV analyses to see insights</p>
                     ) : (
                       careerInsights.map((insight, index) => (
                         <div key={index} className="flex items-center gap-2">
@@ -314,9 +314,9 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-emerald-200 bg-emerald-50/30">
+              <Card className="border-emerald-200 bg-emerald-50/30 dark:border-emerald-800 dark:bg-emerald-950/30">
                 <CardHeader>
-                  <CardTitle className="text-emerald-800 flex items-center gap-2">
+                  <CardTitle className="text-emerald-800 flex items-center gap-2 dark:text-emerald-200">
                     <Users className="w-5 h-5" />
                     Community Stats
                   </CardTitle>
