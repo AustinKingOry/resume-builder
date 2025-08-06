@@ -1,13 +1,25 @@
 "use client"
 
 
-import { supabase } from "@/lib/supabase-server"
+// import { supabase } from "@/lib/supabase-server"
 import type { Database } from ".././types"
+import { createClient } from "@supabase/supabase-js"
 
 type PaymentTransaction = Database["public"]["Tables"]["payment_transactions"]["Row"]
 
+function getSupabaseClientWithToken(token: string) {
+  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  })
+}
+
 export class SupabasePaymentService {
   async createPaymentTransaction(
+    token: string,
     userId: string,
     plan: "hustler" | "pro",
     amountKsh: number,
@@ -15,6 +27,7 @@ export class SupabasePaymentService {
     paymentProvider: string,
     metadata?: any,
   ): Promise<PaymentTransaction | null> {
+    const supabase = getSupabaseClientWithToken(token)
     const { data, error } = await supabase
       .from("payment_transactions")
       .insert({
@@ -38,11 +51,13 @@ export class SupabasePaymentService {
   }
 
   async updatePaymentStatus(
+    token: string,
     transactionId: string,
     status: "completed" | "failed" | "cancelled",
     transactionReference?: string,
     metadata?: any,
   ): Promise<boolean> {
+    const supabase = getSupabaseClientWithToken(token)
     const updateData: any = { status }
 
     if (transactionReference) {
@@ -63,7 +78,8 @@ export class SupabasePaymentService {
     return true
   }
 
-  async getUserPaymentHistory(userId: string, limit = 10): Promise<PaymentTransaction[]> {
+  async getUserPaymentHistory(token: string, userId: string, limit = 10): Promise<PaymentTransaction[]> {
+    const supabase = getSupabaseClientWithToken(token)
     const { data, error } = await supabase
       .from("payment_transactions")
       .select("*")
@@ -79,7 +95,8 @@ export class SupabasePaymentService {
     return data || []
   }
 
-  async getPaymentTransaction(transactionId: string): Promise<PaymentTransaction | null> {
+  async getPaymentTransaction(token: string, transactionId: string): Promise<PaymentTransaction | null> {
+    const supabase = getSupabaseClientWithToken(token)
     const { data, error } = await supabase.from("payment_transactions").select("*").eq("id", transactionId).single()
 
     if (error) {
@@ -92,10 +109,12 @@ export class SupabasePaymentService {
 
   // Simulate payment processing (replace with actual payment provider integration)
   async processPayment(
+    token: string,
     transactionId: string,
     paymentMethod: string,
     paymentDetails: any,
   ): Promise<{ success: boolean; reference?: string; error?: string }> {
+    const supabase = getSupabaseClientWithToken(token)
     // This is a simulation - replace with actual payment provider logic
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
@@ -104,16 +123,17 @@ export class SupabasePaymentService {
 
     if (success) {
       const reference = `TXN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-      await this.updatePaymentStatus(transactionId, "completed", reference)
+      await this.updatePaymentStatus(token, transactionId, "completed", reference)
       return { success: true, reference }
     } else {
-      await this.updatePaymentStatus(transactionId, "failed", undefined, { error: "Payment failed" })
+      await this.updatePaymentStatus(token, transactionId, "failed", undefined, { error: "Payment failed" })
       return { success: false, error: "Payment processing failed" }
     }
   }
 
   // Real-time subscription for payment status updates
-  subscribeToPaymentUpdates(userId: string, callback: (transaction: PaymentTransaction) => void) {
+  subscribeToPaymentUpdates(token: string, userId: string, callback: (transaction: PaymentTransaction) => void) {
+    const supabase = getSupabaseClientWithToken(token)
     return supabase
       .channel("payment_transactions_changes")
       .on(
