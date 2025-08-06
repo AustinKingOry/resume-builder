@@ -62,12 +62,12 @@ export default function AnalyticsPage() {
 
   if (loading || !stats) {
     return (
-      <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30">
+      <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 dark:from-emerald-950/50 dark:to-blue-950/30">
         <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
-            <p className="text-gray-600">Loading analytics...</p>
+            <p className="text-gray-600 dark:text-gray-400">Loading analytics...</p>
           </div>
         </div>
       </div>
@@ -81,8 +81,8 @@ export default function AnalyticsPage() {
       change: `+${stats.totalCVsRoasted}`,
       trend: "up",
       icon: FileText,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50",
+      color: "text-blue-600 dark:text-blue-400",
+      bgColor: "bg-blue-50 dark:bg-blue-950",
     },
     {
       title: "Average Score",
@@ -90,8 +90,8 @@ export default function AnalyticsPage() {
       change: stats.scoreChange,
       trend: "up",
       icon: Target,
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-50",
+      color: "text-emerald-600 dark:text-emerald-400",
+      bgColor: "bg-emerald-50 dark:bg-emerald-950",
     },
     {
       title: "Processing Time",
@@ -99,8 +99,8 @@ export default function AnalyticsPage() {
       change: stats.processingChange,
       trend: "up",
       icon: Clock,
-      color: "text-purple-600",
-      bgColor: "bg-purple-50",
+      color: "text-purple-600 dark:text-purple-400",
+      bgColor: "bg-purple-50 dark:bg-purple-950",
     },
     {
       title: "Success Rate",
@@ -108,26 +108,26 @@ export default function AnalyticsPage() {
       change: stats.successRateChange,
       trend: "up",
       icon: Award,
-      color: "text-yellow-600",
-      bgColor: "bg-yellow-50",
+      color: "text-yellow-600 dark:text-yellow-400",
+      bgColor: "bg-yellow-50 dark:bg-yellow-950",
     },
   ]
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30">
+    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 dark:from-emerald-950/50 dark:to-blue-950/30">
       <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
 
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4">
+        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 dark:bg-black/90 dark:border-gray-800">
           <div className="flex items-center justify-between">
             <div>
-              <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
+              <div className="flex items-center gap-2 text-sm text-gray-500 mb-1 dark:text-gray-400">
                 <span>Dashboard</span>
                 <ChevronRight className="w-4 h-4" />
-                <span className="text-emerald-600 font-medium">Analytics</span>
+                <span className="text-emerald-600 font-medium dark:text-emerald-400">Analytics</span>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 dark:text-gray-100">
                 <BarChart3 className="w-6 h-6" />
                 CV Analytics Dashboard
               </h1>
@@ -165,11 +165,11 @@ export default function AnalyticsPage() {
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                        <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.title}</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stat.value}</p>
                         <div className="flex items-center gap-1 mt-1">
                           <TrendingUp className="w-3 h-3 text-emerald-500" />
-                          <span className="text-xs text-emerald-600">{stat.change}</span>
+                          <span className="text-xs text-emerald-600 dark:text-emerald-400">{stat.change}</span>
                         </div>
                       </div>
                       <div className={`w-12 h-12 ${stat.bgColor} rounded-lg flex items-center justify-center`}>
@@ -192,10 +192,10 @@ export default function AnalyticsPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+                  <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg dark:bg-gray-950">
                     <div className="text-center">
-                      <BarChart3 className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-600">Chart visualization would go here</p>
+                      <BarChart3 className="w-12 h-12 text-gray-400 mx-auto mb-2 dark:text-gray-600" />
+                      <p className="text-gray-600 dark:text-gray-400">Chart visualization would go here</p>
                       <p className="text-sm text-gray-500">
                         Showing improvement trend: {stats.scoreChange}
                       </p>
@@ -225,7 +225,7 @@ export default function AnalyticsPage() {
                         <div key={index} className="space-y-2">
                           <div className="flex justify-between text-sm">
                             <span className="font-medium">{category.category}</span>
-                            <span className="text-gray-600">{category.score}/100</span>
+                            <span className="text-gray-600 dark:text-gray-400">{category.score}/100</span>
                           </div>
                           <Progress value={category.score} className="h-2" />
                           <p className="text-xs text-gray-500">{category.count} feedback points</p>
@@ -255,14 +255,14 @@ export default function AnalyticsPage() {
                     </div>
                   ) : (
                     recentRoasts.map((roast, index) => (
-                      <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                      <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg dark:bg-gray-950">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                            <FileText className="w-5 h-5 text-emerald-600" />
+                          <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center dark:bg-emerald-900">
+                            <FileText className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                           </div>
                           <div>
-                            <p className="font-medium text-gray-900">{roast.fileName}</p>
-                            <p className="text-sm text-gray-600">
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{roast.fileName}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                               {roast.date} • {roast.feedbackCount} feedback points
                             </p>
                           </div>
@@ -273,7 +273,7 @@ export default function AnalyticsPage() {
                           </Badge>
                           <div className="space-y-1">
                             {roast.improvements.map((improvement, i) => (
-                              <p key={i} className="text-xs text-gray-600">
+                              <p key={i} className="text-xs text-gray-600 dark:text-gray-400">
                                 • {improvement}
                               </p>
                             ))}
@@ -288,9 +288,9 @@ export default function AnalyticsPage() {
 
             {/* Insights */}
             <div className="grid md:grid-cols-2 gap-6">
-              <Card className="border-emerald-200 bg-emerald-50/30">
+              <Card className="border-emerald-200 bg-emerald-50/30 dark:bg-emerald-950/30 dark:border-emerald-800">
                 <CardHeader>
-                  <CardTitle className="text-emerald-800 flex items-center gap-2">
+                  <CardTitle className="text-emerald-800 flex items-center gap-2 dark:text-emerald-200">
                     <Award className="w-5 h-5" />
                     Key Achievements
                   </CardTitle>
@@ -298,7 +298,7 @@ export default function AnalyticsPage() {
                 <CardContent>
                   <div className="space-y-3">
                     {keyAchievements.length === 0 ? (
-                      <p className="text-sm text-gray-600">Complete more CV analyses to unlock achievements</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Complete more CV analyses to unlock achievements</p>
                     ) : (
                       keyAchievements.map((achievement, index) => (
                         <div key={index} className="flex items-center gap-2">
@@ -311,9 +311,9 @@ export default function AnalyticsPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-blue-200 bg-blue-50/30">
+              <Card className="border-blue-200 bg-blue-50/30 dark:bg-blue-950/30 dark:border-blue-800">
                 <CardHeader>
-                  <CardTitle className="text-blue-800 flex items-center gap-2">
+                  <CardTitle className="text-blue-800 flex items-center gap-2 dark:text-blue-200">
                     <Users className="w-5 h-5" />
                     Benchmarks
                   </CardTitle>
@@ -334,11 +334,11 @@ export default function AnalyticsPage() {
                         <span className="font-semibold">{userBenchmark.topPercentile}/10</span>
                       </div>
                       <div className="pt-2 border-t">
-                        <p className="text-xs text-blue-600">{userBenchmark.performanceMessage}</p>
+                        <p className="text-xs text-blue-600 dark:text-blue-400">{userBenchmark.performanceMessage}</p>
                       </div>
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-600">Complete more CV analyses to see benchmarks</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Complete more CV analyses to see benchmarks</p>
                   )}
                 </CardContent>
               </Card>
