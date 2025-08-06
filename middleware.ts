@@ -55,7 +55,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getSession()
 
   // Check auth condition
-  if (!session && request.nextUrl.pathname.startsWith("/builder")) {
+  if (!session && request.nextUrl.pathname.startsWith("/roast-my-cv")) {
     // Auth required, redirect to login
     const redirectUrl = request.nextUrl.clone()
     redirectUrl.pathname = "/"
@@ -66,5 +66,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/builder/:path*"],
+  matcher: ["/roast-my-cv/:path*"],
 }
