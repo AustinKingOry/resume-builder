@@ -239,7 +239,7 @@ Made with ❤️ for African job seekers
                   <ChevronRight className="w-4 h-4" />
                   <span className="text-emerald-600 font-medium dark:text-emerald-400">CV Roaster</span>
                 </div> */}
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 dark:text-gray-100">
+                <h1 className="text-lg sm:text-2xl font-bold text-gray-900 flex items-center gap-2 dark:text-gray-100">
                   Roast My CV
                 </h1>
               </div>
@@ -263,7 +263,7 @@ Made with ❤️ for African job seekers
               </Badge>
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  {Math.max(0, usage.limit - usage.count)} roasts remaining
+                  {Math.max(0, usage.limit - usage.count)} roasts <span className="min-[425px]:hidden">remaining</span>
                 </p>
                 <p className="text-xs text-emerald-600 dark:text-emerald-400">Resets in {supabaseUsageService.getResetTime()}</p>
               </div>

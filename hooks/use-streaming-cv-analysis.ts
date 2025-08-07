@@ -86,7 +86,7 @@ export function useStreamingCVAnalysis() {
               clearInterval(progressInterval)
               return 90
             }
-            return prev + Math.random() * 10
+            return prev + Math.floor(Math.random() * 10)
           })
         }, 200)
 
