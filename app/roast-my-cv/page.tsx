@@ -19,7 +19,7 @@ import { Download, Share2, AlertCircle, RotateCcw, ChevronRight, Zap, Heart, Spa
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { UpgradeModal } from "@/components/modals/upgrade-modal"
-import { usageTracker } from "@/lib/usage-tracker"
+// import { usageTracker } from "@/lib/usage-tracker"
 import { useRouter } from "next/navigation"
 import { useSupabaseCVAnalysis } from "@/hooks/use-supabase-cv-analysis"
 import { supabaseUsageService } from "@/lib/supabase/client/usage-service"
@@ -90,7 +90,8 @@ export default function RoastMyCVPage() {
     // }
 
     // Update local usage state
-    setUsage(usageTracker.getCurrentUsage())
+    const currentUsage = await supabaseUsageService.getCurrentUsage()
+    setUsage(currentUsage)
 
     await analyzeCV(file, {
       roastTone,
