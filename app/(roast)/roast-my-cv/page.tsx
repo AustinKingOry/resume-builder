@@ -231,7 +231,7 @@ Made with ❤️ for African job seekers
         {/* Header */}
         <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 dark:bg-black/90 dark:border-gray-800">
           <div className="flex items-center justify-between gap-2">
-            <div className="flex justify-start gap-2 items-center">              
+            <div className="flex justify-start gap-2 items-center">
               <SidebarTrigger />
               <div>
                 {/* <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
@@ -245,7 +245,7 @@ Made with ❤️ for African job seekers
               </div>
             </div>
 
-            <div className="flex items-center gap-4 float-right mr-0">
+            <div className="flex items-center gap-4">
             {user ? (
                 <>
               <Badge
