@@ -25,6 +25,7 @@ import { useSupabaseCVAnalysis } from "@/hooks/use-supabase-cv-analysis"
 import { supabaseUsageService } from "@/lib/supabase/client/usage-service"
 import { useAuth } from "@/components/auth-provider"
 import Link from "next/link"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 
 type RoastTone = "light" | "heavy"
 
@@ -215,7 +216,7 @@ Made with ❤️ for African job seekers
   }
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden dark:from-emerald-950/50 dark:to-blue-950/30">
+    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden dark:from-emerald-950/50 dark:to-blue-950/30 w-full">
       {/* Subtle background pattern */}
       <div
         className="absolute inset-0 opacity-5"
@@ -224,24 +225,27 @@ Made with ❤️ for African job seekers
         // }}
       />
 
-      <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
+      {/* <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} /> */}
 
-      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10 right-0">
         {/* Header */}
         <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 dark:bg-black/90 dark:border-gray-800">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                <span>Dashboard</span>
-                <ChevronRight className="w-4 h-4" />
-                <span className="text-emerald-600 font-medium dark:text-emerald-400">CV Roaster</span>
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex justify-start gap-2 items-center">              
+              <SidebarTrigger />
+              <div>
+                {/* <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
+                  <span>Dashboard</span>
+                  <ChevronRight className="w-4 h-4" />
+                  <span className="text-emerald-600 font-medium dark:text-emerald-400">CV Roaster</span>
+                </div> */}
+                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 dark:text-gray-100">
+                  Roast My CV
+                </h1>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 dark:text-gray-100">
-                Roast My CV
-              </h1>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 float-right mr-0">
             {user ? (
                 <>
               <Badge
