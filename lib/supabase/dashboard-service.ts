@@ -113,7 +113,7 @@ export class SupabaseDashboardService {
 
     return {
       totalCVsRoasted: userStats?.total_roasts || 0,
-      averageScore: userStats?.average_score || 0,
+      averageScore: (userStats?.average_score || 0) / 10,
       processingTime: userStats?.average_processing_time || 0,
       successRate: userStats?.success_rate || 0,
       usageCount,

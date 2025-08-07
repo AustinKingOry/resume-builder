@@ -106,7 +106,7 @@ export class SupabaseAnalyticsService {
         successRateChange: "+0%"
       }
     }
-    console.log("analyticsData: ", analyticsData)
+    
     return {
       totalCVsRoasted: analyticsData.total_roasts || 0,
       // averageScore: Math.round((analyticsData.average_score || 0) * 10) / 10,
