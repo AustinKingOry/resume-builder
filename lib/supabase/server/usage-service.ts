@@ -47,7 +47,7 @@ export class SupabaseUsageService {
   async getCurrentUsage(token: string): Promise<{ count: number; limit: number; plan: string }> {
     const supabase = getSupabaseClientWithToken(token)
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser(token)
     }
 
     if (!this.currentUser) {
@@ -73,7 +73,7 @@ export class SupabaseUsageService {
   async canMakeRequest(token: string): Promise<boolean> {
     const supabase = getSupabaseClientWithToken(token)
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser(token)
     }
 
     if (!this.currentUser) {
@@ -88,7 +88,7 @@ export class SupabaseUsageService {
   async incrementUsage(token: string): Promise<boolean> {
     const supabase = getSupabaseClientWithToken(token)
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser(token)
     }
 
     if (!this.currentUser) {
@@ -103,7 +103,7 @@ export class SupabaseUsageService {
   async upgradePlan(token: string, newPlan: "hustler" | "pro", transactionId?: string): Promise<boolean> {
     const supabase = getSupabaseClientWithToken(token)
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser(token)
     }
 
     if (!this.currentUser) {
@@ -145,7 +145,7 @@ export class SupabaseUsageService {
   async getUserStats(token: string): Promise<any> {
     const supabase = getSupabaseClientWithToken(token)
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser(token)
     }
 
     if (!this.currentUser) {
