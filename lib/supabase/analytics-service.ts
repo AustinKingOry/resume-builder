@@ -106,12 +106,14 @@ export class SupabaseAnalyticsService {
         successRateChange: "+0%"
       }
     }
-
+    console.log("analyticsData: ", analyticsData)
     return {
       totalCVsRoasted: analyticsData.total_roasts || 0,
-      averageScore: Math.round((analyticsData.average_score || 0) * 10) / 10,
+      // averageScore: Math.round((analyticsData.average_score || 0) * 10) / 10,
+      averageScore: Math.round((analyticsData.average_score || 0) * 10) / 100,
       processingTime: Math.round((analyticsData.average_processing_time || 0) * 10) / 10,
-      successRate: Math.round((analyticsData.success_rate || 0) * 100),
+      // successRate: Math.round((analyticsData.success_rate || 0) * 100),
+      successRate: Math.round((analyticsData.success_rate || 0)),
       scoreChange: this.formatChange(analyticsData.score_change || 0, "%"),
       processingChange: this.formatChange(analyticsData.processing_time_change || 0, "s"),
       successRateChange: this.formatChange(analyticsData.success_rate_change || 0, "%")
@@ -150,7 +152,7 @@ export class SupabaseAnalyticsService {
       return {
         id: roast.id,
         fileName: roast.cv_upload?.file_name || "Unknown CV",
-        score: Math.round(roast.market_readiness?.overall_score || 0),
+        score: Math.round(roast.market_readiness?.score || 0),
         date: new Date(roast.created_at).toLocaleDateString(),
         feedbackCount: feedbackPoints.length,
         improvements

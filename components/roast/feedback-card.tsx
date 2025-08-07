@@ -88,7 +88,7 @@ export function FeedbackCard({ title, content, category, severity, index, showEm
               <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 mb-4 dark:bg-emerald-950 dark:border-emerald-800">
                 <div className="flex items-start gap-2">
                   <Lightbulb className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0 dark:text-emerald-400" />
-                  <p className="text-sm text-emerald-800 font-medium">
+                  <p className="text-sm text-emerald-800 font-medium dark:text-emerald-300">
                     <span className="font-semibold">Quick Fix:</span> {tip}
                   </p>
                 </div>
