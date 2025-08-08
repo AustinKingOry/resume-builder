@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -58,7 +58,49 @@ export const metadata: Metadata = {
     images: ["https://kazikit.vercel.app/default.jpg"],
     creator: "@KaziKit_",
   },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png",
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/twitter-card.jpeg",
+        color: "#ffffff",
+      },
+    ],
+  },
+  manifest: "/site.webmanifest",
+  applicationName: "KaziKit",
+  authors: [
+    {
+      name: "Crust Technologies",
+      url: "https://twitter.com/KaziKit_",
+    },
+  ],
+  creator: "Crust Technologies",
+  category: "Career Development",
 };
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+}
 
 export default function RootLayout({
   children,
@@ -67,11 +109,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#10b981" />
-      </head>
+      </head>  */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
