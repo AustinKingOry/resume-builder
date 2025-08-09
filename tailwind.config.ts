@@ -86,7 +86,9 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out',
   		},
   		fontFamily: {
+			outfit: ["var(--font-outfit)", "sans-serif"],
   			body: [
+				'Outfit',
   				'Geist',
   				'Work Sans',
   				'Inter',
@@ -106,6 +108,7 @@ export default {
   				'Noto Color Emoji'
   			],
   			sans: [
+				'Outfit',
   				'Geist',
   				'Inter',
   				'ui-sans-serif',
