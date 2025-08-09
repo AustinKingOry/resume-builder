@@ -24,14 +24,14 @@ export default function PaymentsPage() {
   const plans = {
     hustler: {
       name: "Hustler Plan",
-      price: 500,
+      price: 50,
       icon: Zap,
       color: "emerald",
       features: ["50 CV roasts per day", "Priority processing", "Kenya job insights", "Export features"],
     },
     pro: {
       name: "Professional Plan",
-      price: 1200,
+      price: 200,
       icon: Crown,
       color: "purple",
       features: ["200 CV roasts per day", "Instant processing", "Industry-specific feedback", "Custom templates"],

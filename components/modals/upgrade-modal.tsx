@@ -22,7 +22,7 @@ export function UpgradeModal({ isOpen, onClose, currentUsage, onUpgrade }: Upgra
     {
       id: "hustler" as const,
       name: "Hustler Plan",
-      price: "KSh 500",
+      price: "KSh 50",
       period: "/month",
       icon: Zap,
       color: "emerald",
@@ -40,7 +40,7 @@ export function UpgradeModal({ isOpen, onClose, currentUsage, onUpgrade }: Upgra
     {
       id: "pro" as const,
       name: "Professional Plan",
-      price: "KSh 1,200",
+      price: "KSh 200",
       period: "/month",
       icon: Crown,
       color: "purple",
