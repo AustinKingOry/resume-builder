@@ -1,3 +1,5 @@
+"use client"
+
 import { BarChart3, Calendar, Download, FileText, Flame, HelpCircle, Home, Inbox, Search, Settings, UserIcon } from "lucide-react"
 
 import {
@@ -14,6 +16,7 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { Profile } from "@/lib/types"
+import { useAuth } from "@/components/auth-provider"
 
 // Menu items.
 const items = [
@@ -48,7 +51,8 @@ interface AppSidebarProps {
   profile: Profile | null
 }
 
-export function AppSidebar({ profile }: AppSidebarProps) {
+export function AppSidebar() {
+  const { user, isLoading, profile } = useAuth();
     const navigation = [
       { name: "Home", icon: FileText, href: "/dashboard", current: false },
       { name: "CV Builder", icon: FileText, href: "/builder", current: false },
@@ -111,7 +115,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           {/* {!collapsed && ( */}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-100">{profile?.full_name || "User"}</p>
-              <p className="text-xs text-emerald-600 truncate dark:text-emerald-400">Hustler Plan 💪</p>
+              <p className="text-xs text-emerald-600 truncate dark:text-emerald-400">{profile?.plan || "Free"} Plan</p>
             </div>
           {/* )} */}
         </div>
