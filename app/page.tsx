@@ -152,14 +152,15 @@ function Hero() {
     <section id="hero" className="relative pt-24 pb-12 md:pb-20 overflow-hidden">
       {/* Background layers */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <Image
-          src="/images/africa-motif.jpg"
+        {/* <Image
+          src="/images/World-Map.svg"
+          // src="/images/africa-motif.jpg"
           alt="Subtle African geometric pattern"
           fill
           priority
           sizes="100vw"
           className="object-cover opacity-[0.08] dark:opacity-10"
-        />
+        /> */}
         <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/25 blur-3xl" />
         <div className="absolute -top-20 -right-24 h-96 w-96 rounded-full bg-sky-500/20 blur-3xl" />
       </div>
