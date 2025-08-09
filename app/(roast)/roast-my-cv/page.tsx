@@ -227,9 +227,9 @@ Made with ❤️ for African job seekers
 
       {/* <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} /> */}
 
-      <div className="flex-1 flex flex-col overflow-hidden relative z-10 right-0">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
         {/* Header */}
-        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 dark:bg-black/90 dark:border-gray-800">
+        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-3 dark:bg-black/90 dark:border-gray-800">
           <div className="flex items-center justify-between gap-2">
             <div className="flex justify-start gap-2 items-center">
               <SidebarTrigger />
@@ -263,7 +263,7 @@ Made with ❤️ for African job seekers
               </Badge>
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  {Math.max(0, usage.limit - usage.count)} roasts <span className="min-[425px]:hidden">remaining</span>
+                  {Math.max(0, usage.limit - usage.count)} roasts <span className="max-[425px]:hidden">remaining</span>
                 </p>
                 <p className="text-xs text-emerald-600 dark:text-emerald-400">Resets in {supabaseUsageService.getResetTime()}</p>
               </div>
@@ -280,7 +280,7 @@ Made with ❤️ for African job seekers
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto">
-          <div className="max-w-7xl mx-auto p-6">
+          <div className="max-w-7xl mx-auto p-3 sm:p-6">
             {!hasResults && !isAnalyzing && (
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2">
