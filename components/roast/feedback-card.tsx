@@ -53,7 +53,7 @@ export function FeedbackCard({ title, content, category, severity, index, showEm
       />
 
       <CardContent className="p-6 relative z-10">
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-4 max-[425px]:flex-col max-[425px]:items-start">
           <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 relative overflow-hidden dark:text-black">
             <span className="relative z-10">{index}</span>
             <div

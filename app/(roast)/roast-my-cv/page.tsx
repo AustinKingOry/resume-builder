@@ -411,7 +411,7 @@ Made with ❤️ for African job seekers
                         // }}
                       />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 dark;text-gray-100">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2 dark:text-gray-100">
                       {uploadProgress < 100 ? "Uploading your CV..." : "Processing your CV..."}
                     </h3>
                     <p className="text-gray-600 mb-4 dark:text-gray-400">
