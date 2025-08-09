@@ -772,7 +772,7 @@ function CTASection() {
                   <Link href="/signup">Create free account</Link>
                 </Button>
                 <Button variant="outline" className="border-emerald-500/40 hover:border-emerald-500/70" asChild>
-                  <Link href="#pricing">Try Roast My CV</Link>
+                  <Link href="/roast-my-cv">Try Roast My CV</Link>
                 </Button>
               </div>
               <p className="mt-3 text-xs text-gray-200">
