@@ -162,7 +162,7 @@ const LoginForm = () => {
                 <div className="relative">
                     <Separator />
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="bg-white px-3 text-sm text-gray-500">or</span>
+                        <span className="bg-white px-3 text-sm text-gray-500 dark:bg-gray-950">or</span>
                     </div>
                 </div>
                 <div className="space-y-3 w-full">

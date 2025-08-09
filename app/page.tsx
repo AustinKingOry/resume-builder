@@ -171,7 +171,7 @@ function Hero() {
               <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-[#1E3A8A] dark:text-blue-600">
               Craft. <br /><span className="text-primary">Stand Out.</span><br /> Grow.
               </h1>
-              <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-prose">
+              <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-prose dark:text-gray-400">
               KaziKit is your all-in-one toolkit to build a standout professional profile and thrive in your career
               journey.
               </p>
@@ -233,7 +233,7 @@ function AboutSection() {
                 A premium suite of AI career tools
               </span>
             </h3>
-            <p className="mt-4 text-muted-foreground max-w-prose">
+            <p className="mt-4 text-muted-foreground max-w-prose dark:text-gray-400">
               Kazikit gives African youth everything needed to build a credible, competitive professional brand. Create powerful resumes and cover letters, generate a studio-quality cover photo, keep your skills sharp, and get instant, honest feedback with Roast My CV.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -295,7 +295,7 @@ function ToolsSection() {
               Everything you need to succeed
               </span>
             </h3>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-muted-foreground dark:text-gray-400">
               Every tool is trained to amplify your strengths, respect your story, and elevate your professional presence.
             </p>
           </div>
@@ -311,7 +311,7 @@ function ToolsSection() {
                     <t.icon className="h-5 w-5" />
                   </div>
                   <CardTitle className="mt-2">{t.title}</CardTitle>
-                  <CardDescription>{t.desc}</CardDescription>
+                  <CardDescription className=" dark:text-gray-400">{t.desc}</CardDescription>
                 </CardHeader>
                 <CardFooter className="pt-0">
                   <Button variant="ghost" className="ml-auto" asChild>
@@ -380,7 +380,7 @@ function HowItWorks() {
                 From curiosity to confidence, in four clear steps
               </span>
             </h3>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-muted-foreground dark:text-gray-400">
               The entire flow guides you from exploration to action with clarity and encouragement.
             </p>
           </div>
@@ -472,7 +472,7 @@ function WhyChooseSection() {
                 Premium. Professional. Rooted in African excellence.
               </span>
             </h3>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-muted-foreground dark:text-gray-400">
               We blend world-class standards with cultural authenticity to help you compete anywhere.
             </p>
           </div>
@@ -488,7 +488,7 @@ function WhyChooseSection() {
                     <it.icon className="h-5 w-5" />
                   </div>
                   <CardTitle className="mt-2">{it.title}</CardTitle>
-                  <CardDescription>{it.desc}</CardDescription>
+                  <CardDescription className="dark:text-gray-400">{it.desc}</CardDescription>
                 </CardHeader>
               </Card>
             </Reveal>
@@ -505,19 +505,19 @@ function Testimonials() {
       name: "David K.",
       role: "Marketing Associate",
       quote: "As a recent graduate, I was struggling to create a professional resume. KaziKit made it simple and I received multiple interview calls.",
-      avatar: "/images/placeholder-user.jpg",
+      avatar: "/placeholder-user.jpg",
     },
     {
       name: "Lydia O.",
       role: "Data Analyst",
       quote: "The resume builder and skills tracker made my progress visible. I feel ready for global roles.",
-      avatar: "/images/placeholder-user.jpg",
+      avatar: "/placeholder-user.jpg",
     },
     {
       name: "Thandi D.",
       role: "Marketing Specialist",
       quote: "My cover photo is a life saver. Now I don't have to design from scratch everytime I need to change my LinkedIn cover photo.",
-      avatar: "/images/placeholder-user.jpg",
+      avatar: "/placeholder-user.jpg",
     },
   ] as const
 
@@ -535,7 +535,7 @@ function Testimonials() {
                 Real stories. Real momentum.
               </span>
             </h3>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-muted-foreground dark:text-gray-400">
             Hear from professionals who have transformed their career journey with KaziKit.
             </p>
             <div className="inline-flex items-center justify-center space-x-1 pt-2">
@@ -599,7 +599,7 @@ function Pricing() {
                 Roast My CV—pick your plan
               </span>
             </h3>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-muted-foreground dark:text-gray-400">
               Honest, instant feedback tailored to the African job market with global quality standards.
             </p>
           </div>
@@ -705,7 +705,7 @@ function FAQ() {
                 Questions, answered
               </span>
             </h3>
-            <p className="mt-4 text-muted-foreground">Can’t find what you’re looking for? Reach out to our team any time.</p>
+            <p className="mt-4 text-muted-foreground dark:text-gray-400">Can’t find what you’re looking for? Reach out to our team any time.</p>
           </div>
         </Reveal>
 
