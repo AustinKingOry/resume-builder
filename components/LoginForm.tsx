@@ -169,7 +169,7 @@ const LoginForm = () => {
                     <Button
                         variant="outline"
                         type="button"
-                        className="w-full h-11 border-gray-200 hover:bg-gray-50 transition-all duration-200 hover:border-gray-300"
+                        className="w-full h-11 border-gray-200 hover:bg-gray-50 transition-all duration-200 hover:border-gray-300 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-950"
                         onClick={handleGoogleSignIn}
                         disabled={isGoogleLoading}
                     >
