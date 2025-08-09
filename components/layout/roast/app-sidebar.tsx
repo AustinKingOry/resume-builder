@@ -52,7 +52,7 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar() {
-  const { user, isLoading, profile } = useAuth();
+  const { profile } = useAuth();
     const navigation = [
       { name: "Home", icon: FileText, href: "/dashboard", current: false },
       { name: "CV Builder", icon: FileText, href: "/builder", current: false },
