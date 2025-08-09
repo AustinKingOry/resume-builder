@@ -256,7 +256,7 @@ Made with ❤️ for African job seekers
                     : usage.plan === "hustler"
                       ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800"
                       : "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800"
-                }`}
+                } max-[425px]:hidden`}
               >
                 <Zap className="w-3 h-3 mr-1" />
                 {usage.plan === "free" ? "Free Plan" : usage.plan === "hustler" ? "Hustler Plan 💪" : "Pro Plan 👑"}
