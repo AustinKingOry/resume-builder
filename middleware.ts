@@ -58,7 +58,7 @@ export async function middleware(request: NextRequest) {
   if (!session && request.nextUrl.pathname.startsWith("/roast-my-cv")) {
     // Auth required, redirect to login
     const redirectUrl = request.nextUrl.clone()
-    redirectUrl.pathname = "/"
+    redirectUrl.pathname = "/login"
     return NextResponse.redirect(redirectUrl)
   }
 
