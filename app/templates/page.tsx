@@ -58,7 +58,7 @@ const Templates = () => {
 		<div className="min-h-screen flex flex-col">
 		<Navbar />
 		
-		<main className="flex-1 container mx-auto px-4 py-8">
+		<main className="flex-1 container mx-auto px-4 py-8 mt-12">
 			<div className="text-center mb-12">
 			<h1 className="text-3xl font-bold mb-4">Professional Resume Templates</h1>
 			<p className="text-xl text-muted-foreground max-w-2xl mx-auto">

@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import { ChefHat, Clock, ArrowLeft, Mail, Sparkles } from "lucide-react"
+import { Footer } from "@/components/layout/footer"
+import Navbar from "@/components/layout/navbar"
 
 export default function CookingPage() {
   const { toast } = useToast()
@@ -27,6 +29,8 @@ export default function CookingPage() {
   }
 
   return (
+    <>
+      <Navbar />
     <main className="relative overflow-x-hidden">
       {/* Vibrant background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -56,7 +60,7 @@ export default function CookingPage() {
               </h1>
               <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-prose">
                 This part of Kazikit is simmering in our kitchen. We{"'"}re perfecting the recipe—rooted in African
-                excellence, powered by AI—so you can build a career that travels.
+                excellence, so you can build a career that travels.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -91,7 +95,7 @@ export default function CookingPage() {
                 fill
                 priority
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
+                className="object-contain"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-background/0 to-transparent" />
             </div>
@@ -131,5 +135,7 @@ export default function CookingPage() {
         </div>
       </section>
     </main>
+    <Footer />
+    </>
   )
 }
