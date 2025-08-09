@@ -50,19 +50,19 @@ const Navbar: React.FC = () => {
 				<div>
 				<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+					<Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full dark:bg-gray-800">
 					<Avatar className="h-8 w-8">
 						<AvatarImage src={!isProfileLoading && profile?.avatar || "/placeholder-user.jpg"} alt="User" />
-						<AvatarFallback>{!isProfileLoading && profile?.full_name.charAt(0) || "AD"}</AvatarFallback>
+						<AvatarFallback className="dark:bg-gray-800">{!isProfileLoading && profile?.full_name.charAt(0) || "AD"}</AvatarFallback>
 					</Avatar>
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end">
 					<DropdownMenuLabel>My Account</DropdownMenuLabel>
-					<DropdownMenuSeparator />
+					<DropdownMenuSeparator className="dark:bg-gray-800" />
 					<DropdownMenuItem asChild><Link href={'/account'}>Profile</Link></DropdownMenuItem>
 					<DropdownMenuItem asChild><Link href={'/settings'}>Settings</Link></DropdownMenuItem>
-					<DropdownMenuSeparator />
+					<DropdownMenuSeparator className="dark:bg-gray-800" />
 					<DropdownMenuItem onClick={signOut}>Log out</DropdownMenuItem>
 				</DropdownMenuContent>
 				</DropdownMenu>
