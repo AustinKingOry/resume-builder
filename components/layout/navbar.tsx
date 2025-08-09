@@ -10,19 +10,21 @@ import { ThemeSwitcher } from "../theme-switcher";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useAuth } from "../auth-provider";
+import { Badge } from '../ui/badge';
 
 const Navbar: React.FC = () => {
 	const {user, signOut, isProfileLoading, profile} = useAuth();
 	const [showDropdown, setShowDropdown] = useState(false);
 	const links = [
-		{title:"Home",link:"/"},
+		// {title:"Home",link:"/"},
 		{title:"Resume Builder",link:"/builder"},
 		{title:"Templates",link:"/templates"},
 		{title:"Cover Photos",link:"/coverphotos"},
 		{title:"Roast My CV",link:"/roast-my-cv"},
+		{title:"Pricing",link:"/#pricing"},
 	]
 	return (
-		<header className="border-b">
+		<header className="fixed top-0 inset-x-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/70 border-b">
 		<div className="container mx-auto flex h-16 items-center justify-between px-4">
 			<Button type="button" size={"icon"} variant="outline" className="flex md:hidden w-7 h-7" onClick={()=>{setShowDropdown(!showDropdown)}}>
 				<MenuIcon className="w-4 h-4" />
@@ -30,15 +32,17 @@ const Navbar: React.FC = () => {
 			<Link href="/" className="flex items-center space-x-2">
 				<Image src="/logo.png?height=56&width=80" width={100} height={56} alt="KaziKit Logo" />
 				<span className="text-xl font-bold sr-only">{appData.name}</span>
+				<Badge variant="secondary" className="hidden sm:inline-flex">Beta</Badge>
 			</Link>
-			<nav className="hidden md:flex items-center space-x-6">
+			<nav className="hidden md:flex items-center gap-6 ml-auto mr-8">
 				{links.map((item, index)=>(
-				<Link key={index} href={item.link} className="text-sm font-medium transition-colors hover:text-primary">
+				<Link key={index} href={item.link} className="text-sm transition-colors hover:text-primary">
 				{item.title}
 				</Link>
 				))}
 			</nav>
 			<div className="flex items-center space-x-4">
+				<ThemeSwitcher />
 				<Link href="/builder">
 					<Button>Create Resume</Button>
 				</Link>
@@ -71,7 +75,6 @@ const Navbar: React.FC = () => {
 					</Button>
 				</Link>
 				}
-				<ThemeSwitcher />
 			</div>
 		</div>
 		<div className={`w-full ${showDropdown ? "block":"hidden"} md:hidden border-t`}>
