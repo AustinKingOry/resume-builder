@@ -105,39 +105,39 @@ export function UploadZone({
   }
 
   // When isUploading is true, show the progress card
-  if (isUploading) {
-    return (
-      <Card className="border-2 border-emerald-200 bg-emerald-50/30 dark:border-emerald-800 dark:bg-emerald-950/30">
-        <CardContent className="p-8">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 relative overflow-hidden">
-              {uploadProgress < 100 ? (
-                <Upload className="w-8 h-8 text-white animate-pulse relative z-10 dark:text-black" />
-              ) : (
-                <FileCheck className="w-8 h-8 text-white relative z-10 dark:text-black" />
-              )}
-              <div
-                className="absolute inset-0 opacity-20"
-                // style={{
-                //   backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fillOpacity='0.5'%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E")`,
-                // }}
-              />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2 dark:text-gray-100">
-              {uploadProgress < 100 ? "Uploading your CV... 📤" : "Processing your CV... 🔥"}
-            </h3>
-            <p className="text-gray-600 mb-4 dark:text-gray-400">
-              {uploadProgress < 100
-                ? "Hold tight, we're getting your file ready"
-                : "Our AI is reading your CV and preparing some real talk"}
-            </p>
-            <Progress value={uploadProgress} className="w-full max-w-xs mx-auto mb-2" />
-            <p className="text-sm text-emerald-600 font-medium dark:text-emerald-400">{uploadProgress}% complete</p>
-          </div>
-        </CardContent>
-      </Card>
-    )
-  }
+  // if (isUploading) {
+  //   return (
+  //     <Card className="border-2 border-emerald-200 bg-emerald-50/30 dark:border-emerald-800 dark:bg-emerald-950/30">
+  //       <CardContent className="p-8">
+  //         <div className="text-center">
+  //           <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 relative overflow-hidden">
+  //             {uploadProgress < 100 ? (
+  //               <Upload className="w-8 h-8 text-white animate-pulse relative z-10 dark:text-black" />
+  //             ) : (
+  //               <FileCheck className="w-8 h-8 text-white relative z-10 dark:text-black" />
+  //             )}
+  //             <div
+  //               className="absolute inset-0 opacity-20"
+  //               // style={{
+  //               //   backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fillOpacity='0.5'%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E")`,
+  //               // }}
+  //             />
+  //           </div>
+  //           <h3 className="text-lg font-semibold text-gray-900 mb-2 dark:text-gray-100">
+  //             {uploadProgress < 100 ? "Uploading your CV... 📤" : "Processing your CV... 🔥"}
+  //           </h3>
+  //           <p className="text-gray-600 mb-4 dark:text-gray-400">
+  //             {uploadProgress < 100
+  //               ? "Hold tight, we're getting your file ready"
+  //               : "Our AI is reading your CV and preparing some real talk"}
+  //           </p>
+  //           <Progress value={uploadProgress} className="w-full max-w-xs mx-auto mb-2" />
+  //           <p className="text-sm text-emerald-600 font-medium dark:text-emerald-400">{uploadProgress}% complete</p>
+  //         </div>
+  //       </CardContent>
+  //     </Card>
+  //   )
+  // }
 
   // When not uploading, show the upload zone
   return (
@@ -215,11 +215,6 @@ export function UploadZone({
               <div className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                 <CheckCircle className="w-4 h-4 text-emerald-500" />
                 <span>PDF, DOC, DOCX (max 10MB) - all formats work great!</span>
-              </div>
-
-              <div className="flex items-center justify-center gap-2 text-sm text-emerald-600 font-medium dark:text-emerald-400">
-                <span>⚡</span>
-                <span>Enhanced PDF parsing - no more compatibility issues!</span>
               </div>
 
               <div className="flex items-center justify-center gap-2 text-sm text-blue-600 dark:text-blue-400">
