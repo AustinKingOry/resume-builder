@@ -1,4 +1,4 @@
-import { BarChart3, Calendar, Download, FileText, Flame, HelpCircle, Home, Inbox, Search, Settings, User } from "lucide-react"
+import { BarChart3, Calendar, Download, FileText, Flame, HelpCircle, Home, Inbox, Search, Settings, UserIcon } from "lucide-react"
 
 import {
   Sidebar,
@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { Profile } from "@/lib/types"
 
 // Menu items.
 const items = [
@@ -43,7 +44,11 @@ const items = [
   },
 ]
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  profile: Profile | null
+}
+
+export function AppSidebar({ profile }: AppSidebarProps) {
     const navigation = [
       { name: "Home", icon: FileText, href: "/dashboard", current: false },
       { name: "CV Builder", icon: FileText, href: "/builder", current: false },
@@ -63,7 +68,7 @@ export function AppSidebar() {
             />
         </div>
         <SidebarHeader>
-            <div className="p-2 border-b border-gray-200 relative z-10 dark:border-gray-800">
+            <div className="p-2.5 border-b border-gray-200 relative z-10 dark:border-gray-800">
             <Link href="/" className="flex items-center gap-3">
             <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-blue-600 rounded-lg flex items-center justify-center relative overflow-hidden">
                 <span className="text-white font-bold text-sm relative z-10">K</span>
@@ -101,11 +106,11 @@ export function AppSidebar() {
       <SidebarFooter className="pt-4 border-t border-gray-200 relative z-10 dark:border-gray-800">
       <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-full flex items-center justify-center dark:from-emerald-900 dark:to-blue-900">
-            <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <UserIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           </div>
           {/* {!collapsed && ( */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-100">Wanjiku M.</p>
+              <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-100">{profile?.full_name || "User"}</p>
               <p className="text-xs text-emerald-600 truncate dark:text-emerald-400">Hustler Plan 💪</p>
             </div>
           {/* )} */}
