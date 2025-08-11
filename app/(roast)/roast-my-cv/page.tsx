@@ -26,6 +26,7 @@ import { supabaseUsageService } from "@/lib/supabase/client/usage-service"
 import { useAuth } from "@/components/auth-provider"
 import Link from "next/link"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { toast } from "@/hooks/use-toast"
 
 type RoastTone = "light" | "heavy"
 
@@ -175,6 +176,45 @@ Made with ❤️ for African job seekers
     a.download = `cv-roast-kazikit-${roastTone}-${Date.now()}.txt`
     a.click()
     URL.revokeObjectURL(url)
+  }
+
+  const handleExport = async ()=>{
+    if(!result) return
+    const isStreamingResult = "isComplete" in result
+    const analysisData = isStreamingResult ? result : result
+
+    try {
+      const res = await fetch("/api/download-analysis", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(analysisData),
+      });
+  
+      if (!res.ok) {
+        throw new Error(`Failed to generate document. Status: ${res.status}`);
+      }
+  
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+  
+      a.href = url;
+      a.download = `${analysisData.metadata.fileName.replace(/\.[^/.]+$/, "")}-feedback.docx`;
+      document.body.appendChild(a);
+      a.click();
+  
+      // Clean up
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading analysis document:", error);
+      toast({
+        variant: "destructive",
+        description: "Failed to download analysis document."
+      })      
+    }
   }
 
   const handleShare = async () => {
@@ -493,13 +533,21 @@ Made with ❤️ for African job seekers
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6 border-t border-gray-200 dark:border-gray-800">
-                  <Button
+                  {/* <Button
                     onClick={handleDownload}
                     className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 relative overflow-hidden dark:bg-emerald-400 dark:hover:bg-emerald-300 dark:text-black"
                     disabled={isStreamingResult ? !result.isComplete : false}
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download Feedback
+                  </Button> */}
+                  <Button
+                    onClick={handleExport}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 relative overflow-hidden dark:bg-emerald-400 dark:hover:bg-emerald-300 dark:text-black"
+                    disabled={isStreamingResult ? !result.isComplete : false}
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Feedback (docx)
                   </Button>
                   <Button
                     onClick={handleShare}
