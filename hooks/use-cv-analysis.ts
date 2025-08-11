@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react"
 
 export interface CVAnalysisResult {
+  id?: string
   overall: string
   feedback: Array<{
     title: string
