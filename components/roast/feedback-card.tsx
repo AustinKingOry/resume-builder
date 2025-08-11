@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ThumbsUp, ThumbsDown, Copy, Check, Lightbulb } from "lucide-react"
 import { useState } from "react"
+import { supabaseCVService } from "@/lib/supabase/client/cv-service"
 
 interface FeedbackCardProps {
   title: string
@@ -14,9 +15,11 @@ interface FeedbackCardProps {
   index: number
   showEmojis?: boolean
   tip?: string
+  roastResponseId?: string
+  user_id: string
 }
 
-export function FeedbackCard({ title, content, category, severity, index, showEmojis = true, tip }: FeedbackCardProps) {
+export function FeedbackCard({ title, content, category, severity, index, showEmojis = true, tip, roastResponseId, user_id }: FeedbackCardProps) {
   const [copied, setCopied] = useState(false)
   const [feedback, setFeedback] = useState<"up" | "down" | null>(null)
 
@@ -38,8 +41,19 @@ export function FeedbackCard({ title, content, category, severity, index, showEm
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const handleFeedback = (type: "up" | "down") => {
+  const handleFeedback = async (type: "up" | "down") => {
     setFeedback(feedback === type ? null : type)
+    if(!roastResponseId) return
+    try {
+      await supabaseCVService.saveFeedback(
+        user_id,
+        roastResponseId,
+        index,
+        type
+      )
+    } catch (error) {
+      console.error("Failed to send feedback:", error)
+    }
   }
 
   return (
@@ -113,7 +127,7 @@ export function FeedbackCard({ title, content, category, severity, index, showEm
                   onClick={() => handleFeedback("down")}
                 >
                   <ThumbsDown className="w-3 h-3 mr-1" />
-                  Si poa
+                  {/* Si poa */}Wantam
                 </Button>
               </div>
 
