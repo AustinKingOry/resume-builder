@@ -319,6 +319,7 @@ Made with ❤️ for African job seekers
         </header>
 
         {/* Main Content */}
+        {user ? (
         <main className="flex-1 overflow-auto">
           <div className="max-w-7xl mx-auto p-3 sm:p-6">
             {!hasResults && !isAnalyzing && (
@@ -525,6 +526,8 @@ Made with ❤️ for African job seekers
                           index={index + 1}
                           showEmojis={showEmojis}
                           tip={feedback.tip}
+                          roastResponseId={result.id}
+                          user_id= {user.id}
                         />
                       ))}
                     </div>
@@ -577,6 +580,15 @@ Made with ❤️ for African job seekers
             )}
           </div>
         </main>
+        )
+        :(
+        <main>
+          <div className="max-w-7xl mx-auto p-3 sm:p-6">
+            <h2>Please sign in to continue.</h2>
+            <Button variant="outline" asChild><Link href={'/login'}>Sign In</Link></Button>
+          </div>
+        </main>
+        )}
       </div>
 
       {/* Upgrade Modal */}
