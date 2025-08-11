@@ -242,7 +242,7 @@ Made with ❤️ for African job seekers
   const isStreamingResult = result && "isComplete" in result
   const hasResults = result && (isStreamingResult ? result.overall : true)
 
-  if (authLoading) {
+  if (authLoading && !user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 flex items-center justify-center dark:from-emerald-950/50 dark:to-blue-950/30">
         <div className="text-center">

@@ -1,16 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Sidebar } from "@/components/layout/sidebar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { supabaseDashboardService, type DashboardStats, type RecentActivity, type CareerInsight } from "@/lib/supabase/dashboard-service"
-import { BarChart3, FileText, Flame, TrendingUp, Clock, Target, Zap, Crown, ChevronRight, Calendar, Award, Users, Loader2 } from 'lucide-react'
+import { BarChart3, FileText, Flame, TrendingUp, Clock, Target, Zap, Crown, Calendar, Award, Users, Loader2 } from 'lucide-react'
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export default function DashboardPage() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([])
   const [careerInsights, setCareerInsights] = useState<CareerInsight[]>([])

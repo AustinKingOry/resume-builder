@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Sidebar } from "@/components/layout/sidebar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -13,11 +12,10 @@ import {
   type CategoryBreakdown,
   type UserBenchmark
 } from "@/lib/supabase/analytics-service"
-import { BarChart3, TrendingUp, Calendar, Target, ChevronRight, Download, Clock, Award, Users, FileText, Loader2 } from 'lucide-react'
+import { BarChart3, TrendingUp, Calendar, Target, Download, Clock, Award, Users, FileText, Loader2 } from 'lucide-react'
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export default function AnalyticsPage() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [timeRange, setTimeRange] = useState("7d")
   const [stats, setStats] = useState<AnalyticsStats | null>(null)
   const [recentRoasts, setRecentRoasts] = useState<RecentRoast[]>([])
