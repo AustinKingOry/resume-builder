@@ -120,7 +120,11 @@ export function useSupabaseCVAnalysis() {
         }
 
         setUploadProgress(100)
-        setResult({...responseData.data, isComplete: true})
+        setResult({...responseData.data, isComplete: true, usage: {
+          promptTokens: responseData.data.usage.inputTokens,
+          completionTokens: responseData.data.usage.outputTokens ,
+          totalTokens: responseData.data.usage.totalTokens
+        }})
       } catch (err) {
         const error = err as Error
         setError({
@@ -174,8 +178,8 @@ export function useSupabaseCVAnalysis() {
         usage: roastData.ai_tokens_used
           ? {
               totalTokens: roastData.ai_tokens_used,
-              promptTokens: 0,
-              completionTokens: roastData.ai_tokens_used,
+              promptTokens: roastData.io_tokens[0],
+              completionTokens: roastData.io_tokens[1],
             }
           : undefined,
         finishReason: roastData.finish_reason || undefined,
