@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ThumbsUp, ThumbsDown, Copy, Check, Lightbulb } from "lucide-react"
 import { useState } from "react"
 import { supabaseCVService } from "@/lib/supabase/client/cv-service"
+import { toast } from "@/hooks/use-toast"
 
 interface FeedbackCardProps {
   title: string
@@ -51,8 +52,16 @@ export function FeedbackCard({ title, content, category, severity, index, showEm
         index,
         type
       )
+      toast({
+        variant: "default",
+        description: `Thank you for your feedback!`
+      })
     } catch (error) {
       console.error("Failed to send feedback:", error)
+      toast({
+        variant: "destructive",
+        description: "Failed to send feedback."
+      })
     }
   }
 

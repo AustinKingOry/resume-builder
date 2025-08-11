@@ -17,6 +17,7 @@ import {
 import Link from "next/link"
 import { Profile } from "@/lib/types"
 import { useAuth } from "@/components/auth-provider"
+import Image from "next/image"
 
 // Menu items.
 const items = [
@@ -74,7 +75,7 @@ export function AppSidebar() {
         <SidebarHeader>
             <div className="p-2.5 border-b border-gray-200 relative z-10 dark:border-gray-800">
             <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-blue-600 rounded-lg flex items-center justify-center relative overflow-hidden">
+            {/* <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-blue-600 rounded-lg flex items-center justify-center relative overflow-hidden">
                 <span className="text-white font-bold text-sm relative z-10">K</span>
                 <div
                 className="absolute inset-0 opacity-20"
@@ -82,8 +83,9 @@ export function AppSidebar() {
                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fillOpacity='0.3'%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3C/g%3E%3C/svg%3E")`,
                 }}
                 />
-            </div>
-            <span className="font-bold text-xl text-gray-900 dark:text-gray-100">Kazikit</span>
+            </div> */}
+            <Image src="/logo.png?height=52&width=80" width={100} height={52} alt="KaziKit Logo" className="bg-white rounded-full" />
+            <span className="font-bold text-xl text-gray-900 dark:text-gray-100 hidden">Kazikit</span>
             </Link>
         </div>
         </SidebarHeader>
