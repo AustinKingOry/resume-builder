@@ -125,6 +125,7 @@ export async function POST(request: NextRequest) {
       aiTokensUsed: result.usage?.totalTokens,
       aiModel: "gemini-2.5-flash",
       finishReason: result.finishReason,
+      io_tokens: [result.usage?.inputTokens || 0, result.usage?.outputTokens || 0]
     })
 
     if (!roastResponse) {
@@ -148,6 +149,7 @@ export async function POST(request: NextRequest) {
         finishReason: result.finishReason,
         createdAt: roastResponse.created_at,
         isComplete: true,
+        io_tokens: [result.usage?.inputTokens || 0, result.usage?.outputTokens || 0]
       },
     })
   } catch (error) {

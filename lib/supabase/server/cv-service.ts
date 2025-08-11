@@ -71,6 +71,7 @@ export class SupabaseCVService {
       aiTokensUsed?: number
       aiModel?: string
       finishReason?: string
+      io_tokens?: [number, number]
     },
   ): Promise<RoastResponse | null> {
     const supabase = getSupabaseClientWithToken(token)
@@ -91,6 +92,7 @@ export class SupabaseCVService {
         ai_tokens_used: roastData.aiTokensUsed,
         ai_model: roastData.aiModel || "gemini-2.5-flash",
         finish_reason: roastData.finishReason,
+        io_tokens: roastData.io_tokens,
       })
       .select()
       .single()

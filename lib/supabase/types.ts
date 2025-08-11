@@ -121,6 +121,7 @@ export interface Database {
             ai_model: string
             finish_reason: string | null
             created_at: string
+            io_tokens: number[]
           }
           Insert: {
             id?: string
@@ -139,6 +140,7 @@ export interface Database {
             ai_model?: string
             finish_reason?: string | null
             created_at?: string
+            io_tokens: number[]
           }
           Update: {
             id?: string
@@ -157,6 +159,7 @@ export interface Database {
             ai_model?: string
             finish_reason?: string | null
             created_at?: string
+            io_tokens: number[]
           }
         }
         user_feedback: {
