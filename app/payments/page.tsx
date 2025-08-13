@@ -24,7 +24,6 @@ export default function PaymentsPage() {
   const searchParams = useSearchParams()
   const [selectedPlan, setSelectedPlan] = useState(searchParams.get("plan") || "hustler")
   const [paymentMethod, setPaymentMethod] = useState("mpesa")
-  const [phoneNumber, setPhoneNumber] = useState("")
   const [isProcessing, setIsProcessing] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
   const [showMpesaDialog, setShowMpesaDialog] = useState<boolean>(false);
@@ -182,11 +181,11 @@ export default function PaymentsPage() {
 
           // finally submit form
           // onSubmit(formData as PaymentInfo)
-        setPaymentSuccess(true)
-        setIsProcessing(false)
-          setTimeout(() => {
-            router.push(`/payments/success?plan=${selectedPlan}`)
-          }, 2000)
+        // setPaymentSuccess(true)
+        // setIsProcessing(false)
+        //   setTimeout(() => {
+        //     router.push(`/payments/success?plan=${selectedPlan}`)
+        //   }, 2000)
           return;
         } catch (error) {
           console.error("M-Pesa payment error:", error)
@@ -199,6 +198,7 @@ export default function PaymentsPage() {
         }
         
       } else {
+        router.push(`/payments/success?plan=${selectedPlan}`)
         // hide mpesa dialog
         setTimeout(() => {
           setShowMpesaDialog(false);
@@ -344,6 +344,7 @@ export default function PaymentsPage() {
                       placeholder="0712345678"
                       value={formData.mpesaNumber}
                       onChange={handleChange}
+                      name="mpesaNumber"
                       className={`mt-1 ${errors.mpesaNumber ? "border-red-500" : ""}`}
                     />
                     <p className="text-xs text-gray-600 mt-1 dark:text-gray-400">You'll receive a payment prompt on your phone</p>
@@ -421,7 +422,7 @@ export default function PaymentsPage() {
 
                 <Button
                   onClick={handlePayment}
-                  disabled={isProcessing || (paymentMethod !== "card" && !phoneNumber)}
+                  disabled={isProcessing || (paymentMethod !== "card" && !formData.mpesaNumber)}
                   className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 dark:bg-emerald-400 dark:hover:bg-emerald-300"
                 >
                   {isProcessing ? (
@@ -476,7 +477,7 @@ export default function PaymentsPage() {
         onClose={handleMpesaClose}
         onSuccess={handleMpesaSuccess}
         checkoutRequestId={mpesaCheckoutRequestId}
-        phoneNumber={phoneNumber}
+        phoneNumber={formData.mpesaNumber!}
         amount={currentPlan.price + Math.round(currentPlan.price * 0.16)}
       />}
     </div>
