@@ -185,3 +185,47 @@ export interface AIGenerationRequest {
     personalInfo?: Partial<PersonalInfo>
   }
 }
+
+export interface MpesaCallbackResponse {
+  status: "checking" | "pending" | "completed" | "failed" | "cancelled"
+  amount: number
+  mpesaReceiptNumber: string
+  phoneNumber: string
+  checkoutRequestId: string
+  resultCode: string
+  resultDesc: string
+  transactionDate: Date
+}
+  
+export interface SavedPaymentMethod {
+  id: string
+  isDefault: boolean
+  type: PaymentMethod
+  lastFour?: string
+  expiryDate?: string
+  cardBrand?: string
+  cardNumber?: string
+  cardName?: string
+  cvv?: string
+}
+export interface PaymentInfo {
+  paymentMethod: PaymentMethod
+  cardNumber?: string
+  cardName?: string
+  expiryDate?: string
+  cvv?: string
+  savePaymentInfo?: boolean
+  mpesaNumber?: string
+  paymentConfirmed?: boolean
+}
+
+export type PaymentMethod = "credit-card" | "mpesa" | "airtel" | "paypal"  
+
+export interface FormErrors {
+  [key: string]: string
+}
+export interface PaymentFormProps {
+  initialData: Partial<PaymentInfo>
+  onSubmit: (data: PaymentInfo) => void
+  onBack: () => void
+}
