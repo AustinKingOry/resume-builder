@@ -188,24 +188,24 @@ export function MpesaPaymentDialog({
       <DialogContent className="sm:max-w-md" onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Smartphone className="w-5 h-5 text-green-600" />
+            <Smartphone className="w-5 h-5 text-green-600 dark:text-green-400" />
             M-Pesa Payment
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Payment Details */}
-          <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+          <div className="bg-gray-50 rounded-lg p-4 space-y-2 dark:bg-gray-950">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Amount:</span>
+              <span className="text-gray-600 dark:text-gray-400">Amount:</span>
               <span className="font-medium">KES {amount.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Phone:</span>
+              <span className="text-gray-600 dark:text-gray-400">Phone:</span>
               <span className="font-medium">{formatPhoneNumber(phoneNumber)}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Time:</span>
+              <span className="text-gray-600 dark:text-gray-400">Time:</span>
               <span className="font-medium">{formatTime(timeElapsed)}</span>
             </div>
           </div>
@@ -215,11 +215,11 @@ export function MpesaPaymentDialog({
             {status === "checking" && (
               <>
                 <div className="flex justify-center">
-                  <Loader2 className="w-12 h-12 text-green-600 animate-spin" />
+                  <Loader2 className="w-12 h-12 text-green-600 animate-spin dark:text-green-400" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900">Initiating Payment...</h3>
-                  <p className="text-sm text-gray-600 mt-1">Please wait while we process your request</p>
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100">Initiating Payment...</h3>
+                  <p className="text-sm text-gray-600 mt-1 dark:text-gray-400">Please wait while we process your request</p>
                 </div>
               </>
             )}
@@ -228,13 +228,13 @@ export function MpesaPaymentDialog({
               <>
                 <div className="flex justify-center">
                   <div className="relative">
-                    <Smartphone className="w-12 h-12 text-green-600" />
-                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-600 rounded-full animate-pulse" />
+                    <Smartphone className="w-12 h-12 text-green-600 dark:text-green-400" />
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-600 rounded-full animate-pulse dark:bg-green-400" />
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900">Check Your Phone</h3>
-                  <p className="text-sm text-gray-600 mt-1">Enter your M-Pesa PIN to complete the payment</p>
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100">Check Your Phone</h3>
+                  <p className="text-sm text-gray-600 mt-1 dark:text-gray-400">Enter your M-Pesa PIN to complete the payment</p>
                 </div>
                 <Alert>
                   <Clock className="h-4 w-4" />
@@ -249,15 +249,15 @@ export function MpesaPaymentDialog({
             {status === "completed" && (
               <>
                 <div className="flex justify-center">
-                  <CheckCircle className="w-12 h-12 text-green-600" />
+                  <CheckCircle className="w-12 h-12 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-green-900">Payment Successful!</h3>
-                  <p className="text-sm text-gray-600 mt-1">Receipt: {receiptNumber}</p>
+                  <h3 className="font-medium text-green-900 dark:text-green-100">Payment Successful!</h3>
+                  <p className="text-sm text-gray-600 mt-1 dark:text-gray-400">Receipt: {receiptNumber}</p>
                 </div>
-                <Alert className="border-green-200 bg-green-50">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  <AlertDescription className="text-green-800">
+                <Alert className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950">
+                  <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  <AlertDescription className="text-green-800 dark:text-green-200">
                     Your payment has been processed successfully. You will receive an SMS confirmation shortly.
                   </AlertDescription>
                 </Alert>
@@ -267,15 +267,15 @@ export function MpesaPaymentDialog({
             {(status === "failed" || status === "cancelled") && (
               <>
                 <div className="flex justify-center">
-                  <XCircle className="w-12 h-12 text-red-600" />
+                  <XCircle className="w-12 h-12 text-red-600 dark:text-red-400" />
                 </div>
                 <div>
-                  <h3 className="font-medium text-red-900">Payment Failed</h3>
-                  <p className="text-sm text-gray-600 mt-1">{error || "The payment could not be completed"}</p>
+                  <h3 className="font-medium text-red-900 dark:text-red-100">Payment Failed</h3>
+                  <p className="text-sm text-gray-600 mt-1 dark:text-gray-400">{error || "The payment could not be completed"}</p>
                 </div>
-                <Alert className="border-red-200 bg-red-50">
-                  <XCircle className="h-4 w-4 text-red-600" />
-                  <AlertDescription className="text-red-800">
+                <Alert className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950">
+                  <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                  <AlertDescription className="text-red-800 dark:text-red-200">
                     {error || "Payment was not completed. Please try again."}
                   </AlertDescription>
                 </Alert>
@@ -286,7 +286,7 @@ export function MpesaPaymentDialog({
           {/* Action Buttons */}
           <div className="flex gap-3">
             {status === "completed" ? (
-              <Button className="w-full bg-green-600 hover:bg-green-700" disabled>
+              <Button className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-400 dark:hover:bg-green-300" disabled>
                 <CheckCircle className="w-4 h-4 mr-2" />
                 Payment Completed
               </Button>
