@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getMpesaTransactionByOrderId, getMpesaTransactions, recordMpesaSTKPush } from "@/lib/payments/mpesa"
 import type { MpesaSTKPushRequest, MpesaTransaction } from "@/lib/payments/mpesa"
+import { createServerClient } from "@/lib/supabase-server"
 // import { createPaymentTransaction } from "@/lib/payments/payments"
 
 interface ExtendedMpesaTransaction extends MpesaTransaction {
@@ -24,6 +25,16 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       )
     }
+    const supabaseAuth = await createServerClient();
+    const {data: {user}, } = await supabaseAuth.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: "Please sign in to analyze your CV" }, { status: 401 })
+    }
+
+    const token = (await supabaseAuth.auth.getSession()).data.session?.access_token
+    if (!token) {
+      return NextResponse.json({ error: "Invalid session" }, { status: 401 })
+    }
 
     // Validate amount
     if (body.amount < 1) {
@@ -42,7 +53,7 @@ export async function POST(request: NextRequest) {
     }
 
 
-    const result = await recordMpesaSTKPush(updatedBody)
+    const result = await recordMpesaSTKPush(token, updatedBody)
 
     // const payment_body: ExtendedMpesaTransaction = {
     //   ...result,
@@ -85,13 +96,23 @@ export async function GET(request: NextRequest) {
       limit: searchParams.get("limit") ? Number.parseInt(searchParams.get("limit")!) : undefined,
       offset: searchParams.get("offset") ? Number.parseInt(searchParams.get("offset")!) : undefined,
     }
+    const supabaseAuth = await createServerClient();
+    const {data: {user}, } = await supabaseAuth.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: "Please sign in to analyze your CV" }, { status: 401 })
+    }
+
+    const token = (await supabaseAuth.auth.getSession()).data.session?.access_token
+    if (!token) {
+      return NextResponse.json({ error: "Invalid session" }, { status: 401 })
+    }
 
     const orderId = searchParams.get("orderId") ? searchParams.get("orderId") : undefined
     let result;
     if(orderId){
-      result = await getMpesaTransactionByOrderId(orderId)
+      result = await getMpesaTransactionByOrderId(token, orderId)
     } else {
-      result = await getMpesaTransactions(filters)
+      result = await getMpesaTransactions(token, filters)
 
     }
     return NextResponse.json(result)

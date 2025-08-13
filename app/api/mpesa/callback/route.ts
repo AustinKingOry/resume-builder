@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { updateMpesaCallback } from "@/lib/services/mpesa";
-import { syncMpesaTransactionStatus } from "@/lib/services/payments";
-import { getTransactionStatus } from "@/lib/utils/mpesaStatus";
+import { updateMpesaCallback } from "@/lib/payments/mpesa";
+import { createServerClient } from "@/lib/supabase-server";
+// import { syncMpesaTransactionStatus } from "@/lib/services/payments";
+import { getTransactionStatus } from "@/lib/payments/mpesaStatus";
 import { NextRequest, NextResponse } from "next/server";
  
 export async function POST(request: NextRequest) {
@@ -25,6 +26,17 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'IP not whitelisted' }, { status: 403 });
     }
     const data = await request.json();
+
+    const supabaseAuth = await createServerClient();
+    const {data: {user}, } = await supabaseAuth.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: "Please sign in to analyze your CV" }, { status: 401 })
+    }
+
+    const token = (await supabaseAuth.auth.getSession()).data.session?.access_token
+    if (!token) {
+      return NextResponse.json({ error: "Invalid session" }, { status: 401 })
+    }
     
     if (!data.Body.stkCallback.CallbackMetadata) {
         //for failed transactions
@@ -72,8 +84,8 @@ export async function POST(request: NextRequest) {
             resultDesc: resultDesc
         }
         console.log(updates)
-        const result = await updateMpesaCallback(checkoutRequestId, updates)
-        await syncMpesaTransactionStatus(checkoutRequestId, result)
+        const result = await updateMpesaCallback(token, checkoutRequestId, updates)
+        // await syncMpesaTransactionStatus(checkoutRequestId, result)
         
         return NextResponse.json("ok", { status: 200 });
     } catch (error: any) {
