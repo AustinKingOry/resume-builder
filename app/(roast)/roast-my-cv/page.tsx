@@ -47,8 +47,8 @@ export default function RoastMyCVPage() {
   const streamingAnalysis = useStreamingCVAnalysis()
   const supabaseAnalysis = useSupabaseCVAnalysis()
 
-  // const analysis = useStreaming ? streamingAnalysis : regularAnalysis
-  const analysis = !useStreaming ? supabaseAnalysis : regularAnalysis
+  const analysis = !useStreaming ? streamingAnalysis : regularAnalysis
+  // const analysis = !useStreaming ? supabaseAnalysis : regularAnalysis
   const { analyzeCV, isAnalyzing, result, error, uploadProgress, reset } = analysis
 
   useEffect(() => {
@@ -201,7 +201,7 @@ Made with ❤️ for African job seekers
       const a = document.createElement("a");
   
       a.href = url;
-      a.download = `${analysisData.metadata.fileName.replace(/\.[^/.]+$/, "")}-feedback.docx`;
+      a.download = `${analysisData.metadata ? analysisData.metadata.fileName.replace(/\.[^/.]+$/, "") : "resume"}-feedback.docx`;
       document.body.appendChild(a);
       a.click();
   
@@ -492,6 +492,7 @@ Made with ❤️ for African job seekers
                             </Badge>
                           )}
                         </h2>
+                        {result.metadata &&
                         <div className="flex items-center gap-4 text-sm text-gray-600 flex-wrap dark:text-gray-400">
                           <span>File: {result.metadata.fileName}</span>
                           <span>•</span>
@@ -505,16 +506,18 @@ Made with ❤️ for African job seekers
                             </>
                           )}
                         </div>
+                        }
                       </div>
                     </div>
-
+                    {(result.marketReadiness && result.kenyanJobMarketTips) && 
                     <MarketReadinessScore
                       score={result.marketReadiness.score}
                       strengths={result.marketReadiness.strengths}
                       priorities={result.marketReadiness.priorities}
                       kenyanJobMarketTips={result.kenyanJobMarketTips}
-                    />
+                    /> }
 
+                    {(result.feedback) && 
                     <div className="space-y-4">
                       {result.feedback.map((feedback, index) => (
                         <FeedbackCard
@@ -526,11 +529,12 @@ Made with ❤️ for African job seekers
                           index={index + 1}
                           showEmojis={showEmojis}
                           tip={feedback.tip}
-                          roastResponseId={result.id}
+                          roastResponseId={result.id || ""}
                           user_id= {user.id}
                         />
                       ))}
                     </div>
+                    }
                   </div>
                 )}
 
