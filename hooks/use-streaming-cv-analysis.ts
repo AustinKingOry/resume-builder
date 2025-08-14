@@ -4,6 +4,7 @@ import { useState, useCallback } from "react"
 import type { CVAnalysis } from "@/lib/ai-config"
 
 export interface StreamingCVAnalysisResult {
+  id?: string
   overall?: string
   feedback?: Array<{
     title: string
@@ -19,6 +20,7 @@ export interface StreamingCVAnalysisResult {
     priorities: string[]
   }
   kenyanJobMarketTips?: string[]
+  processingTime: number
   metadata?: {
     fileName: string
     fileSize: number
@@ -42,7 +44,7 @@ export interface UserContext {
 
 export function useStreamingCVAnalysis() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [result, setResult] = useState<StreamingCVAnalysisResult>({ isComplete: false })
+  const [result, setResult] = useState<StreamingCVAnalysisResult>({ isComplete: false, processingTime: 0 })
   const [error, setError] = useState<string | null>(null)
   const [uploadProgress, setUploadProgress] = useState(0)
 
@@ -58,7 +60,7 @@ export function useStreamingCVAnalysis() {
     ) => {
       setIsAnalyzing(true)
       setError(null)
-      setResult({ isComplete: false })
+      setResult({ isComplete: false, processingTime: 0 })
       setUploadProgress(0)
 
       try {
@@ -117,39 +119,76 @@ export function useStreamingCVAnalysis() {
         let buffer = ""
         let finalUsage: any = null
 
+        // while (true) {
+        //   const { done, value } = await reader.read()
+
+        //   if (done) break
+
+        //   buffer += decoder.decode(value, { stream: true })
+
+        //   // Process complete JSON objects from the buffer
+        //   const lines = buffer.split("\n")
+        //   buffer = lines.pop() || "" // Keep incomplete line in buffer
+
+        //   for (const line of lines) {
+        //     if (line.trim()) {
+        //       try {
+        //         const chunk = JSON.parse(line)
+
+        //         if (chunk.type === "object") {
+        //           const partialResult = chunk.object as Partial<CVAnalysis>
+        //           setResult((prev) => ({
+        //             ...prev,
+        //             ...partialResult,
+        //             metadata,
+        //             isComplete: false,
+        //             processingTime: 0,
+        //           }))
+        //         } else if (chunk.type === "finish") {
+        //           finalUsage = chunk.usage
+        //         } else if (chunk.type === "error") {
+        //           throw new Error(chunk.error)
+        //         }
+        //       } catch (parseError) {
+        //         // Handle partial JSON chunks - continue reading
+        //         console.warn("Failed to parse chunk:", parseError)
+        //       }
+        //     }
+        //   }
+        // }
         while (true) {
           const { done, value } = await reader.read()
-
           if (done) break
-
+        
           buffer += decoder.decode(value, { stream: true })
-
-          // Process complete JSON objects from the buffer
-          const lines = buffer.split("\n")
-          buffer = lines.pop() || "" // Keep incomplete line in buffer
-
-          for (const line of lines) {
-            if (line.trim()) {
-              try {
-                const chunk = JSON.parse(line)
-
-                if (chunk.type === "object") {
-                  const partialResult = chunk.object as Partial<CVAnalysis>
-                  setResult((prev) => ({
-                    ...prev,
-                    ...partialResult,
-                    metadata,
-                    isComplete: false,
-                  }))
-                } else if (chunk.type === "finish") {
-                  finalUsage = chunk.usage
-                } else if (chunk.type === "error") {
-                  throw new Error(chunk.error)
-                }
-              } catch (parseError) {
-                // Handle partial JSON chunks - continue reading
-                console.warn("Failed to parse chunk:", parseError)
+        
+          // Keep reading full JSON lines
+          let newlineIndex
+          while ((newlineIndex = buffer.indexOf("\n")) >= 0) {
+            const line = buffer.slice(0, newlineIndex).trim()
+            buffer = buffer.slice(newlineIndex + 1) // remove parsed line
+        
+            if (!line) continue // skip empty lines
+        
+            try {
+              const chunk = JSON.parse(line)
+        
+              if (chunk.type === "object") {
+                const partialResult = chunk.object as Partial<CVAnalysis>
+                setResult(prev => ({
+                  ...prev,
+                  ...partialResult,
+                  metadata,
+                  isComplete: false,
+                  processingTime: 0,
+                }))
+              } else if (chunk.type === "finish") {
+                finalUsage = chunk.usage
+              } else if (chunk.type === "error") {
+                throw new Error(chunk.error)
               }
+            } catch (parseError) {
+              console.warn("Failed to parse chunk:", parseError, "Line:", line)
             }
           }
         }
@@ -171,7 +210,7 @@ export function useStreamingCVAnalysis() {
   )
 
   const reset = useCallback(() => {
-    setResult({ isComplete: false })
+    setResult({ isComplete: false, processingTime: 0 })
     setError(null)
     setIsAnalyzing(false)
     setUploadProgress(0)
