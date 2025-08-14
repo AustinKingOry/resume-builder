@@ -190,7 +190,8 @@ export function StreamingAnalysisDisplay({ result, showEmojis, roastTone }: Stre
               index={index + 1}
               showEmojis={showEmojis}
               tip={feedbackItem.tip}
-            />
+              user_id={""}
+              />
           )) ||
             // Show skeleton cards while loading
             Array.from({ length: 4 }).map((_, index) => (
