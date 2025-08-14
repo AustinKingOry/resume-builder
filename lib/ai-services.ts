@@ -46,7 +46,7 @@ export async function streamCVAnalysis(request: CVAnalysisRequest) {
     prompt: userPrompt,
     schema: CVAnalysisSchema,
     temperature: roastTone === "heavy" ? 0.8 : 0.6,
-    maxOutputTokens: 2048,
+    // maxOutputTokens: 2048,
   })
 
   return result
