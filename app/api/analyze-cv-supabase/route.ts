@@ -9,7 +9,10 @@ import { createServerClient } from "@/lib/supabase-server"
 export async function POST(request: NextRequest) {
   try {
     // Get current user from server-side auth
+    console.time("getting-client")
     const supabaseAuth = await createServerClient();
+
+    console.timeEnd("getting-client")
     
     const formData = await request.formData()
     const file = formData.get("file") as File
@@ -27,6 +30,8 @@ export async function POST(request: NextRequest) {
     }
 
 
+
+    console.time("get-user")
     const {data: {user}, } = await supabaseAuth.auth.getUser()
     if (!user) {
       return NextResponse.json({ error: "Please sign in to analyze your CV" }, { status: 401 })
@@ -37,10 +42,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid session" }, { status: 401 })
     }
 
+    console.timeEnd("get-user")
+
+
+    console.time("can-make-request")
     // Check usage limits
-    const canMakeRequest = await supabaseUsageService.canMakeRequest(token)
-    // const canMakeRequest = true;
-    console.log("data: ", canMakeRequest)
+    const canMakeRequest = await supabaseUsageService.canMakeRequest(token);
+
+    console.timeEnd("can-make-request")
+    // console.log("data: ", canMakeRequest)
     if (!canMakeRequest) {
       return NextResponse.json(
         { error: "Daily limit reached. Please upgrade your plan to continue.", code: "USAGE_LIMIT_EXCEEDED" },
@@ -72,9 +82,15 @@ export async function POST(request: NextRequest) {
 
     // Parse the CV
     const startTime = Date.now()
-    const parsedCV = await parseCV(file)
+    
+    console.time("cv-parsing")
+    const parsedCV = await parseCV(file)    
+
+    console.timeEnd("cv-parsing")
 
     // Save CV upload to database
+
+    console.time("save-cv")
     const cvUpload = await supabaseCVService.saveCVUpload(
       token,
       user.id,
@@ -85,6 +101,8 @@ export async function POST(request: NextRequest) {
       parsedCV.text,
       parsedCV.metadata.pageCount,
     )
+
+    console.timeEnd("save-cv")
 
     if (!cvUpload) {
       return NextResponse.json({ error: "Failed to save CV upload" }, { status: 500 })
@@ -101,6 +119,8 @@ export async function POST(request: NextRequest) {
         : undefined
 
     // Analyze with AI SDK v5
+
+    console.time("analyze-cv")
     const result = await analyzeCVWithAI({
       cvText: parsedCV.text,
       roastTone,
@@ -109,9 +129,13 @@ export async function POST(request: NextRequest) {
       userContext,
     })
 
+    console.timeEnd("analyze-cv")
+
     const processingTime = (Date.now() - startTime) / 1000
 
     
+
+    console.time("save-roast-response")
     const roastResponse = await supabaseCVService.saveRoastResponse(token, user.id, cvUpload.id, {
       roastTone,
       focusAreas,
@@ -128,12 +152,17 @@ export async function POST(request: NextRequest) {
       io_tokens: [result.usage?.inputTokens || 0, result.usage?.outputTokens || 0]
     })
 
+    console.timeEnd("save-roast-response")
+
     if (!roastResponse) {
       return NextResponse.json({ error: "Failed to save roast response" }, { status: 500 })
     }
 
     // Increment usage count
+    console.time("increment")
     await supabaseUsageService.incrementUsage(token)
+
+    console.timeEnd("increment")
 
     return NextResponse.json({
       success: true,
