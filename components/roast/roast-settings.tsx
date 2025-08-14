@@ -42,7 +42,7 @@ export function RoastSettings({
   }
 
   return (
-    <Card className="border-emerald-100 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden dark:border-emerald-900 dark:from-emerald-950/50 dark:to-blue-950/30">
+    <Card className="border-emerald-100 bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden dark:border-emerald-900 dark:from-emerald-950/50 dark:to-blue-950/30 max-w-[calc(100vw-(0px))]">
       {/* Subtle pattern */}
       <div
         className="absolute top-0 right-0 w-20 h-20 opacity-10"
@@ -61,10 +61,10 @@ export function RoastSettings({
         {/* Roast Tone */}
         <div>
           <Label className="text-sm font-medium text-gray-900 mb-3 block dark:text-gray-100">Roast Intensity 🌶️</Label>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full max-[425px]:flex-wrap">
             <Button
               variant={roastTone === "light" ? "default" : "outline"}
-              className={`flex-1 ${
+              className={`flex-1 max-sm:text-xs ${
                 roastTone === "light"
                   ? "bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-400 dark:hover:bg-blue-300 dark:text-black"
                   : "border-blue-200 text-blue-600 hover:bg-blue-50 dark:border-blue-800 dark:text-blue-400 dark:hover:bg-blue-950"
@@ -76,7 +76,7 @@ export function RoastSettings({
             </Button>
             <Button
               variant={roastTone === "heavy" ? "default" : "outline"}
-              className={`flex-1 ${
+              className={`flex-1 max-sm:text-xs ${
                 roastTone === "heavy"
                   ? "bg-red-600 hover:bg-red-700 text-white dark:bg-red-400 dark:hover:bg-red-300 dark:text-black"
                   : "border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"

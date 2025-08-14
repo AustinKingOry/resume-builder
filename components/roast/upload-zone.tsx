@@ -149,7 +149,7 @@ export function UploadZone({
         </Alert>
       )}
 
-      <Card className="border-2 border-dashed border-gray-300 hover:border-emerald-400 transition-all duration-200 relative overflow-hidden dark:border-gray-700 dark:hover:border-emerald-600">
+      <Card className="border-2 border-dashed border-gray-300 hover:border-emerald-400 transition-all duration-200 relative overflow-hidden dark:border-gray-700 dark:hover:border-emerald-600 max-[425px]:max-w-[calc(100vw-(24px))]">
         {/* Subtle pattern background */}
         <div
           className="absolute inset-0 opacity-5"
@@ -158,7 +158,7 @@ export function UploadZone({
           }}
         />
 
-        <CardContent className="p-8 relative z-10">
+        <CardContent className="sm:p-8 p-3 relative z-10">
           {/* The entire drag-and-drop area is now the label for the hidden input */}
           <label
             htmlFor="file-upload"
