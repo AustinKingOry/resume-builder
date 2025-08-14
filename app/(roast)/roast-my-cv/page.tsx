@@ -27,6 +27,8 @@ import { useAuth } from "@/components/auth-provider"
 import Link from "next/link"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "@/hooks/use-toast"
+import { useStreamingCV } from "@/hooks/stream-cv-analysis"
+// import { useStreamingCV } from "@/hooks/stream-cv-analysis"
 
 type RoastTone = "light" | "heavy"
 
@@ -44,7 +46,7 @@ export default function RoastMyCVPage() {
 
   // Use either streaming or regular analysis based on user preference
   const regularAnalysis = useCVAnalysis()
-  const streamingAnalysis = useStreamingCVAnalysis()
+  const streamingAnalysis = useStreamingCV()
   const supabaseAnalysis = useSupabaseCVAnalysis()
 
   const analysis = !useStreaming ? streamingAnalysis : regularAnalysis
@@ -517,7 +519,7 @@ Made with ❤️ for African job seekers
                       kenyanJobMarketTips={result.kenyanJobMarketTips}
                     /> }
 
-                    {(result.feedback) && 
+                    {result.feedback && 
                     <div className="space-y-4">
                       {result.feedback.map((feedback, index) => (
                         <FeedbackCard
