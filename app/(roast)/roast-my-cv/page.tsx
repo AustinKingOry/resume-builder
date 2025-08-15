@@ -345,7 +345,7 @@ Made with ❤️ for African job seekers
                   />
 
                   {/* Streaming Toggle */}
-                  <div className="mt-6 p-4 bg-white/60 rounded-lg border border-blue-100 dark:bg-black/60 dark:border-blue-900">
+                  {/* <div className="mt-6 p-4 bg-white/60 rounded-lg border border-blue-100 dark:bg-black/60 dark:border-blue-900">
                     <div className="flex items-center justify-between">
                       <div>
                         <Label htmlFor="analysis-mode-toggle" className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -357,7 +357,7 @@ Made with ❤️ for African job seekers
                       </div>
                       <Switch id="analysis-mode-toggle" checked={useStreaming} onCheckedChange={setUseStreaming} disabled={!user} />
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* AI SDK v5 Features */}
                   <div className="mt-6 p-4 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg border border-emerald-200 dark:from-emerald-950 dark:to-blue-950 dark:border-emerald-800">
