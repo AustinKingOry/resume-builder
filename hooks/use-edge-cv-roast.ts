@@ -41,6 +41,58 @@ export interface UserContext {
   industry?: string;
 }
 
+/**
+ * Converts raw CV analysis data from the API to the CVAnalysisResult format.
+ * @param raw The original API response object
+ * @param meta Optional metadata about the file (can come from your upload handling logic)
+ * @returns CVAnalysisResult
+ */
+function formatCVAnalysisResult(
+  raw: any,
+  meta?: { fileName: string; fileSize: number; fileType: string; pageCount?: number; wordCount: number }
+): CVAnalysisResult {
+  return {
+    id: raw.id,
+    overall: raw.overall_feedback || "",
+    feedback: Array.isArray(raw.feedback_points)
+      ? raw.feedback_points.map((fp: any) => ({
+          title: fp.title,
+          content: fp.content,
+          category: fp.category,
+          severity: fp.severity as "low" | "medium" | "high",
+          tip: fp.tip,
+          kenyanContext: fp.kenyanContext,
+        }))
+      : [],
+    marketReadiness: raw.market_readiness
+      ? {
+          score: raw.market_readiness.score,
+          strengths: raw.market_readiness.strengths || [],
+          priorities: raw.market_readiness.priorities || [],
+        }
+      : undefined,
+    kenyanJobMarketTips: raw.kenyan_job_market_tips || [],
+    processingTime: raw.processing_time_seconds || 0,
+    metadata: meta
+      ? {
+          fileName: meta.fileName,
+          fileSize: meta.fileSize,
+          fileType: meta.fileType,
+          pageCount: meta.pageCount,
+          wordCount: meta.wordCount,
+        }
+      : undefined,
+    isComplete: true, // Assuming API returns complete analysis
+    usage: raw.io_tokens
+      ? {
+          promptTokens: raw.io_tokens[0] || 0,
+          completionTokens: raw.io_tokens[1] || 0,
+          totalTokens: (raw.io_tokens[0] || 0) + (raw.io_tokens[1] || 0),
+        }
+      : undefined,
+  };
+}
+
 export function useEdgeStreamingAnalysis() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<CVAnalysisResult | null>(null);
@@ -94,16 +146,19 @@ export function useEdgeStreamingAnalysis() {
           try {
             const sres = await fetch(`/api/cv-roast/status?cv_id=${cvId}`);
             const sdata = await sres.json();
+            console.log("sdata", sdata);
 
             if (sdata.status === "succeeded") {
               const elapsed = Math.round(performance.now() - started);
               clearInterval(pollRef.current!);
-              setResult({
-                ...sdata.result,
-                metadata,
-                isComplete: true,
-                processingTime: elapsed,
-              });
+              // setResult({
+              //   ...sdata.result,
+              //   metadata,
+              //   isComplete: true,
+              //   processingTime: elapsed,
+              // });
+              const formatted = formatCVAnalysisResult(sdata.result, metadata);
+              setResult(formatted);
               setIsAnalyzing(false);
             } else if (sdata.status === "failed" || sdata.status === "timeout") {
               clearInterval(pollRef.current!);
