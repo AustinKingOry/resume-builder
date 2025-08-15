@@ -65,7 +65,6 @@ Deno.serve(async (req) => {
     .eq("id", jobId);
 
   const started = Date.now();
-  console.log("job: ",job)
 
   try {
     async function analyzeCVWithAI(request: CVAnalysisRequest) {
@@ -85,7 +84,7 @@ Deno.serve(async (req) => {
     
       return result
     }
-    console.time("analyze-cv")
+    // console.time("analyze-cv")
     const result = await analyzeCVWithAI({
       cvText: job.cv_uploads.extracted_text,
       roastTone: job.roast_tone,
@@ -93,12 +92,11 @@ Deno.serve(async (req) => {
       showEmojis: job.show_emojis,
       userContext: job.user_context,
     })
-    console.timeEnd("analyze-cv")
-    console.log("result: ",result)
+    // console.timeEnd("analyze-cv")
 
-    const processing_ms = Date.now() - started;
+    const processing_ms = (Date.now() - started) / 1000
 
-    await supabase.from("roast_responses").insert({
+    const { error: insertError } =await supabase.from("roast_responses").insert({
       user_id: job.user_id,
       cv_upload_id: job.cv_upload_id,
       roast_tone: job.roast_tone,
@@ -115,6 +113,11 @@ Deno.serve(async (req) => {
       finish_reason: result.finishReason,
       io_tokens: [result.usage?.inputTokens || 0, result.usage?.outputTokens || 0],
     });
+
+    if (insertError) {
+      console.error("Insert failed:", insertError);
+      throw insertError;
+    }
 
     await supabase
       .from("roast_jobs")
