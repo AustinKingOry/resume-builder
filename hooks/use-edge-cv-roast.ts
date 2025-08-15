@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { createWaitMessageGenerator } from "@/utils/waitMessages";
 
 export interface CVAnalysisResult {
     id?: string
@@ -146,7 +147,6 @@ export function useEdgeStreamingAnalysis() {
           try {
             const sres = await fetch(`/api/cv-roast/status?cv_id=${cvId}`);
             const sdata = await sres.json();
-            console.log("sdata", sdata);
 
             if (sdata.status === "succeeded") {
               const elapsed = Math.round(performance.now() - started);
@@ -192,4 +192,20 @@ export function useEdgeStreamingAnalysis() {
   useEffect(() => () => { if (pollRef.current) clearInterval(pollRef.current); }, []);
 
   return { analyzeCV, isAnalyzing, result, error, uploadProgress, reset };
+}
+
+
+export function useWaitMessages(intervalMs = 3000) {
+  const [message, setMessage] = useState("");
+  const getNextMessage = createWaitMessageGenerator();
+
+  useEffect(() => {
+    setMessage(getNextMessage());
+    const id = setInterval(() => {
+      setMessage(getNextMessage());
+    }, intervalMs);
+    return () => clearInterval(id);
+  }, []);
+
+  return message;
 }

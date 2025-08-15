@@ -27,7 +27,8 @@ import { useAuth } from "@/components/auth-provider"
 import Link from "next/link"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { toast } from "@/hooks/use-toast"
-import { useEdgeStreamingAnalysis } from "@/hooks/use-edge-cv-roast"
+import { useEdgeStreamingAnalysis, useWaitMessages } from "@/hooks/use-edge-cv-roast"
+import { motion, AnimatePresence } from "framer-motion";
 // import { useStreamingCV } from "@/hooks/stream-cv-analysis"
 
 type RoastTone = "light" | "heavy"
@@ -48,6 +49,7 @@ export default function RoastMyCVPage() {
   const regularAnalysis = useCVAnalysis()
   const streamingAnalysis = useEdgeStreamingAnalysis()
   const supabaseAnalysis = useSupabaseCVAnalysis()
+  const waitMessage = useWaitMessages();
 
   const analysis = !useStreaming ? streamingAnalysis : regularAnalysis
   // const analysis = !useStreaming ? supabaseAnalysis : regularAnalysis
@@ -457,11 +459,20 @@ Made with ❤️ for African job seekers
                     <h3 className="text-lg font-semibold text-gray-900 mb-2 dark:text-gray-100">
                       {uploadProgress < 100 ? "Uploading your CV..." : "Processing your CV..."}
                     </h3>
-                    <p className="text-gray-600 mb-4 dark:text-gray-400">
-                      {uploadProgress < 100
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={waitMessage} // re-trigger animation when message changes
+                        initial={{ y: "100%", opacity: 0 }}
+                        animate={{ y: "0%", opacity: 1 }}
+                        exit={{ y: "-100%", opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        className="text-gray-600 text-center mb-4 dark:text-gray-400"
+                      >
+                        {uploadProgress < 100
                         ? "Hold tight, we're getting your file ready"
-                        : "Our AI is reading your CV and preparing some real talk"}
-                    </p>
+                        : waitMessage || "Our AI is reading your CV and preparing some real talk"}
+                      </motion.div>
+                    </AnimatePresence>
                     <Progress value={uploadProgress} className="w-full max-w-xs mx-auto mb-2" />
                     <p className="text-sm text-emerald-600 font-medium dark:text-emerald-400">{uploadProgress}% complete</p>
                   </div>
