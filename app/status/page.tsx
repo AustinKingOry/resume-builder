@@ -26,6 +26,7 @@ import {
   Flame,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Navbar from "@/components/layout/navbar"
 
 // Types for status data
 type StatusLevel = "operational" | "degraded" | "down" | "maintenance"
@@ -452,70 +453,73 @@ function StatusUpdates() {
 }
 
 export default function StatusPage() {
-  return (
-    <main className="relative overflow-x-hidden min-h-screen">
-      {/* Background */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
-        <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
-        <div className="absolute -top-20 -right-24 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-4 md:px-6 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="mb-4">
-            <Button variant="ghost" asChild className="gap-2">
-              <Link href="/">
-                <ArrowLeft className="h-4 w-4" />
-                Back to home
-              </Link>
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-sky-500 grid place-items-center text-white font-bold">
-              K
+    return (
+        <>
+            <Navbar />
+            <main className="relative overflow-x-hidden min-h-screen">
+            {/* Background */}
+            <div className="pointer-events-none absolute inset-0 -z-10">
+                <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
+                <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
+                <div className="absolute -top-20 -right-24 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold">Kazikit Status</h1>
-          </div>
-          <p className="text-muted-foreground">Real-time status and incident history for all Kazikit services</p>
-        </div>
 
-        {/* Overall Status */}
-        <div className="mb-8">
-          <OverallStatus />
-        </div>
+            <div className="container mx-auto px-4 md:px-6 py-8">
+                {/* Header */}
+                <div className="mb-8">
+                <div className="mb-4">
+                    <Button variant="ghost" asChild className="gap-2">
+                    <Link href="/">
+                        <ArrowLeft className="h-4 w-4" />
+                        Back to home
+                    </Link>
+                    </Button>
+                </div>
 
-        {/* Status Sections */}
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div className="space-y-8">
-            <SystemStatus />
-            <StatusUpdates />
-          </div>
-          <div className="space-y-8">
-            <FeatureStatus />
-            <IncidentHistory />
-          </div>
-        </div>
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-sky-500 grid place-items-center text-white font-bold">
+                    K
+                    </div>
+                    <h1 className="text-3xl md:text-4xl font-bold">Kazikit Status</h1>
+                </div>
+                <p className="text-muted-foreground">Real-time status and incident history for all Kazikit services</p>
+                </div>
 
-        {/* Footer */}
-        <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-          <p>
-            For support inquiries, contact us at{" "}
-            <a href="mailto:support@kazikit.com" className="text-emerald-600 hover:underline">
-              support@kazikit.com
-            </a>
-          </p>
-          <p className="mt-2">
-            Follow us on{" "}
-            <a href="#" className="text-emerald-600 hover:underline">
-              Twitter
-            </a>{" "}
-            for real-time updates
-          </p>
-        </div>
-      </div>
-    </main>
-  )
+                {/* Overall Status */}
+                <div className="mb-8">
+                <OverallStatus />
+                </div>
+
+                {/* Status Sections */}
+                <div className="grid gap-8 lg:grid-cols-2">
+                <div className="space-y-8">
+                    <SystemStatus />
+                    <StatusUpdates />
+                </div>
+                <div className="space-y-8">
+                    <FeatureStatus />
+                    <IncidentHistory />
+                </div>
+                </div>
+
+                {/* Footer */}
+                <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+                <p>
+                    For support inquiries, contact us at{" "}
+                    <a href="mailto:support@kazikit.com" className="text-emerald-600 hover:underline">
+                    support@kazikit.com
+                    </a>
+                </p>
+                <p className="mt-2">
+                    Follow us on{" "}
+                    <a href="#" className="text-emerald-600 hover:underline">
+                    Twitter
+                    </a>{" "}
+                    for real-time updates
+                </p>
+                </div>
+            </div>
+            </main>
+        </>
+    )
 }

@@ -1,4 +1,5 @@
 import { SiteInfo } from "@/data/constants"
+import { Activity } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -77,6 +78,9 @@ export function Footer() {
                     </Link>
                     </div>
                     <p className="text-sm text-gray-600 dark:text-muted-foreground">Follow us for updates, tips, and career advice.</p>
+                    <Link className="text-sm text-emerald-600 dark:text-emerald-600 inline-flex gap-1 items-center hover:text-[#1E3A8A]" href="/status">
+                    <Activity className="w-3.5 h-3.5" /> Status
+                    </Link>
                 </div>
                 </div>
                 <div className="mt-8 border-t pt-8">
