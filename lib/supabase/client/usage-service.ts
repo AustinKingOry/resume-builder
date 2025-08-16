@@ -35,7 +35,7 @@ export class SupabaseUsageService {
 
   async getCurrentUsage(): Promise<{ count: number; limit: number; plan: string }> {
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser()
     }
 
     if (!this.currentUser) {
@@ -60,7 +60,7 @@ export class SupabaseUsageService {
 
   async canMakeRequest(): Promise<boolean> {
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser()
     }
 
     if (!this.currentUser) {
@@ -74,7 +74,7 @@ export class SupabaseUsageService {
 
   async incrementUsage(): Promise<boolean> {
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser()
     }
 
     if (!this.currentUser) {
@@ -88,7 +88,7 @@ export class SupabaseUsageService {
 
   async upgradePlan(newPlan: "hustler" | "pro", transactionId?: string): Promise<boolean> {
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser()
     }
 
     if (!this.currentUser) {
@@ -129,7 +129,7 @@ export class SupabaseUsageService {
 
   async getUserStats(): Promise<any> {
     if (!this.currentUser) {
-      await this.initializeUser
+      await this.initializeUser()
     }
 
     if (!this.currentUser) {
