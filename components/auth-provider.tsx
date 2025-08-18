@@ -142,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			const { error } = await supabase.auth.signInWithOAuth({
 				provider: "google",
 				options: {
-				  redirectTo: `https://kazikit.vercel.app/roast-my-cv`,
+				  redirectTo: `https://kazikit.vercel.app`,
 				}
 			  });
 			if (error) {
