@@ -43,7 +43,7 @@ export interface MpesaSTKQueryResponse {
 
 export interface MpesaTransaction {
   id: string
-  orderId: string
+  // orderId: string
   phoneNumber: string
   amount: number
   checkoutRequestId: string
@@ -71,7 +71,6 @@ interface updatesProps {
 function mapMpesaRow(row: any): MpesaTransaction {
   return {
     id: row.id,
-    orderId: row.order_id,
     phoneNumber: row.phone_number,
     amount: Number.parseFloat(row.amount),
     checkoutRequestId: row.checkout_request_id,
@@ -94,7 +93,6 @@ export async function recordMpesaSTKPush(
     const newId = `mpesa_${Date.now()}`
     const payload = {
       id: newId,
-      order_id: request.orderId,
       phone_number: request.phoneNumber,
       amount: request.amount,
       checkout_request_id: request.checkoutRequestId,
