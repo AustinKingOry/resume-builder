@@ -756,7 +756,7 @@ function CTASection() {
     <section id="cta" className="relative py-16 md:py-24 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <Reveal>
-          <div className="relative overflow-hidden rounded-2xl border bg-card p-8 md:p-12 bg-background bg-gradient-to-r from-primary to-secondary">
+          <div className="relative overflow-hidden rounded-2xl border p-8 md:p-12 bg-background bg-gradient-to-r from-primary to-secondary">
             <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-gradient-to-br from-emerald-600 to-sky-600 opacity-20 blur-3xl" />
             <div className="relative text-center flex justify-center flex-col items-center gap-3">
               <h3 className="text-3xl md:text-4xl font-semibold tracking-tight">

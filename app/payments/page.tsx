@@ -18,6 +18,8 @@ import axios from "axios"
 import { toast } from "@/hooks/use-toast"
 import { useAuth } from "@/components/auth-provider"
 
+const VAT = 0.16;
+
 export default function PaymentsPage() {
   const { user, profile, isLoading: authLoading } = useAuth()
   const router = useRouter()
@@ -155,7 +157,7 @@ export default function PaymentsPage() {
           const stk_data = {
             mpesa_number: formData.mpesaNumber,
             name: profile?.full_name || "",
-            amount: currentPlan.price + Math.round(currentPlan.price * 0.16),            
+            amount: currentPlan.price + Math.round(currentPlan.price * VAT),            
           }
           const { data: stkData, error: stkError } = await sendStkPush(stk_data);
           if (stkError) {
@@ -228,7 +230,7 @@ export default function PaymentsPage() {
         {
           checkoutRequestId,
           phoneNumber: formData.mpesaNumber!,
-          amount: currentPlan.price,
+          amount: currentPlan.price + Math.round(currentPlan.price * VAT),
         }
       );
       console.log("Transaction registered:", res.data);
@@ -412,12 +414,12 @@ export default function PaymentsPage() {
                 </div>
                 <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                   <span>Tax (16% VAT)</span>
-                  <span>KSh {Math.round(currentPlan.price * 0.16)}</span>
+                  <span>KSh {Math.round(currentPlan.price * VAT)}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-semibold text-lg">
                   <span>Total</span>
-                  <span>KSh {currentPlan.price + Math.round(currentPlan.price * 0.16)}</span>
+                  <span>KSh {currentPlan.price + Math.round(currentPlan.price * VAT)}</span>
                 </div>
 
                 <Button
@@ -433,7 +435,7 @@ export default function PaymentsPage() {
                   ) : (
                     <>
                       <CreditCard className="w-4 h-4 mr-2" />
-                      Pay KSh {currentPlan.price + Math.round(currentPlan.price * 0.16)}
+                      Pay KSh {currentPlan.price + Math.round(currentPlan.price * VAT)}
                     </>
                   )}
                 </Button>
@@ -478,7 +480,7 @@ export default function PaymentsPage() {
         onSuccess={handleMpesaSuccess}
         checkoutRequestId={mpesaCheckoutRequestId}
         phoneNumber={formData.mpesaNumber!}
-        amount={currentPlan.price + Math.round(currentPlan.price * 0.16)}
+        amount={currentPlan.price + Math.round(currentPlan.price * VAT)}
       />}
     </div>
   )
