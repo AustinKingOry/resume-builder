@@ -14,7 +14,7 @@ function getSupabaseClientWithToken(token: string) {
 export interface MpesaSTKPushRequest {
   phoneNumber: string
   amount: number
-  orderId: string
+  user_id: string
   checkoutRequestId: string
   description?: string
   paymentTransactionId: string
@@ -93,6 +93,7 @@ export async function recordMpesaSTKPush(
     const newId = `mpesa_${Date.now()}`
     const payload = {
       id: newId,
+      user_id: request.user_id,
       phone_number: request.phoneNumber,
       amount: request.amount,
       checkout_request_id: request.checkoutRequestId,

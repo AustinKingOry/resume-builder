@@ -13,10 +13,10 @@ interface ExtendedMpesaTransaction extends MpesaTransaction {
 
 export async function POST(request: NextRequest) {
   try {
-    const body: MpesaSTKPushRequest = await request.json()
+    const body = await request.json()
 
     // Validate required fields
-    if (!body.phoneNumber || !body.amount || !body.orderId || !body.checkoutRequestId) {
+    if (!body.phoneNumber || !body.amount || !body.checkoutRequestId) {
       return NextResponse.json(
         {
           success: false,
@@ -47,8 +47,9 @@ export async function POST(request: NextRequest) {
       )
     }
     const transactionId = `txn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const updatedBody = {
+    const updatedBody: MpesaSTKPushRequest = {
       ...body, 
+      user_id: user.id,
       paymentTransactionId: transactionId
     }
 
