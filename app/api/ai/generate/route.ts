@@ -89,6 +89,7 @@ Rules:
     - Realistic metrics and numbers
     - Industry-appropriate tasks
     - Professional language
+    - Use the XYZ formula (Accomplished [X] as measured by [Y], by doing [Z]).
     
     Make reasonable assumptions about typical responsibilities for this role. Each bullet point should start with a strong action verb.
     
@@ -140,7 +141,8 @@ Rules:
         system: systemPrompt,
         prompt: prompt,
         temperature: 0.7,
-        maxTokens: 1000,
+        // maxUsageTokens: 1000,
+        maxOutputTokens: 1000,
       })
 
       // console.log("AI response received:", text.substring(0, 100) + "...")
