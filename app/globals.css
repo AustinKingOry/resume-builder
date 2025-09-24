@@ -364,3 +364,16 @@ body {
     @apply hidden;
   }
 }
+
+#resume-preview{
+  font-family: Arial, Calibri, "Times New Roman", Verdana, Helvetica;
+}
+#resume-preview p, #resume-preview span, #resume-preview li{ 
+  font-size: 12px;
+}
+#resume-preview h1{ 
+  font-size: 16px;
+}
+#resume-preview h2,#resume-preview h3{ 
+  font-size: 14px;
+}
