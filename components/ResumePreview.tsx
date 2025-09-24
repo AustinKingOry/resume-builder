@@ -45,11 +45,11 @@ type ResumePreviewProps = {
 export default function ResumePreview({ data, changeTemplate }: ResumePreviewProps) {
     const [pdfError, setPdfError] = useState<string | null>(null);
     const [isGenerating, setIsGenerating] = useState(false);
-    const [livePreview, setLivePreview] = useState(false);
+    const [livePreview, setLivePreview] = useState(true);
     const [loadingPreview, setLoadingPreview] = useState(false);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [previewBlob, setPreviewBlob] = useState<Blob | Uint8Array | null>(null);
-    const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless-production-7d82.up.railway.app";
+    const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless.onrender.com";
     // const backend_url = process.env.PUPPETEER_SERVERLESS_URL || "http://localhost:5000";
   
     useEffect(() => {
