@@ -1,0 +1,65 @@
+/* modern.css */
+
+/* Reset Puppeteer margins */
+@page {
+    size: A4;
+    margin: 0;
+  }
+  
+  /* Resume container */
+  .resume-page {
+    width: 210mm;
+    min-height: 297mm;
+    display: flex;
+    margin: 0 auto;
+    box-sizing: border-box;
+    page-break-after: always;
+  }
+  
+  /* Sidebar full-height */
+  .resume-page .sidebar {
+    width: 33.3%;
+    /* background: #1e3a8a; */
+    color: white;
+    padding: 15mm 10mm;
+    min-height: 297mm;
+    box-sizing: border-box;
+  }
+  
+  /* Main content area */
+  .resume-page .main-content {
+    width: 66.6%;
+    padding: 20mm;
+    box-sizing: border-box;
+  }
+  
+  /* First page rules */
+  .resume-page.first-page .main-content {
+    padding-top: 0;
+  }
+  
+  /* Text styles */
+  .resume-page h1 {
+    font-size: 22pt;
+    margin-bottom: 6mm;
+  }
+  
+  .resume-page h2 {
+    font-size: 14pt;
+    margin-top: 10mm;
+    margin-bottom: 4mm;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 2mm;
+  }
+  
+  .resume-page p {
+    font-size: 11pt;
+    line-height: 1.5;
+    margin: 0 0 4mm;
+  }
+  
+  /* Force page breaks when needed */
+  .page-break {
+    page-break-before: always;
+  }
+  

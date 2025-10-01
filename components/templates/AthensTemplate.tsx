@@ -1,4 +1,5 @@
 import type { ResumeData } from "../../lib/types"
+import "./styles/athens.css"
 
 const formatDescription = (description: string | undefined) => {
   if (!description) return null
