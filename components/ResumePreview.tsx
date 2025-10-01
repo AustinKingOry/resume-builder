@@ -49,7 +49,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
     const [loadingPreview, setLoadingPreview] = useState(false);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [previewBlob, setPreviewBlob] = useState<Blob | Uint8Array | null>(null);
-    const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-serverless.onrender.com";
+    const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-builder.vercel.app";
     // const backend_url = process.env.PUPPETEER_SERVERLESS_URL || "http://localhost:5000";
   
     useEffect(() => {
@@ -79,8 +79,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 `
                 
                 const response = await axios.post(
-                    `${serverless_url}/api/builder/preview`,
-                    { html: html, name:`${data.personalInfo.name}`, type: "resume" },
+                    `${serverless_url}/api/builder`,
+                    { html: html, name:`${data.personalInfo.name}`, type: "resume", preview: true },
                     { responseType: "blob" }
                 );
         
