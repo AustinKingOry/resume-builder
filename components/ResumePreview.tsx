@@ -262,7 +262,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             console.log("Using jsPDF")
             return;
         }
-        await exportToPDF();
+        await exportToPDF(true);
     }
 
   return (
