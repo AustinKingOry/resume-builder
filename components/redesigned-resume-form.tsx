@@ -322,9 +322,12 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
 
       const data = await response.json()
 
+      const suggestions = data.suggestions
+      const formatted_suggestions = type == "skills" ? suggestions.join(", ").split(",").map((s: string) => s.trim()) : suggestions;
+
       setAiSuggestions({
         type,
-        suggestions: data.suggestions || [],
+        suggestions: formatted_suggestions || [],
         visible: true,
         targetField,
         targetIndex,
@@ -374,9 +377,37 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
       })
 
       toast({
+        variant: "destructive",
         title: "Using Backup Suggestions",
         description: "AI service is currently unavailable. Here are some general suggestions to get you started.",
       })
+    }
+  }
+
+  const handleRemoveSuggestion = (suggestion: string) => {
+    const { type, targetField, targetIndex } = aiSuggestions
+    try {
+      if(type === "summary"){
+        setAiSuggestions({ type: "", suggestions: [], visible: false })
+  
+      } else if(type === "skills") {
+        if(aiSuggestions.suggestions.length > 0){
+          const skills_left = aiSuggestions.suggestions.filter((sug)=> sug != suggestion);
+          setAiSuggestions({ type: type, suggestions: skills_left, visible: true, targetField, targetIndex })
+        } else {
+          setAiSuggestions({ type: "", suggestions: [], visible: false })
+        }
+  
+      } else {
+        if(aiSuggestions.suggestions.length > 0){
+          setAiSuggestions({ type: type, suggestions: aiSuggestions.suggestions.filter((sug)=> sug != suggestion), visible: true, targetField, targetIndex })
+        } else {
+          setAiSuggestions({ type: "", suggestions: [], visible: false })
+        }
+  
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -394,25 +425,29 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
       setValue("skills", [...currentSkills, ...newSkills])
     }
 
-    if(type === "summary"){
-      setAiSuggestions({ type: "", suggestions: [], visible: false })
+    // reset suggestions
+    handleRemoveSuggestion(suggestion)
+    // if(type === "summary"){
+    //   setAiSuggestions({ type: "", suggestions: [], visible: false })
 
-    } else if(type === "skills") {
-      if(aiSuggestions.suggestions.length > 0){
-        const skills = aiSuggestions.suggestions[0].split(",").map((s) => s.trim())
-        setAiSuggestions({ type: type, suggestions: skills.filter((sug)=> sug != suggestion), visible: true, targetField, targetIndex })
-      } else {
-        setAiSuggestions({ type: "", suggestions: [], visible: false })
-      }
+    // } else if(type === "skills") {
+    //   if(aiSuggestions.suggestions.length > 0){
+    //     const skills = aiSuggestions.suggestions[0].split(",").map((s) => s.trim())
+    //     const skills_left = skills.filter((sug)=> sug != suggestion);
+    //     console.log("skills left: ", skills_left)
+    //     setAiSuggestions({ type: type, suggestions: skills_left, visible: true, targetField, targetIndex })
+    //   } else {
+    //     setAiSuggestions({ type: "", suggestions: [], visible: false })
+    //   }
 
-    } else {
-      if(aiSuggestions.suggestions.length > 0){
-        setAiSuggestions({ type: type, suggestions: aiSuggestions.suggestions.filter((sug)=> sug != suggestion), visible: true, targetField, targetIndex })
-      } else {
-        setAiSuggestions({ type: "", suggestions: [], visible: false })
-      }
+    // } else {
+    //   if(aiSuggestions.suggestions.length > 0){
+    //     setAiSuggestions({ type: type, suggestions: aiSuggestions.suggestions.filter((sug)=> sug != suggestion), visible: true, targetField, targetIndex })
+    //   } else {
+    //     setAiSuggestions({ type: "", suggestions: [], visible: false })
+    //   }
 
-    }
+    // }
     toast({
       title: "Suggestion Applied",
       description: "The AI suggestion has been added to your resume.",
@@ -1595,10 +1630,10 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
           <AISuggestionsPanel
             suggestions={aiSuggestions.suggestions}
             onAccept={handleAcceptSuggestion}
-            onReject={() => setAiSuggestions({ type: "", suggestions: [], visible: false })}
+            onReject={handleRemoveSuggestion}
+            onClose = {() => setAiSuggestions({ type: "", suggestions: [], visible: false })}
             title={`AI ${aiSuggestions.type.replace("-", " ")} Suggestions`}
             isVisible={aiSuggestions.visible}
-            type={aiSuggestions.type}
           />
         </div>
       </div>
