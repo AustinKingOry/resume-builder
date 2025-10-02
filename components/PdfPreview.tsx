@@ -21,7 +21,7 @@ const PdfPreview = ({ pdfUrl = null, pdfBlob = null }: PdfPreviewProps) => {
 	const [fileName, setFileName] = useState<string>("");
 	const [numPages, setNumPages] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const [scale, setScale] = useState<number>(1.0);
+	const [scale, setScale] = useState<number>(1.4);
 	const { toast } = useToast();
 
 	useEffect(()=>{

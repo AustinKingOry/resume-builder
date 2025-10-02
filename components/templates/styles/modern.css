@@ -18,18 +18,19 @@
   
   /* Sidebar full-height */
   .resume-page .sidebar {
-    width: 33.3%;
+    width: 33%;
     /* background: #1e3a8a; */
     color: white;
     padding: 15mm 10mm;
     min-height: 297mm;
+    height: -webkit-fill-available;
     box-sizing: border-box;
   }
   
   /* Main content area */
   .resume-page .main-content {
-    width: 66.6%;
-    padding: 20mm;
+    width: 67%;
+    padding: 10mm;
     box-sizing: border-box;
   }
   
