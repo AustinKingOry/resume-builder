@@ -6,13 +6,13 @@ import { Check, X, Sparkles } from "lucide-react"
 interface AISuggestionsPanelProps {
   suggestions: string[]
   onAccept: (suggestion: string) => void
-  onReject: () => void
+  onReject: (suggestion: string) => void
+  onClose: () => void
   title: string
   isVisible: boolean
-  type: string
 }
 
-export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isVisible, type }: AISuggestionsPanelProps) {
+export function AISuggestionsPanel({ suggestions, onAccept, onReject, onClose, title, isVisible }: AISuggestionsPanelProps) {
   if (!isVisible) return null
 
   if (suggestions.length === 0) {
@@ -20,7 +20,7 @@ export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isV
       <Card className="mt-4 border-yellow-200 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-950 dark:to-orange-950">
         <CardContent className="p-4 text-center">
           <p className="text-sm text-gray-600">No suggestions available at this time. Please try again later.</p>
-          <Button size="sm" variant="ghost" onClick={onReject} className="mt-2">
+          <Button size="sm" variant="ghost" onClick={onClose} className="mt-2">
             <X className="mr-1 h-4 w-4" />
             Close
           </Button>
@@ -28,8 +28,6 @@ export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isV
       </Card>
     )
   }
-
-  const suggestionsArray =  type == "skills" ? suggestions[0].split(",").map((s) => s.trim()) : suggestions;
 
   return (
     <Card className="mt-4 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 dark:border-purple-800">
@@ -40,13 +38,13 @@ export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isV
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {suggestionsArray.map((suggestion, index) => (
+        {suggestions.map((suggestion, index) => (
           <div
             key={index}
             className="flex items-start justify-between p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
           >
             <p className="text-sm flex-1 mr-3">{suggestion}</p>
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 items-center">
               <Button
                 size="sm"
                 variant="outline"
@@ -55,11 +53,18 @@ export function AISuggestionsPanel({ suggestions, onAccept, onReject, title, isV
               >
                 <Check className="h-4 w-4 text-green-600" />
               </Button>
+              <Button
+                size="sm"
+                onClick={() => onReject(suggestion)}
+                className="h-6 w-6 p-0 bg-red-700"
+              >
+                <X className="h-3.5 w-3.5 text-green-50" />
+              </Button>
             </div>
           </div>
         ))}
         <div className="flex justify-end pt-2">
-          <Button size="sm" variant="ghost" onClick={onReject} className="text-gray-500 hover:text-gray-700">
+          <Button size="sm" variant="ghost" onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <X className="mr-1 h-4 w-4" />
             Dismiss
           </Button>
