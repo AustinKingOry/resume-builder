@@ -30,7 +30,7 @@
   /* Main content area */
   .resume-page .main-content {
     width: 67%;
-    padding: 10mm;
+    padding: 10mm 10mm;
     box-sizing: border-box;
   }
   

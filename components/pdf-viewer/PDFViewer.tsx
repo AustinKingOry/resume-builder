@@ -78,7 +78,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               <Loader2 className="h-6 w-6 animate-spin text-purple-600" />
             </div>
           }
-          className="pdf-page"
+          className="pdf-page rounded-md"
           onLoadSuccess={() => {
             window.scrollTo(0, 0);
           }}
