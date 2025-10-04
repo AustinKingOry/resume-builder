@@ -5,7 +5,7 @@
     size: A4;
     margin: 0;
   }
-
+/* 
 @page:left {
     margin: 5mm 0mm;
 }
@@ -15,16 +15,22 @@
 @page:first {
   margin-top: 0;
   margin-bottom: 0;
-}
+} */
   
   /* Resume container */
   .resume-page {
     width: 210mm;
-    min-height: 297mm;
+    height: 297mm;
     display: flex;
     margin: 0 auto;
     box-sizing: border-box;
     page-break-after: always;
+    overflow: hidden;
+  }
+  .resume-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
   
   /* Sidebar full-height */
@@ -41,7 +47,7 @@
   /* Main content area */
   .resume-page .main-content {
     width: 68%;
-    padding: 8mm 8mm;
+    padding: 0 4mm;
     box-sizing: border-box;
   }
   
@@ -74,4 +80,70 @@
   .page-break {
     page-break-before: always;
   }
+  /* A4 Page Styles */
+.resume-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  /* padding: 20px;
+  background: #f5f5f5; */
+  background: transparent;
+}
+
+.a4-page {
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.resume-content {
+  height: calc(100% - 40px); /* Reserve space for footer */
+}
+
+.page-footer {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.page-number {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Ensure content doesn't overflow */
+.main-content {
+  overflow: hidden;
+}
+
+.main-content-inner {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Print styles */
+@media print {
+  .resume-container {
+    padding: 0;
+    background: white;
+    gap: 0;
+  }
   
+  .a4-page {
+    box-shadow: none;
+    margin: 0;
+    page-break-after: always;
+  }
+  
+  .page-footer {
+    display: none; /* Hide page numbers in print if desired */
+  }
+}
