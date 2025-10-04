@@ -5,6 +5,17 @@
     size: A4;
     margin: 0;
   }
+
+@page:left {
+    margin: 5mm 0mm;
+}
+@page:right {
+    margin: 5mm 0mm;
+}
+@page:first {
+  margin-top: 0;
+  margin-bottom: 0;
+}
   
   /* Resume container */
   .resume-page {
@@ -18,19 +29,19 @@
   
   /* Sidebar full-height */
   .resume-page .sidebar {
-    width: 33%;
+    width: 32%;
     /* background: #1e3a8a; */
     color: white;
     padding: 15mm 10mm;
     min-height: 297mm;
-    height: -webkit-fill-available;
+    /* height: 100vh; */
     box-sizing: border-box;
   }
   
   /* Main content area */
   .resume-page .main-content {
-    width: 67%;
-    padding: 10mm 10mm;
+    width: 68%;
+    padding: 8mm 8mm;
     box-sizing: border-box;
   }
   

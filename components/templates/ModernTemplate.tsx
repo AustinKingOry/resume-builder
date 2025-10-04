@@ -27,7 +27,7 @@ export const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   return (
     <div className="resume-page font-sans text-gray-800 flex">
       {/* Sidebar */}
-      <div className="w-1/3 bg-resume-navy text-white p-6 sidebar">
+      <div className="w-1/3 bg-resume-navy text-white p-4 sidebar">
         {personalInfo.photo && (
           <div className="mb-6 flex justify-center">
             <Image
@@ -129,7 +129,7 @@ export const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
       </div>
 
       {/* Main Content */}
-      <div className="w-2/3 p-6 main-content">
+      <div className="w-2/3 p-4 main-content">
         {/* Summary */}
         {summary && (
           <section className="mb-6">
