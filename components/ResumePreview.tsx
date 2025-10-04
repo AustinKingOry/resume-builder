@@ -5,7 +5,7 @@ import type { ResumeData, ResumeTemplate } from "@/lib/types"
 import { resumeTemplates, colorThemes } from "../data/templates"
 // import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
-import { Download, Loader, Loader2 } from "lucide-react"
+import { Download, Loader, Loader2, Printer } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
 import NairobiTemplate from "./templates/NairobiTemplate"
 import StockholmTemplate from "./templates/StockholmTemplate"
@@ -45,7 +45,7 @@ type ResumePreviewProps = {
 export default function ResumePreview({ data, changeTemplate }: ResumePreviewProps) {
     const [pdfError, setPdfError] = useState<string | null>(null);
     const [isGenerating, setIsGenerating] = useState(false);
-    const [livePreview, setLivePreview] = useState(true);
+    const [livePreview, setLivePreview] = useState(false);
     const [loadingPreview, setLoadingPreview] = useState(false);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [previewBlob, setPreviewBlob] = useState<Blob | Uint8Array | null>(null);
@@ -265,6 +265,53 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
         await exportToPDF(true);
     }
 
+    const printPDF = async () => {
+        try {
+            const doc = document.getElementById("resume-preview");
+            if(!doc){
+                throw new Error(`Element with ID resume-preview not found`);
+            }
+
+            // Get the styles
+            const styles = Array.from(document.styleSheets)
+                .map((sheet) => {
+                try {
+                    return Array.from(sheet.cssRules)
+                    .map((rule) => rule.cssText)
+                    .join("")
+                } catch (e) {
+                    console.log("Error accessing stylesheet rules",e)
+                    return ""
+                }
+                })
+                .join("\n")
+
+            // Open a new popup window
+            const printWindow = window.open("", "_blank", "width=800,height=600");
+            printWindow!.document.write(`
+                <html>
+                  <head>
+                    <title>Print Section</title>
+                    <style>
+                    ${styles}
+                    </style>
+                  </head>
+                  <body>
+                    ${doc.innerHTML}
+                  </body>
+                </html>
+              `);
+
+              printWindow!.document.close(); // Finish writing
+              printWindow!.focus();          // Focus on the new window
+              printWindow!.print();          // Trigger the print dialog
+              printWindow!.close();          // Close after printing
+
+        } catch (err) {
+            console.error("Error printing section:", err);
+        }
+    }
+
   return (
     <div className="space-y-6">
         <div className=" flex flex-row gap-3 max-[425px]:flex-wrap">
@@ -276,6 +323,14 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             >
             <Download className="w-4 h-4 mr-2" />
             {isGenerating ? <><Loader className="mr-2 h-4 w-4 animate-spin" /> Downloading...</> : "Download PDF"}
+            </Button>
+            <Button
+            onClick={printPDF}
+            className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white shadow-lg"
+            disabled={isGenerating}
+            >
+            <Printer className="w-4 h-4 mr-2" />
+            Print
             </Button>
             <div className="ml-auto flex flex-row gap-2 h-7">
                 <Badge variant={"outline"} className="text-xs">{data.selectedTemplate}</Badge>
@@ -289,11 +344,11 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 </div>
             </div>
         </div>
-        <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative`}>
+        <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative p-2`}>
             {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center">
             <Loader2 className="w-6 h-6 animate-spin mx-auto" />
             </div>}
-            <div id="resume-preview" className="bg-white">
+            <div id="resume-preview" className="bg-white w-fit mx-auto">
                 {renderTemplate()}
             </div>
         </div>
