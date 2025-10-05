@@ -9,7 +9,8 @@ import { Download, Loader, Loader2, Printer } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
 import NairobiTemplate from "./templates/NairobiTemplate"
 import StockholmTemplate from "./templates/StockholmTemplate"
-import AthensTemplate from "./templates/AthensTemplate"
+// import AthensTemplate from "./templates/AthensTemplate"
+import AthensTemplateNew from "./templates/AthensTemplateNew"
 import BrusselsTemplate from "./templates/BrusselsTemplate"
 import SingaporeTemplate from "./templates/SingaporeTemplate"
 import OsloTemplate from "./templates/OsloTemplate"
@@ -29,13 +30,14 @@ import FunctionalTemplate from "./templates/FunctionalTemplate"
 import SimpleTemplate from "./templates/SimpleTemplate"
 import HighlightTemplate from "./templates/HighlightTemplate"
 import BusinessTemplate from "./templates/BusinessTemplate"
-import ModernTemplate from "./templates/ModernTemplate"
+// import ModernTemplate from "./templates/ModernTemplate"
 import TemplateSelector from "./TemplateSelector"
 import { PlainTemplate } from "./templates/PlainTemplate"
 import { Switch } from "./ui/switch"
 import { Label } from "./ui/label"
 import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
+import ModernTemplate2 from "./templates/ModernTemplate2"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -115,7 +117,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             case "stockholm":
                 return <StockholmTemplate data={data} />
             case "athens":
-                return <AthensTemplate data={data} />
+                // return <AthensTemplate data={data} />
+                return <AthensTemplateNew data={data} />
             case "brussels":
                 return <BrusselsTemplate data={data} />
             case "singapore":
@@ -133,7 +136,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             case "classic":
                 return <ClassicTemplate data={data} />
             case "modern":
-                return <ModernTemplate data={data} />
+                return <ModernTemplate2 data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} />
+                // return <ModernTemplate data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} />
             case "minimalist":
                 return <MinimalistTemplate data={data} />
             case "technical":
@@ -348,7 +352,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center">
             <Loader2 className="w-6 h-6 animate-spin mx-auto" />
             </div>}
-            <div id="resume-preview" className="bg-white w-fit mx-auto">
+            <div id="resume-preview" className="bg-whitey w-fit mx-auto">
                 {renderTemplate()}
             </div>
         </div>
