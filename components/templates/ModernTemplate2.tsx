@@ -3,7 +3,7 @@ import Image from "next/image";
 import type { ResumeData } from "../../lib/types"
 import { Phone, Mail, MapPin, Globe, Linkedin, Twitter, Github } from "lucide-react";
 import "./styles/modern.css";
-import { useRef, useEffect, useState, useCallback, useMemo } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { renderToString } from "react-dom/server";
 
 const formatDescription = (description: string | undefined) => {
