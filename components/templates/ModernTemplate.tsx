@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ResumeData } from "../../lib/types"
 import { Phone, Mail, MapPin, Globe, Linkedin, Twitter, Github } from "lucide-react";
 import "./styles/modern.css";
+import { Paginator } from "../ResumePaginator";
 
 const formatDescription = (description: string | undefined) => {
   if (!description) return null
@@ -25,6 +26,8 @@ export const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, summary, experience, education, skills, skillLevels, certifications, referees } = data;
 
   return (
+    
+    <Paginator>
     <div className="resume-page font-sans text-gray-800 flex">
       {/* Sidebar */}
       <div className="w-1/3 bg-resume-navy text-white p-4 sidebar">
@@ -236,6 +239,7 @@ export const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
         )}
       </div>
     </div>
+    </Paginator>
   );
 };
 
