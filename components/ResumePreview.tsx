@@ -30,7 +30,8 @@ import ElegantTemplate from "./templates/ElegantTemplate"
 import FunctionalTemplate from "./templates/FunctionalTemplate"
 import SimpleTemplate from "./templates/SimpleTemplate"
 import HighlightTemplate from "./templates/HighlightTemplate"
-import BusinessTemplate from "./templates/BusinessTemplate"
+// import BusinessTemplate from "./templates/BusinessTemplate"
+import BusinessTemplateNew from "./templates/BusinessTemplateNew"
 // import ModernTemplate from "./templates/ModernTemplate"
 import ModernTemplate2 from "./templates/ModernTemplate2"
 import TemplateSelector from "./TemplateSelector"
@@ -157,7 +158,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             case "highlight":
                 return <HighlightTemplate data={data} />
             case "business":
-                return <BusinessTemplate data={data} />
+                // return <BusinessTemplate data={data} />
+                return <BusinessTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
             case "plain":
                 return <PlainTemplate data={data} />
             default:
