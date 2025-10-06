@@ -233,8 +233,9 @@ export default function AthensTemplateNew({ data, margins = {} }: TemplateProps)
 
     // Skills section
     if (resumeData.skills && resumeData.skills.length > 0) {
+      const uniqueKey = new Date().getTime().toString();
       const skillsElement = (
-        <section className="mb-8">
+        <section className="mb-8" key={`skill-sect-${uniqueKey}`}>
           <h2 className="text-2xl font-normal text-blue-600 mb-4">Areas of Expertise</h2>
           <div className="grid grid-cols-3 gap-x-4 gap-y-2">
             {(resumeData.skills || []).map((skill, index) => (
@@ -348,7 +349,7 @@ export default function AthensTemplateNew({ data, margins = {} }: TemplateProps)
   }
 
   return (
-    <div className="athens-container">
+    <div className="athens-container athens-template">
       {/* Hidden measurement container */}
       <div ref={measurementRef} style={{ position: 'absolute', left: -9999, top: -9999 }} />
       

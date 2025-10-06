@@ -757,7 +757,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data, margins = {} }) 
   }
 
   return (
-    <div className="resume-container">
+    <div className="resume-container modern-template">
       {/* Hidden measurement container */}
       <div ref={measurementRef} style={{ position: 'absolute', left: -9999, top: -9999 }} />
       

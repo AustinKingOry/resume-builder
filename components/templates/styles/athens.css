@@ -17,17 +17,8 @@
     color: #111827; */
   }
   
-  /* Wrapper to control layout */
-  .wrapper {
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
-    padding: 0;
-    background: white;
-  }
-  
   /* Headers */
-  .header {
+  .athens-template .header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -36,30 +27,30 @@
     margin-bottom: 20px;
   }
   
-  .name {
+  .athens-template .name {
     font-size: 26pt;
     font-weight: 500;
     color: #2563eb;
   }
   
-  .title {
+  .athens-template .title {
     font-size: 13pt;
     font-weight: 400;
     color: #374151;
   }
   
-  .contact {
+  .athens-template .contact {
     font-size: 10.5pt;
     color: #2563eb;
   }
   
-  .location {
+  .athens-template .location {
     font-size: 10pt;
     color: #6b7280;
   }
   
   /* Section Titles */
-  .sectionTitle {
+  .athens-template .sectionTitle {
     font-size: 14pt;
     font-weight: 500;
     color: #2563eb;
@@ -69,42 +60,42 @@
   }
   
   /* Experience */
-  .experienceItem {
+  .athens-template .experienceItem {
     margin-bottom: 14px;
   }
   
-  .company {
+  .athens-template .company {
     font-size: 12pt;
     font-weight: 500;
     color: #2563eb;
   }
   
-  .dates {
+  .athens-template .dates {
     font-size: 10pt;
     color: #6b7280;
     float: right;
   }
   
-  .jobTitle {
+  .athens-template .jobTitle {
     font-size: 11pt;
     font-weight: 400;
     color: #111827;
     margin-bottom: 5px;
   }
   
-  .experienceItem ul {
+  .athens-template .experienceItem ul {
     margin: 0;
     padding-left: 18px;
   }
   
-  .experienceItem li {
+  .athens-template .experienceItem li {
     margin-bottom: 3px;
     font-size: 10.5pt;
     color: #374151;
   }
   
   /* Education */
-  .educationItem {
+  .athens-template .educationItem {
     margin-bottom: 10px;
   }
   
@@ -113,35 +104,35 @@
     color: #2563eb;
   }
   
-  .educationItem p {
+  .athens-template .educationItem p {
     font-size: 10.5pt;
     color: #111827;
   }
   
   /* Skills grid */
-  .skillsGrid {
+  .athens-template .skillsGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;
   }
   
-  .skillsGrid span {
+  .athens-template .skillsGrid span {
     font-size: 10.5pt;
     color: #374151;
   }
   
   /* Ensure clean page breaks */
-  section {
+  .athens-template section {
     page-break-inside: avoid;
   }
   
-  .experienceItem,
-  .educationItem {
+  .athens-template .experienceItem,
+  .athens-template .educationItem {
     page-break-inside: avoid;
   }
   /* athens.css */
 /* A4 Page Styles */
-.athens-container {
+.athens-container,.athens-template {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -151,7 +142,7 @@
   min-height: 100vh;
 }
 
-.a4-page {
+.athens-template .a4-page {
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   page-break-after: always;
@@ -162,13 +153,13 @@
   box-sizing: border-box;
 }
 
-.athens-content {
+.athens-template .athens-content {
   height: calc(100% - 50px);
   flex: 1;
   overflow: hidden;
 }
 
-.page-footer {
+.athens-template .page-footer {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -181,14 +172,14 @@
   box-sizing: border-box;
 }
 
-.page-number {
+.athens-template .page-number {
   font-size: 12px;
   color: #666;
   font-family: Arial, sans-serif;
 }
 
 /* Original Athens styles */
-.athens-page {
+.athens-template .athens-page {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -196,21 +187,21 @@
   color: #2563eb;
 }
 
-.athens-content .text-gray-700 {
+.athens-template .athens-content .text-gray-700 {
   color: #374151;
 }
 
-.athens-content .text-gray-800 {
+.athens-template .athens-content .text-gray-800 {
   color: #1f2937;
 }
 
 /* Prevent content from being cut off */
-.experience-item,
-.education-item {
+.athens-template .experience-item,
+.athens-template .education-item {
   break-inside: avoid;
 }
 
-section {
+.athens-template section {
   break-inside: avoid;
 }
 
@@ -222,30 +213,30 @@ section {
     background: white;
   }
   
-  .athens-container {
+  .athens-container,.athens-template {
     padding: 0;
     /* background: white; */
     gap: 0;
     box-shadow: none;
   }
   
-  .a4-page {
+  .athens-template .a4-page {
     box-shadow: none;
     margin: 0;
     page-break-after: always;
     width: 210mm;
     height: 297mm;
-    padding: 20mm 25mm !important; /* Standard print margins */
+    /* padding: 20mm 25mm !important; */
   }
   
-  .page-footer {
+  .athens-template .page-footer {
     display: block;
     position: fixed;
     bottom: 10mm;
   }
   
   /* Ensure proper color printing */
-  .text-blue-600 {
+  .athens-template .text-blue-600 {
     color: #2563eb !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;

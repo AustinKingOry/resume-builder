@@ -18,7 +18,7 @@
 } */
   
   /* Resume container */
-  .resume-page {
+  .modern-template .resume-page {
     width: 210mm;
     height: 297mm;
     display: flex;
@@ -27,14 +27,9 @@
     page-break-after: always;
     overflow: hidden;
   }
-  .resume-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
   
   /* Sidebar full-height */
-  .resume-page .sidebar {
+  .modern-template .resume-page .sidebar {
     width: 32%;
     /* background: #1e3a8a; */
     color: white;
@@ -45,14 +40,14 @@
   }
   
   /* Main content area */
-  .resume-page .main-content {
+  .modern-template .resume-page .main-content {
     width: 68%;
     padding: 0 4mm;
     box-sizing: border-box;
   }
   
   /* First page rules */
-  .resume-page.first-page .main-content {
+  .modern-template .resume-page.first-page .main-content {
     padding-top: 0;
   }
   
@@ -62,7 +57,7 @@
     margin-bottom: 6mm;
   }
   
-  .resume-page h2 {
+  .modern-template .resume-page h2 {
     font-size: 14pt;
     margin-top: 10mm;
     margin-bottom: 4mm;
@@ -70,18 +65,18 @@
     padding-bottom: 2mm;
   }
   
-  .resume-page p {
+  .modern-template .resume-page p {
     font-size: 11pt;
     line-height: 1.5;
     margin: 0 0 4mm;
   }
   
   /* Force page breaks when needed */
-  .page-break {
+  .modern-template .page-break {
     page-break-before: always;
   }
   /* A4 Page Styles */
-.resume-container {
+.resume-container,.modern-template {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,7 +86,7 @@
   background: transparent;
 }
 
-.a4-page {
+.modern-template .a4-page {
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   page-break-after: always;
@@ -100,11 +95,11 @@
   position: relative;
 }
 
-.resume-content {
+.modern-template .resume-content {
   height: calc(100% - 40px); /* Reserve space for footer */
 }
 
-.page-footer {
+.modern-template .page-footer {
   position: absolute;
   bottom: 10px;
   left: 0;
@@ -114,36 +109,36 @@
   border-top: 1px solid #e0e0e0;
 }
 
-.page-number {
+.modern-template .page-number {
   font-size: 12px;
   color: #666;
 }
 
 /* Ensure content doesn't overflow */
-.main-content {
+.modern-template .main-content {
   overflow: hidden;
 }
 
-.main-content-inner {
+.modern-template .main-content-inner {
   height: 100%;
   overflow: hidden;
 }
 
 /* Print styles */
 @media print {
-  .resume-container {
+  .resume-container,.modern-template {
     padding: 0;
     background: white;
     gap: 0;
   }
   
-  .a4-page {
+  .modern-template .a4-page {
     box-shadow: none;
     margin: 0;
     page-break-after: always;
   }
   
-  .page-footer {
+  .modern-template .page-footer {
     display: none; /* Hide page numbers in print if desired */
   }
 }
