@@ -38,6 +38,7 @@ import { Label } from "./ui/label"
 import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
 import ModernTemplate2 from "./templates/ModernTemplate2"
+import BrusselsTemplateNew from "./templates/BrusselsTemplateNew"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -118,9 +119,10 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <StockholmTemplate data={data} />
             case "athens":
                 // return <AthensTemplate data={data} />
-                return <AthensTemplateNew data={data} />
+                return <AthensTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} />
             case "brussels":
-                return <BrusselsTemplate data={data} />
+                // return <BrusselsTemplate data={data} />
+                return <BrusselsTemplateNew data={data} />
             case "singapore":
                 return <SingaporeTemplate data={data} />
             case "oslo":
