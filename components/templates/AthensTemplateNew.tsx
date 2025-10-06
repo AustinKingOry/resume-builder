@@ -34,6 +34,7 @@ interface MarginProps {
 interface TemplateProps {
   data: ResumeData;
   margins?: MarginProps;
+  showFooter?: boolean;
 }
 
 interface PageProps {
@@ -72,7 +73,7 @@ interface ContentSection {
   canSplit?: boolean;
 }
 
-export default function AthensTemplateNew({ data, margins = {} }: TemplateProps) {
+export default function AthensTemplateNew({ data, margins = {}, showFooter = false }: TemplateProps) {
   const resumeData = data;
   const defaultMargins = { top: 32, right: 32, bottom: 32, left: 32 };
   const margin = { ...defaultMargins, ...margins };
@@ -359,6 +360,7 @@ export default function AthensTemplateNew({ data, margins = {} }: TemplateProps)
           pageNumber={index + 1} 
           totalPages={pages.length}
           margins={margin}
+          showFooter={showFooter}
         >
           {page}
         </Page>

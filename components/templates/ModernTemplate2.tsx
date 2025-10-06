@@ -31,6 +31,7 @@ interface PageProps {
   children: React.ReactNode;
   pageNumber: number;
   totalPages: number;
+  showFooter?: boolean
 }
 
 interface PageContent {
@@ -57,10 +58,11 @@ interface MarginProps {
 interface TemplateProps {
   data: ResumeData;
   margins?: MarginProps;
+  showFooter?: boolean;
 }
 
 // Modern template with automatic pagination
-export const ModernTemplate: React.FC<TemplateProps> = ({ data, margins = {} }) => {
+export const ModernTemplate: React.FC<TemplateProps> = ({ data, margins = {}, showFooter = false }) => {
   const { personalInfo, summary, experience, education, skills, skillLevels, certifications, referees } = data;
   
   // Default margins
@@ -75,8 +77,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data, margins = {} }) 
   const [isMeasuring, setIsMeasuring] = useState(true);
   
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const Page: React.FC<PageProps> = ({ children, pageNumber, totalPages }) => (
+  const Page: React.FC<PageProps> = ({ children, pageNumber, totalPages, showFooter }) => (
     <div className="resume-page a4-page" style={{ 
       width: `${A4_WIDTH}px`, 
       height: `${A4_HEIGHT}px`,
@@ -85,9 +86,11 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data, margins = {} }) 
     }}>
       {children}
       {/* Page number footer */}
-      {/* <div className="page-footer">
+      { showFooter && 
+      <div className="page-footer">
         <span className="page-number">{pageNumber} of {totalPages}</span>
-      </div> */}
+      </div>
+      }
     </div>
   );
 
@@ -738,7 +741,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data, margins = {} }) 
 
     setPages(newPages);
     setIsMeasuring(false);
-  }, [createContentSections, splitSidebarIntoPages]);
+  }, [MAIN_CONTENT_MAX_HEIGHT, createContentSections, splitSidebarIntoPages]);
 
   useEffect(() => {
     splitContentIntoPages();
@@ -762,7 +765,7 @@ export const ModernTemplate: React.FC<TemplateProps> = ({ data, margins = {} }) 
       <div ref={measurementRef} style={{ position: 'absolute', left: -9999, top: -9999 }} />
       
       {pages.map((page, index) => (
-        <Page key={`${page.key}-${index}`} pageNumber={index + 1} totalPages={pages.length}>
+        <Page key={`${page.key}-${index}`} pageNumber={index + 1} totalPages={pages.length} showFooter={showFooter}>
           <div className="resume-content font-sans text-gray-800 flex h-full">
             {page.sidebar}
             <div className="w-2/3 p-4 main-content overflow-hidden">

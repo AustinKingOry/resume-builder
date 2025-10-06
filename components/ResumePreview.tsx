@@ -11,7 +11,8 @@ import NairobiTemplate from "./templates/NairobiTemplate"
 import StockholmTemplate from "./templates/StockholmTemplate"
 // import AthensTemplate from "./templates/AthensTemplate"
 import AthensTemplateNew from "./templates/AthensTemplateNew"
-import BrusselsTemplate from "./templates/BrusselsTemplate"
+// import BrusselsTemplate from "./templates/BrusselsTemplate"
+import BrusselsTemplateNew from "./templates/BrusselsTemplateNew"
 import SingaporeTemplate from "./templates/SingaporeTemplate"
 import OsloTemplate from "./templates/OsloTemplate"
 import MadridTemplate from "./templates/MadridTemplate"
@@ -31,14 +32,13 @@ import SimpleTemplate from "./templates/SimpleTemplate"
 import HighlightTemplate from "./templates/HighlightTemplate"
 import BusinessTemplate from "./templates/BusinessTemplate"
 // import ModernTemplate from "./templates/ModernTemplate"
+import ModernTemplate2 from "./templates/ModernTemplate2"
 import TemplateSelector from "./TemplateSelector"
 import { PlainTemplate } from "./templates/PlainTemplate"
 import { Switch } from "./ui/switch"
 import { Label } from "./ui/label"
 import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
-import ModernTemplate2 from "./templates/ModernTemplate2"
-import BrusselsTemplateNew from "./templates/BrusselsTemplateNew"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -119,10 +119,10 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <StockholmTemplate data={data} />
             case "athens":
                 // return <AthensTemplate data={data} />
-                return <AthensTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} />
+                return <AthensTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
             case "brussels":
                 // return <BrusselsTemplate data={data} />
-                return <BrusselsTemplateNew data={data} />
+                return <BrusselsTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
             case "singapore":
                 return <SingaporeTemplate data={data} />
             case "oslo":
@@ -138,7 +138,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             case "classic":
                 return <ClassicTemplate data={data} />
             case "modern":
-                return <ModernTemplate2 data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} />
+                return <ModernTemplate2 data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} showFooter={false} />
                 // return <ModernTemplate data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} />
             case "minimalist":
                 return <MinimalistTemplate data={data} />

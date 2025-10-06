@@ -408,8 +408,10 @@ export default function BrusselsTemplateNew({ data, margins = {}, showFooter=fal
 
       // Add sidebar content to the corresponding page
       if (newPages[sidebarPageIndex]) {
-        const existingSidebar = Array.isArray(newPages[sidebarPageIndex].sidebar!.props.children) 
-          ? newPages[sidebarPageIndex].sidebar!.props.children 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const sidebar = newPages[sidebarPageIndex].sidebar as React.ReactElement<any> | undefined;
+        const existingSidebar = Array.isArray(sidebar?.props?.children)
+          ? sidebar!.props.children
           : [];
         newPages[sidebarPageIndex] = {
           ...newPages[sidebarPageIndex],
