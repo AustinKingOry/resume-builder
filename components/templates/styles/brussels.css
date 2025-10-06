@@ -1,0 +1,92 @@
+/* brussels.css */
+/* A4 Page Styles */
+.brussels-container.brussels-template {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f5f5f5;
+    min-height: 100vh;
+}
+	
+.brussels-template .a4-page {
+	background: white;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	page-break-after: always;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+.brussels-template .brussels-content {
+	height: calc(100% - 50px);
+	flex: 1;
+	overflow: hidden;
+}
+
+.brussels-template .page-footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding: 15px;
+	border-top: 1px solid #e0e0e0;
+	background: white;
+	height: 50px;
+	box-sizing: border-box;
+}
+
+.brussels-template .page-number {
+	font-size: 12px;
+	color: #666;
+	font-family: Arial, sans-serif;
+}
+
+/* Original Brussels styles */
+.brussels-template .brussels-page {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* Prevent content from being cut off */
+.brussels-template .experience-item,
+.brussels-template .education-item {
+	break-inside: avoid;
+}
+
+.brussels-template section {
+	break-inside: avoid;
+}
+  
+/* Print styles */
+@media print {
+    body {
+		margin: 0;
+		padding: 0;
+		background: white;
+    }
+    
+    .brussels-container.brussels-template {
+		padding: 0;
+		background: white;
+		gap: 0;
+		box-shadow: none;
+    }
+    
+    .brussels-template .a4-page {
+		box-shadow: none;
+		margin: 0;
+		page-break-after: always;
+		width: 210mm;
+		height: 297mm;
+		/* padding: 20mm 25mm !important; */
+    }
+    
+    .brussels-template .page-footer {
+		display: block;
+		position: fixed;
+		bottom: 10mm;
+    }
+}
