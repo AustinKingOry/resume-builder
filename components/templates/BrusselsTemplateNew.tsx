@@ -1,6 +1,7 @@
 import type { ResumeData } from "../../lib/types";
 import { useRef, useEffect, useState, useCallback } from "react";
 import { renderToString } from "react-dom/server";
+import "./styles/brussels.css"
 
 const formatDescription = (description: string | undefined) => {
     if (!description) return null
@@ -31,6 +32,7 @@ interface MarginProps {
 interface TemplateProps {
   data: ResumeData;
   margins?: MarginProps;
+  showFooter?: boolean;
 }
 
 interface PageProps {
@@ -38,9 +40,10 @@ interface PageProps {
   pageNumber: number;
   totalPages: number;
   margins: MarginProps;
+  showFooter?: boolean;
 }
 
-const Page: React.FC<PageProps> = ({ children, pageNumber, totalPages, margins }) => (
+const Page: React.FC<PageProps> = ({ children, pageNumber, totalPages, margins, showFooter=false }) => (
   <div 
     className="brussels-page a4-page" 
     style={{ 
@@ -51,9 +54,11 @@ const Page: React.FC<PageProps> = ({ children, pageNumber, totalPages, margins }
   >
     {children}
     {/* Page number footer */}
+    {showFooter && 
     <div className="page-footer">
       <span className="page-number">{pageNumber} of {totalPages}</span>
     </div>
+    }
   </div>
 );
 
@@ -72,7 +77,7 @@ interface ContentSection {
   isSidebar?: boolean;
 }
 
-export default function BrusselsTemplate({ data, margins = {} }: TemplateProps) {
+export default function BrusselsTemplateNew({ data, margins = {}, showFooter=false }: TemplateProps) {
   const resumeData = data;
   const defaultMargins = { top: 32, right: 32, bottom: 32, left: 32 };
   const margin = { ...defaultMargins, ...margins };
@@ -235,7 +240,7 @@ export default function BrusselsTemplate({ data, margins = {} }: TemplateProps) 
     // Sidebar sections
     // Address section (sidebar)
     const addressElement = (
-      <section key="address" className="mb-8">
+      <section key="address" className="mb-8 mt-24">
         <h2 className="text-xl font-normal text-orange-400 mb-3">Address</h2>
         <p className="text-gray-800">{resumeData.personalInfo?.location || "Your Address"}</p>
       </section>
@@ -447,7 +452,7 @@ export default function BrusselsTemplate({ data, margins = {} }: TemplateProps) 
   }
 
   return (
-    <div className="brussels-container">
+    <div className="brussels-container brussels-template">
       {/* Hidden measurement container */}
       <div ref={measurementRef} style={{ position: 'absolute', left: -9999, top: -9999 }} />
       
@@ -457,6 +462,7 @@ export default function BrusselsTemplate({ data, margins = {} }: TemplateProps) 
           pageNumber={index + 1} 
           totalPages={pages.length}
           margins={margin}
+          showFooter={showFooter}
         >
           <div className="brussels-content bg-white font-sans flex flex-col md:flex-row gap-8 h-full">
             {page.main}
