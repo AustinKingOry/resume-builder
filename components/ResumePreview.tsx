@@ -21,7 +21,8 @@ import ParisTemplate from "./templates/ParisTemplate"
 import TokyoTemplate from "./templates/TokyoTemplate"
 import axios from "axios";
 import PdfPreview from "./PdfPreview"
-import ClassicTemplate from "./templates/ClassicTemplate"
+// import ClassicTemplate from "./templates/ClassicTemplate";
+import ClassicTemplateNew from "./templates/ClassicTemplateNew";
 import MinimalistTemplate from "./templates/MinimalTemplate"
 import TechnicalTemplate from "./templates/TechnicalTemplate"
 import ExecutiveTemplate from "./templates/ExecutiveTemplate"
@@ -137,7 +138,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             case "tokyo":
                 return <TokyoTemplate data={data} />
             case "classic":
-                return <ClassicTemplate data={data} />
+                // return <ClassicTemplate data={data} />
+                return <ClassicTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
             case "modern":
                 return <ModernTemplate2 data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} showFooter={false} />
                 // return <ModernTemplate data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} />
