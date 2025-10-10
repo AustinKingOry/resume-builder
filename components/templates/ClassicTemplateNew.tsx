@@ -450,7 +450,7 @@ export const ClassicTemplateNew: React.FC<TemplateProps> = ({ data, margins = {}
   }
 
   return (
-    <div className="classic-container">
+    <div className="classic-container classic-template">
       <div ref={measurementRef} style={{ position: 'absolute', left: -9999, top: -9999 }} />
       
       {pages.map((page, index) => (

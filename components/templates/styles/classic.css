@@ -1,5 +1,5 @@
 /* classic.css */
-.classic-container {
+.classic-container.classic-template {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,7 @@
     min-height: 100vh;
   }
   
-  .a4-page {
+  .classic-template .a4-page {
     background: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     page-break-after: always;
@@ -19,13 +19,13 @@
     overflow: hidden;
   }
   
-  .resume-page {
+  .classic-template .resume-page {
     height: calc(100% - 50px);
     flex: 1;
     overflow: hidden;
   }
   
-  .page-footer {
+  .classic-template .page-footer {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -36,17 +36,17 @@
     background: white;
   }
   
-  .page-number {
+  .classic-template .page-number {
     font-size: 12px;
     color: #666;
   }
   
   /* Custom classes for Classic template */
-  .resume-section {
+  .classic-template .resume-section {
     margin-bottom: 1.5rem;
   }
   
-  .resume-section-title {
+  .classic-template .resume-section-title {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 0.75rem;
@@ -54,11 +54,11 @@
     padding-bottom: 0.25rem;
   }
   
-  .timeline-item {
+  .classic-template .timeline-item {
     margin-bottom: 1rem;
   }
   
-  .skill-dot {
+  .classic-template .skill-dot {
     display: inline-block;
     width: 6px;
     height: 6px;
@@ -66,30 +66,26 @@
     margin-right: 2px;
   }
   
-  .skill-dot-empty {
+  .classic-template .skill-dot-empty {
     background-color: #e5e7eb;
-  }
-  
-  .text-resume-slate {
-    color: #64748b;
   }
   
   /* Print styles */
   @media print {
-    .classic-container {
+    .classic-container.classic-template {
       padding: 0;
       background: white;
       gap: 0;
     }
     
-    .a4-page {
+    .classic-template .a4-page {
       box-shadow: none;
       margin: 0;
       width: 210mm;
       height: 297mm;
     }
     
-    .page-footer {
+    .classic-template .page-footer {
       position: fixed;
       bottom: 10mm;
     }
