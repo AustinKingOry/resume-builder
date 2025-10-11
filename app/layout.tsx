@@ -3,6 +3,7 @@ import { Outfit } from 'next/font/google';
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/components/auth-provider";
 
 const outfit = Outfit({
@@ -117,6 +118,7 @@ export default function RootLayout({
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
         <AuthProvider>
           {children}
+          <SonnerToaster />
           <Toaster />
         </AuthProvider>
       </ThemeProvider>
