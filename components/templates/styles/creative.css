@@ -1,0 +1,63 @@
+/* creative.css */
+.creative-container.creative-template {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f5f5f5;
+    min-height: 100vh;
+  }
+  
+  .creative-template .a4-page {
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .creative-template .resume-page {
+    height: calc(100% - 50px);
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .creative-template .page-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 15px;
+    border-top: 1px solid #e0e0e0;
+    background: white;
+  }
+  
+  .creative-template .page-number {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  /* Print styles */
+  @media print {
+    .creative-container.creative-template {
+      padding: 0;
+      background: white;
+      gap: 0;
+    }
+    
+    .creative-template .a4-page {
+      box-shadow: none;
+      margin: 0;
+      width: 210mm;
+      height: 297mm;
+    }
+    
+    .creative-template .page-footer {
+      position: fixed;
+      bottom: 10mm;
+    }
+  }
