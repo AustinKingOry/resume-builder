@@ -13,10 +13,14 @@ import StockholmTemplate from "./templates/StockholmTemplate"
 import AthensTemplateNew from "./templates/AthensTemplateNew"
 // import BrusselsTemplate from "./templates/BrusselsTemplate"
 import BrusselsTemplateNew from "./templates/BrusselsTemplateNew"
-import SingaporeTemplate from "./templates/SingaporeTemplate"
-import OsloTemplate from "./templates/OsloTemplate"
-import MadridTemplate from "./templates/MadridTemplate"
-import SantiagoTemplate from "./templates/SantiagoTemplate"
+// import SingaporeTemplate from "./templates/SingaporeTemplate"
+import SingaporeTemplateNew from "./templates/SingaporeTemplateNew"
+// import OsloTemplate from "./templates/OsloTemplate"
+import OsloTemplateNew from "./templates/OsloTemplateNew"
+// import MadridTemplate from "./templates/MadridTemplate"
+import { MadridTemplateNew } from "./templates/MadridTemplateNew"
+// import SantiagoTemplate from "./templates/SantiagoTemplate"
+import SantiagoTemplateNew from "./templates/SantiagoTemplateNew"
 import ParisTemplate from "./templates/ParisTemplate"
 import TokyoTemplate from "./templates/TokyoTemplate"
 import axios from "axios";
@@ -27,7 +31,9 @@ import MinimalistTemplate from "./templates/MinimalTemplate"
 import TechnicalTemplate from "./templates/TechnicalTemplate"
 import ExecutiveTemplate from "./templates/ExecutiveTemplate"
 import CreativeTemplate from "./templates/CreativeTemplate"
+// import CreativeTemplateNew from "./templates/CreativeTemplateNew"
 import ElegantTemplate from "./templates/ElegantTemplate"
+// import ElegantTemplateNew from "./templates/ElegantTemplateNew"
 import FunctionalTemplate from "./templates/FunctionalTemplate"
 import SimpleTemplate from "./templates/SimpleTemplate"
 import HighlightTemplate from "./templates/HighlightTemplate"
@@ -126,13 +132,17 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 // return <BrusselsTemplate data={data} />
                 return <BrusselsTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
             case "singapore":
-                return <SingaporeTemplate data={data} />
+                // return <SingaporeTemplate data={data} />
+                return <SingaporeTemplateNew data={data} />
             case "oslo":
-                return <OsloTemplate data={data} />
+                // return <OsloTemplate data={data} />
+                return <OsloTemplateNew data={data} />
             case "madrid":
-                return <MadridTemplate data={data} />
+                // return <MadridTemplate data={data} />
+                return <MadridTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
             case "santiago":
-                return <SantiagoTemplate data={data} />
+                // return <SantiagoTemplateNew data={data} />
+                return <SantiagoTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
             case "paris":
                 return <ParisTemplate data={data} />
             case "tokyo":
@@ -151,8 +161,10 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <ExecutiveTemplate data={data} />
             case "creative":
                 return <CreativeTemplate data={data} />
+                // return <CreativeTemplateNew data={data} margins={{ top: 32, right: 0, bottom: 32, left: 0 }} showFooter={false} />
             case "elegant":
                 return <ElegantTemplate data={data} />
+                // return <ElegantTemplateNew data={data} />
             case "functional":
                 return <FunctionalTemplate data={data} />
             case "simple":
@@ -355,7 +367,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             </div>
         </div>
         <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative p-2`}>
-            {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center">
+            {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center z-10">
             <Loader2 className="w-6 h-6 animate-spin mx-auto" />
             </div>}
             <div id="resume-preview" className="bg-whitey w-fit mx-auto">
