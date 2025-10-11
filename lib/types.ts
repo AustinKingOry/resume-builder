@@ -229,3 +229,10 @@ export interface PaymentFormProps {
   onSubmit: (data: PaymentInfo) => void
   onBack: () => void
 }
+
+export interface Margins {
+  top: number
+  right: number
+  bottom: number
+  left: number
+}
