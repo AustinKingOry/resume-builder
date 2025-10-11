@@ -1,0 +1,58 @@
+/* Elegant Template Styles with Print Pagination */
+.elegant-resume-container {
+    font-family: 'Times New Roman', Times, serif;
+    width: 794px;
+    min-height: 1123px;
+    margin: 0 auto;
+    background: white;
+  }
+  
+  /* Print-specific styles */
+  @media print {
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      width: 210mm;
+      height: 297mm;
+    }
+    
+    .elegant-resume-container {
+      width: 100% !important;
+      height: auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      page-break-after: always;
+    }
+    
+    /* Prevent content from breaking across pages */
+    .avoid-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    
+    /* Ensure sections don't get cut off */
+    section {
+      page-break-inside: avoid;
+    }
+    
+    /* Allow page breaks between experience/education items if needed */
+    .mb-6, .mb-4 {
+      page-break-inside: avoid;
+    }
+  }
+  
+  /* Page break controls for print */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  .keep-together {
+    page-break-inside: avoid;
+  }
+  
+  /* Margin utilities */
+  .margin-safe {
+    box-sizing: border-box;
+  }
