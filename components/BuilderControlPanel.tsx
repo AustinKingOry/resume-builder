@@ -10,7 +10,7 @@ interface ControlPanelProps {
   Margins: Margins;
   printMode: boolean;
   onMarginsChange: (margins: Partial<Margins>) => void;
-  onPrintModeToggle: () => void;
+  onToggleFooter: () => void;
   onReset: () => void;
   onDownloadPDF: () => void;
   isDownloading?: boolean;
@@ -20,7 +20,7 @@ export function ControlPanel({
   Margins,
   printMode,
   onMarginsChange,
-  onPrintModeToggle,
+  onToggleFooter,
   onReset,
   onDownloadPDF,
   isDownloading = false
@@ -74,14 +74,14 @@ export function ControlPanel({
         <div className="space-y-4">
           <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
             <Layers className="h-4 w-4 text-primary" />
-            Layout Options
+            Footer And Header Options
           </h3>
 
           <div className="flex items-center justify-between">
-            <label className="text-sm text-muted-foreground">Preview for Print</label>
+            <label className="text-sm text-muted-foreground">Add Page Footer</label>
             <Switch 
               checked={printMode}
-              onCheckedChange={onPrintModeToggle}
+              onCheckedChange={onToggleFooter}
               data-testid="print-mode-toggle"
             />
           </div>

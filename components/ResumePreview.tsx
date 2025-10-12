@@ -64,6 +64,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
     const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-builder.vercel.app";
     // const backend_url = process.env.PUPPETEER_SERVERLESS_URL || "http://localhost:5000";
     const [margins, setMargins] = useState({ top: 32, right: 32, bottom: 32, left: 32 });
+    const [showFooter, setShowFooter] = useState(false);
     const defaultPrintMode = false;
   
     useEffect(() => {
@@ -129,10 +130,10 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <StockholmTemplate data={data} />
             case "athens":
                 // return <AthensTemplate data={data} />
-                return <AthensTemplateNew data={data} margins={margins} showFooter={false} />
+                return <AthensTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "brussels":
                 // return <BrusselsTemplate data={data} />
-                return <BrusselsTemplateNew data={data} margins={margins} showFooter={false} />
+                return <BrusselsTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "singapore":
                 // return <SingaporeTemplate data={data} />
                 return <SingaporeTemplateNew data={data} />
@@ -141,19 +142,19 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <OsloTemplateNew data={data} />
             case "madrid":
                 // return <MadridTemplate data={data} />
-                return <MadridTemplateNew data={data} margins={margins} showFooter={false} />
+                return <MadridTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "santiago":
                 // return <SantiagoTemplateNew data={data} />
-                return <SantiagoTemplateNew data={data} margins={margins} showFooter={false} />
+                return <SantiagoTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "paris":
                 return <ParisTemplate data={data} />
             case "tokyo":
                 return <TokyoTemplate data={data} />
             case "classic":
                 // return <ClassicTemplate data={data} />
-                return <ClassicTemplateNew data={data} margins={margins} showFooter={false} />
+                return <ClassicTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "modern":
-                return <ModernTemplate2 data={data} margins={margins} showFooter={false} />
+                return <ModernTemplate2 data={data} margins={margins} showFooter={showFooter} />
                 // return <ModernTemplate data={data} margins={margins} />
             case "minimalist":
                 return <MinimalistTemplate data={data} />
@@ -163,7 +164,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <ExecutiveTemplate data={data} />
             case "creative":
                 return <CreativeTemplate data={data} />
-                // return <CreativeTemplateNew data={data} margins={margins} showFooter={false} />
+                // return <CreativeTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "elegant":
                 return <ElegantTemplate data={data} />
                 // return <ElegantTemplateNew data={data} />
@@ -175,7 +176,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <HighlightTemplate data={data} />
             case "business":
                 // return <BusinessTemplate data={data} />
-                return <BusinessTemplateNew data={data} margins={margins} showFooter={false} />
+                return <BusinessTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "plain":
                 return <PlainTemplate data={data} />
             default:
@@ -344,6 +345,10 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
         setMargins({ top: 32, right: 32, bottom: 32, left: 32 })
     }
 
+    const toggleFooter = () => {
+        setShowFooter(!showFooter)
+    }
+
   return (
     <div className="space-y-6">
         <div className=" flex flex-row gap-3 max-[425px]:flex-wrap">
@@ -380,7 +385,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             <ControlPanel 
                 Margins={margins}
                 printMode={defaultPrintMode}
-                onPrintModeToggle={() => {}}
+                onToggleFooter={toggleFooter}
                 onReset={resetConfigs}
                 onDownloadPDF={downloadPDF}
                 onMarginsChange={changeMargins}
