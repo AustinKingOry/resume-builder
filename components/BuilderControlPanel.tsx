@@ -8,7 +8,7 @@ import { Margins } from "@/lib/types";
 
 interface ControlPanelProps {
   Margins: Margins;
-  printMode: boolean;
+  showFooter: boolean;
   onMarginsChange: (margins: Partial<Margins>) => void;
   onToggleFooter: () => void;
   onReset: () => void;
@@ -18,7 +18,7 @@ interface ControlPanelProps {
 
 export function ControlPanel({
   Margins,
-  printMode,
+  showFooter,
   onMarginsChange,
   onToggleFooter,
   onReset,
@@ -78,9 +78,9 @@ export function ControlPanel({
           </h3>
 
           <div className="flex items-center justify-between">
-            <label className="text-sm text-muted-foreground">Add Page Footer</label>
+            <label className="text-sm text-muted-foreground">Show Page Footer</label>
             <Switch 
-              checked={printMode}
+              checked={showFooter}
               onCheckedChange={onToggleFooter}
               data-testid="print-mode-toggle"
             />

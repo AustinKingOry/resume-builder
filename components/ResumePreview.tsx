@@ -65,7 +65,6 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
     // const backend_url = process.env.PUPPETEER_SERVERLESS_URL || "http://localhost:5000";
     const [margins, setMargins] = useState({ top: 32, right: 32, bottom: 32, left: 32 });
     const [showFooter, setShowFooter] = useState(false);
-    const defaultPrintMode = false;
   
     useEffect(() => {
       const fetchPreview = async () => {
@@ -342,7 +341,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
     }
 
     const resetConfigs = () => {
-        setMargins({ top: 32, right: 32, bottom: 32, left: 32 })
+        setMargins({ top: 32, right: 32, bottom: 32, left: 32 });
+        setShowFooter(false);
     }
 
     const toggleFooter = () => {
@@ -384,7 +384,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
         <div className="w-full grid grid-cols-4 gap-2">
             <ControlPanel 
                 Margins={margins}
-                printMode={defaultPrintMode}
+                showFooter={showFooter}
                 onToggleFooter={toggleFooter}
                 onReset={resetConfigs}
                 onDownloadPDF={downloadPDF}
