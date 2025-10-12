@@ -26,7 +26,7 @@ export function ControlPanel({
   isDownloading = false
 }: ControlPanelProps) {
   return (
-    <div className="control-panel w-80 bg-card border-r border-border overflow-y-auto" data-testid="control-panel">
+    <div className="control-panel w-80 bg-card border-r border-border overflow-y-auto h-fit" data-testid="control-panel">
       <div className="p-6 space-y-6">
         {/* Header */}
         <div className="space-y-2">
@@ -35,7 +35,7 @@ export function ControlPanel({
         </div>
 
         {/* Page Size Info */}
-        <Card className="bg-secondary">
+        <Card className="bg-gray-100 dark:bg-gray-900">
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2 text-sm font-medium text-foreground">
               <FileText className="h-4 w-4 text-primary" />
@@ -58,7 +58,7 @@ export function ControlPanel({
         <div className="space-y-4">
           <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
             <FileText className="h-4 w-4 text-primary" />
-            Page 1 Margins (mm)
+            Page Margins (mm)
           </h3>
           
           <MarginControls 

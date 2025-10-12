@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import type { ResumeData, ResumeTemplate } from "@/lib/types"
-import { resumeTemplates, colorThemes } from "../data/templates"
+import type { Margins, ResumeData, ResumeTemplate } from "@/lib/types"
+import { resumeTemplates } from "../data/templates"
 // import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Download, Loader, Loader2, Printer } from "lucide-react"
@@ -47,6 +47,7 @@ import { Switch } from "./ui/switch"
 import { Label } from "./ui/label"
 import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
+import { ControlPanel } from "./BuilderControlPanel"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -62,6 +63,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
     const [previewBlob, setPreviewBlob] = useState<Blob | Uint8Array | null>(null);
     const serverless_url = process.env.PUPPETEER_SERVERLESS_URL || "https://puppeteer-builder.vercel.app";
     // const backend_url = process.env.PUPPETEER_SERVERLESS_URL || "http://localhost:5000";
+    const [margins, setMargins] = useState({ top: 32, right: 32, bottom: 32, left: 32 });
+    const defaultPrintMode = false;
   
     useEffect(() => {
       const fetchPreview = async () => {
@@ -115,7 +118,6 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const template = resumeTemplates.find((t) => t.id === data.selectedTemplate) || resumeTemplates[0]
-    const colorTheme = colorThemes[1] // Default to first color theme for now
 
     const renderTemplate = () => {
         switch (data.selectedTemplate) {
@@ -127,10 +129,10 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <StockholmTemplate data={data} />
             case "athens":
                 // return <AthensTemplate data={data} />
-                return <AthensTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
+                return <AthensTemplateNew data={data} margins={margins} showFooter={false} />
             case "brussels":
                 // return <BrusselsTemplate data={data} />
-                return <BrusselsTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
+                return <BrusselsTemplateNew data={data} margins={margins} showFooter={false} />
             case "singapore":
                 // return <SingaporeTemplate data={data} />
                 return <SingaporeTemplateNew data={data} />
@@ -139,20 +141,20 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <OsloTemplateNew data={data} />
             case "madrid":
                 // return <MadridTemplate data={data} />
-                return <MadridTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
+                return <MadridTemplateNew data={data} margins={margins} showFooter={false} />
             case "santiago":
                 // return <SantiagoTemplateNew data={data} />
-                return <SantiagoTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
+                return <SantiagoTemplateNew data={data} margins={margins} showFooter={false} />
             case "paris":
                 return <ParisTemplate data={data} />
             case "tokyo":
                 return <TokyoTemplate data={data} />
             case "classic":
                 // return <ClassicTemplate data={data} />
-                return <ClassicTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
+                return <ClassicTemplateNew data={data} margins={margins} showFooter={false} />
             case "modern":
-                return <ModernTemplate2 data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} showFooter={false} />
-                // return <ModernTemplate data={data} margins={{ top: 0, right: 0, bottom: 0, left: 0 }} />
+                return <ModernTemplate2 data={data} margins={margins} showFooter={false} />
+                // return <ModernTemplate data={data} margins={margins} />
             case "minimalist":
                 return <MinimalistTemplate data={data} />
             case "technical":
@@ -161,7 +163,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <ExecutiveTemplate data={data} />
             case "creative":
                 return <CreativeTemplate data={data} />
-                // return <CreativeTemplateNew data={data} margins={{ top: 32, right: 0, bottom: 32, left: 0 }} showFooter={false} />
+                // return <CreativeTemplateNew data={data} margins={margins} showFooter={false} />
             case "elegant":
                 return <ElegantTemplate data={data} />
                 // return <ElegantTemplateNew data={data} />
@@ -173,7 +175,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <HighlightTemplate data={data} />
             case "business":
                 // return <BusinessTemplate data={data} />
-                return <BusinessTemplateNew data={data} margins={{ top: 32, right: 32, bottom: 32, left: 32 }} showFooter={false} />
+                return <BusinessTemplateNew data={data} margins={margins} showFooter={false} />
             case "plain":
                 return <PlainTemplate data={data} />
             default:
@@ -334,6 +336,14 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
         }
     }
 
+    const changeMargins = ({ top, right, bottom, left }: Partial<Margins>) => {
+        setMargins({ top: top || margins.top, right: right || margins.right, bottom: bottom || margins.bottom, left: left || margins.left })
+    }
+
+    const resetConfigs = () => {
+        setMargins({ top: 32, right: 32, bottom: 32, left: 32 })
+    }
+
   return (
     <div className="space-y-6">
         <div className=" flex flex-row gap-3 max-[425px]:flex-wrap">
@@ -366,32 +376,32 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 </div>
             </div>
         </div>
-        <div className={`bg-white text-black rounded-lg shadow-lg scale-95 max-w-4xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative p-2`}>
-            {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center z-10">
-            <Loader2 className="w-6 h-6 animate-spin mx-auto" />
-            </div>}
-            <div id="resume-preview" className="bg-whitey w-fit mx-auto">
-                {renderTemplate()}
+        <div className="w-full grid grid-cols-4 gap-2">
+            <ControlPanel 
+                Margins={margins}
+                printMode={defaultPrintMode}
+                onPrintModeToggle={() => {}}
+                onReset={resetConfigs}
+                onDownloadPDF={downloadPDF}
+                onMarginsChange={changeMargins}
+                isDownloading={isGenerating} 
+            />
+            <div className="col-span-3 border">                
+                <div className={`bg-white text-black rounded-lg shadow-lg scale-95j max-w-4xll mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative p-2`}>
+                    {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center z-10">
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto" />
+                    </div>}
+                    <div id="resume-preview" className="bg-whitey w-fit mx-auto">
+                        {renderTemplate()}
+                    </div>
+                </div>
+                {(livePreview && previewUrl) && 
+                <div className="bg-white text-black rounded-lg shadow-lg overflow-hidden dark:bg-gray-800">
+                {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
+                <PdfPreview pdfUrl={previewUrl} pdfBlob={previewBlob} />
+                </div>}
             </div>
         </div>
-        {(livePreview && previewUrl) && 
-        <div className="bg-white text-black rounded-lg shadow-lg overflow-hidden dark:bg-gray-800">
-        {/* {previewUrl && <iframe src={previewUrl} className="w-full h-full" /> } */}
-        <PdfPreview pdfUrl={previewUrl} pdfBlob={previewBlob} />
-        </div>}
-
-        <Button
-            onClick={downloadPDF}
-            className="w-full"
-            style={{
-            background: `linear-gradient(to right, ${colorTheme.primary}, ${colorTheme.secondary})`,
-            color: "white",
-            }}
-            disabled={isGenerating}
-        >
-            <Download className="mr-2 h-4 w-4" />
-            {isGenerating ? "Generating PDF..." : "Export to PDF"}
-        </Button>
 
         {pdfError && <p className="text-red-500 text-center mt-2">{pdfError}</p>}
     </div>
