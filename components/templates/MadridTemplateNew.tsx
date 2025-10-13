@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import type { ResumeData } from "../../lib/types"
 import { renderToString } from "react-dom/server";
 import "./styles/madrid.css"
+import { createUniqueKey } from "@/lib/helpers";
 
 // A4 dimensions in pixels at 96 DPI
 const A4_WIDTH = 794; // 210mm
@@ -72,10 +73,6 @@ const formatDescription = (description: string | undefined) => {
     )
   }
   return <p>{description}</p>
-}
-
-const createUniqueKey = () => {
-    return Math.random().toString(36).substring(7);
 }
 
 export const MadridTemplateNew: React.FC<TemplateProps> = ({ data, margins = {}, showFooter = false }) => {
@@ -423,7 +420,7 @@ export const MadridTemplateNew: React.FC<TemplateProps> = ({ data, margins = {},
 
     setPages(newPages);
     setIsMeasuring(false);
-  }, [createContentSections, CONTENT_MAX_HEIGHT_MARGIN, measureElement]);
+  }, [createContentSections, CONTENT_MAX_HEIGHT_MARGIN, measureElement, margin.top, margin.right, margin.bottom, margin.left]);
 
   // useEffect for splitContentIntoPages
   useEffect(() => {
