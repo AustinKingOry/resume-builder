@@ -1,0 +1,60 @@
+.template-container.minimalist-template {
+    font-family: system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 0px;
+    /* background: #f5f5f5; */
+    min-height: 100vh;
+  }
+  
+  .minimalist-template .a4-page {
+    background: white;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .minimalist-template .minimalist-content {
+    position: relative;
+    height: calc(100% - 50px);
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .minimalist-template .page-footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    padding: 0 32px;
+  }
+  
+  .minimalist-template .page-number {
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  
+  /* Print optimizations */
+  @media print {
+    .template-container.minimalist-template {
+      box-shadow: none;
+    }
+    
+    .minimalist-template .a4-page {
+      box-shadow: none;
+      margin: 0;
+      page-break-after: always;
+      break-inside: avoid;
+    }
+    
+    .minimalist-template .page-footer {
+      position: fixed;
+      bottom: 20px;
+    }
+  }
