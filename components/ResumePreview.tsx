@@ -27,7 +27,8 @@ import axios from "axios";
 import PdfPreview from "./PdfPreview"
 // import ClassicTemplate from "./templates/ClassicTemplate";
 import ClassicTemplateNew from "./templates/ClassicTemplateNew";
-import MinimalistTemplate from "./templates/MinimalTemplate"
+// import MinimalistTemplate from "./templates/MinimalTemplate"
+import MinimalistTemplateNew from "./templates/MinimalTemplateNew"
 import TechnicalTemplate from "./templates/TechnicalTemplate"
 import ExecutiveTemplate from "./templates/ExecutiveTemplate"
 import CreativeTemplate from "./templates/CreativeTemplate"
@@ -156,7 +157,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 return <ModernTemplate2 data={data} margins={margins} showFooter={showFooter} />
                 // return <ModernTemplate data={data} margins={margins} />
             case "minimalist":
-                return <MinimalistTemplate data={data} />
+                // return <MinimalistTemplate data={data} />
+                return <MinimalistTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "technical":
                 return <TechnicalTemplate data={data} />
             case "executive":
