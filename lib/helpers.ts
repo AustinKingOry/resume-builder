@@ -36,3 +36,7 @@ export async function uploadFileWithProgress(
     return { success: false, error };
   }
 }
+
+export const createUniqueKey = () => {
+  return Math.random().toString(36).substring(7);
+}
