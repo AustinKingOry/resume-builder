@@ -91,7 +91,7 @@ export const BusinessTemplateNew: React.FC<TemplateProps> = ({ data, margins = {
   const PAGE_BUFFER = 50; // Allow content to go slightly over if it's close
 
   // Measure element height
-  const measureElement = (element: React.ReactElement | React.ReactNode): Promise<number> => {
+  const measureElement = useCallback((element: React.ReactElement | React.ReactNode): Promise<number> => {
     return new Promise((resolve) => {
       if (!measurementRef.current) {
         resolve(0);
@@ -119,10 +119,10 @@ export const BusinessTemplateNew: React.FC<TemplateProps> = ({ data, margins = {
 
       setTimeout(measureContent, 0);
     });
-  };
+  }, []);
 
   // Add this helper function to check if content can fit with better precision
-  const canContentFit = (currentHeight: number, newContentHeight: number, isLastItem: boolean = false): boolean => {
+  const canContentFit = useCallback((currentHeight: number, newContentHeight: number, isLastItem: boolean = false): boolean => {
     const remainingSpace = CONTENT_MAX_HEIGHT - currentHeight;
     
     // If it's the last item in a section, be more lenient
@@ -132,7 +132,7 @@ export const BusinessTemplateNew: React.FC<TemplateProps> = ({ data, margins = {
     
     // Otherwise use normal logic with buffer
     return currentHeight + newContentHeight <= CONTENT_MAX_HEIGHT + PAGE_BUFFER;
-  };
+  }, [CONTENT_MAX_HEIGHT]);
 
   // Create content sections with measurement
   const createContentSections = useCallback(async (): Promise<ContentSection[]> => {
@@ -369,10 +369,11 @@ export const BusinessTemplateNew: React.FC<TemplateProps> = ({ data, margins = {
     }
 
     return sections;
-  }, [personalInfo, summary, experience, education, skills, skillLevels, certifications, referees, margin]);
+  }, [personalInfo.name, personalInfo.title, personalInfo.email, personalInfo.phone, personalInfo.location, personalInfo.website, personalInfo.socialMedia.linkedin, personalInfo.socialMedia.github, personalInfo.socialMedia.twitter, margin.top, margin.left, margin.right, summary, experience, education, skills, certifications, referees, measureElement, skillLevels]);
 
   // Split content into pages based on measured heights
   const splitContentIntoPages = useCallback(async () => {
+    // console.log(`testing splitContentIntoPages: ${createUniqueKey()}`)
     const sections = await createContentSections();
     const newPages: React.ReactNode[] = [];
     let currentPageHeight = 0;
@@ -454,10 +455,22 @@ export const BusinessTemplateNew: React.FC<TemplateProps> = ({ data, margins = {
 
     setPages(newPages);
     setIsMeasuring(false);
-  }, [createContentSections, CONTENT_MAX_HEIGHT, margin]);
+  }, [createContentSections, margin.left, margin.right, measureElement, canContentFit, CONTENT_MAX_HEIGHT]);
 
   useEffect(() => {
-    splitContentIntoPages();
+    let isMounted = true;
+    
+    const executeSplit = async () => {
+      await splitContentIntoPages();
+    };
+
+    if (isMounted) {
+      executeSplit();
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [splitContentIntoPages]);
 
   if (isMeasuring || pages.length === 0) {
