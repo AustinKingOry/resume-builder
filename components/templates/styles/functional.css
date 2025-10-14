@@ -39,12 +39,12 @@
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   
-  /* Technical Template Specific Styles */
+  /* functional Template Specific Styles */
   .functional-template {
     font-family: 'Fira Code', 'JetBrains Mono', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   
-  .functional-template .technical-content {
+  .functional-template .functional-content {
     background: white;
     height: 100%;
     overflow: hidden;
@@ -79,7 +79,7 @@
   
   /* Ensure proper spacing in print */
   @media print {
-    .functional-template .technical-content {
+    .functional-template .functional-content {
       padding: 0 !important;
     }
     
@@ -89,7 +89,7 @@
   }
   
   /* Font smoothing for better readability */
-  .functional-template .technical-content {
+  .functional-template .functional-content {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -105,7 +105,7 @@
       background: white !important;
     }
     
-    .functional-template .technical-content {
+    .functional-template .functional-content {
       background: white !important;
     }
   }

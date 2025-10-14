@@ -1,7 +1,7 @@
-/* templates/styles/simple.css */
+/* templates/styles/highlight.css */
 
 /* A4 Page Styling */
-.template-container.simple-template {
+.template-container.highlight-template {
     position: relative;
     box-sizing: border-box;
     display: flex;
@@ -13,7 +13,7 @@
     min-height: 100vh;
   }
   
-  .simple-template .a4-page {
+  .highlight-template .a4-page {
     /* background: white; */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
@@ -24,7 +24,7 @@
   }
   
   /* Page Footer Styling */
-  .simple-template .page-footer {
+  .highlight-template .page-footer {
     position: absolute;
     bottom: 16px;
     left: 0;
@@ -33,18 +33,18 @@
     padding: 8px 0;
   }
   
-  .simple-template .page-number {
+  .highlight-template .page-number {
     font-size: 10px;
     color: #6b7280;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   
-  /* simple Template Specific Styles */
-  .simple-template {
+  /* highlight Template Specific Styles */
+  .highlight-template {
     font-family: 'Fira Code', 'JetBrains Mono', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   
-  .simple-template .simple-content {
+  .highlight-template .highlight-content {
     background: white;
     height: 100%;
     overflow: hidden;
@@ -52,34 +52,34 @@
   
   /* Print Styles */
   @media print {
-    .simple-template .template-container {
+    .highlight-template .template-container {
       box-shadow: none;
       margin: 0;
       padding: 0;
     }
     
-    .simple-template .a4-page {
+    .highlight-template .a4-page {
       box-shadow: none;
       margin: 0;
       page-break-after: always;
       break-after: page;
     }
     
-    .simple-template .page-footer {
+    .highlight-template .page-footer {
       position: fixed;
       bottom: 10px;
     }
     
     /* Hide unnecessary elements during print */
-    .simple-template .template-container::before,
-    .simple-template .template-container::after {
+    .highlight-template .template-container::before,
+    .highlight-template .template-container::after {
       display: none;
     }
   }
   
   /* Ensure proper spacing in print */
   @media print {
-    .simple-template .simple-content {
+    .highlight-template .highlight-content {
       padding: 0 !important;
     }
     
@@ -89,7 +89,7 @@
   }
   
   /* Font smoothing for better readability */
-  .simple-template .simple-content {
+  .highlight-template .highlight-content {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -101,11 +101,11 @@
   
   /* Ensure no background colors bleed in print */
   @media print {
-    .simple-template .a4-page {
+    .highlight-template .a4-page {
       background: white !important;
     }
     
-    .simple-template .simple-content {
+    .highlight-template .highlight-content {
       background: white !important;
     }
   }
