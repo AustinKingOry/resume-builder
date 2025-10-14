@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useCallback, useRef } from "react"
 import type { ResumeData } from "../../lib/types"
 import { renderToString } from "react-dom/server"
@@ -47,7 +48,6 @@ interface ContentSection {
   isFullWidth?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Page: React.FC<PageProps> = ({ children, pageNumber, totalPages, margins, showFooter }) => (
   <div className="template-page a4-page" style={{ width: `${A4_WIDTH}px`, height: `${A4_HEIGHT}px` }}>
     {children}
@@ -76,7 +76,7 @@ const formatDescription = (description: string | undefined) => {
   return <p>{description}</p>
 }
 
-export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = {}, showFooter = true }) => {
+export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = {}, showFooter = false }) => {
   const [pages, setPages] = useState<PageContent[]>([]);
   const measurementRef = useRef<HTMLDivElement>(null);
   const [isMeasuring, setIsMeasuring] = useState(true);
@@ -86,8 +86,8 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
   // Calculate heights and widths
   const CONTENT_MAX_HEIGHT_MARGIN = A4_HEIGHT - 80 - (margin.top + margin.bottom);
 
-  // Measurement function
-  const measureElement = useCallback((element: React.ReactElement | React.ReactNode): Promise<number> => {
+  // Measurement function (USE AS-IS from Madrid template)
+  const measureElement = useCallback((element: React.ReactElement | React.ReactNode, isSidebar: boolean = false): Promise<number> => {
     return new Promise((resolve) => {
       if (!measurementRef.current) {
         resolve(0);
@@ -115,44 +115,44 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
     });
   }, []);
 
-  // createContentSections function - MAP ORIGINAL TEMPLATE SECTIONS HERE
+  // createContentSections function - MAP ORIGINAL TEMPLATE SECTIONS
   const createContentSections = useCallback(async (): Promise<ContentSection[]> => {
-    const sections: ContentSection[] = [];
     const { personalInfo, summary, experience, education, skills, skillLevels, certifications, referees } = data;
-
-    // Header section
+    const sections: ContentSection[] = [];
+    
+    // Header section (full-width)
     const headerContent = (
-      <div className="mb-6 border-b-2 border-resume-blue pb-4" key={createUniqueKey()}>
-        <h1 className="text-2xl font-bold mb-1">{personalInfo.name}</h1>
-        <p className="text-lg text-resume-blue mb-2">{personalInfo.title}</p>
+      <div className="mb-4 border-b-2 border-resume-blue pb-4" key={createUniqueKey()}>
+        <h1 className="text-2xl font-bold mb-1">{personalInfo?.name || "Your Name"}</h1>
+        <p className="text-lg text-resume-blue mb-2">{personalInfo?.title || "Your Title"}</p>
         
         <div className="flex flex-wrap gap-3 text-sm">
-          {personalInfo.email && (
+          {personalInfo?.email && (
             <span className="inline-flex items-center">
               <span className="font-bold mr-1">@</span> {personalInfo.email}
             </span>
           )}
-          {personalInfo.phone && (
+          {personalInfo?.phone && (
             <span className="inline-flex items-center">
               <span className="font-bold mr-1">#</span> {personalInfo.phone}
             </span>
           )}
-          {personalInfo.location && (
+          {personalInfo?.location && (
             <span className="inline-flex items-center">
               <span className="font-bold mr-1">&gt;</span> {personalInfo.location}
             </span>
           )}
-          {personalInfo.website && (
+          {personalInfo?.website && (
             <span className="inline-flex items-center">
               <span className="font-bold mr-1">~/</span> {personalInfo.website}
             </span>
           )}
-          {personalInfo.socialMedia.github && (
+          {personalInfo?.socialMedia?.github && (
             <span className="inline-flex items-center">
               <span className="font-bold mr-1">git:</span> GitHub
             </span>
           )}
-          {personalInfo.socialMedia.linkedin && (
+          {personalInfo?.socialMedia?.linkedin && (
             <span className="inline-flex items-center">
               <span className="font-bold mr-1">in:</span> LinkedIn
             </span>
@@ -169,8 +169,8 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
       isFullWidth: true
     });
 
-    // Technical Skills Section - Highlighted at top
-    if (skills.length > 0) {
+    // Technical Skills Section (full-width)
+    if (skills && skills.length > 0) {
       const skillsContent = (
         <section className="mb-6" key={createUniqueKey()}>
           <h2 className="text-lg font-bold mb-3 bg-resume-blue text-white py-1 px-2">
@@ -181,7 +181,7 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
               <div key={skill} className="mb-2">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{skill}</span>
-                  {skillLevels && skillLevels[skill] && (
+                  {skillLevels?.[skill] && (
                     <div className="flex">
                       {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((level) => (
                         <span
@@ -206,11 +206,11 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
         type: 'skills',
         content: skillsContent,
         canSplit: false,
-        isFullWidth: true
+        isMainColumn: true
       });
     }
 
-    // Summary section
+    // Summary Section (full-width)
     if (summary) {
       const summaryContent = (
         <section className="mb-6" key={createUniqueKey()}>
@@ -225,22 +225,22 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
         type: 'summary',
         content: summaryContent,
         canSplit: false,
-        isFullWidth: true
+        isMainColumn: true
       });
     }
 
-    // Experience section (splittable)
-    if (experience.length > 0) {
+    // Experience Section (splittable)
+    if (experience && experience.length > 0) {
       const experienceItems = await Promise.all(
         experience.map(async (exp, index) => {
           const expContent = (
-            <div key={`${index}-${createUniqueKey()}`} className="mb-4">
+            <div key={index} className="mb-4">
               <div className="flex flex-wrap justify-between items-baseline mb-1">
                 <h3 className="font-bold text-resume-blue">
-                  {exp.title} @ {exp.company}
+                  {exp.title || "Job Title"} @ {exp.company || "Company"}
                 </h3>
                 <span className="text-xs text-gray-600">
-                  {exp.startDate} → {exp.current ? "Present" : exp.endDate}
+                  {exp.startDate || "Start Date"} → {exp.current ? "Present" : exp.endDate || "End Date"}
                 </span>
               </div>
               {exp.location && <p className="text-xs text-gray-600 mb-1">{exp.location}</p>}
@@ -248,13 +248,13 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
             </div>
           );
           
-          const height = await measureElement(expContent);
+          const height = await measureElement(expContent, false);
           return { element: expContent, height };
         })
       );
 
       const experienceHeader = (
-        <section key={createUniqueKey()}>
+        <section className="mb-6" key={createUniqueKey()}>
           <h2 className="text-lg font-bold mb-3 bg-gray-100 py-1 px-2">
             {"// Experience"}
           </h2>
@@ -270,162 +270,113 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
       });
     }
 
-    // Education section (splittable) - goes in main column
-    if (education.length > 0) {
-      const educationItems = await Promise.all(
-        education.map(async (edu, index) => {
-          const eduContent = (
-            <div key={`${index}-${createUniqueKey()}`} className="mb-3">
-              <div className="flex flex-wrap justify-between items-baseline">
-                <h3 className="font-bold text-sm">{edu.degree}</h3>
-                <span className="text-xs text-gray-600">
-                  {edu.startDate} → {edu.endDate}
-                </span>
-              </div>
-              <p className="text-sm">{edu.school}</p>
-              {edu.location && <p className="text-xs text-gray-600">{edu.location}</p>}
-              {edu.description && <p className="text-xs mt-1">{edu.description}</p>}
-            </div>
-          );
-          
-          const height = await measureElement(eduContent);
-          return { element: eduContent, height };
-        })
-      );
+    // Two-column container for Education, Certifications, and References
+    const twoColumnContent = (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6" key={createUniqueKey()}>
+        {/* Left column - Education */}
+        <div>
+          {education && education.length > 0 && (
+            <section className="mb-6">
+              <h2 className="text-lg font-bold mb-3 bg-gray-100 py-1 px-2">
+                {"// Education"}
+              </h2>
+              {education.map((edu, index) => (
+                <div key={index} className="mb-3">
+                  <div className="flex flex-wrap justify-between items-baseline">
+                    <h3 className="font-bold text-sm">{edu.degree || "Degree"}</h3>
+                    <span className="text-xs text-gray-600">
+                      {edu.startDate || "Start Date"} → {edu.endDate || "End Date"}
+                    </span>
+                  </div>
+                  <p className="text-sm">{edu.school || "School"}</p>
+                  {edu.location && <p className="text-xs text-gray-600">{edu.location}</p>}
+                  {edu.description && <p className="text-xs mt-1">{edu.description}</p>}
+                </div>
+              ))}
+            </section>
+          )}
+        </div>
 
-      const educationHeader = (
-        <section key={createUniqueKey()}>
-          <h2 className="text-lg font-bold mb-3 bg-gray-100 py-1 px-2">
-            {"// Education"}
-          </h2>
-        </section>
-      );
-
-      sections.push({
-        type: 'education',
-        content: educationHeader,
-        items: educationItems,
-        canSplit: true,
-        isMainColumn: true
-      });
-    }
-
-    // Certifications section - goes in sidebar
-    if (certifications.length > 0) {
-      const certificationsContent = (
-        <section className="mb-6" key={createUniqueKey()}>
-          <h2 className="text-lg font-bold mb-3 bg-gray-100 py-1 px-2">
-            {"// Certifications"}
-          </h2>
-          {certifications.map((cert, index) => (
-            <div key={index} className="mb-2 text-sm">
-              <div className="font-semibold">{cert.name}</div>
-              <div className="text-xs">
-                <span>{cert.issuer}</span>
-                <span className="mx-1">•</span>
-                <span>{cert.date}</span>
-                {cert.id && (
-                  <>
+        {/* Right column - Certifications & References */}
+        <div>
+          {/* Certifications */}
+          {certifications && certifications.length > 0 && (
+            <section className="mb-6">
+              <h2 className="text-lg font-bold mb-3 bg-gray-100 py-1 px-2">
+                {"// Certifications"}
+              </h2>
+              {certifications.map((cert, index) => (
+                <div key={index} className="mb-2 text-sm">
+                  <div className="font-semibold">{cert.name || "Certification Name"}</div>
+                  <div className="text-xs">
+                    <span>{cert.issuer || "Issuer"}</span>
                     <span className="mx-1">•</span>
-                    <span>ID: {cert.id}</span>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
-        </section>
-      );
+                    <span>{cert.date || "Date"}</span>
+                    {cert.id && (
+                      <>
+                        <span className="mx-1">•</span>
+                        <span>ID: {cert.id}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </section>
+          )}
 
-      sections.push({
-        type: 'certifications',
-        content: certificationsContent,
-        canSplit: false,
-        isSidebar: true
-      });
-    }
+          {/* References */}
+          {referees && referees.length > 0 && (
+            <section>
+              <h2 className="text-lg font-bold mb-3 bg-gray-100 py-1 px-2">
+                {"// References"}
+              </h2>
+              {referees.map((referee, index) => (
+                <div key={index} className="mb-3 text-sm">
+                  <div className="font-bold">{referee.name || "Name"}</div>
+                  <div className="text-xs">{referee.position || "Position"} @ {referee.company || "Company"}</div>
+                  <div className="text-xs text-gray-600">
+                    {referee.email} {referee.phone && `• ${referee.phone}`}
+                  </div>
+                </div>
+              ))}
+            </section>
+          )}
+        </div>
+      </div>
+    );
 
-    // References section - goes in sidebar
-    if (referees.length > 0) {
-      const referencesContent = (
-        <section key={createUniqueKey()}>
-          <h2 className="text-lg font-bold mb-3 bg-gray-100 py-1 px-2">
-            {"// References"}
-          </h2>
-          {referees.map((referee, index) => (
-            <div key={index} className="mb-3 text-sm">
-              <div className="font-bold">{referee.name}</div>
-              <div className="text-xs">{referee.position} @ {referee.company}</div>
-              <div className="text-xs text-gray-600">
-                {referee.email} • {referee.phone}
-              </div>
-            </div>
-          ))}
-        </section>
-      );
-
-      sections.push({
-        type: 'references',
-        content: referencesContent,
-        canSplit: false,
-        isSidebar: true
-      });
-    }
+    sections.push({
+      type: 'two-column',
+      content: twoColumnContent,
+      canSplit: false,
+      isMainColumn: true
+    });
 
     return sections;
   }, [data, measureElement]);
 
-  // splitContentIntoPages function
+  // splitContentIntoPages function - USE PROVEN LOGIC
   const splitContentIntoPages = useCallback(async () => {
     const sections = await createContentSections();
     const newPages: PageContent[] = [];
     
     let currentMainHeight = 0;
     let currentMainContent: React.ReactNode[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const currentSidebarContent: React.ReactNode[] = [];
     let pageNumber = 1;
     let isFirstPage = true;
 
-    // Process sidebar content once
-    const sidebarSections = sections.filter(section => section.isSidebar);
-    const allSidebarContent: React.ReactNode[] = [];
-    for (const section of sidebarSections) {
-      allSidebarContent.push(section.content);
-    }
-
-    const addPage = (mainContent: React.ReactNode[], sidebarContent: React.ReactNode[] = [], hasHeader: boolean = false) => {
+    const addPage = (mainContent: React.ReactNode[], hasHeader: boolean = false) => {
       const pageContent = (
-        <div className="technical-content font-mono text-gray-800 mx-auto" style={{ width: '100%', height: '100%' }}>
-          <div className="p-8" style={{
-            padding: `${margin.top}px ${margin.right}px ${margin.bottom}px ${margin.left}px`
+        <div className="resume-page font-mono text-gray-800 mx-auto" style={{ 
+          width: '100%', 
+          height: '100%',          
+          padding: `${margin.top}px ${margin.right}px ${margin.bottom}px ${margin.left}px` 
           }}>
-            {hasHeader && sections.find(s => s.isHeader)?.content}
-            
-            {/* Full width sections */}
-            {sections.filter(s => s.isFullWidth && !s.isHeader).map(section => section.content)}
-            
-            {/* Two column layout for main and sidebar content */}
-            {(mainContent.length > 0 || sidebarContent.length > 0) && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                {/* Main column */}
-                {mainContent.length > 0 && (
-                  <div>
-                    <div className="space-y-6">
-                      {mainContent}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Sidebar column */}
-                {sidebarContent.length > 0 && (
-                  <div>
-                    <div className="space-y-6">
-                      {sidebarContent}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
+          {hasHeader && sections.find(s => s.isHeader)?.content}
+          <div 
+            className="add-padding"
+          >
+            {mainContent}
           </div>
         </div>
       );
@@ -439,23 +390,22 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
     };
 
     // Process main content sections
-    const mainSections = sections.filter(section => 
-      section.isMainColumn && !section.isFullWidth && !section.isHeader
-    );
+    const mainSections = sections.filter(section => section.isMainColumn || section.isFullWidth || section.isHeader);
     
     for (const section of mainSections) {
+      if (section.isHeader) continue;
+      
       if (section.canSplit && section.items) {
-        // Splittable section handling (experience, education)
+        // Splittable section handling (experience)
         const sectionHeader = section.content;
-        const headerHeight = await measureElement(sectionHeader);
+        const headerHeight = await measureElement(sectionHeader, false);
 
         for (const [index, item] of section.items.entries()) {
           const itemWithHeader = index === 0 ? [sectionHeader, item.element] : [item.element];
           const itemHeight = index === 0 ? headerHeight + item.height : item.height;
 
           if (currentMainHeight + itemHeight > CONTENT_MAX_HEIGHT_MARGIN && currentMainContent.length > 0) {
-            const sidebarForThisPage = isFirstPage ? allSidebarContent : [];
-            addPage([...currentMainContent], sidebarForThisPage, isFirstPage);
+            addPage([...currentMainContent], isFirstPage);
             currentMainContent = [];
             currentMainHeight = 0;
             isFirstPage = false;
@@ -471,11 +421,10 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
         }
       } else {
         // Non-splittable section handling
-        const sectionHeight = await measureElement(section.content);
+        const sectionHeight = await measureElement(section.content, false);
 
         if (currentMainHeight + sectionHeight > CONTENT_MAX_HEIGHT_MARGIN && currentMainContent.length > 0) {
-          const sidebarForThisPage = isFirstPage ? allSidebarContent : [];
-          addPage([...currentMainContent], sidebarForThisPage, isFirstPage);
+          addPage([...currentMainContent], isFirstPage);
           currentMainContent = [];
           currentMainHeight = 0;
           isFirstPage = false;
@@ -488,29 +437,16 @@ export const TechnicalTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
 
     // Add final page
     if (currentMainContent.length > 0) {
-      const sidebarForThisPage = isFirstPage ? allSidebarContent : [];
-      addPage(currentMainContent, sidebarForThisPage, isFirstPage);
+      addPage(currentMainContent, isFirstPage);
     }
 
     setPages(newPages);
     setIsMeasuring(false);
-  }, [createContentSections, CONTENT_MAX_HEIGHT_MARGIN, margin.top, margin.right, margin.bottom, margin.left, measureElement]);
+  }, [createContentSections, CONTENT_MAX_HEIGHT_MARGIN, measureElement, margin.top, margin.right, margin.bottom, margin.left]);
 
   // useEffect for splitContentIntoPages
   useEffect(() => {
-    let isMounted = true;
-    
-    const executeSplit = async () => {
-      if (isMounted) {
-        await splitContentIntoPages();
-      }
-    };
-
-    executeSplit();
-
-    return () => {
-      isMounted = false;
-    };
+    splitContentIntoPages();
   }, [splitContentIntoPages]);
 
   // Loading state

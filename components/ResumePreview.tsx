@@ -29,8 +29,8 @@ import PdfPreview from "./PdfPreview"
 import ClassicTemplateNew from "./templates/ClassicTemplateNew";
 // import MinimalistTemplate from "./templates/MinimalTemplate"
 import MinimalistTemplateNew from "./templates/MinimalTemplateNew"
-import TechnicalTemplate from "./templates/TechnicalTemplate"
-// import TechnicalTemplateNew from "./templates/TechnicalTemplateNew"
+// import TechnicalTemplate from "./templates/TechnicalTemplate"
+import TechnicalTemplateNew from "./templates/TechnicalTemplateNew"
 import ExecutiveTemplate from "./templates/ExecutiveTemplate"
 import CreativeTemplate from "./templates/CreativeTemplate"
 // import CreativeTemplateNew from "./templates/CreativeTemplateNew"
@@ -161,8 +161,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 // return <MinimalistTemplate data={data} />
                 return <MinimalistTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "technical":
-                return <TechnicalTemplate data={data} />
-                // return <TechnicalTemplateNew data={data} margins={margins} showFooter={showFooter}  />
+                // return <TechnicalTemplate data={data} />
+                return <TechnicalTemplateNew data={data} margins={margins} showFooter={showFooter}  />
             case "executive":
                 return <ExecutiveTemplate data={data} />
             case "creative":

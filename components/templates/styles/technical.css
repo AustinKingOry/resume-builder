@@ -1,7 +1,7 @@
 /* templates/styles/technical.css */
 
 /* A4 Page Styling */
-.template-container {
+.template-container.technical-template {
     position: relative;
     box-sizing: border-box;
     display: flex;
@@ -13,7 +13,7 @@
     min-height: 100vh;
   }
   
-  .a4-page {
+  .technical-template .a4-page {
     /* background: white; */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
@@ -24,7 +24,7 @@
   }
   
   /* Page Footer Styling */
-  .page-footer {
+  .technical-template .page-footer {
     position: absolute;
     bottom: 16px;
     left: 0;
@@ -33,7 +33,7 @@
     padding: 8px 0;
   }
   
-  .page-number {
+  .technical-template .page-number {
     font-size: 10px;
     color: #6b7280;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -41,114 +41,45 @@
   
   /* Technical Template Specific Styles */
   .technical-template {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: 'Fira Code', 'JetBrains Mono', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   
-  .technical-content {
+  .technical-template .technical-content {
     background: white;
     height: 100%;
     overflow: hidden;
   }
   
-  /* Resume Blue Color Scheme */
-  .border-resume-blue {
-    border-color: #2563eb;
-  }
-  
-  .text-resume-blue {
-    color: #2563eb;
-  }
-  
-  .bg-resume-blue {
-    background-color: #2563eb;
-  }
-  
   /* Print Styles */
   @media print {
-    .template-container {
+    .technical-template .template-container {
       box-shadow: none;
       margin: 0;
       padding: 0;
     }
     
-    .a4-page {
+    .technical-template .a4-page {
       box-shadow: none;
       margin: 0;
       page-break-after: always;
       break-after: page;
     }
     
-    .page-footer {
+    .technical-template .page-footer {
       position: fixed;
       bottom: 10px;
     }
     
-    /* Ensure colors print correctly */
-    .text-resume-blue {
-      color: #2563eb !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-    
-    .bg-resume-blue {
-      background-color: #2563eb !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-    
-    .bg-gray-100 {
-      background-color: #f3f4f6 !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-    
     /* Hide unnecessary elements during print */
-    .template-container::before,
-    .template-container::after {
+    .technical-template .template-container::before,
+    .technical-template .template-container::after {
       display: none;
     }
   }
   
-  /* Madrid Template Styles (for reference) */
-  .madrid-template .madrid-content {
-    font-family: ui-sans-serif, system-ui, sans-serif;
-  }
-  
-  .madrid-content .bg-yellow-300 {
-    background-color: #fde047;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  
-  .madrid-content .bg-black {
-    background-color: #000000;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  
-  /* Minimalist Template Styles (for reference) */
-  .minimalist-template .minimalist-content {
-    font-family: ui-sans-serif, system-ui, sans-serif;
-  }
-  
-  /* Progress Bar Dots for Technical Template */
-  .technical-content .bg-resume-blue {
-    background-color: #2563eb;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  
-  .technical-content .bg-gray-200 {
-    background-color: #e5e7eb;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  
   /* Ensure proper spacing in print */
   @media print {
-    .technical-content,
-    .madrid-content,
-    .minimalist-content {
+    .technical-template .technical-content {
       padding: 0 !important;
     }
     
@@ -157,60 +88,11 @@
     }
   }
   
-  /* Loading State */
-  .template-container .flex.items-center.justify-center {
-    border: 1px dashed #d1d5db;
-    background-color: #f9fafb;
-  }
-  
-  /* Measurement Container (hidden) */
-  .template-container div[style*="position: absolute"][style*="left: -9999"] {
-    pointer-events: none;
-    visibility: hidden;
-  }
-  
-  /* Skill Progress Dots - Print Optimization */
-  @media print {
-    .technical-content .inline-block.w-2.h-2 {
-      width: 2px !important;
-      height: 2px !important;
-      border: 0.5px solid transparent;
-    }
-  }
-  
-  /* Ensure two-column layout works in print */
-  @media print {
-    .technical-content .grid.grid-cols-1.md\:grid-cols-2 {
-      grid-template-columns: 1fr 1fr !important;
-    }
-    
-    .technical-content .gap-6 {
-      gap: 1.5rem !important;
-    }
-  }
-  
   /* Font smoothing for better readability */
-  .technical-content,
-  .madrid-content,
-  .minimalist-content {
+  .technical-template .technical-content {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  /* Code-like header styling */
-  .technical-content .bg-gray-100 {
-    background-color: #f3f4f6;
-    font-weight: 600;
-    border-left: 3px solid #2563eb;
-  }
-  
-  /* Responsive adjustments for the technical template */
-  @media (max-width: 768px) {
-    .technical-content .grid.grid-cols-2.sm\:grid-cols-3 {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  
   /* Print margin adjustments */
   @page {
     margin: 0;
@@ -219,13 +101,11 @@
   
   /* Ensure no background colors bleed in print */
   @media print {
-    .a4-page {
+    .technical-template .a4-page {
       background: white !important;
     }
     
-    .technical-content,
-    .madrid-content,
-    .minimalist-content {
+    .technical-template .technical-content {
       background: white !important;
     }
   }
