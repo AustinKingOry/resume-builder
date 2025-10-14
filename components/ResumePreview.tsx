@@ -48,7 +48,8 @@ import BusinessTemplateNew from "./templates/BusinessTemplateNew"
 // import ModernTemplate from "./templates/ModernTemplate"
 import ModernTemplate2 from "./templates/ModernTemplate2"
 import TemplateSelector from "./TemplateSelector"
-import { PlainTemplate } from "./templates/PlainTemplate"
+// import { PlainTemplate } from "./templates/PlainTemplate"
+import PlainTemplateNew from "./templates/PlainTemplateNew"
 import { Switch } from "./ui/switch"
 import { Label } from "./ui/label"
 import { Badge } from "./ui/badge"
@@ -183,12 +184,14 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 // return <SimpleTemplate data={data} />
                 return <SimpleTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "highlight":
+                // return <HighlightTemplate data={data} />
                 return <HighlightTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "business":
                 // return <BusinessTemplate data={data} />
                 return <BusinessTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "plain":
-                return <PlainTemplate data={data} />
+                // return <PlainTemplate data={data} />
+                return <PlainTemplateNew data={data} margins={margins} showFooter={showFooter} />
             default:
                 return <MilanTemplate data={data} />
         }

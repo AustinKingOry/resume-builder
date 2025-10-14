@@ -1,7 +1,6 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import type { ResumeData } from "@/lib/types"
 import { Mail, Phone, MapPin, Globe, Linkedin, Twitter, Github } from "lucide-react"
 
@@ -165,9 +164,9 @@ export function PlainTemplate({ data }: ResumePreviewProps) {
             <h3 className="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-1">Skills</h3>
             <div className="flex flex-wrap gap-2">
               {data.skills.map((skill, index) => (
-                <Badge key={index} variant="secondary" className="text-sm">
+                <span key={index} className="text-sm text-gray-700 py-0.5 px-2 border border-gray-300 rounded-md">
                   {skill.trim()}
-                </Badge>
+                </span>
               ))}
             </div>
           </div>
