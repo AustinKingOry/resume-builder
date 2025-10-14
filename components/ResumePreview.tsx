@@ -31,7 +31,8 @@ import ClassicTemplateNew from "./templates/ClassicTemplateNew";
 import MinimalistTemplateNew from "./templates/MinimalTemplateNew"
 // import TechnicalTemplate from "./templates/TechnicalTemplate"
 import TechnicalTemplateNew from "./templates/TechnicalTemplateNew"
-import ExecutiveTemplate from "./templates/ExecutiveTemplate"
+// import ExecutiveTemplate from "./templates/ExecutiveTemplate"
+import ExecutiveTemplateNew from "./templates/ExecutiveTemplateNew"
 import CreativeTemplate from "./templates/CreativeTemplate"
 // import CreativeTemplateNew from "./templates/CreativeTemplateNew"
 import ElegantTemplate from "./templates/ElegantTemplate"
@@ -164,7 +165,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 // return <TechnicalTemplate data={data} />
                 return <TechnicalTemplateNew data={data} margins={margins} showFooter={showFooter}  />
             case "executive":
-                return <ExecutiveTemplate data={data} />
+                // return <ExecutiveTemplate data={data} />
+                return <ExecutiveTemplateNew data={data} margins={margins} showFooter={showFooter} />
             case "creative":
                 return <CreativeTemplate data={data} />
                 // return <CreativeTemplateNew data={data} margins={margins} showFooter={showFooter} />
