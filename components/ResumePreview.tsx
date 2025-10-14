@@ -7,7 +7,8 @@ import { resumeTemplates } from "../data/templates"
 import { Button } from "@/components/ui/button"
 import { Download, Loader, Loader2, Printer } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
-import NairobiTemplate from "./templates/NairobiTemplate"
+// import NairobiTemplate from "./templates/NairobiTemplate"
+import NairobiTemplateNew from "./templates/NairobiTemplateNew"
 import StockholmTemplate from "./templates/StockholmTemplate"
 // import AthensTemplate from "./templates/AthensTemplate"
 import AthensTemplateNew from "./templates/AthensTemplateNew"
@@ -129,7 +130,8 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
     const renderTemplate = () => {
         switch (data.selectedTemplate) {
             case "nairobi":
-                return <NairobiTemplate data={data}  />
+                // return <NairobiTemplate data={data}  />
+                return <NairobiTemplateNew data={data} margins={margins} showFooter={showFooter}  />
             case "milan":
                 return <MilanTemplate data={data} />
             case "stockholm":
