@@ -3,6 +3,7 @@ import type { ResumeData } from "../../lib/types"
 import { useRef, useEffect, useState, useCallback } from "react";
 import { renderToString } from "react-dom/server";
 import "./styles/oslo.css"
+import { createUniqueKey } from "@/lib/helpers";
 
 // Helper component for skill progress bars
 const SkillProgressBar = ({ level = 90 }: { level?: number }) => {
@@ -98,10 +99,11 @@ export default function OsloTemplateNew({ data, margins = {}, showFooter = false
   const [isMeasuring, setIsMeasuring] = useState(true);
 
   // Calculate available height considering footer
-  const CONTENT_MAX_HEIGHT = A4_HEIGHT - 40;
+  const HEADER_HEIGHT = 220; // Approximate height of teal header with photo
+  const CONTENT_MAX_HEIGHT = A4_HEIGHT - HEADER_HEIGHT - (margin.top + margin.bottom) - 40;
 
   // Measure element height
-  const measureElement = (element: React.ReactElement | React.ReactNode): Promise<number> => {
+  const measureElement = useCallback((element: React.ReactElement | React.ReactNode): Promise<number> => {
     return new Promise((resolve) => {
       if (!measurementRef.current) {
         resolve(0);
@@ -110,8 +112,8 @@ export default function OsloTemplateNew({ data, margins = {}, showFooter = false
 
       const container = measurementRef.current;
       const tempDiv = document.createElement('div');
-      tempDiv.style.width = `${A4_WIDTH}px`;
-      tempDiv.style.padding = '0';
+      tempDiv.style.width = `${A4_WIDTH - margin.left - margin.right}px`;
+      tempDiv.style.padding = `0px`;
       tempDiv.style.position = 'absolute';
       tempDiv.style.left = '-9999px';
       tempDiv.style.top = '-9999px';
@@ -127,7 +129,7 @@ export default function OsloTemplateNew({ data, margins = {}, showFooter = false
 
       setTimeout(measureContent, 0);
     });
-  };
+  }, [margin.right, margin.left]);
 
   // Create content sections with measurement
   const createContentSections = useCallback(async (): Promise<ContentSection[]> => {
@@ -351,7 +353,7 @@ export default function OsloTemplateNew({ data, margins = {}, showFooter = false
     // References section
     if (resumeData.referees && resumeData.referees.length > 0) {
       const referencesElement = (
-        <section>
+        <section key={createUniqueKey()}>
           <h2 className="text-xl font-bold mb-4">References</h2>
           <p className="text-gray-700">Available upon request</p>
         </section>
@@ -365,7 +367,7 @@ export default function OsloTemplateNew({ data, margins = {}, showFooter = false
     }
 
     return sections;
-  }, [resumeData]);
+  }, [measureElement, resumeData.education, resumeData.experience, resumeData.personalInfo.email, resumeData.personalInfo.location, resumeData.personalInfo.name, resumeData.personalInfo.phone, resumeData.personalInfo.photo, resumeData.personalInfo?.title, resumeData.referees, resumeData.skillLevels, resumeData.skills, resumeData.summary]);
 
   // Split content into pages based on measured heights
   const splitContentIntoPages = useCallback(async () => {
@@ -379,7 +381,7 @@ export default function OsloTemplateNew({ data, margins = {}, showFooter = false
 
     const addPage = (mainContent: React.ReactNode[], hasHeader: boolean = false) => {
       const content = (
-        <div className="oslo-content bg-white font-sans mx-auto" style={{ height: '100%', overflow: 'hidden' }}>
+        <div className="oslo-content bg-white font-sans" style={{ height: '100%', overflow: 'hidden' }}>
           {hasHeader && (
             <div>
               {sections.find(s => s.type === 'header')?.content}
@@ -464,7 +466,7 @@ export default function OsloTemplateNew({ data, margins = {}, showFooter = false
 
     setPages(newPages);
     setIsMeasuring(false);
-  }, [createContentSections, CONTENT_MAX_HEIGHT]);
+  }, [createContentSections, measureElement, CONTENT_MAX_HEIGHT]);
 
   useEffect(() => {
     splitContentIntoPages();

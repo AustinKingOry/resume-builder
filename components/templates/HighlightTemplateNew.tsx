@@ -218,7 +218,7 @@ export const HighlightTemplateNew: React.FC<TemplateProps> = ({ data, margins = 
                 </span>
               </div>
               {exp.location && <p className="text-sm text-gray-600 mb-2">{exp.location}</p>}
-              <p className="text-sm">{formatDescription(exp.description)}</p>
+              <div className="text-sm">{formatDescription(exp.description)}</div>
             </div>
           );
           

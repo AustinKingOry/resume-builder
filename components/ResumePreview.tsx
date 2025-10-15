@@ -408,11 +408,11 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 isDownloading={isGenerating} 
             />
             <div className="col-span-3 border">                
-                <div className={`bg-white text-black rounded-lg shadow-lg scale-95j max-w-4xll mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative p-2`}>
+                <div className={`bg-green-50 text-black rounded-lg shadow-lg max-w-6xl mx-auto ${(livePreview && previewUrl) && "hidden"} dark:bg-gray-800 relative p-2`}>
                     {loadingPreview && <div className="absolute top-0 bottom-0 left-0 right-0 bg-gray-800/50 flex justify-between items-center z-10">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto" />
                     </div>}
-                    <div id="resume-preview" className="bg-whitey w-fit mx-auto">
+                    <div id="resume-preview" className="w-fit mx-auto">
                         {renderTemplate()}
                     </div>
                 </div>

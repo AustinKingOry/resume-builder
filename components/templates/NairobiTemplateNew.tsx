@@ -369,7 +369,7 @@ export const NairobiTemplateNew: React.FC<TemplateProps> = ({ data, margins = {}
         const certificationItems = await Promise.all(
           certificationGroups.map(async (certGroup, groupIndex) => {
             const certContent = (
-              <ul className="list-disc ml-5 text-sm text-gray-700" key={groupIndex}>
+              <ul className="list-disc ml-5 text-sm text-gray-700" key={`${groupIndex}-${createUniqueKey()}`}>
                 {certGroup.map((cert, index) => (
                   <li key={index} className="mb-2">
                     <h3 className="text-lg font-semibold">{cert.name || "Certification Name"}</h3>
