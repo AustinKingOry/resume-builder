@@ -1,0 +1,538 @@
+"use client"
+import Image from "next/image"
+import Link from "next/link"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { useToast } from "@/hooks/use-toast"
+import {
+  Plus,
+  FileText,
+  MoreVertical,
+  Edit,
+  Download,
+  Copy,
+  Trash2,
+  Share2,
+  Search,
+  Calendar,
+  Eye,
+  Sparkles,
+  Filter,
+  Grid3x3,
+  List,
+  ArrowUpDown,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+} from "lucide-react"
+import { cn } from "@/lib/utils"
+
+// Mock data for resumes
+type ResumeStatus = "draft" | "complete" | "needs-review"
+
+interface Resume {
+  id: string
+  title: string
+  position?: string
+  lastUpdated: string
+  createdAt: string
+  status: ResumeStatus
+  thumbnail?: string
+  fileSize?: string
+  downloads: number
+}
+
+const mockResumes: Resume[] = [
+  {
+    id: "1",
+    title: "Software Engineer Resume",
+    position: "Senior Software Engineer",
+    lastUpdated: "2024-01-20T10:30:00Z",
+    createdAt: "2024-01-15T08:00:00Z",
+    status: "complete",
+    thumbnail: "/placeholder.svg?height=400&width=300",
+    fileSize: "245 KB",
+    downloads: 3,
+  },
+  {
+    id: "2",
+    title: "Marketing Specialist CV",
+    position: "Digital Marketing Lead",
+    lastUpdated: "2024-01-18T15:45:00Z",
+    createdAt: "2024-01-10T12:00:00Z",
+    status: "complete",
+    thumbnail: "/placeholder.svg?height=400&width=300",
+    fileSize: "198 KB",
+    downloads: 1,
+  },
+  {
+    id: "3",
+    title: "Product Manager Resume",
+    position: "Senior Product Manager",
+    lastUpdated: "2024-01-19T09:15:00Z",
+    createdAt: "2024-01-18T14:00:00Z",
+    status: "draft",
+    thumbnail: "/placeholder.svg?height=400&width=300",
+    fileSize: "210 KB",
+    downloads: 0,
+  },
+  {
+    id: "4",
+    title: "Data Analyst CV",
+    position: "Data Analyst",
+    lastUpdated: "2024-01-17T16:20:00Z",
+    createdAt: "2024-01-12T10:00:00Z",
+    status: "needs-review",
+    thumbnail: "/placeholder.svg?height=400&width=300",
+    fileSize: "223 KB",
+    downloads: 2,
+  },
+]
+
+function formatDate(dateString: string) {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
+
+  if (diffInHours < 24) {
+    if (diffInHours < 1) return "Just now"
+    return `${diffInHours}h ago`
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24)
+  if (diffInDays < 7) return `${diffInDays}d ago`
+
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+}
+
+function getStatusConfig(status: ResumeStatus) {
+  switch (status) {
+    case "complete":
+      return {
+        label: "Complete",
+        icon: CheckCircle2,
+        color: "text-emerald-600 bg-emerald-50 border-emerald-200 dark:bg-emerald-950 dark:border-emerald-800",
+      }
+    case "draft":
+      return {
+        label: "Draft",
+        icon: Clock,
+        color: "text-sky-600 bg-sky-50 border-sky-200 dark:bg-sky-950 dark:border-sky-800",
+      }
+    case "needs-review":
+      return {
+        label: "Needs Review",
+        icon: AlertCircle,
+        color: "text-yellow-600 bg-yellow-50 border-yellow-200 dark:bg-yellow-950 dark:border-yellow-800",
+      }
+  }
+}
+
+function DashboardHeader() {
+  return (
+    <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-sky-500 grid place-items-center text-white font-bold">
+            K
+          </div>
+          <span className="text-lg font-semibold">Kazikit</span>
+        </Link>
+
+        <nav className="hidden md:flex items-center gap-6">
+          <Link href="/dashboard/resumes" className="text-sm font-medium">
+            My Resumes
+          </Link>
+          <Link href="/dashboard/cover-letters" className="text-sm text-muted-foreground hover:text-foreground">
+            Cover Letters
+          </Link>
+          <Link href="/dashboard/profile" className="text-sm text-muted-foreground hover:text-foreground">
+            Profile
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/status">Status</Link>
+          </Button>
+          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-600 to-sky-600 cursor-pointer" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function StatsOverview({ resumes }: { resumes: Resume[] }) {
+  const totalResumes = resumes.length
+  const completeResumes = resumes.filter((r) => r.status === "complete").length
+  const totalDownloads = resumes.reduce((sum, r) => sum + r.downloads, 0)
+
+  const stats = [
+    { label: "Total Resumes", value: totalResumes, icon: FileText, color: "from-emerald-500 to-emerald-600" },
+    { label: "Complete", value: completeResumes, icon: CheckCircle2, color: "from-sky-500 to-sky-600" },
+    { label: "Downloads", value: totalDownloads, icon: Download, color: "from-purple-500 to-purple-600" },
+  ]
+
+  return (
+    <div className="grid gap-4 md:grid-cols-3">
+      {stats.map((stat) => (
+        <Card key={stat.label} className="relative overflow-hidden">
+          <div
+            className={cn(
+              "absolute -top-12 -right-12 h-32 w-32 rounded-full blur-3xl opacity-20 bg-gradient-to-br",
+              stat.color,
+            )}
+          />
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">{stat.label}</CardTitle>
+            <stat.icon className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stat.value}</div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  )
+}
+
+function ResumeCard({ resume, onEdit, onDelete }: { resume: Resume; onEdit: () => void; onDelete: () => void }) {
+  const { toast } = useToast()
+  const statusConfig = getStatusConfig(resume.status)
+  const StatusIcon = statusConfig.icon
+
+  function handleDownload() {
+    toast({ title: "Downloading...", description: `Downloading ${resume.title}` })
+  }
+
+  function handleDuplicate() {
+    toast({ title: "Duplicated", description: `Created a copy of ${resume.title}` })
+  }
+
+  function handleShare() {
+    toast({ title: "Share link copied", description: "Resume link copied to clipboard" })
+  }
+
+  return (
+    <Card className="group relative overflow-hidden border-emerald-600/10 dark:border-emerald-400/10 hover:border-emerald-600/30 dark:hover:border-emerald-400/30 transition-all duration-300 hover:shadow-lg">
+      <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 group-hover:opacity-20 bg-gradient-to-br from-emerald-600 to-sky-600 transition-opacity duration-500" />
+
+      <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-t-lg">
+        <Image
+          src={resume.thumbnail || "/placeholder.svg?height=400&width=300"}
+          alt={`${resume.title} preview`}
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+
+        <div className="absolute top-2 left-2 right-2 flex items-start justify-between">
+          <Badge variant="outline" className={cn("gap-1", statusConfig.color)}>
+            <StatusIcon className="h-3 w-3" />
+            {statusConfig.label}
+          </Badge>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 bg-background/80 backdrop-blur hover:bg-background"
+              >
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={onEdit}>
+                <Edit className="h-4 w-4 mr-2" />
+                Edit Resume
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleDownload}>
+                <Download className="h-4 w-4 mr-2" />
+                Download PDF
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleDuplicate}>
+                <Copy className="h-4 w-4 mr-2" />
+                Duplicate
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleShare}>
+                <Share2 className="h-4 w-4 mr-2" />
+                Share Link
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onDelete} className="text-red-600 dark:text-red-400">
+                <Trash2 className="h-4 w-4 mr-2" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="absolute bottom-2 left-2 right-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            className="w-full bg-background/80 backdrop-blur hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={onEdit}
+          >
+            <Eye className="h-4 w-4 mr-2" />
+            Quick View
+          </Button>
+        </div>
+      </div>
+
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base line-clamp-1">{resume.title}</CardTitle>
+        {resume.position && <CardDescription className="line-clamp-1">{resume.position}</CardDescription>}
+      </CardHeader>
+
+      <CardFooter className="text-xs text-muted-foreground flex items-center justify-between pt-0">
+        <div className="flex items-center gap-1">
+          <Calendar className="h-3 w-3" />
+          <span>Updated {formatDate(resume.lastUpdated)}</span>
+        </div>
+        {resume.downloads > 0 && (
+          <div className="flex items-center gap-1">
+            <Download className="h-3 w-3" />
+            <span>{resume.downloads}</span>
+          </div>
+        )}
+      </CardFooter>
+    </Card>
+  )
+}
+
+function EmptyState() {
+  return (
+    <div className="text-center py-16">
+      <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-gradient-to-br from-emerald-500/20 to-sky-500/20 grid place-items-center">
+        <FileText className="h-12 w-12 text-emerald-600" />
+      </div>
+      <h3 className="text-2xl font-semibold mb-2">Start building your first resume</h3>
+      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+        Create a professional resume with our AI-powered builder. Stand out with impact-driven content that gets you
+        noticed.
+      </p>
+      <Button
+        className="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 hover:from-emerald-500 hover:to-sky-500 text-white shadow-lg shadow-emerald-600/20"
+        size="lg"
+        asChild
+      >
+        <Link href="/dashboard/resumes/new">
+          <Plus className="h-4 w-4 mr-2" />
+          Create Your First Resume
+        </Link>
+      </Button>
+      <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-emerald-600" />
+          <span>AI-Powered</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+          <span>ATS-Friendly</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Download className="h-4 w-4 text-emerald-600" />
+          <span>Export to PDF</span>
+        </div>
+      </div>
+      <div className="mt-6">
+        <p className="text-sm text-muted-foreground mb-3">Or start with a template</p>
+        <div className="flex flex-wrap gap-2 justify-center">
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/dashboard/resumes/templates">Browse Templates</Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/dashboard/resumes/import">Import Existing Resume</Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function ResumesPage() {
+  const [resumes, setResumes] = useState<Resume[]>(mockResumes)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [resumeToDelete, setResumeToDelete] = useState<Resume | null>(null)
+  const { toast } = useToast()
+
+  const filteredResumes = resumes.filter(
+    (resume) =>
+      resume.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      resume.position?.toLowerCase().includes(searchQuery.toLowerCase()),
+  )
+
+  function handleEdit(resume: Resume) {
+    toast({ title: "Opening editor...", description: `Editing ${resume.title}` })
+  }
+
+  function handleDeleteClick(resume: Resume) {
+    setResumeToDelete(resume)
+    setDeleteDialogOpen(true)
+  }
+
+  function handleDeleteConfirm() {
+    if (resumeToDelete) {
+      setResumes(resumes.filter((r) => r.id !== resumeToDelete.id))
+      toast({
+        title: "Resume deleted",
+        description: `${resumeToDelete.title} has been permanently deleted.`,
+      })
+      setDeleteDialogOpen(false)
+      setResumeToDelete(null)
+    }
+  }
+
+  return (
+    <>
+      <DashboardHeader />
+
+      <main className="relative overflow-x-hidden min-h-screen">
+        {/* Background */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
+          <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
+          <div className="absolute top-1/3 -right-24 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
+        </div>
+
+        <div className="container mx-auto px-4 md:px-6 py-8">
+          {/* Page Header */}
+          <div className="mb-8">
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 bg-clip-text text-transparent">
+                  My Resumes
+                </h1>
+                <p className="text-muted-foreground">
+                  Manage your professional resumes and track your career materials in one place
+                </p>
+              </div>
+              <Button
+                className="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 hover:from-emerald-500 hover:to-sky-500 text-white shadow-lg shadow-emerald-600/20"
+                asChild
+              >
+                <Link href="/dashboard/resumes/new">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create New Resume
+                </Link>
+              </Button>
+            </div>
+
+            {/* Stats Overview */}
+            <StatsOverview resumes={resumes} />
+          </div>
+
+          {/* Search and Filters */}
+          <div className="mb-6 flex flex-col sm:flex-row gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search resumes by title or position..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+
+            <div className="flex gap-2">
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent">
+                <Filter className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent">
+                <ArrowUpDown className="h-4 w-4" />
+              </Button>
+              <div className="flex border rounded-md p-1">
+                <Button
+                  variant={viewMode === "grid" ? "secondary" : "ghost"}
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => setViewMode("grid")}
+                >
+                  <Grid3x3 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "list" ? "secondary" : "ghost"}
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => setViewMode("list")}
+                >
+                  <List className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Resumes Grid/List */}
+          {filteredResumes.length === 0 ? (
+            resumes.length === 0 ? (
+              <EmptyState />
+            ) : (
+              <div className="text-center py-16">
+                <p className="text-muted-foreground">No resumes match your search</p>
+              </div>
+            )
+          ) : (
+            <div
+              className={cn(
+                "grid gap-6",
+                viewMode === "grid" ? "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1",
+              )}
+            >
+              {filteredResumes.map((resume) => (
+                <ResumeCard
+                  key={resume.id}
+                  resume={resume}
+                  onEdit={() => handleEdit(resume)}
+                  onDelete={() => handleDeleteClick(resume)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Resume</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete "{resumeToDelete?.title}"? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDeleteConfirm}>
+              <Trash2 className="h-4 w-4 mr-2" />
+              Delete Resume
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
