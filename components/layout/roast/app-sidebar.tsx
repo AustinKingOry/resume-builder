@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, Calendar, Download, FileText, Flame, HelpCircle, Home, Inbox, Search, Settings, UserIcon } from "lucide-react"
+import { BarChart3, Download, FileText, Flame, HelpCircle, Settings, UserIcon } from "lucide-react"
 
 import {
   Sidebar,
@@ -15,47 +15,15 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
-import { Profile } from "@/lib/types"
 import { useAuth } from "@/components/auth-provider"
 import Image from "next/image"
-
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-]
-
-interface AppSidebarProps {
-  profile: Profile | null
-}
 
 export function AppSidebar() {
   const { profile } = useAuth();
     const navigation = [
       { name: "Home", icon: FileText, href: "/dashboard", current: false },
+      { name: "My Resumes", icon: BarChart3, href: "/resumes", current: false },
+      { name: "Cover Letters", icon: BarChart3, href: "/cover-letters", current: false },
       { name: "CV Builder", icon: FileText, href: "/builder", current: false },
       { name: "CV Roaster", icon: Flame, href: "/roast-my-cv", current: true },
       { name: "Analytics", icon: BarChart3, href: "/analytics", current: false },
@@ -63,15 +31,6 @@ export function AppSidebar() {
     ]
   return (
     <Sidebar className="bg-white dark:!bg-black dark:border-gray-800">
-        {/* Subtle African pattern overlay */}
-        <div className="absolute top-0 right-0 w-full h-32 opacity-5 bg-gradient-to-br from-emerald-600 to-blue-600 overflow-hidden dark:from-emerald-400 dark:to-blue-400">
-            <div
-            className="absolute inset-0"
-            style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fillOpacity='0.1'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20zM0 20v20h20c0-11.046-8.954-20-20-20z'/%3E%3C/g%3E%3C/svg%3E")`,
-            }}
-            />
-        </div>
         <SidebarHeader>
             <div className="p-2.5 border-b border-gray-200 relative z-10 dark:border-gray-800">
             <Link href="/" className="flex items-center gap-3">
@@ -124,7 +83,7 @@ export function AppSidebar() {
 
         <div className="space-y-1">
           <a
-            href="/settings"
+            href="/account"
             className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-950"
           >
             <Settings className="w-4 h-4" />
