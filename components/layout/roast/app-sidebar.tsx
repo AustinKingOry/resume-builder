@@ -24,7 +24,7 @@ export function AppSidebar() {
       { name: "Home", icon: FileText, href: "/dashboard", current: false },
       { name: "My Resumes", icon: BarChart3, href: "/resumes", current: false },
       { name: "Cover Letters", icon: BarChart3, href: "/cover-letters", current: false },
-      { name: "CV Builder", icon: FileText, href: "/builder", current: false },
+      { name: "CV Builder", icon: FileText, href: "/resumes/builder", current: false },
       { name: "CV Roaster", icon: Flame, href: "/roast-my-cv", current: true },
       { name: "Analytics", icon: BarChart3, href: "/analytics", current: false },
       { name: "Templates", icon: Download, href: "/templates", current: false },

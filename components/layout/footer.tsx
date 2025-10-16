@@ -19,7 +19,7 @@ export function Footer() {
                 </div>
                 <div className="flex flex-col space-y-4">
                     <h3 className="text-lg font-bold text-[#1E3A8A] dark:text-blue-600">Features</h3>
-                    <Link href="/builder" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
+                    <Link href="/resumes/builder" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">
                     Resume Builder
                     </Link>
                     <Link href="/templates" className="text-sm text-gray-600 dark:text-muted-foreground hover:text-[#1E3A8A]">

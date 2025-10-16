@@ -55,7 +55,7 @@ import { Switch } from "./ui/switch"
 import { Label } from "./ui/label"
 import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
-import { ControlPanel } from "./BuilderControlPanel"
+import { ControlPanel } from "./resumes/builderControlPanel"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -101,7 +101,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                 `
                 
                 const response = await axios.post(
-                    `${serverless_url}/api/builder`,
+                    `${serverless_url}/api/resumes/builder`,
                     { html: html, name:`${data.personalInfo.name}`, type: "resume", preview: true },
                     { responseType: "blob" }
                 );
@@ -234,7 +234,7 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
                     body: JSON.stringify({ html, name:`${data.personalInfo.name}`, type: "resume" }),
                     })
                 } else {                    
-                    response = await fetch(`${serverless_url}/api/builder`, {
+                    response = await fetch(`${serverless_url}/api/resumes/builder`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ html, name:`${data.personalInfo.name}`, type: "resume" }),

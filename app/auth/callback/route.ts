@@ -20,7 +20,7 @@ export async function GET(request: Request) {
                 email: session.user.email,
             })
         }
-        return redirect('/builder');
+        return redirect('/resumes/builder');
     } else {
         return redirect('/login');
     }

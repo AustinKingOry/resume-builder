@@ -178,7 +178,7 @@ function Hero() {
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Button size="lg" className="bg-emerald-600 hover:bg-primary/90" asChild>
-                    <Link href={'/builder'}>Start Building <ArrowRight className="ml-2 h-4 w-4" /></Link>                    
+                    <Link href={'/resumes/builder'}>Start Building <ArrowRight className="ml-2 h-4 w-4" /></Link>                    
                 </Button>
                 <Button size="lg" variant="outline" className="border-[#1E3A8A] text-[#1E3A8A] dark:text-blue-700 hover:bg-[#1E3A8A]/10" asChild>
                     <Link href={'#features'}>Explore Tools</Link>
@@ -274,7 +274,7 @@ function AboutSection() {
 
 function ToolsSection() {
   const tools = [
-    { title: "Resume Builder", desc: "Craft world-class resumes with impact-driven bullet points, optimized for ATS and global markets.", href: "/builder", icon: FileText, accent: "from-emerald-500 to-emerald-700" },
+    { title: "Resume Builder", desc: "Craft world-class resumes with impact-driven bullet points, optimized for ATS and global markets.", href: "/resumes/builder", icon: FileText, accent: "from-emerald-500 to-emerald-700" },
     { title: "Cover Photos", desc: "Create professional cover images that make your social media profiles stand out and leave a lasting impression", href: "/cooking", icon: ImageIcon, accent: "from-sky-500 to-sky-700" },
     { title: "Cover Letters", desc: "Tailor persuasive letters for each role with company-aware, role-specific context.", href:"/cooking", icon: PenLine, accent: "from-emerald-500 to-sky-500" },
     { title: "Professional Templates", desc: "Choose from a variety of professionally designed templates that stand out.", href: "/templates", icon: Award, accent: "from-emerald-600 to-sky-600" },

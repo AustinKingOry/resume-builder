@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ResumeForm from "@/components/ResumeForm";
 import ResumePreview from "@/components/ResumePreview";
-import type { ResumeData, ResumeDataDb, ResumeTemplate } from "../../lib/types";
+import type { ResumeData, ResumeDataDb, ResumeTemplate } from "../../../../lib/types";
 import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";

@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
 	const links = [
 		// {title:"Home",link:"/"},
-		{title:"Resume Builder",link:"/builder"},
+		{title:"Resume Builder",link:"/resumes/builder"},
 		{title:"Templates",link:"/templates"},
 		{title:"Cover Photos",link:"/coverphotos"},
 		{title:"Roast My CV",link:"/roast-my-cv"},
@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
 			</nav>
 			<div className="flex items-center space-x-4">
 				<ThemeSwitcher />
-				<Link href="/builder">
+				<Link href="/resumes/builder">
 					<Button>Create Resume</Button>
 				</Link>
 				{user ? 
@@ -62,6 +62,9 @@ const Navbar: React.FC = () => {
 					<DropdownMenuSeparator className="dark:bg-gray-800" />
 					<DropdownMenuItem asChild><Link href={'/account'}>Profile</Link></DropdownMenuItem>
 					<DropdownMenuItem asChild><Link href={'/settings'}>Settings</Link></DropdownMenuItem>
+					<DropdownMenuItem asChild><Link href={'/resumes'}>Resumes</Link></DropdownMenuItem>
+					<DropdownMenuItem asChild><Link href={'/cover-letters'}>Cover Letters</Link></DropdownMenuItem>
+					<DropdownMenuItem asChild><Link href={'/my-dashboard'}>Dashboard</Link></DropdownMenuItem>
 					<DropdownMenuSeparator className="dark:bg-gray-800" />
 					<DropdownMenuItem onClick={signOut}>Log out</DropdownMenuItem>
 				</DropdownMenuContent>
