@@ -7,7 +7,6 @@ import RedesignedResumeForm from "@/components/redesigned-resume-form"
 import type { ResumeData, ResumeDataDb, ResumeTemplate } from "@/lib/types"
 import { Toaster } from "@/components/ui/toaster"
 import ResumePreview from "@/components/ResumePreview"
-import Navbar from "@/components/layout/navbar"
 import { useAuth } from "@/components/auth-provider"
 import { ResumeDB } from "@/utils/supabaseClient"
 import { debounce } from "lodash"
@@ -142,10 +141,9 @@ export default function ResumeBuilder() {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         {/* Tab Navigation - Fixed Header */}
-        <div className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-50 dark:bg-gray-900/80 dark:border-gray-700 mt-14">
+        <div className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-50 dark:bg-gray-900/80 dark:border-gray-700">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between gap-2 max-sm:flex-wrap">
               <div className="flex items-center space-x-3 max-sm:w-full">

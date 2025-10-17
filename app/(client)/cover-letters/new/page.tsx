@@ -50,40 +50,6 @@ const aiSuggestions = [
   { id: "3", text: "Tailor the opening to the company's mission", action: "customize-opening" },
 ]
 
-function DashboardHeader() {
-  return (
-    <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-sky-500 grid place-items-center text-white font-bold">
-            K
-          </div>
-          <span className="text-lg font-semibold">Kazikit</span>
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="/resumes" className="text-sm text-muted-foreground hover:text-foreground">
-            My Resumes
-          </Link>
-          <Link href="/cover-letters" className="text-sm font-medium">
-            Cover Letters
-          </Link>
-          <Link href="/profile" className="text-sm text-muted-foreground hover:text-foreground">
-            Profile
-          </Link>
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/status">Status</Link>
-          </Button>
-          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-600 to-sky-600 cursor-pointer" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function EditorToolbar() {
   return (
     <div className="flex items-center gap-1 p-2 border-b bg-muted/30">
@@ -374,7 +340,6 @@ export default function NewCoverLetterPage() {
 
   return (
     <>
-      <DashboardHeader />
 
       <main className="relative overflow-x-hidden min-h-screen">
         {/* Background */}

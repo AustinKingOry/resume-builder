@@ -146,40 +146,6 @@ function getStatusConfig(status: ResumeStatus) {
   }
 }
 
-function DashboardHeader() {
-  return (
-    <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-sky-500 grid place-items-center text-white font-bold">
-            K
-          </div>
-          <span className="text-lg font-semibold">Kazikit</span>
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="/dashboard/resumes" className="text-sm font-medium">
-            My Resumes
-          </Link>
-          <Link href="/dashboard/cover-letters" className="text-sm text-muted-foreground hover:text-foreground">
-            Cover Letters
-          </Link>
-          <Link href="/dashboard/profile" className="text-sm text-muted-foreground hover:text-foreground">
-            Profile
-          </Link>
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/status">Status</Link>
-          </Button>
-          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-600 to-sky-600 cursor-pointer" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function StatsOverview({ resumes }: { resumes: Resume[] }) {
   const totalResumes = resumes.length
   const completeResumes = resumes.filter((r) => r.status === "complete").length
@@ -336,7 +302,7 @@ function EmptyState() {
         size="lg"
         asChild
       >
-        <Link href="/dashboard/resumes/new">
+        <Link href="/resumes/new">
           <Plus className="h-4 w-4 mr-2" />
           Create Your First Resume
         </Link>
@@ -359,10 +325,10 @@ function EmptyState() {
         <p className="text-sm text-muted-foreground mb-3">Or start with a template</p>
         <div className="flex flex-wrap gap-2 justify-center">
           <Button variant="outline" size="sm" asChild>
-            <Link href="/dashboard/resumes/templates">Browse Templates</Link>
+            <Link href="/resumes/templates">Browse Templates</Link>
           </Button>
           <Button variant="outline" size="sm" asChild>
-            <Link href="/dashboard/resumes/import">Import Existing Resume</Link>
+            <Link href="/resumes/import">Import Existing Resume</Link>
           </Button>
         </div>
       </div>
@@ -407,8 +373,6 @@ export default function ResumesPage() {
 
   return (
     <>
-      <DashboardHeader />
-
       <main className="relative overflow-x-hidden min-h-screen">
         {/* Background */}
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -433,7 +397,7 @@ export default function ResumesPage() {
                 className="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 hover:from-emerald-500 hover:to-sky-500 text-white shadow-lg shadow-emerald-600/20"
                 asChild
               >
-                <Link href="/dashboard/resumes/new">
+                <Link href="/resumes/builder">
                   <Plus className="h-4 w-4 mr-2" />
                   Create New Resume
                 </Link>
@@ -519,7 +483,7 @@ export default function ResumesPage() {
           <DialogHeader>
             <DialogTitle>Delete Resume</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete "{resumeToDelete?.title}"? This action cannot be undone.
+              {`Are you sure you want to delete "${resumeToDelete?.title}"? This action cannot be undone.`}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
