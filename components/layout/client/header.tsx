@@ -8,6 +8,7 @@ import { User, Zap } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { supabaseUsageService } from "@/lib/supabase/client/usage-service"
+import { ThemeSwitcher } from '@/components/theme-switcher'
 
 const ClientHeader = () => {
   const [usage, setUsage] = useState({ count: 0, limit: 5, plan: "free" })
@@ -88,6 +89,7 @@ const ClientHeader = () => {
                         )}
                         </div>
                 <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-600 to-sky-600 cursor-pointer" />
+                <ThemeSwitcher />
                 </div>
             </div>
     </header>
