@@ -55,7 +55,7 @@ import { Switch } from "./ui/switch"
 import { Label } from "./ui/label"
 import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
-import { ControlPanel } from "./resumes/builderControlPanel"
+import { ControlPanel } from "./BuilderControlPanel"
 
 type ResumePreviewProps = {
     data: ResumeData
