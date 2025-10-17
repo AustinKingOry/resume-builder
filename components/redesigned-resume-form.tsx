@@ -41,12 +41,10 @@ import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 import imageCompression from 'browser-image-compression'
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 
 type RedesignedResumeFormProps = {
   onUpdate: (data: ResumeData) => void
   initialData: ResumeData
-  reset: () => void
 }
 
 const formSteps = [
@@ -155,7 +153,7 @@ const ValidationMessage = ({ type, message }: { type: "error" | "success" | "inf
   )
 }
 
-export default function RedesignedResumeForm({ onUpdate, initialData, reset }: RedesignedResumeFormProps) {
+export default function RedesignedResumeForm({ onUpdate, initialData }: RedesignedResumeFormProps) {
   const { register, control, handleSubmit, watch, setValue, reset: resetDefault } = useForm<ResumeData>({
     defaultValues: initialData,
   })
@@ -1514,32 +1512,6 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
     }
   }
 
-  const ResetDialog = () => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="float-end bg-white dark:bg-secondary/90 hover:bg-gray-100">
-            Reset Resume
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Reset Resume.</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently reset all the data you have stored for your resume.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose>
-            Cancel
-          </DialogClose>
-          <Button onClick={reset} variant="outline" className="float-end bg-white dark:bg-secondary/90 hover:bg-gray-100">
-              Reset Resume
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  )
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950 dark:via-indigo-950 dark:to-purple-950">
       {/* Header */}
@@ -1565,10 +1537,6 @@ export default function RedesignedResumeForm({ onUpdate, initialData, reset }: R
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <ResetDialog />
             </div>
           </div>
         </div>
