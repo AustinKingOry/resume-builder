@@ -47,6 +47,7 @@ import { cn } from "@/lib/utils"
 import { ResumeDB } from "@/utils/supabaseClient"
 import { useAuth } from "@/components/auth-provider"
 import { ResumeDataDb, ResumeStatus } from "@/lib/types"
+import { Skeleton } from "@/components/ui/skeleton"
 
 
 function formatDate(dateString: string) {
@@ -278,25 +279,54 @@ function EmptyState() {
   )
 }
 
+const LoadingState = () => {
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {[1, 2, 3, 4].map((i) => (
+        <Card key={i} className="overflow-hidden">
+          <div className="aspect-[3/4] bg-muted">
+            <Skeleton className="h-full w-full" />
+          </div>
+          <CardHeader className="pb-2">
+            <Skeleton className="h-5 w-32 mb-2" />
+            <Skeleton className="h-4 w-24" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-4 w-40" />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  )
+}
+
 export default function ResumesPage() {
   const [resumes, setResumes] = useState<ResumeDataDb[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [resumeToDelete, setResumeToDelete] = useState<ResumeDataDb | null>(null)
+  const [loadingResumes, setLoadingResumes] = useState(false);
   const { toast } = useToast()
   const {user} = useAuth();
 
     
   useEffect(() => {
-      const loadResume = async () => {
+      const loadResumes = async () => {
+        try {
+          setLoadingResumes(true);
           if (!user?.id) return;
           const resumes = await ResumeDB.fetchResumesByUser(10, 0, user.id);
           if (resumes.length > 0) {
               setResumes(resumes);
           }
+        } catch (error) {
+          console.log(`Failed to load resumes: ${error}`);
+        } finally {
+          setLoadingResumes(false);
+        }
       };
-      loadResume();
+      loadResumes();
   }, [user]);
 
   const filteredResumes = resumes.filter(
@@ -404,7 +434,10 @@ export default function ResumesPage() {
           </div>
 
           {/* Resumes Grid/List */}
-          {filteredResumes.length === 0 ? (
+          {loadingResumes ? 
+          <LoadingState /> 
+          :
+          filteredResumes.length === 0 ? (
             resumes.length === 0 ? (
               <EmptyState />
             ) : (
