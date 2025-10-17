@@ -95,9 +95,12 @@ export default function BuilderPage() {
             } else {
                 const updates: ResumeDataDb = {
                     data: data,
+                    title: 'Untitled',
                     id: resumeId,
                     user_id: user.id,
-                    template_id: data.selectedTemplate
+                    template_id: data.selectedTemplate,
+                    downloads: 0,
+                    status: "draft",
                 }
                 const updated = await ResumeDB.updateResume(resumeId, updates);
                 if (updated) {

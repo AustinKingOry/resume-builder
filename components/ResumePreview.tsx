@@ -5,7 +5,7 @@ import type { Margins, ResumeData, ResumeTemplate } from "@/lib/types"
 import { resumeTemplates } from "../data/templates"
 // import { jsPDF } from "jspdf"
 import { Button } from "@/components/ui/button"
-import { Download, Loader, Loader2, Printer } from "lucide-react"
+import { ChevronDown, Download, Loader, Loader2, Printer } from "lucide-react"
 import MilanTemplate from "./templates/MilanTemplate"
 // import NairobiTemplate from "./templates/NairobiTemplate"
 import NairobiTemplateNew from "./templates/NairobiTemplateNew"
@@ -56,6 +56,8 @@ import { Label } from "./ui/label"
 import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
 import { ControlPanel } from "./BuilderControlPanel"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { toast } from "sonner"
 
 type ResumePreviewProps = {
     data: ResumeData
@@ -365,6 +367,12 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
         setShowFooter(!showFooter)
     }
 
+    function handleDownload(format: "pdf" | "docx" | "txt") {
+      toast("Downloading...",{
+        description: `Preparing ${format.toUpperCase()} file`,
+      })
+    }
+
   return (
     <div className="space-y-6">
         <div className=" flex flex-row gap-3 max-[425px]:flex-wrap">
@@ -377,6 +385,22 @@ export default function ResumePreview({ data, changeTemplate }: ResumePreviewPro
             <Download className="w-4 h-4 mr-2" />
             {isGenerating ? <><Loader className="mr-2 h-4 w-4 animate-spin" /> Downloading...</> : "Download PDF"}
             </Button>
+
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="bg-transparent">
+                    <Download className="h-4 w-4 mr-2" />
+                    Export
+                    <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem onClick={downloadPDF}>Download as PDF</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleDownload("docx")}>Download as DOCX</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleDownload("txt")}>Download as TXT</DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+
             <Button
             onClick={printPDF}
             className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white shadow-lg"
