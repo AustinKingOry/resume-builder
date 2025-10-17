@@ -127,6 +127,7 @@ function ResumeCard({ resume, onEdit, onDelete }: { resume: ResumeDataDb; onEdit
   const { toast } = useToast()
   const statusConfig = getStatusConfig(resume.status)
   const StatusIcon = statusConfig.icon
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
   function handleDownload() {
     toast({ title: "Downloading...", description: `Downloading ${resume.title}` })
@@ -144,13 +145,15 @@ function ResumeCard({ resume, onEdit, onDelete }: { resume: ResumeDataDb; onEdit
     <Card className="group relative overflow-hidden border-emerald-600/10 dark:border-emerald-400/10 hover:border-emerald-600/30 dark:hover:border-emerald-400/30 transition-all duration-300 hover:shadow-lg">
       <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 group-hover:opacity-20 bg-gradient-to-br from-emerald-600 to-sky-600 transition-opacity duration-500" />
 
-      <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-t-lg">
-        <Image
-          src={resume.thumbnail || "/placeholder.svg?height=400&width=300"}
-          alt={`${resume.title} preview`}
-          fill
-          className="object-cover"
-        />
+      <div className="relative aspect-square overflow-hidden bg-muted rounded-t-lg max-h-80">
+        <Link href={`/resumes/builder/${resume.id}`} className="w-full h-full">
+          <Image
+            src={resume.thumbnail || "/placeholder.svg?height=400&width=300"}
+            alt={`${resume.title} preview`}
+            fill
+            className="object-cover"
+          />
+        </Link>
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
 
         <div className="absolute top-2 left-2 right-2 flex items-start justify-between">
@@ -159,7 +162,7 @@ function ResumeCard({ resume, onEdit, onDelete }: { resume: ResumeDataDb; onEdit
             {statusConfig.label}
           </Badge>
 
-          <DropdownMenu>
+          <DropdownMenu open={openDropdownId === resume.id} onOpenChange={(isOpen) => setOpenDropdownId(isOpen ? resume.id! : null)}>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
@@ -170,24 +173,26 @@ function ResumeCard({ resume, onEdit, onDelete }: { resume: ResumeDataDb; onEdit
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={onEdit}>
+              <DropdownMenuItem asChild>
+                <Link href={`/resumes/builder/${resume.id}`}>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Resume
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleDownload}>
+              <DropdownMenuItem onClick={() => {setOpenDropdownId(null);handleDownload()}}>
                 <Download className="h-4 w-4 mr-2" />
                 Download PDF
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleDuplicate}>
+              <DropdownMenuItem onClick={() => {setOpenDropdownId(null);handleDuplicate()}}>
                 <Copy className="h-4 w-4 mr-2" />
                 Duplicate
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleShare}>
+              <DropdownMenuItem onClick={() => {setOpenDropdownId(null);handleShare()}}>
                 <Share2 className="h-4 w-4 mr-2" />
                 Share Link
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onDelete} className="text-red-600 dark:text-red-400">
+              <DropdownMenuItem onClick={() => {setOpenDropdownId(null);onDelete()}} className="text-red-600 dark:text-red-400">
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </DropdownMenuItem>
@@ -209,7 +214,7 @@ function ResumeCard({ resume, onEdit, onDelete }: { resume: ResumeDataDb; onEdit
       </div>
 
       <CardHeader className="pb-2">
-        <CardTitle className="text-base line-clamp-1">{resume.title}</CardTitle>
+        <CardTitle className="text-base line-clamp-1"><Link href={`/resumes/builder/${resume.id}`}>{resume.title}</Link></CardTitle>
         {resume.data.personalInfo.title && <CardDescription className="line-clamp-1">{resume.data.personalInfo.title}</CardDescription>}
       </CardHeader>
 
@@ -284,7 +289,7 @@ const LoadingState = () => {
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {[1, 2, 3, 4].map((i) => (
         <Card key={i} className="overflow-hidden">
-          <div className="aspect-[3/4] bg-muted">
+          <div className="aspect-square max-h-80 bg-muted">
             <Skeleton className="h-full w-full" />
           </div>
           <CardHeader className="pb-2">
@@ -308,25 +313,37 @@ export default function ResumesPage() {
   const [resumeToDelete, setResumeToDelete] = useState<ResumeDataDb | null>(null)
   const [loadingResumes, setLoadingResumes] = useState(false);
   const { toast } = useToast()
-  const {user} = useAuth();
-
+  const {user, isLoading} = useAuth();
     
   useEffect(() => {
-      const loadResumes = async () => {
-        try {
-          setLoadingResumes(true);
-          if (!user?.id) return;
+    let isMounted = false;
+    
+    const loadResumes = async () => {
+      try {
+        setLoadingResumes(true);
+        if (!user?.id) return;
+        if (!isMounted) {
           const resumes = await ResumeDB.fetchResumesByUser(10, 0, user.id);
           if (resumes.length > 0) {
               setResumes(resumes);
           }
-        } catch (error) {
-          console.log(`Failed to load resumes: ${error}`);
-        } finally {
-          setLoadingResumes(false);
+          isMounted = true;
         }
-      };
+      } catch (error) {
+        console.log(`Failed to load resumes: ${error}`);
+      } finally {
+        setLoadingResumes(false);
+      }
+    };
+
+    if (!isLoading && !isMounted) {
       loadResumes();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const filteredResumes = resumes.filter(
@@ -344,9 +361,13 @@ export default function ResumesPage() {
     setDeleteDialogOpen(true)
   }
 
-  function handleDeleteConfirm() {
+  async function handleDeleteConfirm() {
+    if(!user){
+      return;
+    }
     if (resumeToDelete) {
       setResumes(resumes.filter((r) => r.id !== resumeToDelete.id))
+      await ResumeDB.deleteResume(resumeToDelete.id, user.id);
       toast({
         title: "Resume deleted",
         description: `${resumeToDelete.title} has been permanently deleted.`,
@@ -434,7 +455,7 @@ export default function ResumesPage() {
           </div>
 
           {/* Resumes Grid/List */}
-          {loadingResumes ? 
+          {isLoading || loadingResumes ? 
           <LoadingState /> 
           :
           filteredResumes.length === 0 ? (

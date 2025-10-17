@@ -77,6 +77,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
     const supabaseAuth = await createServerClient();
     const {data: {user}, } = await supabaseAuth.auth.getUser();
     if(!user){
+        console.log("No user");
         notFound()
     }
     const resume = await ResumeDB.fetchResumeById(Number(id), user.id);

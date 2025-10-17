@@ -76,12 +76,13 @@ export const ResumeDB = {
             return [];
         }
     },
-    async deleteResume (resume_id: string){
+    async deleteResume (resume_id: string, user_id: string){
         try {
             const { data, error } = await supabase
                 .from('Resumes')
                 .delete()
                 .eq("id",resume_id)
+                .eq("user_id",user_id)
             if (error) throw error;
             return data;
         } catch (err) {
