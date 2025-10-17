@@ -33,15 +33,28 @@ export const ResumeDB = {
             return null;
         }
     },
-    async fetchResumeById(id: string): Promise<ResumeDataDb | null>{
+    async fetchResumeById(id: number, user_id: string): Promise<ResumeDataDb | null>{
         try {
             const { data, error } = await supabase
                 .from('Resumes')
                 .select('*')
                 .eq("id", id)
-                .single();
-            if (error) throw error;
-            return data;
+                .eq("user_id", user_id.trim())
+                .maybeSingle();
+          
+              if (error) {
+                console.error('Supabase error fetching resume:', error);
+                return null;
+              }
+          
+              if (!data) {
+                console.warn(`No resume found for id: ${id} and user: ${user_id}`);
+                return null;
+              }
+          
+              return data;
+            // if (error) throw error;
+            // return data;
         } catch (err) {
             console.error('Unexpected error fetching resume:', err);
             return null;
