@@ -96,11 +96,17 @@ export interface ResumeDataDb {
 	data: ResumeData
 	id: string
 	user_id: string
+  title: string
 	template_id: string
+  downloads: number
+  status: ResumeStatus
+  thumbnail?: string
+  fileSize?: string
 	created_at?: Date
 	updated_at?: Date
 }
-  
+
+export type ResumeStatus = "draft" | "complete" | "needs-review"  
 
 export interface UserDataCP {
   headline: string

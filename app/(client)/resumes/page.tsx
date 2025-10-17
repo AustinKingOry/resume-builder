@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -44,68 +44,10 @@ import {
   AlertCircle,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { ResumeDB } from "@/utils/supabaseClient"
+import { useAuth } from "@/components/auth-provider"
+import { ResumeDataDb, ResumeStatus } from "@/lib/types"
 
-// Mock data for resumes
-type ResumeStatus = "draft" | "complete" | "needs-review"
-
-interface Resume {
-  id: string
-  title: string
-  position?: string
-  lastUpdated: string
-  createdAt: string
-  status: ResumeStatus
-  thumbnail?: string
-  fileSize?: string
-  downloads: number
-}
-
-const mockResumes: Resume[] = [
-  {
-    id: "1",
-    title: "Software Engineer Resume",
-    position: "Senior Software Engineer",
-    lastUpdated: "2024-01-20T10:30:00Z",
-    createdAt: "2024-01-15T08:00:00Z",
-    status: "complete",
-    thumbnail: "/placeholder.svg?height=400&width=300",
-    fileSize: "245 KB",
-    downloads: 3,
-  },
-  {
-    id: "2",
-    title: "Marketing Specialist CV",
-    position: "Digital Marketing Lead",
-    lastUpdated: "2024-01-18T15:45:00Z",
-    createdAt: "2024-01-10T12:00:00Z",
-    status: "complete",
-    thumbnail: "/placeholder.svg?height=400&width=300",
-    fileSize: "198 KB",
-    downloads: 1,
-  },
-  {
-    id: "3",
-    title: "Product Manager Resume",
-    position: "Senior Product Manager",
-    lastUpdated: "2024-01-19T09:15:00Z",
-    createdAt: "2024-01-18T14:00:00Z",
-    status: "draft",
-    thumbnail: "/placeholder.svg?height=400&width=300",
-    fileSize: "210 KB",
-    downloads: 0,
-  },
-  {
-    id: "4",
-    title: "Data Analyst CV",
-    position: "Data Analyst",
-    lastUpdated: "2024-01-17T16:20:00Z",
-    createdAt: "2024-01-12T10:00:00Z",
-    status: "needs-review",
-    thumbnail: "/placeholder.svg?height=400&width=300",
-    fileSize: "223 KB",
-    downloads: 2,
-  },
-]
 
 function formatDate(dateString: string) {
   const date = new Date(dateString)
@@ -146,7 +88,7 @@ function getStatusConfig(status: ResumeStatus) {
   }
 }
 
-function StatsOverview({ resumes }: { resumes: Resume[] }) {
+function StatsOverview({ resumes }: { resumes: ResumeDataDb[] }) {
   const totalResumes = resumes.length
   const completeResumes = resumes.filter((r) => r.status === "complete").length
   const totalDownloads = resumes.reduce((sum, r) => sum + r.downloads, 0)
@@ -180,7 +122,7 @@ function StatsOverview({ resumes }: { resumes: Resume[] }) {
   )
 }
 
-function ResumeCard({ resume, onEdit, onDelete }: { resume: Resume; onEdit: () => void; onDelete: () => void }) {
+function ResumeCard({ resume, onEdit, onDelete }: { resume: ResumeDataDb; onEdit: () => void; onDelete: () => void }) {
   const { toast } = useToast()
   const statusConfig = getStatusConfig(resume.status)
   const StatusIcon = statusConfig.icon
@@ -267,13 +209,13 @@ function ResumeCard({ resume, onEdit, onDelete }: { resume: Resume; onEdit: () =
 
       <CardHeader className="pb-2">
         <CardTitle className="text-base line-clamp-1">{resume.title}</CardTitle>
-        {resume.position && <CardDescription className="line-clamp-1">{resume.position}</CardDescription>}
+        {resume.data.personalInfo.title && <CardDescription className="line-clamp-1">{resume.data.personalInfo.title}</CardDescription>}
       </CardHeader>
 
       <CardFooter className="text-xs text-muted-foreground flex items-center justify-between pt-0">
         <div className="flex items-center gap-1">
           <Calendar className="h-3 w-3" />
-          <span>Updated {formatDate(resume.lastUpdated)}</span>
+          <span>Updated {resume.updated_at ?formatDate(`${resume.updated_at}`) : "Unknown"}</span>
         </div>
         {resume.downloads > 0 && (
           <div className="flex items-center gap-1">
@@ -337,24 +279,37 @@ function EmptyState() {
 }
 
 export default function ResumesPage() {
-  const [resumes, setResumes] = useState<Resume[]>(mockResumes)
+  const [resumes, setResumes] = useState<ResumeDataDb[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [resumeToDelete, setResumeToDelete] = useState<Resume | null>(null)
+  const [resumeToDelete, setResumeToDelete] = useState<ResumeDataDb | null>(null)
   const { toast } = useToast()
+  const {user} = useAuth();
+
+    
+  useEffect(() => {
+      const loadResume = async () => {
+          if (!user?.id) return;
+          const resumes = await ResumeDB.fetchResumesByUser(10, 0, user.id);
+          if (resumes.length > 0) {
+              setResumes(resumes);
+          }
+      };
+      loadResume();
+  }, [user]);
 
   const filteredResumes = resumes.filter(
     (resume) =>
       resume.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      resume.position?.toLowerCase().includes(searchQuery.toLowerCase()),
+      resume.data.personalInfo.title?.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
-  function handleEdit(resume: Resume) {
+  function handleEdit(resume: ResumeDataDb) {
     toast({ title: "Opening editor...", description: `Editing ${resume.title}` })
   }
 
-  function handleDeleteClick(resume: Resume) {
+  function handleDeleteClick(resume: ResumeDataDb) {
     setResumeToDelete(resume)
     setDeleteDialogOpen(true)
   }
