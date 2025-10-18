@@ -46,59 +46,69 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		const getCurrentProfile = async (user: User | null) => {
-			if (!user) return { profile: null, error: new Error("User not authenticated") }
-	
-			setIsProfileLoading(true)
-			try {
-			const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user?.id).single();
-	
-			if (error) { throw error }
-	
+		  if (!user) return { profile: null, error: new Error("User not authenticated") }
+	  
+		  setIsProfileLoading(true)
+		  try {
+			const { data, error } = await supabase
+			  .from("profiles")
+			  .select("*")
+			  .eq("user_id", user.id)
+			  .single()
+	  
+			if (error) throw error
 			setProfile(data)
 			return { profile: data, error: null }
-			} catch (error: any) {
+		  } catch (error: any) {
 			console.error("Error fetching profile:", error)
 			return { profile: null, error }
-			} finally {
+		  } finally {
 			setIsProfileLoading(false)
-			}
+		  }
 		}
+	  
 		const getSession = async () => {
-			const {
-				data: { session },
-			} = await supabase.auth.getSession()
-			setSession(session)
-			setUser(session?.user || null)
-
-			if (session?.user) {
-				await getCurrentProfile(session?.user)
-			}
-
-			setIsLoading(false)
+		  const {
+			data: { session },
+		  } = await supabase.auth.getSession()
+	  
+		  setSession(session)
+		  setUser(session?.user || null)
+	  
+		  if (session?.user) {
+			await getCurrentProfile(session.user)
+		  }
+	  
+		  setIsLoading(false)
 		}
-
+	  
 		getSession()
-
+	  
 		const {
-		data: { subscription },
-		} = supabase.auth.onAuthStateChange(async (_event, session) => {
-		setSession(session)
-		setUser(session?.user || null)
-
-		if (session?.user) {
-			await getCurrentProfile(session?.user)
-		} else {
+		  data: { subscription },
+		} = supabase.auth.onAuthStateChange(async (event, session) => {
+		  setSession(session)
+		  setUser(session?.user || null)
+	  
+		  if (session?.user) {
+			await getCurrentProfile(session.user)
+		  } else {
 			setProfile(null)
-		}
-
-		setIsLoading(false)
-		router.refresh()
+		  }
+	  
+		  setIsLoading(false)
+	  
+		  // ✅ Only refresh on true auth changes
+		  if (["SIGNED_IN", "SIGNED_OUT"].includes(event)) {
+			router.refresh()
+		  }
 		})
-
+	  
 		return () => {
-		subscription.unsubscribe()
+		  subscription.unsubscribe()
 		}
-	}, [router, supabase])
+	  }, [router, supabase])
+	  
 
 	const signIn = async (email: string, password: string) => {
 		try {
@@ -258,7 +268,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	}
 
-	const ceateProfile = async (user_id: string, full_name: string, email: string) => {
+	const createProfile = async (user_id: string, full_name: string, email: string) => {
 		try {
 			const {data, error} = await supabase.from("profiles").select("*").eq("user_id", user_id).single();
 			if(error){
@@ -318,7 +328,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		updateProfile,
 		getCurrentProfile,
 		signInWithGoogle,
-		ceateProfile
+		createProfile
 	}
 
 	return <Context.Provider value={value}>{children}</Context.Provider>

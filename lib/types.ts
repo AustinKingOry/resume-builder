@@ -174,7 +174,7 @@ export type AuthContextType = {
 	updatePassword: (password: string) => Promise<{ error: unknown }>
 	updateProfile: (profile: Partial<Profile>) => Promise<{ error: unknown }>
   getCurrentProfile: () => Promise<{ profile: Profile | null; error: unknown }>
-  ceateProfile: (user_id: string, full_name: string, email: string) => Promise<{
+  createProfile: (user_id: string, full_name: string, email: string) => Promise<{
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
   } | undefined>
