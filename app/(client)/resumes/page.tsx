@@ -316,35 +316,29 @@ export default function ResumesPage() {
   const {user, isLoading} = useAuth();
     
   useEffect(() => {
-    let isMounted = false;
-    
+    if (isLoading) return; // Wait until auth state resolves
+    if (!user?.id) return; // If no user, do not load resumes
+
+    let isCancelled = false;
+
     const loadResumes = async () => {
+      setLoadingResumes(true);
       try {
-        setLoadingResumes(true);
-        if (!user?.id) return;
-        if (!isMounted) {
-          const resumes = await ResumeDB.fetchResumesByUser(10, 0, user.id);
-          if (resumes.length > 0) {
-              setResumes(resumes);
-          }
-          isMounted = true;
-        }
+        const resumes = await ResumeDB.fetchResumesByUser(10, 0, user.id);
+        if (!isCancelled) setResumes(resumes);
       } catch (error) {
-        console.log(`Failed to load resumes: ${error}`);
+        console.error("Failed to load resumes:", error);
       } finally {
-        setLoadingResumes(false);
+        if (!isCancelled) setLoadingResumes(false);
       }
     };
 
-    if (!isLoading && !isMounted) {
-      loadResumes();
-    }
+    loadResumes();
 
     return () => {
-      isMounted = false;
+      isCancelled = true;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, isLoading]);
 
   const filteredResumes = resumes.filter(
     (resume) =>
@@ -375,6 +369,23 @@ export default function ResumesPage() {
       setDeleteDialogOpen(false)
       setResumeToDelete(null)
     }
+  }
+
+  // ✅ Handle auth and loading states cleanly
+  if (isLoading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <LoadingState />
+      </main>
+    );
+  }
+
+  if (!user) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Please sign in to view your resumes.</p>
+      </main>
+    );
   }
 
   return (
@@ -455,7 +466,7 @@ export default function ResumesPage() {
           </div>
 
           {/* Resumes Grid/List */}
-          {isLoading || loadingResumes ? 
+          { loadingResumes ? 
           <LoadingState /> 
           :
           filteredResumes.length === 0 ? (
