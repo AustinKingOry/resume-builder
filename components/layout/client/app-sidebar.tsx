@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, Download, FileText, Flame, HelpCircle, Settings, UserIcon } from "lucide-react"
+import { BarChart3, Home, FileText, Flame, HelpCircle, Settings, UserIcon, FileSignature, Edit3, LayoutTemplate, Cpu } from "lucide-react"
 
 import {
   Sidebar,
@@ -21,13 +21,14 @@ import Image from "next/image"
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { profile } = useAuth();
     const navigation = [
-      { name: "Home", icon: FileText, href: "/dashboard", current: false },
-      { name: "My Resumes", icon: BarChart3, href: "/resumes", current: false },
-      { name: "Cover Letters", icon: BarChart3, href: "/cover-letters", current: false },
-      { name: "CV Builder", icon: FileText, href: "/resumes/builder", current: false },
-      { name: "CV Roaster", icon: Flame, href: "/roast-my-cv", current: true },
+      { name: "Home", icon: Home, href: "/dashboard", current: false },
+      { name: "My Resumes", icon: FileText, href: "/resumes", current: false },
+      { name: "Cover Letters", icon: FileSignature, href: "/cover-letters", current: false },
+      { name: "CV Builder", icon: Edit3, href: "/resumes/builder", current: false },
+      { name: "ATS Analyzer", icon: Cpu, href: "/ats-analyzer", current: false },
+      { name: "CV Roaster", icon: Flame, href: "/roast-my-cv", current: false },
       { name: "Analytics", icon: BarChart3, href: "/analytics", current: false },
-      { name: "Templates", icon: Download, href: "/templates", current: false },
+      { name: "Templates", icon: LayoutTemplate, href: "/templates", current: false },
     ]
   return (
     <Sidebar className="bg-white dark:!bg-black dark:border-gray-800" {...props}>
