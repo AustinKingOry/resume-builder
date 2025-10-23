@@ -99,7 +99,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		  setIsLoading(false)
 	  
 		  // ✅ Only refresh on true auth changes
-		  if (["SIGNED_IN", "SIGNED_OUT"].includes(event)) {
+		  if (event === "SIGNED_OUT") {
+			router.refresh()
+		  }
+		  if (event === "SIGNED_IN" && !session?.access_token?.includes("refreshed")) {
+			// optional: detect refresh pattern
 			router.refresh()
 		  }
 		})

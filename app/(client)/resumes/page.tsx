@@ -311,7 +311,7 @@ export default function ResumesPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [resumeToDelete, setResumeToDelete] = useState<ResumeDataDb | null>(null)
-  const [loadingResumes, setLoadingResumes] = useState(false);
+  const [loadingResumes, setLoadingResumes] = useState(true);
   const { toast } = useToast()
   const {user, isLoading} = useAuth();
     
@@ -372,7 +372,7 @@ export default function ResumesPage() {
   }
 
   // ✅ Handle auth and loading states cleanly
-  if (isLoading) {
+  if (isLoading && !user) {
     return (
       <main className="min-h-screen flex items-center justify-center">
         <LoadingState />
@@ -466,7 +466,7 @@ export default function ResumesPage() {
           </div>
 
           {/* Resumes Grid/List */}
-          { loadingResumes ? 
+          { loadingResumes && !resumes ? 
           <LoadingState /> 
           :
           filteredResumes.length === 0 ? (
