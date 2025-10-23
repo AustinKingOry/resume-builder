@@ -42,6 +42,7 @@ import {
   CheckCircle2,
   Clock,
   AlertCircle,
+  Loader2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ResumeDB } from "@/utils/supabaseClient"
@@ -312,6 +313,7 @@ export default function ResumesPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [resumeToDelete, setResumeToDelete] = useState<ResumeDataDb | null>(null)
   const [loadingResumes, setLoadingResumes] = useState(true);
+  const [deletingResume, setDeletingResume] = useState(false);
   const { toast } = useToast()
   const {user, isLoading} = useAuth();
     
@@ -360,12 +362,14 @@ export default function ResumesPage() {
       return;
     }
     if (resumeToDelete) {
+      setDeletingResume(true)
       setResumes(resumes.filter((r) => r.id !== resumeToDelete.id))
       await ResumeDB.deleteResume(resumeToDelete.id, user.id);
       toast({
         title: "Resume deleted",
         description: `${resumeToDelete.title} has been permanently deleted.`,
       })
+      setDeletingResume(true)
       setDeleteDialogOpen(false)
       setResumeToDelete(null)
     }
@@ -510,9 +514,16 @@ export default function ResumesPage() {
             <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm}>
+            <Button variant="destructive" onClick={handleDeleteConfirm} disabled={deletingResume}>
+              {deletingResume ? 
+              <>
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              Deleting Resume...
+              </>:
+              <>
               <Trash2 className="h-4 w-4 mr-2" />
               Delete Resume
+              </>}
             </Button>
           </DialogFooter>
         </DialogContent>
