@@ -150,6 +150,6 @@ export default {
   plugins: [
     require("tailwindcss-animate"),
     require("@tailwindcss/forms"),
-    require('@tailwindcss/typography')
+    // require('@tailwindcss/typography')
 ],
 } satisfies Config;
