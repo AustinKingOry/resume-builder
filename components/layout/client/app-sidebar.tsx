@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, Home, FileText, Flame, HelpCircle, Settings, UserIcon, FileSignature, Edit3, LayoutTemplate, Cpu } from "lucide-react"
+import { BarChart3, Home, FileText, Flame, HelpCircle, Settings, FileSignature, Edit3, LayoutTemplate, Cpu } from "lucide-react"
 
 import {
   Sidebar,
@@ -17,9 +17,10 @@ import {
 import Link from "next/link"
 import { useAuth } from "@/components/auth-provider"
 import Image from "next/image"
+import { NavUser } from "./nav-user"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { profile } = useAuth();
+  const { profile, signOut } = useAuth();
     const navigation = [
       { name: "Home", icon: Home, href: "/dashboard", current: false },
       { name: "My Resumes", icon: FileText, href: "/resumes", current: false },
@@ -32,7 +33,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     ]
   return (
     <Sidebar className="bg-white dark:!bg-black dark:border-gray-800" {...props}>
-        <SidebarHeader>
+        <SidebarHeader className="px-0">
             <div className="p-2.5 border-b border-gray-200 relative z-10 dark:border-gray-800">
             <Link href="/" className="flex items-center gap-3">
             {/* <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-blue-600 rounded-lg flex items-center justify-center relative overflow-hidden">
@@ -70,18 +71,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       
       <SidebarFooter className="pt-4 border-t border-gray-200 relative z-10 dark:border-gray-800">
-      <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-full flex items-center justify-center dark:from-emerald-900 dark:to-blue-900">
-            <UserIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-          </div>
-          {/* {!collapsed && ( */}
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-100">{profile?.full_name || "User"}</p>
-              <p className="text-xs text-emerald-600 truncate dark:text-emerald-400">{profile?.plan || "Free"} Plan</p>
-            </div>
-          {/* )} */}
-        </div>
-
         <div className="space-y-1">
           <a
             href="/account"
@@ -99,6 +88,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             {/* {!collapsed && <span>Help</span>} */}
             <span>Help</span>
           </a>
+          {profile &&
+          <NavUser user={profile} onLogOut={signOut} />
+          }
         </div>
       </SidebarFooter>
     </Sidebar>
