@@ -369,7 +369,7 @@ export default function ResumesPage() {
         title: "Resume deleted",
         description: `${resumeToDelete.title} has been permanently deleted.`,
       })
-      setDeletingResume(true)
+      setDeletingResume(false)
       setDeleteDialogOpen(false)
       setResumeToDelete(null)
     }
