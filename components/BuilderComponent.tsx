@@ -227,7 +227,7 @@ export default function ResumeBuilder({ resume }: { resume?: ResumeDataDb }) {
     const [resumeData, setResumeData] = useState<ResumeDataDb>(resume || initialResumeData)
     const [activeTab, setActiveTab] = useState("form")
     const [loadingData, setLoadingData] = useState<boolean>(true);
-    const [resumeId, setResumeId] = useState<string | null>(null);
+    const [resumeId, setResumeId] = useState<string | null>(resume?.id || null);
     const [lastSyncedData, setLastSyncedData] = useState<ResumeDataDb | null>(null);
     const [isSaving, setIsSaving] = useState(false)
     const [lastSaved, setLastSaved] = useState(new Date())
