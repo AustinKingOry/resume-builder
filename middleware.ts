@@ -55,7 +55,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getSession()
 
   // Check auth condition
-  if (!session && request.nextUrl.pathname.startsWith("/roast-my-cv")) {
+  if (!session) {
     // Auth required, redirect to login
     const redirectUrl = request.nextUrl.clone()
     redirectUrl.pathname = "/login"
