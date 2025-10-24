@@ -66,5 +66,14 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/roast-my-cv/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/resumes/:path*",
+    "/cover-letters/:path*",
+    "/ats-analyzer/:path*",
+    "/roast-my-cv/:path*",
+    "/analytics/:path*",
+    "/account/:path*",
+    "/user-dashboard/:path*",
+  ],
 }
