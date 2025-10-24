@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, Home, FileText, Flame, HelpCircle, Settings, FileSignature, Edit3, LayoutTemplate, Cpu } from "lucide-react"
+import { BarChart3, Home, FileText, Flame, HelpCircle, Settings, FileSignature, Edit3, LayoutTemplate, Cpu, BarChart2 } from "lucide-react"
 
 import {
   Sidebar,
@@ -28,6 +28,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       { name: "CV Builder", icon: Edit3, href: "/resumes/builder", current: false },
       { name: "ATS Analyzer", icon: Cpu, href: "/ats-analyzer", current: false },
       { name: "CV Roaster", icon: Flame, href: "/roast-my-cv", current: false },
+      { name: "Skills Tracker", icon: BarChart2, href: "/skills-tracker", current: false },
       { name: "Analytics", icon: BarChart3, href: "/analytics", current: false },
       { name: "Templates", icon: LayoutTemplate, href: "/templates", current: false },
     ]

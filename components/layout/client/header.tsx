@@ -42,17 +42,17 @@ const ClientHeader = () => {
                     </Link>
                 </div>
 
-                <nav className="hidden md:flex items-center gap-6">
-                <Link href="resumes" className="text-sm font-medium">
+                {/* <nav className="hidden md:flex items-center gap-6">
+                <Link href="/resumes" className="text-sm font-medium">
                     My Resumes
                 </Link>
-                <Link href="cover-letters" className="text-sm text-muted-foreground hover:text-foreground">
+                <Link href="/cover-letters" className="text-sm text-muted-foreground hover:text-foreground">
                     Cover Letters
                 </Link>
-                <Link href="profile" className="text-sm text-muted-foreground hover:text-foreground">
+                <Link href="/profile" className="text-sm text-muted-foreground hover:text-foreground">
                     Profile
                 </Link>
-                </nav>
+                </nav> */}
 
                 <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" asChild>
