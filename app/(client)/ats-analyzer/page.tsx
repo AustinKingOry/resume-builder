@@ -37,6 +37,7 @@ import {
   Key,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { ATSLoadingState } from "@/components/ats/loading-state"
 
 interface AnalysisResult2 {
     overallScore: number
@@ -727,6 +728,8 @@ export default function ATSAnalyzerPage() {
 
           {!hasAnalyzed ? (
             // Initial Upload State
+            <>
+            <ATSLoadingState isOpen={loading} />
             <div className="space-y-6">
               {error && (
                 <Card className="mt-8 border-red-200 bg-red-50">
@@ -791,6 +794,7 @@ export default function ATSAnalyzerPage() {
                 </Card>
               </div>
             </div>
+            </>
           ) : (
             // Results State
             <div className="space-y-6">
