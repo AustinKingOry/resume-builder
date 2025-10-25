@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, Home, FileText, Flame, HelpCircle, Settings, FileSignature, Edit3, LayoutTemplate, Cpu, BarChart2 } from "lucide-react"
+import { BarChart3, Home, FileText, Flame, Settings, FileSignature, Edit3, LayoutTemplate, Cpu, BarChart2, Activity } from "lucide-react"
 
 import {
   Sidebar,
@@ -73,22 +73,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       
       <SidebarFooter className="pt-4 border-t border-gray-200 relative z-10 dark:border-gray-800">
         <div className="space-y-1">
-          <a
+          <Link
             href="/account"
             className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-950"
           >
             <Settings className="w-4 h-4" />
             {/* {!collapsed && <span>Settings</span>} */}
             <span>Settings</span>
-          </a>
-          <a
-            href="/help"
-            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-950"
-          >
-            <HelpCircle className="w-4 h-4" />
-            {/* {!collapsed && <span>Help</span>} */}
-            <span>Help</span>
-          </a>
+          </Link>
+          <Link href="/status" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-950">
+            <Activity className="h-4 w-4" />
+            Status
+          </Link>
           {profile &&
           <NavUser user={profile} onLogOut={signOut} />
           }

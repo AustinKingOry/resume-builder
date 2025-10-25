@@ -55,13 +55,10 @@ const ClientHeader = () => {
                 </nav> */}
 
                 <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" asChild>
-                    <Link href="/status">Status</Link>
-                </Button>
                 
                 <div className="flex items-center gap-4">
                         {user ? (
-                            <>
+                        <>
                         <Badge
                             variant="outline"
                             className={`${
@@ -75,12 +72,6 @@ const ClientHeader = () => {
                             <Zap className="w-3 h-3 mr-1" />
                             {usage.plan === "free" ? "Free Plan" : usage.plan === "hustler" ? "Hustler Plan 💪" : "Pro Plan 👑"}
                         </Badge>
-                        <div className="text-right">
-                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                            {Math.max(0, usage.limit - usage.count)} roasts <span className="max-[425px]:hidden">remaining</span>
-                            </p>
-                            <p className="text-xs text-emerald-600 dark:text-emerald-400">Resets in {supabaseUsageService.getResetTime()}</p>
-                        </div>
                         </>
                         ) : (
                             <Button variant="outline" className="bg-transparent" asChild>
@@ -88,7 +79,6 @@ const ClientHeader = () => {
                             </Button>
                         )}
                         </div>
-                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-600 to-sky-600 cursor-pointer" />
                 <ThemeSwitcher />
                 </div>
             </div>
