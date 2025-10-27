@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Database {
     public: {
       Tables: {
@@ -227,6 +228,38 @@ export interface Database {
             metadata?: any | null
             created_at?: string
             updated_at?: string
+          }
+        }
+        ats_jobs: {
+          Row: {
+            id: string
+            user_id: string
+            resume_text: string
+            job_description: string
+            status: "processing" | "completed" | "failed"
+            created_at: string
+            updated_at: string
+            error: string | null
+          }
+          Insert: {
+            id?: string
+            user_id: string
+            resume_text: string
+            job_description: string
+            status?: "processing" | "completed" | "failed"
+            created_at?: string
+            updated_at?: string
+            error?: string | null
+          }
+          Update: {
+            id?: string
+            user_id?: string
+            resume_text?: string
+            job_description?: string
+            status?: "processing" | "completed" | "failed"
+            created_at?: string
+            updated_at?: string
+            error?: string | null
           }
         }
       }
