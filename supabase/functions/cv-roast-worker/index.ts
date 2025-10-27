@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // supabase/functions/cv-roast-worker/index.ts
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
@@ -8,7 +9,7 @@ import {
   buildQuickScorePrompt,
   buildImprovementPrompt,
   type UserContext,
-} from "../lib/ai-prompts.ts"; // adjust to your repo structure
+} from "../lib/ai-prompts.ts";
 import { model, CVAnalysisSchema, QuickScoreSchema, CVImprovementSchema } from "../lib/ai-config.ts"
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
