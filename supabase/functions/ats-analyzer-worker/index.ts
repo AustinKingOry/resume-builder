@@ -7,99 +7,19 @@ import { prompts, systemPrompts } from "../lib/ats/ai-prompts.ts"
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-const FUNCTION_SECRET = Deno.env.get("FUNCTION_SECRET")!
-
-/**
- * Analyze keyword match between resume and job description
- */
-async function analyzeKeywordMatch(resumeData: string, jobDescription: string) {
-    const resumeText = resumeData;
-
-  const result = await generateObject({
-    model: geminiModel,
-    system: systemPrompts.atsAnalyst,
-    prompt: prompts.keywordAnalysis(resumeText, jobDescription),
-    schema: KeywordAnalysisSchema,
-  })
-
-  return result
-}
-
-/**
- * Analyze skills match between resume and job requirements
- */
-async function analyzeSkillsMatch(resumeData: string, jobDescription: string) {
-    const resumeText = resumeData;
-
-  const result = await generateObject({
-    model: geminiModel,
-    system: systemPrompts.atsAnalyst,
-    prompt: prompts.skillsAnalysis(resumeText, jobDescription),
-    schema: SkillsAnalysisSchema,
-    temperature: 0.7,
-  })
-
-  return result
-}
-
-/**
- * Analyze ATS compatibility and formatting
- */
-async function analyzeATSCompatibility(resumeData: string, jobDescription: string) {
-    const resumeText = resumeData;
-
-  const result = await generateObject({
-    model: geminiModel,
-    system: systemPrompts.atsAnalyst,
-    prompt: prompts.atsCompatibility(resumeText, jobDescription),
-    schema: ATSCompatibilitySchema,
-    temperature: 0.7,
-  })
-
-  return result
-}
-
-/**
- * Generate actionable recommendations for improvement
- */
-async function generateRecommendations(resumeData: string, jobDescription: string) {
-    const resumeText = resumeData;
-
-  const result = await generateObject({
-    model: geminiModel,
-    system: systemPrompts.atsAnalyst,
-    prompt: prompts.recommendations(resumeText, jobDescription),
-    schema: RecommendationsSchema,
-    temperature: 0.7,
-  })
-
-  return result
-}
-
-/**
- * Get section-by-section scores and feedback
- */
-async function getSectionScores(resumeData: string, jobDescription: string) {
-    const resumeText = resumeData;
-
-  const result = await generateObject({
-    model: geminiModel,
-    system: systemPrompts.atsAnalyst,
-    prompt: prompts.sectionScores(resumeText, jobDescription),
-    schema: KeywordAnalysisSchema,
-  })
-
-  return result
-}
+const FUNCTION_SECRET = Deno.env.get("FUNCTION_SECRET_ATS")!
 
 Deno.serve(async (req) => {
+  console.log('Initializing ats...')
   // Step 1: Secure the function
-  if (req.headers.get("x-function-secret") !== FUNCTION_SECRET) {
+  if (req.headers.get("x-function-secret-ats") !== FUNCTION_SECRET) {
     return new Response("Unauthorized", { status: 401 })
   }
 
   const payload = await req.json().catch(() => ({}))
   const jobId = payload?.record?.id ?? payload?.jobId
+  console.log(`job: ${jobId}`)
+  console.log("payload:", JSON.stringify(payload))
 
   if (!jobId) return new Response("Missing jobId", { status: 400 })
 
@@ -125,7 +45,92 @@ Deno.serve(async (req) => {
 
   const started = Date.now()
 
-  try {
+  try {        
+    /**
+     * Analyze keyword match between resume and job description
+     */
+    async function analyzeKeywordMatch(resumeData: string, jobDescription: string) {
+      const resumeText = resumeData;
+
+      const result = await generateObject({
+        model: geminiModel,
+        system: systemPrompts.atsAnalyst,
+        prompt: prompts.keywordAnalysis(resumeText, jobDescription),
+        schema: KeywordAnalysisSchema,
+      })
+
+      return result
+    }
+
+    /**
+    * Analyze skills match between resume and job requirements
+    */
+    async function analyzeSkillsMatch(resumeData: string, jobDescription: string) {
+      const resumeText = resumeData;
+
+      const result = await generateObject({
+        model: geminiModel,
+        system: systemPrompts.atsAnalyst,
+        prompt: prompts.skillsAnalysis(resumeText, jobDescription),
+        schema: SkillsAnalysisSchema,
+        temperature: 0.7,
+      })
+
+      return result
+    }
+
+    /**
+    * Analyze ATS compatibility and formatting
+    */
+    async function analyzeATSCompatibility(resumeData: string, jobDescription: string) {
+      const resumeText = resumeData;
+
+      const result = await generateObject({
+        model: geminiModel,
+        system: systemPrompts.atsAnalyst,
+        prompt: prompts.atsCompatibility(resumeText, jobDescription),
+        schema: ATSCompatibilitySchema,
+        temperature: 0.7,
+      })
+
+      return result
+    }
+
+    /**
+    * Generate actionable recommendations for improvement
+    */
+    async function generateRecommendations(resumeData: string, jobDescription: string) {
+      const resumeText = resumeData;
+
+      const result = await generateObject({
+        model: geminiModel,
+        system: systemPrompts.atsAnalyst,
+        prompt: prompts.recommendations(resumeText, jobDescription),
+        schema: RecommendationsSchema,
+        temperature: 0.7,
+      })
+
+      return result
+    }
+
+    /**
+    * Get section-by-section scores and feedback
+    */
+    async function getSectionScores(resumeData: string, jobDescription: string) {
+      const resumeText = resumeData;
+
+      const result = await generateObject({
+        model: geminiModel,
+        system: systemPrompts.atsAnalyst,
+        prompt: prompts.sectionScores(resumeText, jobDescription),
+        schema: KeywordAnalysisSchema,
+        temperature: 0.7,
+      })
+
+      return result
+    }
+
+
     const resumeText = job.resume_text;
     const jobDescription = job.job_description;
     

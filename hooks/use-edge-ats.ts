@@ -154,7 +154,7 @@ export function useEdgeATSAnalysis() {
       try {
         // build form data
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("resume", file);
         formData.append("jobDescription", options.jobDescription);
 
         // enqueue

@@ -668,12 +668,15 @@ export default function ATSAnalyzerPage() {
 
       // const res = await response.json()
       // setAnalysis(res.analysis)
-      setHasAnalyzed(true)
-
-      toast({
-        title: "Analysis complete!",
-        description: "Your resume has been analyzed against the job description",
-      })
+      if(analysis !== null && !loading){
+        setHasAnalyzed(true)
+  
+        toast({
+          title: "Analysis complete!",
+          description: "Your resume has been analyzed against the job description",
+        })
+      }
+      
     } catch (err) {
       toast({
         title: "Analysis error!",
