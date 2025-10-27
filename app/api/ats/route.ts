@@ -6,15 +6,27 @@ import {
   generateRecommendations,
 } from "@/lib/ats/ai-services"
 import { type NextRequest, NextResponse } from "next/server"
+import { createServerClient } from "@/lib/supabase-server"
 
 export async function POST(request: NextRequest) {
   try {
+    const supabaseAuth = await createServerClient();
     const formData = await request.formData()
     const resumeFile = formData.get("resume") as File
     const jobDescription = formData.get("jobDescription") as string
 
     if (!resumeFile) {
       return NextResponse.json({ error: "Resume file is required" }, { status: 400 })
+    }
+    
+    const {data: {user}, } = await supabaseAuth.auth.getUser()
+    if (!user) {
+      return NextResponse.json({ error: "Please sign in to use ATS Analyzer" }, { status: 401 })
+    }
+
+    const token = (await supabaseAuth.auth.getSession()).data.session?.access_token
+    if (!token) {
+      return NextResponse.json({ error: "Invalid session" }, { status: 401 })
     }
 
     if (!jobDescription || jobDescription.trim().length === 0) {
@@ -30,7 +42,7 @@ export async function POST(request: NextRequest) {
 
     if (!allowedTypes.includes(resumeFile.type)) {
       return NextResponse.json(
-        { error: "Bro, we need a PDF or Word document (.pdf, .doc, .docx). Other formats won't work well!" },
+        { error: "Use a PDF or Word document (.pdf, .doc, .docx). Other formats won't work well!" },
         { status: 400 },
       )
     }
@@ -38,7 +50,7 @@ export async function POST(request: NextRequest) {
     const maxSize = 10 * 1024 * 1024 // 10MB
     if (resumeFile.size > maxSize) {
       return NextResponse.json(
-        { error: "Eish! Your file is too big - needs to be under 10MB. Compress it a bit or save as PDF." },
+        { error: "File is too big - needs to be under 10MB. Compress it a bit or save as PDF." },
         { status: 400 },
       )
     }
