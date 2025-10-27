@@ -38,8 +38,9 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ATSLoadingState } from "@/components/ats/loading-state"
+import { useEdgeATSAnalysis } from "@/hooks/use-edge-ats"
 
-interface AnalysisResult2 {
+interface AnalysisResult {
     overallScore: number
     keywordStrength: number
     skillsMatch: number
@@ -64,12 +65,17 @@ interface AnalysisResult2 {
       readability: { score: number; issues: string[] }
       analysis: string
     }
+    sectionAnalysis: {
+      section: string
+      strength: number
+      feedback: string
+    }[]
     recommendations: {
       improvements: Array<{ category: string; title: string; description: string; priority: string; action: string }>
       atsWarnings: Array<{ warning: string; severity: string; suggestion: string }>
       bestPractices: Array<{ practice: string; benefit: string; implementation: string }>
     }
-  }
+}
 
 function UploadSection({
   onUpdate,
@@ -266,7 +272,7 @@ const ImportanceIcon = ({ level }: { level: string }) => {
   return <Badge className={`${colors[level] || colors.low}`}>{level}</Badge>
 }
 
-function AnalysisResults({ analysis }: { analysis: AnalysisResult2 }) {
+function AnalysisResults({ analysis }: { analysis: AnalysisResult }) {
   const { toast } = useToast()
 
   const getScoreColor = (score: number) => {
@@ -616,11 +622,12 @@ function AnalysisResults({ analysis }: { analysis: AnalysisResult2 }) {
 export default function ATSAnalyzerPage() {
   const { toast } = useToast()
   const [hasAnalyzed, setHasAnalyzed] = useState(false)
-  const [analysis, setAnalysis] = useState<AnalysisResult2 | null>(null)
+  // const [analysis, setAnalysis] = useState<AnalysisResult | null>(null)
   const [resumeFile, setResumeFile] = useState<File | null>(null)
   const [jobDescription, setJobDescription] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  // const [loading, setLoading] = useState(false)
+  // const [error, setError] = useState<string | null>(null)
+  const { analyzeCV, isAnalyzing: loading, result: analysis, error, reset } = useEdgeATSAnalysis();
 
 
   async function handleUpdate(data: { resume: File | undefined; jobDescription: string | undefined }) {    
@@ -642,24 +649,25 @@ export default function ATSAnalyzerPage() {
       })
       return
     }
-    setLoading(true)  
+    // setLoading(true)  
     try {
-      const formData = new FormData()
-      formData.append("resume", resumeFile)
-      formData.append("jobDescription", jobDescription)
+      await analyzeCV(resumeFile, { jobDescription: jobDescription.trim() });
+      // const formData = new FormData()
+      // formData.append("resume", resumeFile)
+      // formData.append("jobDescription", jobDescription)
 
-      const response = await fetch("/api/ats", {
-        method: "POST",
-        body: formData,
-      })
+      // const response = await fetch("/api/ats", {
+      //   method: "POST",
+      //   body: formData,
+      // })
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to analyze resume")
-      }
+      // if (!response.ok) {
+      //   const errorData = await response.json()
+      //   throw new Error(errorData.error || "Failed to analyze resume")
+      // }
 
-      const res = await response.json()
-      setAnalysis(res.analysis)
+      // const res = await response.json()
+      // setAnalysis(res.analysis)
       setHasAnalyzed(true)
 
       toast({
@@ -667,17 +675,22 @@ export default function ATSAnalyzerPage() {
         description: "Your resume has been analyzed against the job description",
       })
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred")
-    } finally {
-      setLoading(false)
-    }
+      toast({
+        title: "Analysis error!",
+        description: err instanceof Error ? err.message : "An error occurred",
+      })
+    } 
+    // finally {
+    //   setLoading(false)
+    // }
   }
 
   function handleReset() {
     setHasAnalyzed(false)
-    setAnalysis(null)
+    // setAnalysis(null)
     setResumeFile(null)
     setJobDescription("")
+    reset()
   }
 
   function handleExport() {
