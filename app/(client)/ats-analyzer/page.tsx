@@ -539,6 +539,28 @@ function AnalysisResults({ analysis }: { analysis: AnalysisResult }) {
                     )}
                   </CardContent>
                 </Card>
+
+                
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Section Strength</CardTitle>
+                  <CardDescription>How well each resume section aligns with the role</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {analysis.sectionAnalysis.map((section) => (
+                    <div key={section.section} className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm font-medium">{section.section}</Label>
+                        <span className={cn("text-sm font-semibold", getScoreColor(section.strength))}>
+                          {section.strength}%
+                        </span>
+                      </div>
+                      <Progress value={section.strength} className="h-2" />
+                      <p className="text-xs text-muted-foreground">{section.feedback}</p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
               </div>
             </TabsContent>
 
@@ -727,7 +749,7 @@ export default function ATSAnalyzerPage() {
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
               <Button variant="ghost" size="icon" asChild>
-                <Link href="/dashboard/resumes">
+                <Link href="/ats-manager">
                   <ArrowLeft className="h-4 w-4" />
                 </Link>
               </Button>
