@@ -207,7 +207,22 @@ Deno.serve(async (req) => {
     // console.log("Updating job status...");
     await supabase
       .from("ats_jobs")
-      .update({ status: "completed", updated_at: new Date().toISOString() })
+      .update({ 
+        status: "completed", 
+        updated_at: new Date().toISOString(),
+        summary: {
+          resumeTitle: result.object.atsCompatibility.metadata.resumeTitle,
+          candidateName: result.object.atsCompatibility.metadata.candidateName,
+          jobTitle: result.object.atsCompatibility.metadata.jobTitle,
+          testDate: new Date().toISOString(),
+          status: result.object.overallScore > 70 ? "passed" : "needs-improvement",
+          overallScore: result.object.overallScore,
+          keywordMatch: result.object.keywordStrength,
+          skillsMatch: result.object.skillsMatch,
+          atsReady: result.object.atsReady,
+          thumbnail: null
+        }
+      })
       .eq("id", jobId);
 
     return new Response("ok", { status: 200 })
