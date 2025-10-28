@@ -45,75 +45,7 @@ import {
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/components/auth-provider"
 import { AtsDB } from "@/utils/supabaseClient"
-import { ATSTest } from "@/lib/types"
-
-// Types
-type TestStatus = "passed" | "needs-improvement" | "pending"
-
-// Mock data
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const mockATSTests = [
-  {
-    id: "1",
-    resumeTitle: "Software Engineer Resume",
-    candidateName: "John Doe",
-    jobTitle: "Senior Software Engineer",
-    jobDescription:
-      "We are looking for a Senior Software Engineer with 5+ years of experience in React, Node.js, and cloud technologies...",
-    testDate: "2024-01-20T10:30:00Z",
-    status: "passed",
-    overallScore: 85,
-    keywordMatch: 88,
-    skillsMatch: 82,
-    atsReady: 85,
-    thumbnail: "/placeholder.svg?height=400&width=300",
-  },
-  {
-    id: "2",
-    resumeTitle: "Marketing Specialist CV",
-    candidateName: "Jane Smith",
-    jobTitle: "Digital Marketing Lead",
-    jobDescription:
-      "Seeking a Digital Marketing Lead with expertise in SEO, SEM, and social media strategy. Must have 3+ years of experience...",
-    testDate: "2024-01-19T14:15:00Z",
-    status: "needs-improvement",
-    overallScore: 62,
-    keywordMatch: 65,
-    skillsMatch: 58,
-    atsReady: 62,
-    thumbnail: "/placeholder.svg?height=400&width=300",
-  },
-  {
-    id: "3",
-    resumeTitle: "Product Manager Resume",
-    candidateName: "Alex Johnson",
-    jobTitle: "Senior Product Manager",
-    jobDescription:
-      "Looking for an experienced Product Manager to lead our product strategy. Experience with B2B SaaS required...",
-    testDate: "2024-01-18T09:45:00Z",
-    status: "passed",
-    overallScore: 78,
-    keywordMatch: 80,
-    skillsMatch: 75,
-    atsReady: 78,
-    thumbnail: "/placeholder.svg?height=400&width=300",
-  },
-  {
-    id: "4",
-    resumeTitle: "Data Analyst CV",
-    candidateName: "Sarah Williams",
-    jobTitle: "Data Analyst",
-    jobDescription:
-      "We need a Data Analyst proficient in SQL, Python, and Tableau. Experience with data visualization and reporting...",
-    testDate: "2024-01-17T16:20:00Z",
-    status: "pending",
-    overallScore: 71,
-    keywordMatch: 72,
-    skillsMatch: 70,
-    atsReady: 71,
-    thumbnail: "/placeholder.svg?height=400&width=300",
-  },
-]
+import { ATSTest, TestStatus } from "@/lib/types"
 
 
 // Helper functions
@@ -222,6 +154,7 @@ function ATSTestCard({
   const { toast } = useToast()
   const statusConfig = getStatusConfig(test.summary.status)
   const StatusIcon = statusConfig.icon
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
   function handleShare() {
     toast({ title: "Share link copied", description: "Test results link copied to clipboard" })
@@ -250,7 +183,7 @@ function ATSTestCard({
             {statusConfig.label}
           </Badge>
 
-          <DropdownMenu>
+          <DropdownMenu  open={openDropdownId === test.id} onOpenChange={(isOpen) => setOpenDropdownId(isOpen ? test.id! : null)}>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
@@ -261,24 +194,24 @@ function ATSTestCard({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={onViewDetails}>
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);onViewDetails();}}>
                 <Eye className="h-4 w-4 mr-2" />
                 View Details
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onEdit}>
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);onEdit()}}>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Job Description
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleExport}>
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);handleExport()}}>
                 <Download className="h-4 w-4 mr-2" />
                 Export Results
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleShare}>
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);handleShare()}}>
                 <Share2 className="h-4 w-4 mr-2" />
                 Share Results
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onDelete} className="text-red-600 dark:text-red-400">
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);onDelete()}} className="text-red-600 dark:text-red-400">
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete Test
               </DropdownMenuItem>
@@ -300,7 +233,7 @@ function ATSTestCard({
       </div>
 
       <CardHeader className="pb-2">
-        <Link href="/ats-analyzer" className="inline-block">
+        <Link href={`/ats-analyzer/${test.id}`} className="inline-block">
         <CardTitle className="text-base line-clamp-1">{test.summary.resumeTitle}</CardTitle>
         <CardDescription className="line-clamp-1">{test.summary.candidateName}</CardDescription>
         </Link>
@@ -342,7 +275,7 @@ function EditJobDescriptionDialog({
   onOpenChange: (open: boolean) => void
   onSave: (jobDescription: string) => void
 }) {
-  const [jobDescription, setJobDescription] = useState(test?.jobDescription || "")
+  const [jobDescription, setJobDescription] = useState(test?.job_description || "")
 
   const handleSave = () => {
     onSave(jobDescription)
@@ -460,7 +393,7 @@ function ViewDetailsDialog({
           <div>
             <h4 className="font-semibold mb-2">Job Description</h4>
             <div className="bg-muted p-3 rounded-lg text-sm text-muted-foreground max-h-40 overflow-y-auto">
-              {test.jobDescription}
+              {test.job_description}
             </div>
           </div>
         </div>
@@ -596,7 +529,7 @@ export default function ATSManagementPage() {
             </div>
 
             {/* Stats Overview - Show loading state or actual stats */}
-            {isLoading ? (
+            {isLoading && tests.length == 0 ? (
               <div className="grid gap-4 md:grid-cols-3">
                 {[1, 2, 3].map((i) => (
                   <Card key={i} className="relative overflow-hidden">
@@ -624,15 +557,15 @@ export default function ATSManagementPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"
-                disabled={isLoading}
+                disabled={isLoading && tests.length == 0}
               />
             </div>
 
             <div className="flex gap-2">
-              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading}>
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading && tests.length == 0}>
                 <Filter className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading}>
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading && tests.length == 0}>
                 <ArrowUpDown className="h-4 w-4" />
               </Button>
               <div className="flex border rounded-md p-1">
@@ -641,7 +574,7 @@ export default function ATSManagementPage() {
                   size="icon"
                   className="h-8 w-8"
                   onClick={() => setViewMode("grid")}
-                  disabled={isLoading}
+                  disabled={isLoading && tests.length == 0}
                 >
                   <Grid3x3 className="h-4 w-4" />
                 </Button>
@@ -650,7 +583,7 @@ export default function ATSManagementPage() {
                   size="icon"
                   className="h-8 w-8"
                   onClick={() => setViewMode("list")}
-                  disabled={isLoading}
+                  disabled={isLoading && tests.length == 0}
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -659,7 +592,7 @@ export default function ATSManagementPage() {
           </div>
 
           {/* Tests Grid/List - Show loading skeletons or content */}
-          {isLoading ? (
+          {isLoading && tests.length == 0 ? (
             <div
               className={cn(
                 "grid gap-6",

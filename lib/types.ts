@@ -294,10 +294,10 @@ export interface ATSAnalysisResult {
     }
 }
 
-type TestStatus = "passed" | "needs-improvement" | "pending"
+export type TestStatus = "passed" | "needs-improvement" | "pending"
 export interface ATSTest {
   id: string
-  jobDescription: string
+  job_description: string
   summary: {
     resumeTitle: string
     candidateName: string
