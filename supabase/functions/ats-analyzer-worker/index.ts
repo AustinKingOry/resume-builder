@@ -10,7 +10,6 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 const FUNCTION_SECRET = Deno.env.get("FUNCTION_SECRET_ATS")!
 
 Deno.serve(async (req) => {
-  console.log('Initializing ats...')
   // Step 1: Secure the function
   if (req.headers.get("x-function-secret-ats") !== FUNCTION_SECRET) {
     return new Response("Unauthorized", { status: 401 })
@@ -18,8 +17,6 @@ Deno.serve(async (req) => {
 
   const payload = await req.json().catch(() => ({}))
   const jobId = payload?.record?.id ?? payload?.jobId
-  console.log(`job: ${jobId}`)
-  console.log("payload:", JSON.stringify(payload))
 
   if (!jobId) return new Response("Missing jobId", { status: 400 })
 
@@ -147,9 +144,9 @@ Deno.serve(async (req) => {
       (keywordAnalysis.object.matchPercentage + skillsAnalysis.object.matchPercentage + atsCompatibility.object.atsScore) / 3,
     )
 
-    const keywordStrength = keywordAnalysis.object.matchPercentage
-    const skillsMatch = skillsAnalysis.object.matchPercentage
-    const atsReady = atsCompatibility.object.atsScore
+    const keywordStrength = Math.round(keywordAnalysis.object.matchPercentage)
+    const skillsMatch = Math.round(skillsAnalysis.object.matchPercentage)
+    const atsReady = Math.round(atsCompatibility.object.atsScore)
 
     const processing_ms = Date.now() - started
 
@@ -173,9 +170,10 @@ Deno.serve(async (req) => {
       },
       finishReason: keywordAnalysis.finishReason || skillsAnalysis.finishReason || atsCompatibility.finishReason || recommendations.finishReason || sections.finishReason || "stop",
     }
+    // console.log("Response data:", result);
 
     // Step 5: Save results
-    await supabase.from("ats_responses").insert({
+    const { error: insertErr } = await supabase.from("ats_responses").insert({
       ats_job_id: job.id,
       overall_score: result.object.overallScore,
       keyword_strength: result.object.keywordStrength,
@@ -186,7 +184,6 @@ Deno.serve(async (req) => {
       ats_compatibility: result.object.atsCompatibility,
       section_analysis: result.object.sections,
       recommendations: result.object.recommendations,
-      ai_tokens_used: result.usage?.totalTokens,
       finished_reason: result.finishReason,
       io_tokens: {
         input: result.usage?.inputTokens || 0,
@@ -198,6 +195,16 @@ Deno.serve(async (req) => {
       processing_time_ms: processing_ms,
     });
 
+    if (insertErr) {
+      console.error("Insert failed:", insertErr);
+      await supabase
+        .from("ats_jobs")
+        .update({ status: "failed", error: insertErr.message })
+        .eq("id", jobId);
+      return;
+    }
+
+    // console.log("Updating job status...");
     await supabase
       .from("ats_jobs")
       .update({ status: "completed", updated_at: new Date().toISOString() })
