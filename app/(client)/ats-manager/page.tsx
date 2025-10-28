@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -43,27 +43,16 @@ import {
   Share2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/components/auth-provider"
+import { AtsDB } from "@/utils/supabaseClient"
+import { ATSTest } from "@/lib/types"
 
 // Types
 type TestStatus = "passed" | "needs-improvement" | "pending"
 
-interface ATSTest {
-  id: string
-  resumeTitle: string
-  candidateName: string
-  jobTitle: string
-  jobDescription: string
-  testDate: string
-  status: TestStatus
-  overallScore: number
-  keywordMatch: number
-  skillsMatch: number
-  atsReady: number
-  thumbnail?: string
-}
-
 // Mock data
-const mockATSTests: ATSTest[] = [
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const mockATSTests = [
   {
     id: "1",
     resumeTitle: "Software Engineer Resume",
@@ -126,6 +115,7 @@ const mockATSTests: ATSTest[] = [
   },
 ]
 
+
 // Helper functions
 function formatDate(dateString: string) {
   const date = new Date(dateString)
@@ -168,8 +158,8 @@ function getStatusConfig(status: TestStatus) {
 
 function StatsOverview({ tests }: { tests: ATSTest[] }) {
   const totalTests = tests.length
-  const passedTests = tests.filter((t) => t.status === "passed").length
-  const avgScore = Math.round(tests.reduce((sum, t) => sum + t.overallScore, 0) / tests.length)
+  const passedTests = tests.filter((t) => t.summary.status === "passed").length
+  const avgScore = Math.round(tests.reduce((sum, t) => sum + t.summary.overallScore, 0) / tests.length)
 
   const stats = [
     { label: "Total Tests", value: totalTests, icon: FileText, color: "from-emerald-500 to-emerald-600" },
@@ -200,6 +190,24 @@ function StatsOverview({ tests }: { tests: ATSTest[] }) {
   )
 }
 
+function ATSTestCardSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <div className="aspect-[3/4] bg-muted animate-pulse rounded-t-lg" />
+      <CardHeader className="pb-2">
+        <div className="h-4 bg-muted rounded animate-pulse mb-2" />
+        <div className="h-3 bg-muted rounded animate-pulse w-2/3" />
+      </CardHeader>
+      <CardContent className="pb-3">
+        <div className="space-y-2">
+          <div className="h-2 bg-muted rounded-full animate-pulse" />
+          <div className="h-2 bg-muted rounded-full animate-pulse w-3/4" />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 function ATSTestCard({
   test,
   onEdit,
@@ -212,7 +220,7 @@ function ATSTestCard({
   onViewDetails: () => void
 }) {
   const { toast } = useToast()
-  const statusConfig = getStatusConfig(test.status)
+  const statusConfig = getStatusConfig(test.summary.status)
   const StatusIcon = statusConfig.icon
 
   function handleShare() {
@@ -220,7 +228,7 @@ function ATSTestCard({
   }
 
   function handleExport() {
-    toast({ title: "Exporting...", description: `Exporting ${test.resumeTitle} results` })
+    toast({ title: "Exporting...", description: `Exporting ${test.summary.resumeTitle} results` })
   }
 
   return (
@@ -229,8 +237,8 @@ function ATSTestCard({
 
       <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-t-lg">
         <Image
-          src={test.thumbnail || "/placeholder.svg?height=400&width=300"}
-          alt={`${test.resumeTitle} preview`}
+          src={test.summary.thumbnail || "/placeholder.svg?height=400&width=300"}
+          alt={`${test.summary.resumeTitle} preview`}
           fill
           className="object-cover"
         />
@@ -293,8 +301,8 @@ function ATSTestCard({
 
       <CardHeader className="pb-2">
         <Link href="/ats-analyzer" className="inline-block">
-        <CardTitle className="text-base line-clamp-1">{test.resumeTitle}</CardTitle>
-        <CardDescription className="line-clamp-1">{test.candidateName}</CardDescription>
+        <CardTitle className="text-base line-clamp-1">{test.summary.resumeTitle}</CardTitle>
+        <CardDescription className="line-clamp-1">{test.summary.candidateName}</CardDescription>
         </Link>
       </CardHeader>
 
@@ -302,12 +310,12 @@ function ATSTestCard({
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Overall Score</span>
-            <span className="font-semibold text-emerald-600">{test.overallScore}%</span>
+            <span className="font-semibold text-emerald-600">{test.summary.overallScore}%</span>
           </div>
           <div className="h-2 bg-muted rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-emerald-500 to-sky-500"
-              style={{ width: `${test.overallScore}%` }}
+              style={{ width: `${test.summary.overallScore}%` }}
             />
           </div>
         </div>
@@ -316,7 +324,7 @@ function ATSTestCard({
       <CardContent className="pt-0 pb-3 text-xs text-muted-foreground flex items-center justify-between">
         <div className="flex items-center gap-1">
           <Calendar className="h-3 w-3" />
-          <span>Tested {formatDate(test.testDate)}</span>
+          <span>Tested {formatDate(test.summary.testDate)}</span>
         </div>
       </CardContent>
     </Card>
@@ -352,7 +360,7 @@ function EditJobDescriptionDialog({
         <div className="space-y-4">
           <div>
             <label className="text-sm font-medium mb-2 block">Job Title</label>
-            <Input value={test?.jobTitle || ""} disabled className="bg-muted" />
+            <Input value={test?.summary.jobTitle || ""} disabled className="bg-muted" />
           </div>
 
           <div>
@@ -398,7 +406,7 @@ function ViewDetailsDialog({
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Test Results Details</DialogTitle>
-          <DialogDescription>{test.resumeTitle}</DialogDescription>
+          <DialogDescription>{test.summary.resumeTitle}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -406,20 +414,20 @@ function ViewDetailsDialog({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-muted-foreground">Candidate Name</p>
-              <p className="font-semibold">{test.candidateName}</p>
+              <p className="font-semibold">{test.summary.candidateName}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Job Title</p>
-              <p className="font-semibold">{test.jobTitle}</p>
+              <p className="font-semibold">{test.summary.jobTitle}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Test Date</p>
-              <p className="font-semibold">{new Date(test.testDate).toLocaleDateString()}</p>
+              <p className="font-semibold">{new Date(test.summary.testDate).toLocaleDateString()}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Status</p>
-              <Badge className={cn("mt-1", getStatusConfig(test.status).color)}>
-                {getStatusConfig(test.status).label}
+              <Badge className={cn("mt-1", getStatusConfig(test.summary.status).color)}>
+                {getStatusConfig(test.summary.status).label}
               </Badge>
             </div>
           </div>
@@ -428,10 +436,10 @@ function ViewDetailsDialog({
           <div className="space-y-3">
             <h4 className="font-semibold">Score Breakdown</h4>
             {[
-              { label: "Overall Score", score: test.overallScore },
-              { label: "Keyword Match", score: test.keywordMatch },
-              { label: "Skills Match", score: test.skillsMatch },
-              { label: "ATS Ready", score: test.atsReady },
+              { label: "Overall Score", score: test.summary.overallScore },
+              { label: "Keyword Match", score: test.summary.keywordMatch },
+              { label: "Skills Match", score: test.summary.skillsMatch },
+              { label: "ATS Ready", score: test.summary.atsReady },
             ].map((item) => (
               <div key={item.label}>
                 <div className="flex items-center justify-between mb-1">
@@ -467,7 +475,8 @@ function ViewDetailsDialog({
 
 // Main Page
 export default function ATSManagementPage() {
-  const [tests, setTests] = useState<ATSTest[]>(mockATSTests)
+  const [tests, setTests] = useState<ATSTest[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [editDialogOpen, setEditDialogOpen] = useState(false)
@@ -475,12 +484,46 @@ export default function ATSManagementPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [selectedTest, setSelectedTest] = useState<ATSTest | null>(null)
   const { toast } = useToast()
+  const {user, isLoading: userLoading} = useAuth();
+
+  useEffect(() => {
+    if (userLoading) return; // Wait until auth state resolves
+    if (!user?.id) return; // If no user, do not load resumes
+
+    let isCancelled = false;
+
+    const loadAtsTests = async () => {
+      setIsLoading(true);
+      try {
+        const data = await AtsDB.fetchAtsTestsByUser(10, 0, user.id);
+        if (!isCancelled) setTests(data);
+      } catch (error) {
+        console.error("Failed to load tests:", error);
+      } finally {
+        if (!isCancelled) setIsLoading(false);
+      }
+    };
+    // const loadTests = async () => {
+    //   setIsLoading(true)
+    //   const data = await fetchATSTests()
+    //   setTests(data)
+    //   setIsLoading(false)
+    // }
+
+    // loadTests()
+
+    loadAtsTests();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [user, userLoading])
 
   const filteredTests = tests.filter(
     (test) =>
-      test.resumeTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      test.candidateName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      test.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()),
+      test.summary.resumeTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      test.summary.candidateName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      test.summary.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
   function handleEditClick(test: ATSTest) {
@@ -513,7 +556,7 @@ export default function ATSManagementPage() {
       setTests(tests.filter((t) => t.id !== selectedTest.id))
       toast({
         title: "Test deleted",
-        description: `${selectedTest.resumeTitle} has been permanently deleted.`,
+        description: `${selectedTest.summary.resumeTitle} has been permanently deleted.`,
       })
       setDeleteDialogOpen(false)
       setSelectedTest(null)
@@ -552,8 +595,24 @@ export default function ATSManagementPage() {
               </Button>
             </div>
 
-            {/* Stats Overview */}
-            <StatsOverview tests={tests} />
+            {/* Stats Overview - Show loading state or actual stats */}
+            {isLoading ? (
+              <div className="grid gap-4 md:grid-cols-3">
+                {[1, 2, 3].map((i) => (
+                  <Card key={i} className="relative overflow-hidden">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                      <div className="h-4 bg-muted rounded animate-pulse w-24" />
+                      <div className="h-4 w-4 bg-muted rounded animate-pulse" />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-8 bg-muted rounded animate-pulse w-16" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <StatsOverview tests={tests} />
+            )}
           </div>
 
           {/* Search and Filters */}
@@ -565,14 +624,15 @@ export default function ATSManagementPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"
+                disabled={isLoading}
               />
             </div>
 
             <div className="flex gap-2">
-              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent">
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading}>
                 <Filter className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent">
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading}>
                 <ArrowUpDown className="h-4 w-4" />
               </Button>
               <div className="flex border rounded-md p-1">
@@ -581,6 +641,7 @@ export default function ATSManagementPage() {
                   size="icon"
                   className="h-8 w-8"
                   onClick={() => setViewMode("grid")}
+                  disabled={isLoading}
                 >
                   <Grid3x3 className="h-4 w-4" />
                 </Button>
@@ -589,6 +650,7 @@ export default function ATSManagementPage() {
                   size="icon"
                   className="h-8 w-8"
                   onClick={() => setViewMode("list")}
+                  disabled={isLoading}
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -596,8 +658,19 @@ export default function ATSManagementPage() {
             </div>
           </div>
 
-          {/* Tests Grid/List */}
-          {filteredTests.length === 0 ? (
+          {/* Tests Grid/List - Show loading skeletons or content */}
+          {isLoading ? (
+            <div
+              className={cn(
+                "grid gap-6",
+                viewMode === "grid" ? "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1",
+              )}
+            >
+              {[1, 2, 3, 4].map((i) => (
+                <ATSTestCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : filteredTests.length === 0 ? (
             tests.length === 0 ? (
               <div className="text-center py-16">
                 <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-gradient-to-br from-emerald-500/20 to-sky-500/20 grid place-items-center">
@@ -661,7 +734,7 @@ export default function ATSManagementPage() {
           <DialogHeader>
             <DialogTitle>Delete ATS Test</DialogTitle>
             <DialogDescription>
-              {`Are you sure you want to delete the test for "${selectedTest?.resumeTitle}"? This action cannot be undone.`}
+              {`Are you sure you want to delete the test for "${selectedTest?.summary.resumeTitle}"? This action cannot be undone.`}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
