@@ -39,43 +39,7 @@ import {
 import { cn } from "@/lib/utils"
 import { ATSLoadingState } from "@/components/ats/loading-state"
 import { useEdgeATSAnalysis } from "@/hooks/use-edge-ats"
-
-interface AnalysisResult {
-    overallScore: number
-    keywordStrength: number
-    skillsMatch: number
-    atsReady: number
-    keywords: {
-      matchedKeywords: Array<{ keyword: string; frequency: number; importance: string }>
-      missingKeywords: Array<{ keyword: string; importance: string; reason: string }>
-      matchPercentage: number
-      analysis: string
-    }
-    skills: {
-      matchedSkills: Array<{ skill: string; category: string; proficiency: string; importance: string }>
-      missingSkills: Array<{ skill: string; category: string; priority: string; importance: string }>
-      matchPercentage: number
-      skillGaps: string[]
-      analysis: string
-    }
-    atsCompatibility: {
-      atsScore: number
-      formatting: { score: number; issues: string[]; suggestions: string[] }
-      structure: { score: number; sections: string[]; missingSections: string[] }
-      readability: { score: number; issues: string[] }
-      analysis: string
-    }
-    sectionAnalysis: {
-      section: string
-      strength: number
-      feedback: string
-    }[]
-    recommendations: {
-      improvements: Array<{ category: string; title: string; description: string; priority: string; action: string }>
-      atsWarnings: Array<{ warning: string; severity: string; suggestion: string }>
-      bestPractices: Array<{ practice: string; benefit: string; implementation: string }>
-    }
-}
+import { ATSAnalysisResult } from "@/lib/types"
 
 function UploadSection({
   onUpdate,
@@ -272,7 +236,7 @@ const ImportanceIcon = ({ level }: { level: string }) => {
   return <Badge className={`${colors[level] || colors.low}`}>{level}</Badge>
 }
 
-function AnalysisResults({ analysis }: { analysis: AnalysisResult }) {
+function AnalysisResults({ analysis }: { analysis: ATSAnalysisResult }) {
   const { toast } = useToast()
 
   const getScoreColor = (score: number) => {
@@ -541,7 +505,7 @@ function AnalysisResults({ analysis }: { analysis: AnalysisResult }) {
                 </Card>
 
                 
-              <Card>
+              {/* <Card>
                 <CardHeader>
                   <CardTitle className="text-base">Section Strength</CardTitle>
                   <CardDescription>How well each resume section aligns with the role</CardDescription>
@@ -560,7 +524,7 @@ function AnalysisResults({ analysis }: { analysis: AnalysisResult }) {
                     </div>
                   ))}
                 </CardContent>
-              </Card>
+              </Card> */}
               </div>
             </TabsContent>
 
@@ -643,13 +607,13 @@ function AnalysisResults({ analysis }: { analysis: AnalysisResult }) {
 
 export default function ATSAnalyzerPage() {
   const { toast } = useToast()
-  const [hasAnalyzed, setHasAnalyzed] = useState(false)
+  // const [hasAnalyzed, setHasAnalyzed] = useState(false)
   // const [analysis, setAnalysis] = useState<AnalysisResult | null>(null)
   const [resumeFile, setResumeFile] = useState<File | null>(null)
   const [jobDescription, setJobDescription] = useState("")
   // const [loading, setLoading] = useState(false)
   // const [error, setError] = useState<string | null>(null)
-  const { analyzeCV, isAnalyzing: loading, result: analysis, error, reset } = useEdgeATSAnalysis();
+  const { analyzeCV, isAnalyzing: loading, result: analysis, error, reset, hasAnalyzed } = useEdgeATSAnalysis();
 
 
   async function handleUpdate(data: { resume: File | undefined; jobDescription: string | undefined }) {    
@@ -690,9 +654,7 @@ export default function ATSAnalyzerPage() {
 
       // const res = await response.json()
       // setAnalysis(res.analysis)
-      if(analysis !== null && !loading){
-        setHasAnalyzed(true)
-  
+      if(hasAnalyzed){
         toast({
           title: "Analysis complete!",
           description: "Your resume has been analyzed against the job description",
@@ -711,7 +673,7 @@ export default function ATSAnalyzerPage() {
   }
 
   function handleReset() {
-    setHasAnalyzed(false)
+    // setHasAnalyzed(false)
     // setAnalysis(null)
     setResumeFile(null)
     setJobDescription("")

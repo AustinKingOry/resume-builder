@@ -1,58 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { ATSAnalysisResult } from "@/lib/types";
 import { useState, useCallback, useRef, useEffect } from "react";
-
-interface AnalysisResult {
-    id?: string;
-    overallScore: number
-    keywordStrength: number
-    skillsMatch: number
-    atsReady: number
-    keywords: {
-      matchedKeywords: Array<{ keyword: string; frequency: number; importance: string }>
-      missingKeywords: Array<{ keyword: string; importance: string; reason: string }>
-      matchPercentage: number
-      analysis: string
-    }
-    skills: {
-      matchedSkills: Array<{ skill: string; category: string; proficiency: string; importance: string }>
-      missingSkills: Array<{ skill: string; category: string; priority: string; importance: string }>
-      matchPercentage: number
-      skillGaps: string[]
-      analysis: string
-    }
-    atsCompatibility: {
-      atsScore: number
-      formatting: { score: number; issues: string[]; suggestions: string[] }
-      structure: { score: number; sections: string[]; missingSections: string[] }
-      readability: { score: number; issues: string[] }
-      analysis: string
-    }
-    sectionAnalysis: {
-      section: string
-      strength: number
-      feedback: string
-    }[]
-    recommendations: {
-      improvements: Array<{ category: string; title: string; description: string; priority: string; action: string }>
-      atsWarnings: Array<{ warning: string; severity: string; suggestion: string }>
-      bestPractices: Array<{ practice: string; benefit: string; implementation: string }>
-    }
-    processingTime?: number
-    metadata?: {
-      fileName: string
-      fileSize: number
-      fileType: string
-      pageCount?: number
-      wordCount: number
-    }
-    usage?: {
-      promptTokens: number
-      completionTokens: number
-      totalTokens: number
-    }
-}
 
 export interface UserContext {
   targetRole?: string;
@@ -61,15 +11,15 @@ export interface UserContext {
 }
 
 /**
- * Converts raw CV analysis data from the API to the CVAnalysisResult format.
+ * Converts raw ATS analysis data from the API to the ATSAnalysisResult format.
  * @param raw The original API response object
  * @param meta Optional metadata about the file (can come from your upload handling logic)
- * @returns CVAnalysisResult
+ * @returns ATSAnalysisResult
  */
-function formatCVAnalysisResult(
+function formatATSAnalysisResult(
   raw: any,
   meta?: { fileName: string; fileSize: number; fileType: string; pageCount?: number; wordCount: number }
-): AnalysisResult {
+): ATSAnalysisResult {
   return {
     id: raw.id,
     overallScore: raw.overall_score || 0,
@@ -136,9 +86,10 @@ function formatCVAnalysisResult(
 
 export function useEdgeATSAnalysis() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [result, setResult] = useState<ATSAnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [hasAnalyzed, setHasAnalyzed] = useState(false)
 
   const analyzeCV = useCallback(
     async (
@@ -170,15 +121,17 @@ export function useEdgeATSAnalysis() {
             const sres = await fetch(`/api/ats/status?atsJobId=${jobId}`);
             const sdata = await sres.json();
 
-            if (sdata.status === "succeeded") {
+            if (sdata.status === "completed") {
               clearInterval(pollRef.current!);
-              const formatted = formatCVAnalysisResult(sdata.result, metadata);
+              const formatted = formatATSAnalysisResult(sdata.result, metadata);
               setResult(formatted);
               setIsAnalyzing(false);
+              setHasAnalyzed(true);
             } else if (sdata.status === "failed" || sdata.status === "timeout") {
               clearInterval(pollRef.current!);
               setError(sdata.error || "Job failed");
               setIsAnalyzing(false);
+              setHasAnalyzed(false);
             } else {
               // queued/processing → you could update a spinner message here
             }
@@ -186,11 +139,13 @@ export function useEdgeATSAnalysis() {
             clearInterval(pollRef.current!);
             setError(e.message || "Polling failed");
             setIsAnalyzing(false);
+            setHasAnalyzed(false);
           }
         }, 1500);
       } catch (e: any) {
         setError(e.message || "Enqueue failed");
         setIsAnalyzing(false);
+        setHasAnalyzed(false);
       }
     },
     []
@@ -201,9 +156,10 @@ export function useEdgeATSAnalysis() {
     setResult(null)
     setError(null);
     setIsAnalyzing(false);
+    setHasAnalyzed(false);
   }, []);
 
   useEffect(() => () => { if (pollRef.current) clearInterval(pollRef.current); }, []);
 
-  return { analyzeCV, isAnalyzing, result, error, reset };
+  return { analyzeCV, isAnalyzing, result, error, reset, hasAnalyzed };
 }
