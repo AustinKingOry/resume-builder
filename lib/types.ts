@@ -293,3 +293,21 @@ export interface ATSAnalysisResult {
       totalTokens: number
     }
 }
+
+type TestStatus = "passed" | "needs-improvement" | "pending"
+export interface ATSTest {
+  id: string
+  jobDescription: string
+  summary: {
+    resumeTitle: string
+    candidateName: string
+    jobTitle: string
+    testDate: string
+    status: TestStatus
+    overallScore: number
+    keywordMatch: number
+    skillsMatch: number
+    atsReady: number
+    thumbnail?: string
+  }
+}
