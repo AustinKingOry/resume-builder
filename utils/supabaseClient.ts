@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase-browser";
-import { ResumeData, ResumeDataDb } from "@/lib/types";
+import { ResumeData, ResumeDataDb, ATSTest } from "@/lib/types";
 
 export const ResumeDB = {
     async createResume (user_id: string, resumeData: ResumeData){
@@ -87,6 +87,82 @@ export const ResumeDB = {
             return data;
         } catch (err) {
             console.error('Unexpected error deleting resume:', err);
+            return null;
+        }
+    },
+}
+
+
+export const AtsDB = {
+    async updateAtsTest (test_id: string, testData: ATSTest){
+        try {
+            const { data, error } = await supabase
+                .from('ats_jobs')
+                .update(testData)
+                .eq("id", test_id)
+                .select();
+            if (error) throw error;
+            return data;
+        } catch (err) {
+            console.error('Unexpected error syncing ats test with database:', err);
+            return null;
+        }
+    },
+    async fetchAtsTestById(id: number, user_id: string): Promise<ATSTest | null>{
+        try {
+            const { data, error } = await supabase
+                .from('ats_jobs')
+                .select('*')
+                .eq("id", id)
+                .eq("user_id", user_id.trim())
+                .maybeSingle();
+          
+              if (error) {
+                console.error('Supabase error fetching ats test:', error);
+                return null;
+              }
+          
+              if (!data) {
+                console.warn(`No ats test found for id: ${id} and user: ${user_id}`);
+                return null;
+              }
+          
+              return data;
+            // if (error) throw error;
+            // return data;
+        } catch (err) {
+            console.error('Unexpected error fetching ats test:', err);
+            return null;
+        }
+    },
+    async fetchAtsTestsByUser(limit=5, offset = 0, user_id: string): Promise<ATSTest[]>{
+        try {
+            const { data, error } = await supabase
+                .from('ats_jobs')
+                .select('*')
+                .eq("user_id", user_id)
+                .eq("status", "completed")
+                .order('updated_at', { ascending: false })
+                .limit(limit)
+                .range(offset, offset + limit - 1);
+            if (error) throw error;
+            return data;
+        } catch (err) {
+            console.error('Unexpected error fetching ats tests:', err);
+            return [];
+        }
+    },
+    async deleteAtsTest (test_id: string, user_id: string){
+        try {
+            const { data, error } = await supabase
+                .from('ats_jobs')
+                .delete()
+                .eq("id",test_id)
+                .eq("user_id",user_id)
+            if (error) throw error;
+            return data;
+        } catch (err) {
+            console.error('Unexpected error deleting ats test:', err);
             return null;
         }
     },
