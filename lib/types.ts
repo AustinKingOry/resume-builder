@@ -242,3 +242,54 @@ export interface Margins {
   bottom: number
   left: number
 }
+
+export interface ATSAnalysisResult {
+  id?: string;
+    overallScore: number
+    keywordStrength: number
+    skillsMatch: number
+    atsReady: number
+    keywords: {
+      matchedKeywords: Array<{ keyword: string; frequency: number; importance: string }>
+      missingKeywords: Array<{ keyword: string; importance: string; reason: string }>
+      matchPercentage: number
+      analysis: string
+    }
+    skills: {
+      matchedSkills: Array<{ skill: string; category: string; proficiency: string; importance: string }>
+      missingSkills: Array<{ skill: string; category: string; priority: string; importance: string }>
+      matchPercentage: number
+      skillGaps: string[]
+      analysis: string
+    }
+    atsCompatibility: {
+      atsScore: number
+      formatting: { score: number; issues: string[]; suggestions: string[] }
+      structure: { score: number; sections: string[]; missingSections: string[] }
+      readability: { score: number; issues: string[] }
+      analysis: string
+    }
+    sectionAnalysis: {
+      section: string
+      strength: number
+      feedback: string
+    }[]
+    recommendations: {
+      improvements: Array<{ category: string; title: string; description: string; priority: string; action: string }>
+      atsWarnings: Array<{ warning: string; severity: string; suggestion: string }>
+      bestPractices: Array<{ practice: string; benefit: string; implementation: string }>
+    }
+    processingTime?: number
+    metadata?: {
+      fileName: string
+      fileSize: number
+      fileType: string
+      pageCount?: number
+      wordCount: number
+    }
+    usage?: {
+      promptTokens: number
+      completionTokens: number
+      totalTokens: number
+    }
+}
