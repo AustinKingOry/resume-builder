@@ -64,6 +64,7 @@ export const prompts = {
   4. Presence of required sections (header, summary, experience, skills, education)
   5. Keyword density and placement
   6. Overall ATS score (0-100)
+  7. Biodata and job description
   
   Identify:
   - Formatting issues that might cause ATS parsing problems
@@ -75,6 +76,7 @@ export const prompts = {
   - Overall ATS compatibility score
   - Specific issues and suggestions for each area
   - Priority improvements needed
+  - Basic information about the canditate and role
   `,
   
     recommendations: (resumeText: string, jobDescription: string) => `

@@ -69,6 +69,13 @@ export const ATSCompatibilitySchema = z.object({
     issues: z.array(z.string()),
   }),
   analysis: z.string(),
+  metadata: z.object({
+    resumeTitle: z.string(),
+    candidateName: z.string(),
+    jobTitle: z.string(),
+    company: z.string(),
+    location: z.string(),
+  }),
 })
 
 // Schema for recommendations
