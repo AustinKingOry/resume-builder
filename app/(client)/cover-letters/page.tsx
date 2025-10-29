@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -45,103 +45,10 @@ import {
   Briefcase,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-// Mock data for cover letters
-type CoverLetterStatus = "draft" | "complete" | "needs-review"
-
-interface CoverLetter {
-  id: string
-  title: string
-  company?: string
-  position?: string
-  lastUpdated: string
-  createdAt: string
-  status: CoverLetterStatus
-  preview?: string
-  wordCount?: number
-  downloads: number
-}
-
-const mockCoverLetters: CoverLetter[] = [
-  {
-    id: "1",
-    title: "Software Engineer at Safaricom",
-    company: "Safaricom PLC",
-    position: "Senior Software Engineer",
-    lastUpdated: "2024-01-21T14:30:00Z",
-    createdAt: "2024-01-20T10:00:00Z",
-    status: "complete",
-    preview:
-      "Dear Hiring Manager, I am writing to express my strong interest in the Senior Software Engineer position at Safaricom PLC...",
-    wordCount: 342,
-    downloads: 2,
-  },
-  {
-    id: "2",
-    title: "Marketing Lead at Andela",
-    company: "Andela",
-    position: "Digital Marketing Lead",
-    lastUpdated: "2024-01-20T09:15:00Z",
-    createdAt: "2024-01-18T14:00:00Z",
-    status: "complete",
-    preview: "Dear Recruitment Team, With over five years of experience in digital marketing across African markets...",
-    wordCount: 298,
-    downloads: 1,
-  },
-  {
-    id: "3",
-    title: "Product Manager Application",
-    company: "Flutterwave",
-    position: "Senior Product Manager",
-    lastUpdated: "2024-01-19T16:45:00Z",
-    createdAt: "2024-01-19T11:00:00Z",
-    status: "draft",
-    preview: "Dear Sir/Madam, I am excited to apply for the Senior Product Manager role...",
-    wordCount: 156,
-    downloads: 0,
-  },
-  {
-    id: "4",
-    title: "Data Analyst - M-KOPA",
-    company: "M-KOPA",
-    position: "Data Analyst",
-    lastUpdated: "2024-01-18T11:20:00Z",
-    createdAt: "2024-01-17T15:00:00Z",
-    status: "needs-review",
-    preview:
-      "To the Hiring Committee, I am passionate about leveraging data to drive business decisions in emerging markets...",
-    wordCount: 275,
-    downloads: 1,
-  },
-  {
-    id: "5",
-    title: "UX Designer at BRCK",
-    company: "BRCK",
-    position: "Senior UX Designer",
-    lastUpdated: "2024-01-17T13:30:00Z",
-    createdAt: "2024-01-15T09:00:00Z",
-    status: "complete",
-    preview: "Dear Design Team, As a UX designer with a focus on connectivity solutions for underserved markets...",
-    wordCount: 315,
-    downloads: 3,
-  },
-]
-
-function formatDate(dateString: string) {
-  const date = new Date(dateString)
-  const now = new Date()
-  const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
-
-  if (diffInHours < 24) {
-    if (diffInHours < 1) return "Just now"
-    return `${diffInHours}h ago`
-  }
-
-  const diffInDays = Math.floor(diffInHours / 24)
-  if (diffInDays < 7) return `${diffInDays}d ago`
-
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-}
+import { useAuth } from "@/components/auth-provider"
+import { CoverLettersDB } from "@/utils/supabaseClient"
+import { CoverLetter, CoverLetterStatus } from "@/lib/types/cover-letter"
+import { formatDate } from "@/lib/helpers"
 
 function getStatusConfig(status: CoverLetterStatus) {
   switch (status) {
@@ -285,7 +192,7 @@ function CoverLetterCard({
 
       <CardContent className="pb-3">
         <div className="relative">
-          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">{letter.preview}</p>
+          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">{letter.content.substring(0,100)}</p>
           <div className="absolute bottom-0 right-0 left-0 h-8 bg-gradient-to-t from-background to-transparent" />
         </div>
       </CardContent>
@@ -293,7 +200,7 @@ function CoverLetterCard({
       <CardFooter className="text-xs text-muted-foreground flex items-center justify-between pt-0 border-t">
         <div className="flex items-center gap-1">
           <Calendar className="h-3 w-3" />
-          <span>Updated {formatDate(letter.lastUpdated)}</span>
+          <span>Updated {formatDate(letter.updatedAt)}</span>
         </div>
         <div className="flex items-center gap-3">
           {letter.wordCount && <span>{letter.wordCount} words</span>}
@@ -360,13 +267,93 @@ function EmptyState() {
   )
 }
 
+function CoverLetterCardSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between mb-2">
+          <div className="h-6 w-20 bg-muted rounded animate-pulse" />
+          <div className="h-8 w-8 bg-muted rounded animate-pulse" />
+        </div>
+        <div className="h-5 w-3/4 bg-muted rounded animate-pulse mb-2" />
+        <div className="h-4 w-1/2 bg-muted rounded animate-pulse" />
+      </CardHeader>
+      <CardContent className="pb-3">
+        <div className="space-y-2">
+          <div className="h-4 w-full bg-muted rounded animate-pulse" />
+          <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
+          <div className="h-4 w-4/6 bg-muted rounded animate-pulse" />
+        </div>
+      </CardContent>
+      <CardFooter className="text-xs text-muted-foreground flex items-center justify-between pt-0 border-t">
+        <div className="h-4 w-24 bg-muted rounded animate-pulse" />
+        <div className="h-4 w-16 bg-muted rounded animate-pulse" />
+      </CardFooter>
+    </Card>
+  )
+}
+
+function StatsOverviewSkeleton() {
+  return (
+    <div className="grid gap-4 md:grid-cols-3">
+      {[1, 2, 3].map((i) => (
+        <Card key={i}>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div className="h-4 w-24 bg-muted rounded animate-pulse" />
+            <div className="h-4 w-4 bg-muted rounded animate-pulse" />
+          </CardHeader>
+          <CardContent>
+            <div className="h-8 w-12 bg-muted rounded animate-pulse" />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  )
+}
+
 export default function CoverLettersPage() {
-  const [letters, setLetters] = useState<CoverLetter[]>(mockCoverLetters)
+  const [letters, setLetters] = useState<CoverLetter[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [letterToDelete, setLetterToDelete] = useState<CoverLetter | null>(null)
+  const [noLetters, setNoLetters] = useState(false)
   const { toast } = useToast()
+  const {user, isLoading: userLoading} = useAuth();
+
+  useEffect(() => {
+    if (userLoading && !user?.id) return; // Wait until auth state resolves
+    if (!user?.id) return; // If no user, do not load resumes
+
+    let isCancelled = false;
+
+    const loadLetters = async () => {
+      setIsLoading(true);
+      try {
+        const data = await CoverLettersDB.fetchCoverLettersByUser(10, 0, user.id);
+        if (!isCancelled) {
+          setLetters(data);
+          setNoLetters(data.length == 0)
+        }
+      } catch (error) {
+        console.error("Failed to load cover letters:", error)
+        toast({
+          title: "Error",
+          description: "Failed to load cover letters",
+          variant: "destructive",
+        })
+      } finally {
+        if (!isCancelled) setIsLoading(false);
+      }
+    };
+
+    loadLetters();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [toast, user, userLoading])
 
   const filteredLetters = letters.filter(
     (letter) =>
@@ -430,11 +417,11 @@ export default function CoverLettersPage() {
               </Button>
             </div>
 
-            {/* Stats Overview */}
-            <StatsOverview letters={letters} />
+            {/* Stats Overview - Show skeleton while loading */}
+            {isLoading && letters.length == 0 && noLetters ? <StatsOverviewSkeleton /> : <StatsOverview letters={letters} />}
           </div>
 
-          {/* Search and Filters */}
+          {/* Search and Filters - Disabled while loading */}
           <div className="mb-6 flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -443,14 +430,15 @@ export default function CoverLettersPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"
+                disabled={isLoading && letters.length == 0 && noLetters}
               />
             </div>
 
             <div className="flex gap-2">
-              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent">
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading && letters.length == 0 && noLetters}>
                 <Filter className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent">
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading && letters.length == 0 && noLetters}>
                 <ArrowUpDown className="h-4 w-4" />
               </Button>
               <div className="flex border rounded-md p-1">
@@ -459,6 +447,7 @@ export default function CoverLettersPage() {
                   size="icon"
                   className="h-8 w-8"
                   onClick={() => setViewMode("grid")}
+                  disabled={isLoading && letters.length == 0 && noLetters}
                 >
                   <Grid3x3 className="h-4 w-4" />
                 </Button>
@@ -467,6 +456,7 @@ export default function CoverLettersPage() {
                   size="icon"
                   className="h-8 w-8"
                   onClick={() => setViewMode("list")}
+                  disabled={isLoading && letters.length == 0 && noLetters}
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -474,8 +464,19 @@ export default function CoverLettersPage() {
             </div>
           </div>
 
-          {/* Cover Letters Grid/List */}
-          {filteredLetters.length === 0 ? (
+          {/* Cover Letters Grid/List - Show skeletons while loading */}
+          {isLoading && letters.length == 0 && noLetters ? (
+            <div
+              className={cn(
+                "grid gap-6",
+                viewMode === "grid" ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1 max-w-4xl",
+              )}
+            >
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <CoverLetterCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : filteredLetters.length === 0 ? (
             letters.length === 0 ? (
               <EmptyState />
             ) : (
