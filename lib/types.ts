@@ -292,6 +292,18 @@ export interface ATSAnalysisResult {
       completionTokens: number
       totalTokens: number
     }
+    summary?: {
+      resumeTitle: string
+      candidateName: string
+      jobTitle: string
+      testDate: string
+      status: TestStatus
+      overallScore: number
+      keywordMatch: number
+      skillsMatch: number
+      atsReady: number
+      thumbnail?: string
+    }
 }
 
 export type TestStatus = "passed" | "needs-improvement" | "pending"
