@@ -417,6 +417,7 @@ export default function ATSManagementPage() {
   const [editDialogOpen, setEditDialogOpen] = useState(false)
   const [detailsDialogOpen, setDetailsDialogOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [noTests, setNoTests] = useState(false)
   const [selectedTest, setSelectedTest] = useState<ATSTest | null>(null)
   const { toast } = useToast()
   const {user, isLoading: userLoading} = useAuth();
@@ -431,7 +432,10 @@ export default function ATSManagementPage() {
       setIsLoading(true);
       try {
         const data = await AtsDB.fetchAtsTestsByUser(10, 0, user.id);
-        if (!isCancelled) setTests(data);
+        if (!isCancelled) {
+          setTests(data);
+          setNoTests(data.length == 0)
+        }
       } catch (error) {
         console.error("Failed to load tests:", error);
       } finally {
@@ -531,7 +535,7 @@ export default function ATSManagementPage() {
             </div>
 
             {/* Stats Overview - Show loading state or actual stats */}
-            {isLoading && tests.length == 0 ? (
+            {isLoading && tests.length == 0 && noTests ? (
               <div className="grid gap-4 md:grid-cols-3">
                 {[1, 2, 3].map((i) => (
                   <Card key={i} className="relative overflow-hidden">
@@ -559,15 +563,15 @@ export default function ATSManagementPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9"
-                disabled={isLoading && tests.length == 0}
+                disabled={isLoading && tests.length == 0 && noTests}
               />
             </div>
 
             <div className="flex gap-2">
-              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading && tests.length == 0}>
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading && tests.length == 0 && noTests}>
                 <Filter className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading && tests.length == 0}>
+              <Button variant="outline" size="icon" className="hidden sm:flex bg-transparent" disabled={isLoading && tests.length == 0 && noTests}>
                 <ArrowUpDown className="h-4 w-4" />
               </Button>
               <div className="flex border rounded-md p-1">
@@ -576,7 +580,7 @@ export default function ATSManagementPage() {
                   size="icon"
                   className="h-8 w-8"
                   onClick={() => setViewMode("grid")}
-                  disabled={isLoading && tests.length == 0}
+                  disabled={isLoading && tests.length == 0 && noTests}
                 >
                   <Grid3x3 className="h-4 w-4" />
                 </Button>
@@ -585,7 +589,7 @@ export default function ATSManagementPage() {
                   size="icon"
                   className="h-8 w-8"
                   onClick={() => setViewMode("list")}
-                  disabled={isLoading && tests.length == 0}
+                  disabled={isLoading && tests.length == 0 && noTests}
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -594,7 +598,7 @@ export default function ATSManagementPage() {
           </div>
 
           {/* Tests Grid/List - Show loading skeletons or content */}
-          {isLoading && tests.length == 0 ? (
+          {isLoading && tests.length == 0 && noTests ? (
             <div
               className={cn(
                 "grid gap-6",
