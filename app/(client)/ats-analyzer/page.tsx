@@ -711,7 +711,7 @@ export default function ATSAnalyzerPage() {
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
               <Button variant="ghost" size="icon" asChild>
-                <Link href="/ats-manager">
+                <Link href="/ats">
                   <ArrowLeft className="h-4 w-4" />
                 </Link>
               </Button>

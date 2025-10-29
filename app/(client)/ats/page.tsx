@@ -91,7 +91,7 @@ function getStatusConfig(status: TestStatus) {
 function StatsOverview({ tests }: { tests: ATSTest[] }) {
   const totalTests = tests.length
   const passedTests = tests.filter((t) => t.summary.status === "passed").length
-  const avgScore = Math.round(tests.reduce((sum, t) => sum + t.summary.overallScore, 0) / tests.length)
+  const avgScore = tests.length > 0 ? Math.round(tests.reduce((sum, t) => sum + t.summary.overallScore, 0) / tests.length) : 0;
 
   const stats = [
     { label: "Total Tests", value: totalTests, icon: FileText, color: "from-emerald-500 to-emerald-600" },
