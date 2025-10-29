@@ -205,7 +205,7 @@ export const CoverLettersDB = {
      * @param user_id - The user's ID.
      * @param coverLetterData - The data for the new cover letter.
      */
-    async createCoverLetter(user_id: string, coverLetterData: CoverLetter) {
+    async createCoverLetter(user_id: string, coverLetterData: Partial<CoverLetter>) {
       try {
         const { data, error } = await supabase
           .from("CoverLetters")
