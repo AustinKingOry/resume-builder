@@ -293,15 +293,15 @@ export interface ATSAnalysisResult {
       totalTokens: number
     }
     summary?: {
-      resumeTitle: string
-      candidateName: string
-      jobTitle: string
-      testDate: string
-      status: TestStatus
-      overallScore: number
-      keywordMatch: number
-      skillsMatch: number
-      atsReady: number
+      resumeTitle?: string
+      candidateName?: string
+      jobTitle?: string
+      testDate?: string
+      status?: TestStatus
+      overallScore?: number
+      keywordMatch?: number
+      skillsMatch?: number
+      atsReady?: number
       thumbnail?: string
     }
 }

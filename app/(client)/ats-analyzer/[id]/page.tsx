@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { AlertCircle, CheckCircle2, ArrowLeft, Download, Share2, ArrowRight, Target, Key, Award, Zap } from "lucide-react"
+import { AlertCircle, CheckCircle2, ArrowLeft, Download, ArrowRight, Target, Key, Award, Zap } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ATSAnalysisResult } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/components/auth-provider"
 import { AtsDB } from "@/utils/supabaseClient"
+import { formatATSAnalysisResult } from "@/lib/helpers"
 
 
 function ScoreCard({ label, score, icon: Icon }: { label: string; score: number; icon: any }) {
@@ -58,10 +59,13 @@ function AnalysisResults({ analysis }: { analysis: ATSAnalysisResult }) {
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900">Analysis Results</h1>
-            <p className="text-slate-600">Detailed ATS compatibility and job matching report</p>
-          </div>
+          {analysis.summary &&
+            <div>
+            <h1 className="text-3xl font-bold text-slate-900">{analysis.summary?.candidateName}</h1>
+            <p className="mt-2 text-lg text-slate-600">
+              {analysis.summary?.jobTitle || ""} • {new Date(analysis.summary?.testDate || 0).toLocaleDateString()}
+            </p>
+            </div>}
           <div className="flex gap-2">
             <Button onClick={handleExport} variant="outline" className="gap-2 bg-transparent">
               <Download className="h-4 w-4" />
@@ -472,7 +476,8 @@ export default function ATSDetailPage() {
           setError("Test analysis not found")
           return
         }
-        if (!isCancelled) setAnalysis(data);
+        const result = formatATSAnalysisResult(data)
+        if (!isCancelled) setAnalysis(result);
       } catch (error) {
         console.error("Failed to load tests:", error);
         setError(error instanceof Error ? error.message : "Failed to load analysis")
@@ -515,26 +520,13 @@ export default function ATSDetailPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
-        <div className="mb-8 flex items-start justify-between">
+        <div className="mb-3 flex items-start justify-between">
           <div>
             <Button onClick={() => router.back()} variant="outline" className="mb-4 gap-2">
               <ArrowLeft className="h-4 w-4" />
               Back
             </Button>
-            <h1 className="text-3xl font-bold text-slate-900">{analysis.summary?.candidateName}</h1>
-            <p className="mt-2 text-lg text-slate-600">
-              {analysis.summary?.jobTitle || ""} • {new Date(analysis.summary?.testDate || 0).toLocaleDateString()}
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" className="gap-2 bg-transparent">
-              <Share2 className="h-4 w-4" />
-              Share
-            </Button>
-            <Button variant="outline" className="gap-2 bg-transparent">
-              <Download className="h-4 w-4" />
-              Export
-            </Button>
+            
           </div>
         </div>
 
