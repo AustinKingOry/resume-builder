@@ -1,24 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { CoverLetterEditor } from "@/components/cover-letters/cover-letter-editor"
+import { useAuth } from "@/components/auth-provider";
 
 
 export default function NewCoverLetterPage() {
-  const [isLoading, setIsLoading] = useState(true)
+  const {user, isLoading: userLoading} = useAuth();
 
-  useEffect(() => {
-    const initializePage = async () => {
-      setIsLoading(true)
-      // Simulate API call with 2 second delay
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      setIsLoading(false)
-    }
-
-    initializePage()
-  }, [])
-
-  if (isLoading) {
+  if (userLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -29,5 +18,5 @@ export default function NewCoverLetterPage() {
     )
   }
 
-  return <CoverLetterEditor mode="create" />
+  return <CoverLetterEditor mode="create" user={user || undefined} />
 }

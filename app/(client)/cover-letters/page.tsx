@@ -324,7 +324,7 @@ export default function CoverLettersPage() {
 
   useEffect(() => {
     if (userLoading && !user?.id) return; // Wait until auth state resolves
-    if (!user?.id) return; // If no user, do not load resumes
+    if (!user?.id) return; // If no user, do not load cover letters
 
     let isCancelled = false;
 
