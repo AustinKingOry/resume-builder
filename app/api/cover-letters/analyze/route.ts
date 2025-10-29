@@ -1,24 +1,39 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { type NextRequest, NextResponse } from "next/server"
 import type { AIRequest, AIResponse } from "@/lib/types/cover-letter"
+import { analyzeCoverLetter, generateSuggestions } from "@/lib/cover-letters/ai-services"
 
 export async function POST(request: NextRequest): Promise<NextResponse<AIResponse>> {
   try {
     const body: AIRequest = await request.json()
 
-    // Simulate API delay to demonstrate loading state
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    const { content, customPrompt, jobDescription, company } = body
 
-    const { content, customPrompt } = body
+    if(!content){
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Missing required fields",
+        },
+        { status: 400 },
+      )
+    }
 
-    // Simulated AI suggestions
-    const suggestions = [
-      "Add more specific examples of your achievements with quantifiable metrics",
-      "Strengthen the opening paragraph to immediately capture attention",
-      "Include a sentence about your understanding of the company's mission",
-      "Enhance the closing with a clear call to action",
-      "Consider adding a brief mention of your relevant technical skills",
-    ]
+    let suggestions: string[] = []
+
+    if (customPrompt) {
+      // Use custom prompt for specific suggestions
+      const result = await generateSuggestions(content, customPrompt)
+      suggestions = (result.suggestions || []).map((s: any) => (typeof s === "string" ? s : s.suggestedText))
+    } else if (jobDescription && company) {
+      // Use default analysis with job context
+      const analysis = await analyzeCoverLetter(content, jobDescription, company)
+      suggestions = analysis.improvements.map((imp) => `${imp.area}: ${imp.suggestion}`)
+    } else {
+      // Fallback: use custom prompt with generic improvement request
+      const result = await generateSuggestions(content, "Provide suggestions to improve this cover letter")
+      suggestions = (result.suggestions || []).map((s: any) => (typeof s === "string" ? s : s.suggestedText))
+    }
 
     return NextResponse.json({
       success: true,
