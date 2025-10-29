@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase-browser";
-import { ResumeData, ResumeDataDb, ATSTest } from "@/lib/types";
+import { ResumeData, ResumeDataDb, ATSTest, ATSAnalysisResult } from "@/lib/types";
 
 export const ResumeDB = {
     async createResume (user_id: string, resumeData: ResumeData){
@@ -163,6 +163,34 @@ export const AtsDB = {
             return data;
         } catch (err) {
             console.error('Unexpected error deleting ats test:', err);
+            return null;
+        }
+    },
+
+    async fetchTestAnalyis (test_id: string): Promise<ATSAnalysisResult | null>{
+        try {
+            const { data, error } = await supabase
+            .from("ats_responses")
+            .select("*")
+            .eq("ats_job_id", test_id)
+            .maybeSingle();
+            if (error) throw error;
+
+            const { data: summary, error:jobError } = await supabase
+            .from("ats_jobs")
+            .select("summary")
+            .eq("id", test_id)
+            .maybeSingle();
+            if (jobError) throw jobError;
+            
+            const result = {
+                ...data,
+                ...summary
+            }
+
+            return result;
+        } catch (err) {
+            console.error('Unexpected error fetching ats test analysis:', err);
             return null;
         }
     },
