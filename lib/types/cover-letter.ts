@@ -18,6 +18,12 @@ export interface CoverLetter {
   updatedAt: string
   wordCount: number
   downloads: number
+  metadata?: {
+    ai_model?: string
+    temperature?: number
+    tone?: "professional" | "confident" | "friendly" | "enthusiastic"
+    version?: string
+  }
 }
 
 export interface AIRequest {
