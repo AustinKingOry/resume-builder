@@ -1,3 +1,5 @@
+import { User } from "@supabase/supabase-js"
+
 export type CoverLetterStatus = "draft" | "complete" | "needs-review"
 
 export interface JobDetails {
@@ -56,4 +58,5 @@ export interface CoverLetterEditorProps {
   initialData?: CoverLetter
   onSave?: (data: CoverLetter) => void
   isLoading?: boolean
+  user?: User
 }
