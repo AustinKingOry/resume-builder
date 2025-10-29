@@ -1,201 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
-
-import type React from "react"
-
-import Link from "next/link"
-import { useState, useRef } from "react"
+import { useEffect, useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { useToast } from "@/hooks/use-toast"
-import {
-  Upload,
-  X,
-  Sparkles,
-  FileText,
-  Zap,
-  CheckCircle2,
-  AlertTriangle,
-  TrendingUp,
-  Target,
-  Award,
-  Briefcase,
-  ArrowLeft,
-  Download,
-  Share2,
-  AlertCircle,
-  Lightbulb,
-  ArrowRight,
-  Loader2,
-  Key,
-} from "lucide-react"
-import { cn } from "@/lib/utils"
-import { ATSLoadingState } from "@/components/ats/loading-state"
-import { useEdgeATSAnalysis } from "@/hooks/use-edge-ats"
+import { AlertCircle, CheckCircle2, ArrowLeft, Download, Share2, ArrowRight, Target, Key, Award, Zap } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
 import { ATSAnalysisResult } from "@/lib/types"
+import { cn } from "@/lib/utils"
+import { useAuth } from "@/components/auth-provider"
+import { AtsDB } from "@/utils/supabaseClient"
 
-function UploadSection({
-  onUpdate,
-}: {
-  onUpdate: (data: { resume: File | undefined; jobDescription: string | undefined }) => void
-}) {
-  const [resumeFile, setResumeFile] = useState<File | null>(null)
-  const [jobDescription, setJobDescription] = useState("")
-  const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const { toast } = useToast()
-
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (file) {
-      if (
-        file.type === "application/pdf" ||
-        file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ) {
-        setResumeFile(file)
-        onUpdate({ resume: file, jobDescription })
-        toast({
-          title: "Resume uploaded",
-          description: `${file.name} ready for analysis`,
-        })
-      } else {
-        toast({
-          title: "Invalid file type",
-          description: "Please upload a PDF or Word document",
-          variant: "destructive",
-        })
-      }
-    }
-  }
-
-  function handleAnalyze() {
-    if (!resumeFile) {
-      toast({
-        title: "Resume required",
-        description: "Please upload your resume first",
-        variant: "destructive",
-      })
-      return
-    }
-
-    if (!jobDescription.trim()) {
-      toast({
-        title: "Job description required",
-        description: "Please paste the job description",
-        variant: "destructive",
-      })
-      return
-    }
-
-    setIsAnalyzing(true)
-    onUpdate({ resume: resumeFile, jobDescription })
-    setIsAnalyzing(false)
-  }
-
-  return (
-    <div className="grid lg:grid-cols-2 gap-6">
-      {/* Resume Upload */}
-      <Card className="border-emerald-600/10">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5 text-emerald-600" />
-            Your Resume
-          </CardTitle>
-          <CardDescription>Upload your resume for ATS analysis</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div
-            className={cn(
-              "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all",
-              resumeFile
-                ? "border-emerald-500/50 bg-emerald-50/30 dark:bg-emerald-950/20"
-                : "border-muted-foreground/25 hover:border-emerald-500/50 hover:bg-emerald-50/20 dark:hover:bg-emerald-950/10",
-            )}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".pdf,.doc,.docx"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-
-            {resumeFile ? (
-              <div className="space-y-2">
-                <CheckCircle2 className="h-8 w-8 text-emerald-600 mx-auto" />
-                <p className="font-medium text-sm">{resumeFile.name}</p>
-                <p className="text-xs text-muted-foreground">{(resumeFile.size / 1024).toFixed(1)} KB</p>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="mt-2"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setResumeFile(null)
-                  }}
-                >
-                  <X className="h-4 w-4 mr-1" />
-                  Change file
-                </Button>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <Upload className="h-8 w-8 text-muted-foreground mx-auto" />
-                <div>
-                  <p className="font-medium text-sm">Click to upload or drag and drop</p>
-                  <p className="text-xs text-muted-foreground">PDF or Word document (max 5MB)</p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <Alert className="bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-900">
-            <Lightbulb className="h-4 w-4" />
-            <AlertDescription className="text-sm">
-              💡 Tip: Make sure your resume clearly lists all relevant skills and experience for the best analysis
-            </AlertDescription>
-          </Alert>
-        </CardContent>
-      </Card>
-
-      {/* Job Description Input */}
-      <Card className="border-sky-600/10">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Briefcase className="h-5 w-5 text-sky-600" />
-            Job Description
-          </CardTitle>
-          <CardDescription>{"Paste the job description you're applying for"}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Textarea
-            placeholder="Paste the full job description here. Include all requirements, qualifications, and responsibilities..."
-            value={jobDescription}
-            onChange={(e) => {setJobDescription(e.target.value);
-              onUpdate({ resume: resumeFile || undefined, jobDescription: e.target.value })
-            }}
-            className="min-h-[250px] font-sm"
-          />
-
-          <Alert className="bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-900">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription className="text-sm">
-              The more detailed the job description, the more accurate your ATS score will be
-            </AlertDescription>
-          </Alert>
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
 
 function ScoreCard({ label, score, icon: Icon }: { label: string; score: number; icon: any }) {
   const getColor = (score: number) => {
@@ -222,34 +40,7 @@ function ScoreCard({ label, score, icon: Icon }: { label: string; score: number;
   )
 }
 
-
-const ImportanceIcon = ({ level }: { level: string }) => {
-  const colors: Record<string, string> = {
-    critical: "bg-red-100 text-red-700",
-    high: "bg-orange-100 text-orange-700",
-    medium: "bg-yellow-100 text-yellow-700",
-    "must-have": "bg-red-100 text-red-700",
-    "nice-to-have": "bg-blue-100 text-blue-700",
-    low: "bg-gray-100 text-gray-700",
-  }
-
-  return <Badge className={`${colors[level] || colors.low}`}>{level}</Badge>
-}
-
 function AnalysisResults({ analysis }: { analysis: ATSAnalysisResult }) {
-  const { toast } = useToast()
-
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-emerald-600"
-    if (score >= 60) return "text-yellow-600"
-    return "text-orange-600"
-  }
-
-  const getProgressColor = (score: number) => {
-    if (score >= 80) return "bg-emerald-500"
-    if (score >= 60) return "bg-yellow-500"
-    return "bg-orange-500"
-  }
 
   const handleExport = () => {
     if (!analysis) return
@@ -605,237 +396,150 @@ function AnalysisResults({ analysis }: { analysis: ATSAnalysisResult }) {
   )
 }
 
-export default function ATSAnalyzerPage() {
-  const { toast } = useToast()
-  // const [hasAnalyzed, setHasAnalyzed] = useState(false)
-  // const [analysis, setAnalysis] = useState<AnalysisResult | null>(null)
-  const [resumeFile, setResumeFile] = useState<File | null>(null)
-  const [jobDescription, setJobDescription] = useState("")
-  // const [loading, setLoading] = useState(false)
-  // const [error, setError] = useState<string | null>(null)
-  const { analyzeCV, isAnalyzing: loading, result: analysis, error, reset, hasAnalyzed } = useEdgeATSAnalysis();
-
-
-  async function handleUpdate(data: { resume: File | undefined; jobDescription: string | undefined }) {    
-    if(data.resume){
-      setResumeFile(data.resume)
-    }
-    if(data.jobDescription){
-      setJobDescription(data.jobDescription)
-    }
+const ImportanceIcon = ({ level }: { level: string }) => {
+  const colors: Record<string, string> = {
+    critical: "bg-red-100 text-red-700",
+    high: "bg-orange-100 text-orange-700",
+    medium: "bg-yellow-100 text-yellow-700",
+    "must-have": "bg-red-100 text-red-700",
+    "nice-to-have": "bg-blue-100 text-blue-700",
+    low: "bg-gray-100 text-gray-700",
   }
 
-  const startAnalysis = async () => {
-    // console.log(`Resume: ${resumeFile?.name}, Job Description: ${jobDescription}`)
-    if (!resumeFile || !jobDescription) {
-      toast({
-        title: "Missing data",
-        description: "Please upload a resume and paste the job description",
-        variant: "destructive",
-      })
-      return
-    }
-    // setLoading(true)  
-    try {
-      await analyzeCV(resumeFile, { jobDescription: jobDescription.trim() });
-      // const formData = new FormData()
-      // formData.append("resume", resumeFile)
-      // formData.append("jobDescription", jobDescription)
+  return <Badge className={`${colors[level] || colors.low}`}>{level}</Badge>
+}
 
-      // const response = await fetch("/api/ats", {
-      //   method: "POST",
-      //   body: formData,
-      // })
+const LoadingSkeleton = () => (
+  <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+    <div className="mx-auto max-w-7xl">
+      <div className="mb-8 flex items-center justify-between">
+        <div className="space-y-2">
+          <Skeleton className="h-8 w-64" />
+          <Skeleton className="h-4 w-96" />
+        </div>
+        <div className="flex gap-2">
+          <Skeleton className="h-10 w-32" />
+          <Skeleton className="h-10 w-32" />
+        </div>
+      </div>
 
-      // if (!response.ok) {
-      //   const errorData = await response.json()
-      //   throw new Error(errorData.error || "Failed to analyze resume")
-      // }
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[...Array(4)].map((_, i) => (
+          <Card key={i} className="border-2 border-slate-200">
+            <CardContent className="pt-6">
+              <Skeleton className="mb-3 h-6 w-12" />
+              <Skeleton className="mb-2 h-4 w-24" />
+              <Skeleton className="h-8 w-16" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
-      // const res = await response.json()
-      // setAnalysis(res.analysis)
-      if(hasAnalyzed){
-        toast({
-          title: "Analysis complete!",
-          description: "Your resume has been analyzed against the job description",
-        })
+      <Card className="border-2 border-slate-200">
+        <Skeleton className="h-12 w-full rounded-t-lg" />
+        <CardContent className="space-y-4 pt-6">
+          {[...Array(3)].map((_, i) => (
+            <Skeleton key={i} className="h-20 w-full" />
+          ))}
+        </CardContent>
+      </Card>
+    </div>
+  </div>
+)
+
+export default function ATSDetailPage() {
+  const params = useParams()
+  const router = useRouter()
+  const [analysis, setAnalysis] = useState<ATSAnalysisResult | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+    const {user, isLoading: userLoading} = useAuth();
+
+  const testId = params.id as string
+
+  useEffect(() => {
+    if (userLoading) return; // Wait until auth state resolves
+    if (!user?.id) return; // If no user, do not load resumes
+
+    let isCancelled = false;
+    
+    const fetchAnalysis = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const data = await AtsDB.fetchTestAnalyis(testId);
+        if (!data) {
+          setError("Test analysis not found")
+          return
+        }
+        if (!isCancelled) setAnalysis(data);
+      } catch (error) {
+        console.error("Failed to load tests:", error);
+        setError(error instanceof Error ? error.message : "Failed to load analysis")
+      } finally {
+        if (!isCancelled) setLoading(false);
       }
-      
-    } catch (err) {
-      toast({
-        title: "Analysis error!",
-        description: err instanceof Error ? err.message : "An error occurred",
-      })
-    } 
-    // finally {
-    //   setLoading(false)
-    // }
+    }
+
+    fetchAnalysis()
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [testId, user?.id, userLoading])
+
+  if (loading) {
+    return <LoadingSkeleton />
   }
 
-  function handleReset() {
-    // setHasAnalyzed(false)
-    // setAnalysis(null)
-    setResumeFile(null)
-    setJobDescription("")
-    reset()
-  }
-
-  function handleExport() {
-    toast({
-      title: "Exporting...",
-      description: "Your analysis report is being prepared",
-    })
-    if (!analysis) return
-    const dataStr = JSON.stringify(analysis, null, 2)
-    const dataBlob = new Blob([dataStr], { type: "application/json" })
-    const url = URL.createObjectURL(dataBlob)
-    const link = document.createElement("a")
-    link.href = url
-    link.download = `ats-analysis-${new Date().toISOString().split("T")[0]}.json`
-    link.click()
+  if (error || !analysis) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+        <div className="mx-auto max-w-7xl">
+          <Button onClick={() => router.back()} variant="outline" className="mb-6 gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Go Back
+          </Button>
+          <Card className="border-red-200 bg-red-50">
+            <CardContent className="flex gap-3 pt-6">
+              <AlertCircle className="h-5 w-5 flex-shrink-0 text-red-600" />
+              <p className="text-red-700">{error || "Analysis not found"}</p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <>
-
-      <main className="relative overflow-x-hidden min-h-screen">
-        {/* Background */}
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background" />
-          <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
-          <div className="absolute top-1/3 -right-24 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl" />
-        </div>
-
-        <div className="container mx-auto px-4 md:px-6 py-8">
-          {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <Button variant="ghost" size="icon" asChild>
-                <Link href="/ats-manager">
-                  <ArrowLeft className="h-4 w-4" />
-                </Link>
-              </Button>
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 bg-clip-text text-transparent">
-                  ATS Analyzer
-                </h1>
-                <p className="text-muted-foreground">
-                  Analyze how well your resume matches job descriptions and get actionable insights
-                </p>
-              </div>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <Button onClick={() => router.back()} variant="outline" className="mb-4 gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <h1 className="text-3xl font-bold text-slate-900">{analysis.summary?.candidateName}</h1>
+            <p className="mt-2 text-lg text-slate-600">
+              {analysis.summary?.jobTitle || ""} • {new Date(analysis.summary?.testDate || 0).toLocaleDateString()}
+            </p>
           </div>
-
-          {!hasAnalyzed ? (
-            // Initial Upload State
-            <>
-            <ATSLoadingState isOpen={loading} />
-            <div className="space-y-6">
-              {error && (
-                <Card className="mt-8 border-red-200 bg-red-50">
-                  <CardContent className="flex gap-3 pt-6">
-                    <AlertCircle className="h-5 w-5 flex-shrink-0 text-red-600" />
-                    <p className="text-red-700">{error}</p>
-                  </CardContent>
-                </Card>
-              )}
-              <UploadSection onUpdate={handleUpdate} />
-
-              {/* Action Buttons */}
-              <div className="flex gap-3 pt-4">
-                <Button
-                  onClick={() => {
-                    startAnalysis()
-                  }}
-                  className="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 hover:from-emerald-500 hover:to-sky-500 text-white shadow-lg"
-                  size="lg"
-                  disabled={loading}
-                >
-                  {loading ? 
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" /> 
-                    Analyzing...
-                  </>:
-                  <>
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  Analyze Resume
-                  </>}
-                </Button>
-              </div>
-
-              {/* Info Cards */}
-              <div className="grid md:grid-cols-3 gap-4 mt-12 pt-8 border-t">
-                <Card className="bg-gradient-to-br from-emerald-50 to-emerald-50/50 dark:from-emerald-950/20 dark:to-emerald-950/10 border-emerald-200 dark:border-emerald-900">
-                  <CardContent className="pt-6">
-                    <Target className="h-8 w-8 text-emerald-600 mb-2" />
-                    <h3 className="font-semibold mb-1">Smart Matching</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Our AI engine matches your skills against job requirements with precision
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-gradient-to-br from-sky-50 to-sky-50/50 dark:from-sky-950/20 dark:to-sky-950/10 border-sky-200 dark:border-sky-900">
-                  <CardContent className="pt-6">
-                    <TrendingUp className="h-8 w-8 text-sky-600 mb-2" />
-                    <h3 className="font-semibold mb-1">Detailed Insights</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Get a complete breakdown of strengths and areas for improvement
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-gradient-to-br from-purple-50 to-purple-50/50 dark:from-purple-950/20 dark:to-purple-950/10 border-purple-200 dark:border-purple-900">
-                  <CardContent className="pt-6">
-                    <Award className="h-8 w-8 text-purple-600 mb-2" />
-                    <h3 className="font-semibold mb-1">Actionable Tips</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Receive specific recommendations to increase your match score
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-            </>
-          ) : (
-            // Results State
-            <div className="space-y-6">
-              {/* Top Bar with Actions */}
-              <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border border-emerald-200/30">
-                <div>
-                  <h2 className="font-semibold">{resumeFile?.name}</h2>
-                  <p className="text-sm text-muted-foreground">Analysis completed</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" onClick={handleExport} className="bg-transparent">
-                    <Download className="h-4 w-4 mr-2" />
-                    Export Report
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      toast({
-                        title: "Share link copied",
-                        description: "Analysis link copied to clipboard",
-                      })
-                    }
-                    className="bg-transparent"
-                  >
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={handleReset} className="bg-transparent">
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    New Analysis
-                  </Button>
-                </div>
-              </div>
-
-              {/* Analysis Results */}
-              {analysis && <AnalysisResults analysis={analysis} />}
-            </div>
-          )}
+          <div className="flex gap-2">
+            <Button variant="outline" className="gap-2 bg-transparent">
+              <Share2 className="h-4 w-4" />
+              Share
+            </Button>
+            <Button variant="outline" className="gap-2 bg-transparent">
+              <Download className="h-4 w-4" />
+              Export
+            </Button>
+          </div>
         </div>
-      </main>
-    </>
+
+        <AnalysisResults analysis={analysis} />
+      </div>
+    </div>
   )
 }
