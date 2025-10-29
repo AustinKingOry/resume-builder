@@ -145,11 +145,13 @@ function ATSTestCard({
   onEdit,
   onDelete,
   onViewDetails,
+  isGrid,
 }: {
   test: ATSTest
   onEdit: () => void
   onDelete: () => void
   onViewDetails: () => void
+  isGrid: boolean
 }) {
   const { toast } = useToast()
   const statusConfig = getStatusConfig(test.summary.status)
@@ -168,7 +170,7 @@ function ATSTestCard({
     <Card className="group relative overflow-hidden border-emerald-600/10 dark:border-emerald-400/10 hover:border-emerald-600/30 dark:hover:border-emerald-400/30 transition-all duration-300 hover:shadow-lg">
       <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 group-hover:opacity-20 bg-gradient-to-br from-emerald-600 to-sky-600 transition-opacity duration-500" />
 
-      <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-t-lg">
+      <div className={`relative overflow-hidden bg-muted rounded-t-lg ${!isGrid ? "max-h-[180px] w-full aspect-[3/2]": "aspect-[3/2]"}`}>
         <Image
           src={test.summary.thumbnail || "/placeholder.svg?height=400&width=300"}
           alt={`${test.summary.resumeTitle} preview`}
@@ -223,7 +225,7 @@ function ATSTestCard({
           <Button
             variant="secondary"
             size="sm"
-            className="w-full bg-background/80 backdrop-blur hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity"
+            className="w-full bg-background/80 backdrop-blur hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity group-hover:text-gray-700"
             onClick={onViewDetails}
           >
             <Eye className="h-4 w-4 mr-2" />
@@ -420,7 +422,7 @@ export default function ATSManagementPage() {
   const {user, isLoading: userLoading} = useAuth();
 
   useEffect(() => {
-    if (userLoading) return; // Wait until auth state resolves
+    if (userLoading && !user?.id) return; // Wait until auth state resolves
     if (!user?.id) return; // If no user, do not load resumes
 
     let isCancelled = false;
@@ -633,7 +635,7 @@ export default function ATSManagementPage() {
             <div
               className={cn(
                 "grid gap-6",
-                viewMode === "grid" ? "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1",
+                viewMode === "grid" ? "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1 max-w-5xl",
               )}
             >
               {filteredTests.map((test) => (
@@ -643,6 +645,7 @@ export default function ATSManagementPage() {
                   onEdit={() => handleEditClick(test)}
                   onDelete={() => handleDeleteClick(test)}
                   onViewDetails={() => handleViewDetails(test)}
+                  isGrid={viewMode == "grid"}
                 />
               ))}
             </div>

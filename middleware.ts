@@ -70,6 +70,7 @@ export const config = {
     "/dashboard/:path*",
     "/resumes/:path*",
     "/cover-letters/:path*",
+    "/ats/:path*",
     "/ats-analyzer/:path*",
     "/roast-my-cv/:path*",
     "/analytics/:path*",

@@ -318,7 +318,7 @@ export default function ResumesPage() {
   const {user, isLoading} = useAuth();
     
   useEffect(() => {
-    if (isLoading) return; // Wait until auth state resolves
+    if (isLoading && !user?.id) return; // Wait until auth state resolves
     if (!user?.id) return; // If no user, do not load resumes
 
     let isCancelled = false;
