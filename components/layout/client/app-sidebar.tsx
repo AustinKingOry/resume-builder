@@ -26,7 +26,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       { name: "My Resumes", icon: FileText, href: "/resumes", current: false },
       { name: "Cover Letters", icon: FileSignature, href: "/cover-letters", current: false },
       { name: "CV Builder", icon: Edit3, href: "/resumes/builder", current: false },
-      { name: "ATS Analyzer", icon: Cpu, href: "/ats-analyzer", current: false },
+      { name: "ATS Analyzer", icon: Cpu, href: "/ats", current: false },
       { name: "CV Roaster", icon: Flame, href: "/roast-my-cv", current: false },
       { name: "Skills Tracker", icon: BarChart2, href: "/skills-tracker", current: false },
       { name: "Analytics", icon: BarChart3, href: "/analytics", current: false },
