@@ -36,7 +36,8 @@ import {
   Target,
   User,
 } from "lucide-react"
-import type { CoverLetterEditorProps } from "@/lib/types/cover-letter"
+import type { CoverLetterEditorProps, CoverLetterStatus } from "@/lib/types/cover-letter"
+import { CoverLettersDB } from "@/utils/supabaseClient"
 
 const toneOptions = [
   { value: "professional", label: "Professional", description: "Formal and business-appropriate" },
@@ -322,7 +323,7 @@ function AIAssistantPanel({
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function CoverLetterEditor({ mode, initialData, onSave, isLoading }: CoverLetterEditorProps) {
+export function CoverLetterEditor({ mode, initialData, onSave, isLoading, user }: CoverLetterEditorProps) {
   const { toast } = useToast()
   const [isSaving, setIsSaving] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
@@ -333,30 +334,59 @@ export function CoverLetterEditor({ mode, initialData, onSave, isLoading }: Cove
   const [coverLetterText, setCoverLetterText] = useState(initialData?.content || "")
   const [selectedTone, setSelectedTone] = useState("professional")
 
-  function handleSave() {
+  async function handleSave() {
     setIsSaving(true)
-    setTimeout(() => {
       setIsSaving(false)
-      toast({
-        title: "Saved!",
-        description: "Your cover letter has been saved successfully",
-      })
-      if (onSave) {
-        onSave({
-          id: initialData?.id || Date.now().toString(),
+
+      if(mode=="create"){
+        const data = {
           title: letterTitle,
           company,
           position,
           jobDescription,
           content: coverLetterText,
-          status: "complete",
-          createdAt: initialData?.createdAt || new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          status: "complete" as CoverLetterStatus,
           wordCount: coverLetterText.split(/\s+/).length,
           downloads: initialData?.downloads || 0,
-        })
+        }
+        if(user){
+          await CoverLettersDB.createCoverLetter(user.id, data)
+        }
+      } else {
+        const data = {
+          title: letterTitle,
+          company,
+          position,
+          jobDescription,
+          content: coverLetterText,
+          status: "complete" as CoverLetterStatus,
+          wordCount: coverLetterText.split(/\s+/).length,
+          downloads: initialData?.downloads || 0,
+        }
+        if(initialData){
+          await CoverLettersDB.updateCoverLetter(initialData?.id, data)
+        }
       }
-    }, 1000)
+      toast({
+        title: "Saved!",
+        description: "Your cover letter has been saved successfully",
+      })
+      
+      // if (onSave) {
+      //   onSave({
+      //     id: initialData?.id || Date.now().toString(),
+      //     title: letterTitle,
+      //     company,
+      //     position,
+      //     jobDescription,
+      //     content: coverLetterText,
+      //     status: "complete",
+      //     createdAt: initialData?.createdAt || new Date().toISOString(),
+      //     updatedAt: new Date().toISOString(),
+      //     wordCount: coverLetterText.split(/\s+/).length,
+      //     downloads: initialData?.downloads || 0,
+      //   })
+      // }
   }
 
   async function handleGenerateWithAI() {
