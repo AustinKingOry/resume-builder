@@ -17,7 +17,8 @@ const Navbar: React.FC = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
 	const links = [
 		// {title:"Home",link:"/"},
-		{title:"Resume Builder",link:"/resumes/builder"},
+		{title:"Resume Builder",link:"/resumes"},
+		{title:"ATS",link:"/ats"},
 		{title:"Templates",link:"/templates"},
 		{title:"Cover Photos",link:"/coverphotos"},
 		{title:"Roast My CV",link:"/roast-my-cv"},
