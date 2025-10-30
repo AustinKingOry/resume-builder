@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export default function ATSDetailLoading() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6 dark:from-slate-950 dark:to-slate-900">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex items-center justify-between">
           <div className="space-y-2">
@@ -18,7 +18,7 @@ export default function ATSDetailLoading() {
 
         <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
-            <Card key={i} className="border-2 border-slate-200">
+            <Card key={i} className="border-2 border-slate-200 dark:border-slate-800">
               <CardContent className="pt-6">
                 <Skeleton className="mb-3 h-6 w-12" />
                 <Skeleton className="mb-2 h-4 w-24" />
@@ -28,7 +28,7 @@ export default function ATSDetailLoading() {
           ))}
         </div>
 
-        <Card className="border-2 border-slate-200">
+        <Card className="border-2 border-slate-200 dark:border-slate-800">
           <Skeleton className="h-12 w-full rounded-t-lg" />
           <CardContent className="space-y-4 pt-6">
             {[...Array(3)].map((_, i) => (
