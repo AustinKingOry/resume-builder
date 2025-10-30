@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState, useEffect } from "react"
@@ -49,7 +50,7 @@ export default function DashboardPage() {
     return () => clearInterval(interval)
   }, [])
 
-  if (loading || !stats) {
+  if (loading && !stats || !stats) {
     return (
       <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 dark:from-emerald-950/50 dark:to-blue-950/30">
         {/* <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} /> */}
@@ -105,45 +106,7 @@ export default function DashboardPage() {
   ]
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 dark:from-emerald-950/50 dark:to-blue-950/30">
-      {/* <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} /> */}
-
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 dark:bg-black/90 dark:border-gray-800">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex justify-start gap-2 items-center">
-              <SidebarTrigger />
-              <div>
-                {/* <div className="flex items-center gap-2 text-sm text-gray-500 mb-1 dark:text-gray-400">
-                  <span>Dashboard</span>
-                  <ChevronRight className="w-4 h-4" />
-                  <span className="text-emerald-600 font-medium dark:text-emerald-400">Overview</span>
-                </div> */}
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Welcome back! 👋</h1>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Badge
-                variant="outline"
-                className={`${
-                  stats.plan === "free"
-                    ? "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-950 dark:text-gray-300 dark:border-gray-800"
-                    : stats.plan === "hustler"
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800"
-                      : "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800"
-                }`}
-              >
-                <PlanIcon className="w-3 h-3 mr-1" />
-                {stats.plan === "free" ? "Free Plan" : stats.plan === "hustler" ? "Hustler Plan 💪" : "Pro Plan 👑"}
-              </Badge>
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="flex-1 overflow-auto p-6">
+        <main className="overflow-auto p-6">
           <div className="max-w-7xl mx-auto space-y-6">
             {/* Usage Card */}
             <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-950 dark:to-blue-950 dark:border-emerald-800">
@@ -343,7 +306,5 @@ export default function DashboardPage() {
             </div>
           </div>
         </main>
-      </div>
-    </div>
   )
 }

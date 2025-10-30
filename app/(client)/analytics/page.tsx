@@ -12,8 +12,7 @@ import {
   type CategoryBreakdown,
   type UserBenchmark
 } from "@/lib/supabase/analytics-service"
-import { BarChart3, TrendingUp, Calendar, Target, Download, Clock, Award, Users, FileText, Loader2 } from 'lucide-react'
-import { SidebarTrigger } from "@/components/ui/sidebar"
+import { BarChart3, TrendingUp, Calendar, Target, Download, Clock, Award, Users, FileText, Loader2 } from 'lucide-react';
 
 export default function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState("7d")
@@ -113,52 +112,28 @@ export default function AnalyticsPage() {
   ]
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 dark:from-emerald-950/50 dark:to-blue-950/30">
-      {/* <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} /> */}
-
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-4 dark:bg-black/90 dark:border-gray-800">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex justify-start gap-2 items-center">
-              <SidebarTrigger />
-              <div>
-                {/* <div className="flex items-center gap-2 text-sm text-gray-500 mb-1 dark:text-gray-400">
-                  <span>Dashboard</span>
-                  <ChevronRight className="w-4 h-4" />
-                  <span className="text-emerald-600 font-medium dark:text-emerald-400">Analytics</span>
-                </div> */}
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 dark:text-gray-100">
-                  <BarChart3 className="w-6 h-6" />
-                  CV Analytics Dashboard
-                </h1>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                {timeRanges.map((range) => (
-                  <Button
-                    key={range.value}
-                    variant={timeRange === range.value ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setTimeRange(range.value)}
-                    className="text-xs"
-                  >
-                    {range.label}
-                  </Button>
-                ))}
-              </div>
-              <Button variant="outline" size="sm">
-                <Download className="w-4 h-4 mr-2" />
-                Export
+        <main className="p-6 pt-1">
+        <div className="flex items-center justify-between p-2 border-gray-200 dark:border-gray-800">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            {timeRanges.map((range) => (
+              <Button
+                key={range.value}
+                variant={timeRange === range.value ? "default" : "outline"}
+                size="sm"
+                onClick={() => setTimeRange(range.value)}
+                className="text-xs"
+              >
+                {range.label}
               </Button>
-            </div>
+            ))}
           </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="flex-1 overflow-auto p-6">
+          <Button variant="outline" size="sm">
+            <Download className="w-4 h-4 mr-2" />
+            Export
+          </Button>
+        </div>
+        </div>
           <div className="max-w-7xl mx-auto space-y-6">
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -347,7 +322,5 @@ export default function AnalyticsPage() {
             </div>
           </div>
         </main>
-      </div>
-    </div>
   )
 }

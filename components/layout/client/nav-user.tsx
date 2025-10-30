@@ -74,7 +74,7 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="dark:bg-gray-800" />
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <UserCircle />
@@ -89,7 +89,7 @@ export function NavUser({
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="dark:bg-gray-800"  />
             <DropdownMenuItem onClick={onLogOut}>
               <LogOut />
               Log out

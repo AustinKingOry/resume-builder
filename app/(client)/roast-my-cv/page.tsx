@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState, useEffect } from "react"
@@ -273,25 +274,12 @@ Made with ❤️ for African job seekers
 
       <div className="flex-1 flex flex-col overflow-hidden relative z-10">
         {/* Header */}
-        <header className="bg-white/90 backdrop-blur-sm border-b border-gray-200 px-6 py-3 dark:bg-black/90 dark:border-gray-800">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex justify-start gap-2 items-center">
-              <SidebarTrigger />
-              <div>
-                {/* <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-                  <span>Dashboard</span>
-                  <ChevronRight className="w-4 h-4" />
-                  <span className="text-emerald-600 font-medium dark:text-emerald-400">CV Roaster</span>
-                </div> */}
-                <h1 className="text-lg sm:text-2xl font-bold text-gray-900 flex items-center gap-2 dark:text-gray-100">
-                  Roast My CV
-                </h1>
-              </div>
-            </div>
 
-            <div className="flex items-center gap-4">
-            {user ? (
-                <>
+        {/* Main Content */}
+        {user ? (
+        <main className="flex-1 overflow-auto">
+        <div className="flex items-center gap-4 p-2">
+          <div className="w-full flex items-start justify-between">
               <Badge
                 variant="outline"
                 className={`${
@@ -311,20 +299,8 @@ Made with ❤️ for African job seekers
                 </p>
                 <p className="text-xs text-emerald-600 dark:text-emerald-400">Resets in {supabaseUsageService.getResetTime()}</p>
               </div>
-              </>
-              ) : (
-                <Button variant="outline" className="bg-transparent" asChild>
-                  <Link href="/login"><User className="w-4 h-4 mr-2" /></Link>
-                  Sign In
-                </Button>
-              )}
-            </div>
           </div>
-        </header>
-
-        {/* Main Content */}
-        {user ? (
-        <main className="flex-1 overflow-auto">
+        </div>
           <div className="max-w-7xl mx-auto p-3 sm:p-6">
             {!hasResults && !isAnalyzing && (
               <div className="grid lg:grid-cols-3 gap-6">
