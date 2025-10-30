@@ -24,9 +24,8 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import { Flame, FileText, PenLine, ImageIcon, CheckCircle2, Sparkles, ShieldCheck, Globe, LineChart, Zap, Crown, Menu, X, Sun, Moon, ArrowRight, Award, Star } from 'lucide-react'
+import { Flame, FileText, PenLine, ImageIcon, CheckCircle2, Sparkles, ShieldCheck, Globe, LineChart, Zap, Crown, ArrowRight, Award, Star, Cpu } from 'lucide-react'
 import { cn } from "@/lib/utils"
-import { useTheme } from "next-themes"
 import { Footer } from "@/components/layout/footer"
 import Navbar from "@/components/layout/navbar"
 
@@ -259,7 +258,7 @@ function AboutSection() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
-              {["Resume Builder", "Cover Photo", "Roast My CV"].map((chip) => (
+              {["Resume Builder", "ATS Analyzer", "Cover Photo", "Roast My CV"].map((chip) => (
                 <div key={chip} className="rounded-full bg-background/80 backdrop-blur px-3 py-1 text-xs border">
                   {chip}
                 </div>
@@ -275,10 +274,10 @@ function AboutSection() {
 function ToolsSection() {
   const tools = [
     { title: "Resume Builder", desc: "Craft world-class resumes with impact-driven bullet points, optimized for ATS and global markets.", href: "/resumes/builder", icon: FileText, accent: "from-emerald-500 to-emerald-700" },
-    { title: "Cover Photos", desc: "Create professional cover images that make your social media profiles stand out and leave a lasting impression", href: "/cooking", icon: ImageIcon, accent: "from-sky-500 to-sky-700" },
-    { title: "Cover Letters", desc: "Tailor persuasive letters for each role with company-aware, role-specific context.", href:"/cooking", icon: PenLine, accent: "from-emerald-500 to-sky-500" },
+    { title: "ATS Analyzer", desc: "Scan and score your resume against job descriptions to reveal keyword gaps and boost ATS compatibility.", href: "/ats", icon: Cpu, accent: "from-sky-500 to-emerald-500" },
+    { title: "Cover Letters", desc: "Tailor persuasive letters for each role with company-aware, role-specific context.", href:"/cover-letters", icon: PenLine, accent: "from-emerald-500 to-sky-500" },
+    { title: "Cover Photos", desc: "Create professional cover images that make your social media profiles stand out and leave a lasting impression", href: "/coverphotos", icon: ImageIcon, accent: "from-sky-500 to-sky-700" },
     { title: "Professional Templates", desc: "Choose from a variety of professionally designed templates that stand out.", href: "/templates", icon: Award, accent: "from-emerald-600 to-sky-600" },
-    { title: "Skills Tracker", desc: "Track, validate, and showcase your growth with goals and micro-achievements.", href: "/cooking", icon: CheckCircle2, accent: "from-sky-500 to-emerald-500" },
     { title: "Roast My CV", desc: "Instant, unfiltered feedback that turns your CV into an authentic, competitive narrative.", href: "/roast-my-cv", icon: Flame, accent: "from-emerald-600 to-sky-600" },
   ] as const
 
@@ -353,8 +352,8 @@ function HowItWorks() {
     },
     {
       step: 3,
-      title: "Roast and refine",
-      desc: "Get instant feedback with Roast My CV and polish until you’re ready.",
+      title: "Roast and Analyze",
+      desc: "Instant feedback with ATS Analyzer and Roast My CV and polish until you’re ready.",
       img: "/images/refine.svg?height=160&width=320",
       badge: "Step 3",
     },

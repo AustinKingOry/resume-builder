@@ -272,13 +272,13 @@ Made with ❤️ for African job seekers
 
       {/* <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} /> */}
 
-      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
+      <div className="flex flex-col overflow-hidden relative z-10">
         {/* Header */}
 
         {/* Main Content */}
         {user ? (
-        <main className="flex-1 overflow-auto">
-        <div className="flex items-center gap-4 p-2">
+        <main className="overflow-autoy">
+        <div className="max-w-7xl mx-auto flex items-center gap-4 p-2">
           <div className="w-full flex items-start justify-between">
               <Badge
                 variant="outline"
