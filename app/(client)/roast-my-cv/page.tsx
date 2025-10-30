@@ -261,38 +261,13 @@ Made with ❤️ for African job seekers
   }
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative overflow-hidden dark:from-emerald-950/50 dark:to-blue-950/30 w-full">
-      {/* Subtle background pattern */}
-      <div
-        className="absolute inset-0 opacity-5"
-        // style={{
-        //   backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2310b981' fillOpacity='0.1'%3E%3Cpath d='M50 50c0-27.614-22.386-50-50-50v50h50zM0 50v50h50c0-27.614-22.386-50-50-50z'/%3E%3C/g%3E%3C/svg%3E")`,
-        // }}
-      />
+    <div className="bg-gradient-to-br from-emerald-50/50 to-blue-50/30 relative dark:from-emerald-950/50 dark:to-blue-950/30 w-full">
 
-      {/* <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} /> */}
-
-      <div className="flex flex-col overflow-hidden relative z-10">
-        {/* Header */}
-
-        {/* Main Content */}
+      <div className="flex flex-col relative z-10 mx-auto">
         {user ? (
-        <main className="overflow-autoy">
+        <main className="overflow-autoy mx-auto">
         <div className="max-w-7xl mx-auto flex items-center gap-4 p-2">
-          <div className="w-full flex items-start justify-between">
-              <Badge
-                variant="outline"
-                className={`${
-                  usage.plan === "free"
-                    ? "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-950 dark:text-gray-300 dark:border-gray-800"
-                    : usage.plan === "hustler"
-                      ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800"
-                      : "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800"
-                } max-[425px]:hidden`}
-              >
-                <Zap className="w-3 h-3 mr-1" />
-                {usage.plan === "free" ? "Free Plan" : usage.plan === "hustler" ? "Hustler Plan 💪" : "Pro Plan 👑"}
-              </Badge>
+          <div className="w-full flex items-start justify-end">
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                   {Math.max(0, usage.limit - usage.count)} roasts <span className="max-[425px]:hidden">remaining</span>

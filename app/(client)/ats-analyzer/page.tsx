@@ -35,18 +35,42 @@ import {
   ArrowRight,
   Loader2,
   Key,
+  RefreshCw,
+  Search,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ATSLoadingState } from "@/components/ats/loading-state"
 import { useEdgeATSAnalysis } from "@/hooks/use-edge-ats"
 import { ATSAnalysisResult } from "@/lib/types"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+
+import { Input } from "@/components/ui/input"
+import { ResumeDB } from "@/utils/supabaseClient"
+import { useAuth } from "@/components/auth-provider"
+import { User } from "@supabase/supabase-js"
+
+interface StoredResume {
+  id: string
+  name: string
+  fileName: string
+  uploadedDate: string
+  size: number
+}
 
 function UploadSection({
   onUpdate,
+  user
 }: {
   onUpdate: (data: { resume: File | undefined; jobDescription: string | undefined }) => void
+  user?: User | null
 }) {
   const [resumeFile, setResumeFile] = useState<File | null>(null)
+  const [storedResumes, setStoredResumes] = useState<StoredResume[]>([])
+  const [selectedResumeId, setSelectedResumeId] = useState<string>("")
+  const [loadingResumes, setLoadingResumes] = useState(false)
+  const [resumesLoaded, setResumesLoaded] = useState(false)
+  const [showResumesDialog, setShowResumesDialog] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
   const [jobDescription, setJobDescription] = useState("")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -99,6 +123,59 @@ function UploadSection({
     setIsAnalyzing(false)
   }
 
+  const fetchStoredResumes = async (): Promise<StoredResume[] | null> => {
+    try {
+      if(user){
+      const resumes = await ResumeDB.fetchResumesByUser(10, 0, user.id);
+      console.log("fetched: ", resumes)
+      const formatted = resumes.map((resume)=>{
+        return {
+          id: resume.id,
+          name: resume.title,
+          fileName: `${resume.title.split(" ").join("-")}.pdf`,
+          uploadedDate: `${resume.updated_at}`,
+          size: Number(resume.fileSize) || 0,
+        }
+      })
+      return (formatted);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Failed to load resumes:", error);
+      return null;
+    }
+  };
+  
+
+  const handleOpenResumesDialog = async () => {
+    setShowResumesDialog(true)
+    if (!resumesLoaded) {
+      setLoadingResumes(true)
+      const resumes = await fetchStoredResumes()
+      setStoredResumes(resumes || [])
+      setResumesLoaded(true)
+      setLoadingResumes(false)
+    }
+  }
+
+  const handleRefreshResumes = async () => {
+    setLoadingResumes(true)
+    const resumes = await fetchStoredResumes()
+    setStoredResumes(resumes || [])
+    setLoadingResumes(false)
+  }
+
+  const removeSelectedResume = () => {
+    setSelectedResumeId("")
+  }
+
+  const filteredResumes = storedResumes.filter(
+    (resume) =>
+      resume.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      resume.fileName.toLowerCase().includes(searchQuery.toLowerCase()),
+  )
+
   return (
     <div className="grid lg:grid-cols-2 gap-6">
       {/* Resume Upload */}
@@ -110,7 +187,7 @@ function UploadSection({
           </CardTitle>
           <CardDescription>Upload your resume for ATS analysis</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3">
           <div
             className={cn(
               "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all",
@@ -118,7 +195,7 @@ function UploadSection({
                 ? "border-emerald-500/50 bg-emerald-50/30 dark:bg-emerald-950/20"
                 : "border-muted-foreground/25 hover:border-emerald-500/50 hover:bg-emerald-50/20 dark:hover:bg-emerald-950/10",
             )}
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => {if(selectedResumeId == "") fileInputRef.current?.click()}}
           >
             <input
               ref={fileInputRef}
@@ -126,6 +203,7 @@ function UploadSection({
               accept=".pdf,.doc,.docx"
               onChange={handleFileChange}
               className="hidden"
+              readOnly={selectedResumeId != ""}
             />
 
             {resumeFile ? (
@@ -138,6 +216,7 @@ function UploadSection({
                   variant="ghost"
                   className="mt-2"
                   onClick={(e) => {
+                    console.log("Disabled: ", selectedResumeId == "")
                     e.stopPropagation()
                     setResumeFile(null)
                   }}
@@ -153,6 +232,33 @@ function UploadSection({
                   <p className="font-medium text-sm">Click to upload or drag and drop</p>
                   <p className="text-xs text-muted-foreground">PDF or Word document (max 5MB)</p>
                 </div>
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-2 hidden">
+            <p className="text-center text-muted-foreground text-xs">or</p>
+            <Button
+              onClick={handleOpenResumesDialog}
+              variant="outline"
+              className="w-full gap-2 border-emerald-200 text-emerald-700 hover:bg-emerald-50 bg-transparent dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-950"
+            >
+              <FileText className="h-4 w-4" />
+              Browse My Resumes
+            </Button>
+
+            {selectedResumeId && (
+              <div className="flex items-center gap-2 rounded-lg bg-blue-50 p-3 relative dark:bg-blue-950">
+                <CheckCircle2 className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <div className="flex-1">
+                  <p className="font-medium text-blue-900 dark:text-blue-100">
+                    {storedResumes.find((r) => r.id === selectedResumeId)?.name}
+                  </p>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">Selected from stored resumes</p>
+                </div>
+                <Button size="icon" variant={"secondary"} className="w-4 h-4" onClick={removeSelectedResume}>
+                  <X className="!w-3 !h-3" />
+                </Button>
               </div>
             )}
           </div>
@@ -193,6 +299,102 @@ function UploadSection({
           </Alert>
         </CardContent>
       </Card>
+      
+      <Dialog open={showResumesDialog} onOpenChange={setShowResumesDialog}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <DialogTitle>My Stored Resumes</DialogTitle>
+                  <DialogDescription>Select a resume to use for analysis</DialogDescription>
+                </div>
+                <Button
+                  onClick={handleRefreshResumes}
+                  variant="ghost"
+                  size="sm"
+                  disabled={loadingResumes}
+                  className="gap-2"
+                >
+                  <RefreshCw className={`h-4 w-4 ${loadingResumes ? "animate-spin" : ""}`} />
+                  Refresh
+                </Button>
+              </div>
+            </DialogHeader>
+
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Input
+                placeholder="Search resumes by name or filename..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-10"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {loadingResumes ? (
+                <div className="space-y-2">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-16 bg-slate-200 rounded-lg animate-pulse dark:bg-slate-800" />
+                  ))}
+                </div>
+              ) : filteredResumes.length === 0 ? (
+                <div className="text-center py-8">
+                  {storedResumes.length === 0 ? (
+                    <>
+                      <p className="text-slate-600 dark:text-slate-400">No stored resumes found</p>
+                      <p className="text-sm text-slate-500 mt-1">Upload a resume first to use this option</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-slate-600 dark:text-slate-400">No resumes match your search</p>
+                      <p className="text-sm text-slate-500 mt-1">Try a different search term</p>
+                    </>
+                  )}
+                </div>
+              ) : (
+                filteredResumes.map((resume) => (
+                  <div
+                    key={resume.id}
+                    onClick={() => {
+                      setSelectedResumeId(resume.id)
+                      setResumeFile(null)
+                      setShowResumesDialog(false)
+                      setSearchQuery("")
+                    }}
+                    className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                      selectedResumeId === resume.id
+                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950"
+                        : "border-slate-200 hover:border-emerald-300 dark:border-slate-800 dark:hover:border-emerald-700"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <p className="font-medium text-slate-900 dark:text-slate-100">{resume.name}</p>
+                        <p className="text-xs text-slate-600 mt-1 dark:text-slate-400">{resume.fileName}</p>
+                        <p className="text-xs text-slate-500 mt-1">
+                          {(resume.size / 1024).toFixed(2)} KB • Uploaded{" "}
+                          {new Date(resume.uploadedDate).toLocaleDateString()}
+                        </p>
+                      </div>
+                      {selectedResumeId === resume.id && (
+                        <CheckCircle2 className="h-5 w-5 text-emerald-600 flex-shrink-0" />
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
     </div>
   )
 }
@@ -614,6 +816,7 @@ export default function ATSAnalyzerPage() {
   // const [loading, setLoading] = useState(false)
   // const [error, setError] = useState<string | null>(null)
   const { analyzeCV, isAnalyzing: loading, result: analysis, error, reset, hasAnalyzed } = useEdgeATSAnalysis();
+  const {user, isLoading} = useAuth();
 
 
   async function handleUpdate(data: { resume: File | undefined; jobDescription: string | undefined }) {    
@@ -739,7 +942,7 @@ export default function ATSAnalyzerPage() {
                   </CardContent>
                 </Card>
               )}
-              <UploadSection onUpdate={handleUpdate} />
+              <UploadSection onUpdate={handleUpdate} user={user} />
 
               {/* Action Buttons */}
               <div className="flex gap-3 pt-4">
