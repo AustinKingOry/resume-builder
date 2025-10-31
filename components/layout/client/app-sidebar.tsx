@@ -47,8 +47,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       label: "Roast My CV",
       items: [
         { name: "Roast My CV", icon: Flame, href: "/roast-my-cv" },
-        { name: "Dashboard", icon: Home, href: "/dashboard" },
-        { name: "Analytics", icon: BarChart3, href: "/analytics" },
+        { name: "Dashboard", icon: Home, href: "/roast-my-cv/dashboard" },
+        { name: "Analytics", icon: BarChart3, href: "/roast-my-cv/analytics" },
       ],
     },
     {

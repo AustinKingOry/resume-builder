@@ -20,10 +20,10 @@ interface SidebarProps {
 
 export function Sidebar({ collapsed = false, onToggle }: SidebarProps) {
   const navigation = [
-    { name: "Home", icon: FileText, href: "/dashboard", current: false },
+    { name: "Home", icon: FileText, href: "/roast-my-cv/dashboard", current: false },
     { name: "CV Builder", icon: FileText, href: "/resumes/builder", current: false },
     { name: "CV Roaster", icon: Flame, href: "/roast-my-cv", current: true },
-    { name: "Analytics", icon: BarChart3, href: "/analytics", current: false },
+    { name: "Analytics", icon: BarChart3, href: "/roast-my-cv/analytics", current: false },
     { name: "Templates", icon: Download, href: "/templates", current: false },
   ]
 

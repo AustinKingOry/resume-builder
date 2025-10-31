@@ -90,7 +90,7 @@ export default function PaymentSuccessPage() {
                 Start Roasting CVs
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <Button onClick={() => router.push("/dashboard")} variant="outline" className="px-8 py-3">
+              <Button onClick={() => router.push("/roast-my-cv/dashboard")} variant="outline" className="px-8 py-3">
                 View Dashboard
               </Button>
             </div>
