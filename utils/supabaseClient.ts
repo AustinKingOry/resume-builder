@@ -208,7 +208,7 @@ export const CoverLettersDB = {
     async createCoverLetter(user_id: string, coverLetterData: Partial<CoverLetter>) {
       try {
         const { data, error } = await supabase
-          .from("CoverLetters")
+          .from("coverletters")
           .insert({
             user_id,
             title: coverLetterData.title,
@@ -239,7 +239,7 @@ export const CoverLettersDB = {
     async updateCoverLetter(cover_letter_id: string, updates: Partial<CoverLetter>) {
       try {
         const { data, error } = await supabase
-          .from("CoverLetters")
+          .from("coverletters")
           .update({
             ...updates,
             updated_at: new Date().toISOString(),
@@ -263,7 +263,7 @@ export const CoverLettersDB = {
     async fetchCoverLetterById(id: string, user_id: string): Promise<CoverLetter | null> {
       try {
         const { data, error } = await supabase
-          .from("CoverLetters")
+          .from("coverletters")
           .select("*")
           .eq("id", id)
           .eq("user_id", user_id.trim())
@@ -295,7 +295,7 @@ export const CoverLettersDB = {
     async fetchCoverLettersByUser(limit = 5, offset = 0, user_id: string): Promise<CoverLetter[]> {
       try {
         const { data, error } = await supabase
-          .from("CoverLetters")
+          .from("coverletters")
           .select("*")
           .eq("user_id", user_id)
           .order("updated_at", { ascending: false })
@@ -317,7 +317,7 @@ export const CoverLettersDB = {
     async deleteCoverLetter(cover_letter_id: string, user_id: string) {
       try {
         const { data, error } = await supabase
-          .from("CoverLetters")
+          .from("coverletters")
           .delete()
           .eq("id", cover_letter_id)
           .eq("user_id", user_id);
