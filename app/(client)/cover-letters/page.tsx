@@ -272,22 +272,22 @@ function CoverLetterCardSkeleton() {
     <Card className="overflow-hidden">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between mb-2">
-          <div className="h-6 w-20 bg-muted rounded animate-pulse" />
-          <div className="h-8 w-8 bg-muted rounded animate-pulse" />
+          <div className="h-6 w-20 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
+          <div className="h-8 w-8 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
         </div>
-        <div className="h-5 w-3/4 bg-muted rounded animate-pulse mb-2" />
-        <div className="h-4 w-1/2 bg-muted rounded animate-pulse" />
+        <div className="h-5 w-3/4 bg-muted rounded animate-pulse mb-2 dark:bg-muted-foreground" />
+        <div className="h-4 w-1/2 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
       </CardHeader>
       <CardContent className="pb-3">
         <div className="space-y-2">
-          <div className="h-4 w-full bg-muted rounded animate-pulse" />
-          <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
-          <div className="h-4 w-4/6 bg-muted rounded animate-pulse" />
+          <div className="h-4 w-full bg-muted rounded animate-pulse dark:bg-muted-foreground" />
+          <div className="h-4 w-5/6 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
+          <div className="h-4 w-4/6 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
         </div>
       </CardContent>
       <CardFooter className="text-xs text-muted-foreground flex items-center justify-between pt-0 border-t">
-        <div className="h-4 w-24 bg-muted rounded animate-pulse" />
-        <div className="h-4 w-16 bg-muted rounded animate-pulse" />
+        <div className="h-4 w-24 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
+        <div className="h-4 w-16 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
       </CardFooter>
     </Card>
   )
@@ -299,11 +299,11 @@ function StatsOverviewSkeleton() {
       {[1, 2, 3].map((i) => (
         <Card key={i}>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <div className="h-4 w-24 bg-muted rounded animate-pulse" />
-            <div className="h-4 w-4 bg-muted rounded animate-pulse" />
+            <div className="h-4 w-24 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
+            <div className="h-4 w-4 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="h-8 w-12 bg-muted rounded animate-pulse" />
+            <div className="h-8 w-12 bg-muted rounded animate-pulse dark:bg-muted-foreground" />
           </CardContent>
         </Card>
       ))}
@@ -338,11 +338,6 @@ export default function CoverLettersPage() {
         }
       } catch (error) {
         console.error("Failed to load cover letters:", error)
-        toast({
-          title: "Error",
-          description: "Failed to load cover letters",
-          variant: "destructive",
-        })
       } finally {
         if (!isCancelled) setIsLoading(false);
       }
@@ -353,7 +348,7 @@ export default function CoverLettersPage() {
     return () => {
       isCancelled = true;
     };
-  }, [toast, user, userLoading])
+  }, [user?.id, userLoading])
 
   const filteredLetters = letters.filter(
     (letter) =>
