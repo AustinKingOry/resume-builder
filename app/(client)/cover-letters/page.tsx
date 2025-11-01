@@ -109,16 +109,15 @@ function StatsOverview({ letters }: { letters: CoverLetter[] }) {
 
 function CoverLetterCard({
   letter,
-  onEdit,
   onDelete,
 }: {
   letter: CoverLetter
-  onEdit: () => void
   onDelete: () => void
 }) {
   const { toast } = useToast()
   const statusConfig = getStatusConfig(letter.status)
   const StatusIcon = statusConfig.icon
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
   function handleDownload() {
     toast({ title: "Downloading...", description: `Downloading ${letter.title}` })
@@ -134,7 +133,7 @@ function CoverLetterCard({
 
   return (
     <Card className="group relative overflow-hidden border-emerald-600/10 dark:border-emerald-400/10 hover:border-emerald-600/30 dark:hover:border-emerald-400/30 transition-all duration-300 hover:shadow-lg">
-      <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 group-hover:opacity-20 bg-gradient-to-br from-emerald-600 to-sky-600 transition-opacity duration-500" />
+      <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full blur-3xl opacity-0 group-hover:opacity-20 bg-gradient-to-br from-emerald-600 to-sky-600 transition-opacity duration-500 hidden" />
 
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between mb-2">
@@ -143,31 +142,33 @@ function CoverLetterCard({
             {statusConfig.label}
           </Badge>
 
-          <DropdownMenu>
+          <DropdownMenu open={openDropdownId === letter.id} onOpenChange={(isOpen) => setOpenDropdownId(isOpen ? letter.id! : null)}>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8 -mr-2">
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={onEdit}>
+              <DropdownMenuItem asChild>
+                <Link href={`/cover-letters/${letter.id}`}>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Letter
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleDownload}>
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);handleDownload();}}>
                 <Download className="h-4 w-4 mr-2" />
                 Download PDF
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleDuplicate}>
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);handleDuplicate();}}>
                 <Copy className="h-4 w-4 mr-2" />
                 Duplicate
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleShare}>
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);handleShare();}}>
                 <Share2 className="h-4 w-4 mr-2" />
                 Share Link
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onDelete} className="text-red-600 dark:text-red-400">
+              <DropdownMenuSeparator className="dark:bg-gray-800" />
+              <DropdownMenuItem onClick={()=>{setOpenDropdownId(null);onDelete();}} className="text-red-600 dark:text-red-400">
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </DropdownMenuItem>
@@ -175,7 +176,11 @@ function CoverLetterCard({
           </DropdownMenu>
         </div>
 
-        <CardTitle className="text-base line-clamp-1">{letter.title}</CardTitle>
+        <CardTitle className="text-base line-clamp-1">
+          <Link href={`/cover-letters/${letter.id}`}>
+          {letter.title}
+          </Link>
+        </CardTitle>
         {letter.company && (
           <CardDescription className="flex items-center gap-1.5">
             <Building2 className="h-3.5 w-3.5" />
@@ -218,10 +223,12 @@ function CoverLetterCard({
           variant="outline"
           size="sm"
           className="w-full opacity-0 group-hover:opacity-100 transition-opacity bg-transparent"
-          onClick={onEdit}
+          asChild
         >
+          <Link href={`/cover-letters/${letter.id}`}>
           <Eye className="h-4 w-4 mr-2" />
           Quick View
+          </Link>
         </Button>
       </div>
     </Card>
@@ -357,10 +364,6 @@ export default function CoverLettersPage() {
       letter.position?.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
-  function handleEdit(letter: CoverLetter) {
-    toast({ title: "Opening editor...", description: `Editing ${letter.title}` })
-  }
-
   function handleDeleteClick(letter: CoverLetter) {
     setLetterToDelete(letter)
     setDeleteDialogOpen(true)
@@ -490,7 +493,6 @@ export default function CoverLettersPage() {
                 <CoverLetterCard
                   key={letter.id}
                   letter={letter}
-                  onEdit={() => handleEdit(letter)}
                   onDelete={() => handleDeleteClick(letter)}
                 />
               ))}
