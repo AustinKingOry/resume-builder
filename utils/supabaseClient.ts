@@ -283,8 +283,8 @@ export const CoverLettersDB = {
           ...data,
           jobDescription: data.job_description,
           wordCount: data.word_count,
-          createdAt: new Date(data.created_at),
-          updatedAt: new Date(data.updated_at),
+          createdAt: data.created_at,
+          updatedAt: data.updated_at,
         };
   
         return result;
@@ -310,7 +310,18 @@ export const CoverLettersDB = {
           .range(offset, offset + limit - 1);
   
         if (error) throw error;
-        return data || [];
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const result = data.map((letter: any) => {
+          return {
+            ...letter as CoverLetter,
+            jobDescription: letter.job_description,
+            wordCount: letter.word_count,
+            createdAt: `${letter.created_at}`,
+            updatedAt: `${letter.updated_at}`,
+          };
+        })
+        return result || [];
       } catch (err) {
         console.error("Unexpected error fetching user cover letters:", err);
         return [];
