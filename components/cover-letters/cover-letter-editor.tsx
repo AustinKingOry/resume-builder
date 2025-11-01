@@ -471,7 +471,7 @@ export function CoverLetterEditor({ mode, initialData, onSave, isLoading, user }
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" asChild>
-              <Link href="/dashboard/cover-letters">
+              <Link href="/cover-letters">
                 <ArrowLeft className="h-4 w-4" />
               </Link>
             </Button>
@@ -538,7 +538,7 @@ export function CoverLetterEditor({ mode, initialData, onSave, isLoading, user }
                       size="sm"
                       variant="outline"
                       onClick={handleGenerateWithAI}
-                      disabled={isGenerating}
+                      disabled={isGenerating || company == "" || position == ""}
                       className="bg-transparent"
                     >
                       {isGenerating ? (
