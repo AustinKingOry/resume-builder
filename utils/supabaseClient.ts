@@ -278,8 +278,16 @@ export const CoverLettersDB = {
           console.warn(`No cover letter found for id: ${id} and user: ${user_id}`);
           return null;
         }
+
+        const result = {
+          ...data,
+          jobDescription: data.job_description,
+          wordCount: data.word_count,
+          createdAt: new Date(data.created_at),
+          updatedAt: new Date(data.updated_at),
+        };
   
-        return data;
+        return result;
       } catch (err) {
         console.error("Unexpected error fetching cover letter:", err);
         return null;
