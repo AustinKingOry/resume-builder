@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
 		{title:"Templates",link:"/templates"},
 		{title:"Cover Photos",link:"/coverphotos"},
 		{title:"Roast My CV",link:"/roast-my-cv"},
-		{title:"Pricing",link:"/#pricing"},
+		{title:"Pricing",link:"/pricing"},
 	]
 	return (
 		<header className="fixed top-0 inset-x-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/70 border-b">

@@ -584,6 +584,7 @@ function Testimonials() {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Pricing() {
   return (
     <section id="pricing" className="relative py-16 md:py-24 overflow-hidden">
@@ -596,7 +597,7 @@ function Pricing() {
             <Badge variant="outline" className="mb-3 border-sky-600/40 text-sky-700 dark:text-sky-400">Pricing</Badge>
             <h3 className="text-3xl md:text-4xl font-semibold tracking-tight">
               <span className="bg-gradient-to-r from-emerald-600 to-sky-600 bg-clip-text text-transparent">
-                Roast My CV—pick your plan
+                Pricing—pick your plan
               </span>
             </h3>
             <p className="mt-4 text-muted-foreground dark:text-gray-400">
@@ -802,7 +803,7 @@ export default function Page() {
       <HowItWorks />
       <WhyChooseSection />
       <Testimonials />
-      <Pricing />
+      {/* <Pricing /> */}
       <FAQ />
       <CTASection />
     </main>
