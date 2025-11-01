@@ -64,16 +64,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     >
       {/* Header */}
       <SidebarHeader className="px-0">
-        <div className="p-2.5 border-b border-gray-200 relative z-10 dark:border-gray-800">
+        <div className="p-2 border-b border-gray-200 relative z-10 dark:border-gray-800">
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/logo.png?height=52&width=80"
-              width={100}
-              height={52}
+              src="/logo.png?height=40&width=40"
+              width={40}
+              height={40}
               alt="KaziKit Logo"
-              className="bg-white rounded-full"
             />
-            <span className="font-bold text-xl text-gray-900 dark:text-gray-100 hidden">
+            <span className="font-bold text-xl text-gray-900 dark:text-gray-100">
               Kazikit
             </span>
           </Link>
