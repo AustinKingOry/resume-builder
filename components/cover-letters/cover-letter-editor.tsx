@@ -335,9 +335,18 @@ export function CoverLetterEditor({ mode, initialData, onSave, isLoading, user }
   const [selectedTone, setSelectedTone] = useState("professional")
 
   async function handleSave() {
-    setIsSaving(true)
-      setIsSaving(false)
-
+    try {
+      if (!coverLetterText.trim()) {
+        toast({
+          title: "No content to save",
+          description: "Please write some content first",
+          variant: "destructive",
+        })
+        return
+      }
+  
+      setIsSaving(true)
+  
       if(mode=="create"){
         const data = {
           title: letterTitle,
@@ -350,7 +359,7 @@ export function CoverLetterEditor({ mode, initialData, onSave, isLoading, user }
           downloads: initialData?.downloads || 0,
         }
         if(user){
-          await CoverLettersDB.createCoverLetter(user.id, data)
+          await CoverLettersDB.createCoverLetter(user.id, data);
         }
       } else {
         const data = {
@@ -387,6 +396,17 @@ export function CoverLetterEditor({ mode, initialData, onSave, isLoading, user }
       //     downloads: initialData?.downloads || 0,
       //   })
       // }
+      
+    } catch (error) {
+      console.warn("Save error:", error)
+      toast({
+        title: "Save failed",
+        description: "Please try again",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   async function handleGenerateWithAI() {
