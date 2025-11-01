@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
 				<MenuIcon className="w-4 h-4" />
 			</Button>
 			<Link href="/" className="flex items-center space-x-2">
-				<Image src="/logo.png?height=56&width=80" width={100} height={56} alt="KaziKit Logo" />
+				<Image src="/logo.png?height=50&width=50" width={50} height={50} alt="KaziKit Logo" />
 				<span className="text-xl font-bold sr-only">{appData.name}</span>
 				<Badge variant="secondary" className="hidden sm:inline-flex">Beta</Badge>
 			</Link>
